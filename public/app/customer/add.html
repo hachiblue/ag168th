@@ -1,0 +1,48 @@
+<form class="form-horizontal" ng-controller="AddCTL" ng-submit="addSubmit()">
+    <div class="form-group">
+        <label class="control-label col-sm-3">ID Card</label>
+        <div class="col-sm-9">
+            <input class="form-control" name="id_card" ng-model="form.id_card" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3">First Name</label>
+        <div class="col-sm-9">
+            <input class="form-control" name="fistname" ng-model="form.firstname" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3">Last Name</label>
+        <div class="col-sm-9">
+            <input class="form-control" name="lastname" ng-model="form.lastname" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3">Sex</label>
+        <div class="col-sm-9">
+            <select name="sex" ng-model="form.sex" required>
+                <option value="male" selected>male</option>
+                <option value="female">female</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3">Address</label>
+        <div class="col-sm-9">
+            <textarea class="form-control" name="address" ng-model="form.address" required rows="5"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3">religion</label>
+        <div class="col-sm-9">
+            <input class="form-control" name="religion" ng-model="form.religion" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3"></label>
+        <div class="col-sm-9">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a class="btn btn-warning" href="#/">Cancel</a>
+        </div>
+    </div>
+</form>

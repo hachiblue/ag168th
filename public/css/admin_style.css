@@ -1,0 +1,65 @@
+textarea.form-control {
+    min-height: 74px;
+}
+
+.xcrud .xcrud-list .xcrud-row:hover td.xcrud-actions-fixed {
+    position: static !important;
+    right: auto;
+    border-left: none;
+    margin-top: auto;
+}
+
+.checkbox input[type=checkbox] {
+  opacity: 1;
+  width: 16px;
+  height: 16px;
+  pointer-events: all;
+}
+
+.form-horizontal .checkbox {
+  padding-top: 5px;
+}
+
+input:disabled.form-control, select:disabled.form-control, textarea:disabled.form-control {
+  background-color: #D6D6D6;
+}
+
+.navbar.navbar {
+  margin-left: 26px;
+  padding: 0 30px;
+}
+
+.content {
+  padding-bottom: 30px;
+}
+
+.main-content .content {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    padding-left: 60px;
+    width: 100%;
+
+    /*height: 100%;*/
+}
+
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 736px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+
+  #sidebar-toggle {
+      position: absolute;
+      z-index: 1;
+      top: 28px;
+      left: 47px;
+  }
+
+  .navbar.navbar {
+      margin-left: 0;
+      padding: 0 30px 0 90px;
+  }
+
+  .main-content .content {
+    padding-left: 0;
+  }
+}

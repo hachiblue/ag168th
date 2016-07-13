@@ -1,0 +1,128 @@
+@charset "UTF-8";
+/* CSS Document */
+
+i{
+	font-style:normal;
+	font-size:16px;
+}
+label,strong{font-size:15px;}
+label.require:after{
+	content:'*';
+	color:red;
+}
+.container div{
+	margin-bottom: 5px;
+}
+.detail-create{
+	margin:15px;
+}
+.detail-create div,
+.detail-type div{
+	padding:0;
+}
+.enq-id span {
+	margin-right:25px;
+}
+.name-id{
+	color:blue;
+}
+.rating i,
+.rating ul{
+	padding:0;
+}
+.rating i{
+	margin-right:30px;
+}
+.rating ul {
+	list-style:none;
+}
+.rating ul li{
+	background:url(multi.gif) no-repeat;
+	background-size: 20% 100%;
+    padding-left: 30px;
+    margin-bottom: 5px;
+}
+.detail-type{
+	margin: 15px 0;
+	border: 1px solid gainsboro;
+	border-radius:10px;
+	padding:10px 20px;
+	background-color: whitesmoke;
+}
+#type{
+	width: 20%;
+    display: inline-block;
+	margin-bottom: 20px;
+}
+.detail-type .form-group{
+	width:100%;
+	margin-bottom:5px;
+}
+.detail-type input.form-control{
+	width:60%;
+	padding: 0 5px;
+	display: inline-block;
+}
+#owner{
+	margin-top: 20px;
+}
+.detail-type .hr{
+	border-bottom: 1px solid whitesmoke;
+	margin: 0px auto 30px auto;
+    width: 50%;
+    display: block;
+    float: none;
+    clear: both;
+	padding:20px 0 0 0;
+}
+.form-group i{
+	padding-left:0;
+	margin-bottom:10px;
+}
+/*.box-1{
+	text-align:right;
+}
+.box-2 select{
+	width: 60%;
+	display:inline-block;
+}*/
+/*.box-2 input.form-control{
+	width:40%;
+}*/
+/*.col-md-8.box-2 select.size{
+	width: 15%;
+    font-size: 15px;
+	background-image: linear-gradient(transparent,transparent),linear-gradient(transparent,transparent);
+}
+select.form-control.size:focus {
+	background-image: linear-gradient(transparent,transparent),linear-gradient(transparent,transparent);
+}
+.col-md-8.box-2 select{
+	width:40%;
+}
+.col-md-5.box-2 textarea.form-control {
+    min-height: 50px;
+}
+.col-md-4.leasing i.col-md-6.box-1{
+	text-align:left;
+}
+.col-md-3 i.box-2 select{
+	width: 30%;
+}*/
+legend {
+	font-weight: bold;
+    color: darkmagenta;
+    margin-bottom: 10px;
+}
+fieldset {
+	margin-bottom:10px;
+}
+.specific{
+	margin:10px 0;
+}
+.specific .col-md-2 {
+    width: 10.666667%;
+}
+.row.detail-type .col-md-12.comment{
+	margin: 20px 0;
+}
