@@ -4,29 +4,60 @@
 <form ng-submit="submit()" id="form-edit-prop" ng-show="initSuccess"
   ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2 && @$_SESSION['login']['level_id'] > 0);?>;"
   >
-  <div class="row">
-    <div class="col-md-4 form-group">
-      <label>Reference ID</label>
-      <input class="form-control" value="{{reference_id}}" ReadOnly>
-    </div>
-    <div class="col-md-4 form-group">
-      <label>Owner</label>
-      <input class="form-control" ng-if="editAllow" ng-model="form.owner">
-      <input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
-    </div>
-    <div class="col-md-4 form-group">
-      <label>Status</label>
-      <select class="form-control"
-      ng-model="form.property_status_id"
-      ng-options="item.id as item.name for item in collection.property_status"
-      ng-disabled="!editAllow"
-      required>
-          <option value="">Please select</option>
-      </select>
-    </div>
-  </div>
+
+	<div class="row" id="tmpl-owner">
+		
+		<div class="col-md-4 form-group" name="ref_id">
+		  <label>Reference ID</label>
+		  <input class="form-control" value="{{reference_id}}" ReadOnly>
+		</div>
+
+		<div class="col-sm-2 col-md-2 form-group">
+			<label>Owner Name</label>
+			<input class="form-control" ng-if="editAllow" ng-model="form.owner_name1" pattern="[^\,.]+" required>
+			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
+		</div>
+
+		<div class="col-sm-2 col-md-2 form-group">
+			<label>Owner Phone</label>
+			<input class="form-control" ng-if="editAllow" ng-model="form.owner_phone1" pattern="[^\,.]+" required>
+			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
+		</div>
+
+		<div class="col-sm-2 col-md-2 form-group">
+			<label>Customer</label>
+			<input class="form-control" ng-if="editAllow" ng-model="form.owner_cust1">
+			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
+		</div>
+
+		<div class="col-sm-2 col-md-2 form-group">
+			<label>&nbsp;</label>
+			<div style="cursor:pointer;" ng-click="addmore_owner();"><i class="fa fa-plus" aria-hidden="true"></i></div>
+		</div>
+
+	</div>
+
+	<div id="moreowner" ng-bind-html="moreowner"></div>
+
+
+
+
+
   <div class="row">
     <fieldset ng-disabled="!editAllow">
+
+		<div class="col-md-4 form-group">
+		  <label>Status</label>
+		  <select class="form-control"
+		  ng-model="form.property_status_id"
+		  ng-options="item.id as item.name for item in collection.property_status"
+		  ng-disabled="!editAllow"
+		  required>
+			  <option value="">Please select</option>
+		  </select>
+		</div>
+
+
       <div class="col-md-4 form-group">
         <label>Property Type</label>
         <select class="form-control"

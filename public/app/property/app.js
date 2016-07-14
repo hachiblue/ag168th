@@ -137,7 +137,7 @@ function getDate(date){
     return yyyy+'-'+mm+'-'+dd;
 }
 
-app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http, $location){
+app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function($scope, $compile, $http, $location){
     $scope.isSaving = false;
     $scope.initSuccess = false;
     var itv = setInterval(function() {
@@ -166,6 +166,7 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
         return item.province_id == $scope.form.province_id;
       });
     };
+
     $scope.getSubDistrict = function() {
       if(!$scope.initSuccess) return [];
       return $scope.thailocation.sub_district.filter(function(item){
@@ -250,15 +251,30 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
 
       if(!window.confirm('Are you sure?')) return;
 
-      $.post("../api/property", $scope.form, function(data){
-        if(data.error) {
-          alert(data.error.message);
-          return;
-        }
+		var i, k, owner = '';
 
-        // window.location.hash = "/";
-        window.location.reload();
-      }, 'json');
+		for( i in $scope.form )
+		{
+			if( i.indexOf("owner_name") != -1 )	
+			{
+				k = i.replace("owner_name", "");
+				owner += $scope.form["owner_name"+k] + ',' + $scope.form["owner_phone"+k] + ',' + $scope.form["owner_cust"+k] + ':';
+			}
+		}
+
+		$scope.form.owner = owner.substring(owner.length-1, -1);
+
+		$.post("../api/property", $scope.form, function(data) {
+
+			if(data.error) 
+			{
+				alert(data.error.message);
+				return;
+			}
+
+			// window.location.hash = "/";
+			window.location.reload();
+		}, 'json');
     };
 
     $scope.getZoneGroupName = function(id){
@@ -269,6 +285,47 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
         return arr[0].name;
       }
     };
+	
+	$scope.addmore_owner = function() {
+		
+		var 
+			moreowner = $("#moreowner"),
+			tmpl = $("#tmpl-owner"),
+			html, lastrow;
+		
+		if( moreowner.find('.row').length )
+		{
+			lastrow = moreowner.find('.row').last()[0].id;
+			this.ctn = lastrow.replace('row_', '');
+			this.ctn++;
+		}
+		else
+		{
+			if( typeof this.ctn == 'undefined' ) this.ctn = 2;
+		}
+
+		html = '<div class="row" id="row_'+this.ctn+'">' + tmpl.html()
+										.replace('owner_name1', 'owner_name'+this.ctn)
+										.replace('owner_phone1', 'owner_phone'+this.ctn)
+										.replace('owner_cust1', 'owner_cust'+this.ctn)
+										.replace('ng-click="addmore_owner();"', 'onclick="s.delmore_owner(this, ' + this.ctn + ')"')
+										.replace("plus", "minus") + '</div>';
+		
+		moreowner.append( $compile(html)($scope) );
+
+	};
+
+	$scope.delmore_owner = function(obj, c) {
+		
+		var moreowner = $("#moreowner");
+
+		$(obj).parents(".row").remove();
+
+		delete this.form["owner_name"+c];
+		delete this.form["owner_phone"+c];
+		delete this.form["owner_cust"+c];
+	};
+
 
     $scope.images = [];
     $scope.parseImagesInput = function(input){
@@ -279,7 +336,7 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
     $('.rented_expire').datepicker();
 }]);
 
-app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routeParams', function($scope, $http, $location, $route, $routeParams) {
+app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route', '$routeParams', function($scope, $compile, $http, $location, $route, $routeParams) {
   $scope.form = null;
   $scope.collection = null;
   $scope.thailocation = null;
@@ -292,14 +349,54 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
       return 0;
     });
   });
+
   $http.get("../api/collection/thailocation").success(function(thailocation) {
     $scope.thailocation = thailocation;
   });
-  $http.get("../api/property/" + $routeParams.id).success(function(data) {
-    $scope.reference_id = data.reference_id;
-    $scope.owner = data.owner;
-    $scope.form = data;
-  });
+
+	$http.get("../api/property/" + $routeParams.id).success(function(data) {
+
+		$scope.reference_id = data.reference_id;
+		$scope.owner = data.owner;
+		$scope.form = data;
+
+		var i, owner = data.owner.split(':');
+
+		//$scope.form.owner_name1 = owner[0];
+		
+		var tmpl = $("#tmpl-owner"), moreowner = $("#moreowner"), html, k=2, owner_field;
+		
+		owner_field = owner[0].split(',');
+
+		$scope.form["owner_name1"] = owner_field[0];
+		$scope.form["owner_phone1"] = owner_field[1];
+		$scope.form["owner_cust1"] = owner_field[2];
+
+		for( i in owner )
+		{
+			if( i == 0 ) continue;
+
+			html = '<div class="row" id="row_'+k+'"><div class="col-md-4"></div>' + tmpl.html()
+											.replace('owner_name1', 'owner_name'+k)
+											.replace('owner_phone1', 'owner_phone'+k)
+											.replace('owner_cust1', 'owner_cust'+k)
+											.replace('ng-click="addmore_owner();"', 'onclick="s.delmore_owner(this, ' + k + ')"')
+											.replace("plus", "minus") + '</div>';
+			
+			$(html).find('div').first().remove();
+
+			moreowner.append( $compile(html)($scope) );
+			moreowner.find('div[name=ref_id]').each(function() { $(this).remove(); });		
+			
+			owner_field = owner[i].split(',');
+
+			$scope.form["owner_name"+k] = owner_field[0];
+			$scope.form["owner_phone"+k] = owner_field[1];
+			$scope.form["owner_cust"+k] = owner_field[2];
+
+			k++;
+		}
+	});
 
   $scope.initSuccess = false;
   var itv = setInterval(function() {
@@ -324,6 +421,7 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
       return item.province_id == $scope.form.province_id;
     });
   };
+
   $scope.getSubDistrict = function() {
     if(!$scope.initSuccess) return [];
     return $scope.thailocation.sub_district.filter(function(item){
@@ -331,6 +429,8 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
       district_id == $scope.form.district_id;
     });
   };
+	
+	window.s = $scope;
 
   $scope.submit = function() {
     if(!$scope.form.comment) {
@@ -348,6 +448,19 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
     }
 
     if(!window.confirm('Are you sure?')) return;
+	
+	var i, k, owner = '';
+
+	for( i in form )
+	{
+		if( i.indexOf("owner_name") != -1 )	
+		{
+			k = i.replace("owner_name", "");
+			owner += form["owner_name"+k] + ',' + form["owner_phone"+k] + ',' + form["owner_cust"+k] + ':';
+		}
+	}
+
+	form.owner = owner.substring(owner.length-1, -1);
 
     $.post("../api/property/edit/" + $routeParams.id, form, function(data){
       if(data.error) {
@@ -359,11 +472,56 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
       window.location.reload();
     }, 'json');
   };
+	
+	$scope.addmore_owner = function() {
+		
+		var 
+			moreowner = $("#moreowner"),
+			tmpl = $("#tmpl-owner"),
+			html, lastrow;
+		
+		if( moreowner.find('.row').length )
+		{
+			lastrow = moreowner.find('.row').last()[0].id;
+			this.ctn = lastrow.replace('row_', '');
+			this.ctn++;
+		}
+		else
+		{
+			if( typeof this.ctn == 'undefined' ) this.ctn = 2;
+		}
+		
+		//console.log(tmpl.find('div').first());
+		html = '<div class="row" id="row_'+this.ctn+'"><div class="col-md-4"></div>' + tmpl.html()
+										.replace('owner_name1', 'owner_name'+this.ctn)
+										.replace('owner_phone1', 'owner_phone'+this.ctn)
+										.replace('owner_cust1', 'owner_cust'+this.ctn)
+										.replace('ng-click="addmore_owner();"', 'onclick="s.delmore_owner(this, ' + this.ctn + ')"')
+										.replace("plus", "minus") + '</div>';
+		
+		$(html).find('div').first().remove();
 
-  $scope.id = $routeParams.id;
-  $scope.changeHash = function(hash){
-    window.location.hash = hash;
-  };
+		moreowner.append( $compile(html)($scope) );
+
+		moreowner.find('div[name=ref_id]').each(function() { $(this).remove(); });
+
+	};
+
+	$scope.delmore_owner = function(obj, c) {
+		
+		var moreowner = $("#moreowner");
+
+		$(obj).parents(".row").remove();
+
+		delete this.form["owner_name"+c];
+		delete this.form["owner_phone"+c];
+		delete this.form["owner_cust"+c];
+	};
+
+	$scope.id = $routeParams.id;
+	$scope.changeHash = function(hash){
+		window.location.hash = hash;
+	};
 }]);
 
 app.controller('GalleryCTL', ['$scope', '$http', '$location', '$route', '$routeParams', function($scope, $http, $location, $route, $routeParams){

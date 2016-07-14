@@ -1,0 +1,3 @@
+C:\xampp\htdocs\agent168th\public\app\property\add.php
+C:\xampp\htdocs\agent168th\public\app\property\app.js
+C:\xampp\htdocs\agent168th\public\app\property\edit.php
