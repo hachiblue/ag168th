@@ -31,7 +31,7 @@ class ApiCollection extends BaseCTL {
         $db = MedooFactory::getInstance();
         $collection = [];
         $collection['property_type'] = $db->select("property_type", "*");
-        $collection['project'] = $db->select("project", ['name', 'id', 'province_id', 'district_id', 'sub_district_id', 'bts_id', 'mrt_id', 'airport_link_id']);
+        $collection['project'] = $db->select("project", ['name', 'id', 'province_id', 'district_id', 'sub_district_id', 'bts_id', 'mrt_id', 'airport_link_id', 'zone_id']);
         $collection['key_location'] = $db->select("key_location", "*");
         // $collection['district'] = $db->select("key_location", "*");
 

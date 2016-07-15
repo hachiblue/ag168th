@@ -50,6 +50,7 @@
 		  <label>Status</label>
 		  <select class="form-control"
 		  ng-model="form.property_status_id"
+		  ng-change="formPropertyStatusIdChange()"
 		  ng-options="item.id as item.name for item in collection.property_status"
 		  ng-disabled="!editAllow"
 		  required>
@@ -71,19 +72,26 @@
         <label>Project</label>
         <select class="form-control"
         ng-model="form.project_id"
+		ng-change="formProjectIdChange()"
         ng-options="item.id as item.name for item in collection.project"
         >
             <option value="">Please select</option>
         </select>
       </div>
       <div class="col-md-4 form-group">
-        <label>Room type</label>
-        <select class="form-control"
-        ng-model="form.room_type_id">
-            <option value="">Please select</option>
-            <option value="1">Studio</option>
-            <option value="2">Duplex</option>
-        </select>
+        <label>Size</label>
+        <div class="row">
+          <div class="col-md-6">
+            <input ng-model="form.size" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <select ng-model="form.size_unit_id" class="form-control"
+            ng-options="item.id as item.name for item in collection.size_unit"
+            required>
+              <option value="">Please select</option>
+            </select>
+          </div>
+        </div>
       </div>
       <div class="col-md-4 form-group">
         <label>requirement</label>
@@ -102,28 +110,50 @@
         <label>Floors</label>
         <input type="text" class="form-control" ng-model="form.floors">
       </div>
-      <div class="col-md-4 form-group">
-        <label>Size</label>
-        <div class="row">
-          <div class="col-md-6">
-            <input ng-model="form.size" class="form-control">
-          </div>
-          <div class="col-md-6">
-            <select ng-model="form.size_unit_id" class="form-control"
-            ng-options="item.id as item.name for item in collection.size_unit"
-            required>
-              <option value="">Please select</option>
-            </select>
-          </div>
-        </div>
+	  <div class="col-md-4 form-group">
+        <label>Room type</label>
+        <select class="form-control"
+        ng-model="form.room_type_id">
+            <option value="">Please select</option>
+            <option value="1">Studio</option>
+            <option value="2">Duplex</option>
+            <option value="3">Normal</option>
+            <option value="4">Triplex</option>
+            <option value="5">Pent House</option>
+        </select>
       </div>
+      
       <div class="col-md-4 form-group">
         <label>bedrooms</label>
-        <input type="text" class="form-control" ng-model="form.bedrooms">
+        <select class="form-control" ng-model="form.bedrooms">
+            <option value="">Please select</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>	
+        </select>
       </div>
       <div class="col-md-4 form-group">
         <label>bathrooms</label>
-        <input type="text" class="form-control" ng-model="form.bathrooms">
+		<select class="form-control" ng-model="form.bathrooms">
+            <option value="">Please select</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>	
+        </select>
       </div>
       <div style="clear: both;"></div>
       <div class="col-md-4 form-group">
@@ -150,7 +180,7 @@
       <div class="col-md-4 form-group">
         <label>Rented expire</label>
         <div class="input-group">
-          <input class="form-control datepicker" datepicker ng-model="form.rented_expire" placeholder="-">
+          <input class="form-control datepicker" datepicker ng-model="form.rented_expire" id="input-rented_exp" placeholder="-">
           <div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
         </div>
       </div>

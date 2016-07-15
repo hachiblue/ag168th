@@ -204,6 +204,7 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function($
         })();
       }
       if(project) {
+        $scope.form.zone_id = project.zone_id;
         $scope.form.airport_link_id = project.airport_link_id;
         $scope.form.bts_id = project.bts_id;
         $scope.form.province_id = project.province_id;
@@ -213,10 +214,47 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function($
       }
     };
 
-    $scope.formPropertyStatusIdChange = function(){
-      if($scope.form.property_status_id != 4 && $scope.form.requirement_id == 5)
-        delete $scope.form.requirement_id;
+    $scope.formPropertyStatusIdChange = function()
+	{
+		if($scope.form.property_status_id != 4 && $scope.form.requirement_id == 5) delete $scope.form.requirement_id;
+		
+		var statusID = this.form.property_status_id;
+		
+		$("#input-rented_exp").prop("required", false);
+		switch( statusID )
+		{
+			case 1 : this.form.web_status = 1;break;
+
+			case 2 : 
+			case 4 : 
+			case 5 : 
+			case 6 : 
+			case 7 : 
+			case 8 : 
+			case 9 : this.form.web_status = 0;break;
+
+			case 3 : 
+					this.form.web_status = 0;
+					$("#input-rented_exp").prop("required", true);
+				break;
+		}
     };
+
+	$scope.formGetProject = function()
+	{
+		var projectID = $scope.form.project_id, form = $scope.form;
+		$http.get("../api/property/project/" + projectID).success(function(data) {
+
+			form.zone_id = data.zone_id;
+			form.province_id = data.province_id;
+			form.district_id = data.district_id;
+			form.sub_district_id = data.sub_district_id;
+			form.bts_id = data.bts_id;
+			form.mrt_id = data.mrt_id;
+			form.airport_link_id = data.airport_link_id;
+
+		});
+	};
 
     window.s = $scope;
 
@@ -225,6 +263,14 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function($
         alert("please comment when add");
         return;
       }
+		
+		var bedrooms = this.form.bedrooms || '';
+		var bathrooms = this.form.bathrooms || '';
+		if( this.form.room_type_id == 1 && ((bedrooms == '' || bedrooms == 0) || (bathrooms == '' || bathrooms == 0)) )
+		{
+			alert("Studio need Bed Room and Bath Room");
+			return false;
+		}
 
       // if(!$scope.form.bts_id && !$scope.form.mrt_id && !$scope.form.airport_link_id) {
       //   alert("Please chose mts or mrt or airport link.");
@@ -337,22 +383,23 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function($
 }]);
 
 app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route', '$routeParams', function($scope, $compile, $http, $location, $route, $routeParams) {
-  $scope.form = null;
-  $scope.collection = null;
-  $scope.thailocation = null;
 
-  $http.get("../api/collection").success(function(data) {
-    $scope.collection = data;
-    $scope.collection.project = data.project.sort(function(a, b) {
-      if(a.name.toLowerCase() < b.name.toLowerCase()) return -1;
-      if(a.name.toLowerCase() > b.name.toLowerCase()) return 1;
-      return 0;
-    });
-  });
+	$scope.form = null;
+	$scope.collection = null;
+	$scope.thailocation = null;
 
-  $http.get("../api/collection/thailocation").success(function(thailocation) {
-    $scope.thailocation = thailocation;
-  });
+	$http.get("../api/collection").success(function(data) {
+		$scope.collection = data;
+		$scope.collection.project = data.project.sort(function(a, b) {
+			if(a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+			if(a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+			return 0;
+		});
+	});
+
+	$http.get("../api/collection/thailocation").success(function(thailocation) {
+		$scope.thailocation = thailocation;
+	});
 
 	$http.get("../api/property/" + $routeParams.id).success(function(data) {
 
@@ -360,11 +407,14 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 		$scope.owner = data.owner;
 		$scope.form = data;
 
-		var i, owner = data.owner.split(':');
-
-		//$scope.form.owner_name1 = owner[0];
-		
-		var tmpl = $("#tmpl-owner"), moreowner = $("#moreowner"), html, k=2, owner_field;
+		var 
+			i, 
+			owner = data.owner.split(':'),
+			tmpl = $("#tmpl-owner"), 
+			moreowner = $("#moreowner"), 
+			html, 
+			k=2, 
+			owner_field;
 		
 		owner_field = owner[0].split(',');
 
@@ -376,12 +426,13 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 		{
 			if( i == 0 ) continue;
 
-			html = '<div class="row" id="row_'+k+'"><div class="col-md-4"></div>' + tmpl.html()
-											.replace('owner_name1', 'owner_name'+k)
-											.replace('owner_phone1', 'owner_phone'+k)
-											.replace('owner_cust1', 'owner_cust'+k)
-											.replace('ng-click="addmore_owner();"', 'onclick="s.delmore_owner(this, ' + k + ')"')
-											.replace("plus", "minus") + '</div>';
+			html = '<div class="row" id="row_'+k+'"><div class="col-md-4"></div>' 
+					+ tmpl.html()
+						.replace('owner_name1', 'owner_name'+k)
+						.replace('owner_phone1', 'owner_phone'+k)
+						.replace('owner_cust1', 'owner_cust'+k)
+						.replace('ng-click="addmore_owner();"', 'onclick="s.delmore_owner(this, ' + k + ')"')
+						.replace("plus", "minus") + '</div>';
 			
 			$(html).find('div').first().remove();
 
@@ -430,6 +481,54 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
     });
   };
 	
+
+	$scope.formProjectIdChange = function(){
+      var project = false;
+      if($scope.form.project_id) {
+        project = (function(){
+          var i = 0;
+          for(i=0; i < $scope.collection.project.length; i++) {
+            if($scope.collection.project[i].id == $scope.form.project_id)
+              return $scope.collection.project[i];
+          }
+          return false;
+        })();
+      }
+      if(project) {
+        $scope.form.zone_id = project.zone_id;
+        $scope.form.airport_link_id = project.airport_link_id;
+        $scope.form.bts_id = project.bts_id;
+        $scope.form.province_id = project.province_id;
+        $scope.form.district_id = project.district_id;
+        $scope.form.sub_district_id = project.sub_district_id;
+        $scope.form.mrt_id = project.mrt_id;
+      }
+    };
+
+	$scope.formPropertyStatusIdChange = function()
+	{
+		var statusID = this.form.property_status_id;
+		
+		$("#input-rented_exp").prop("required", false);
+		switch( statusID )
+		{
+			case 1 : this.form.web_status = 1;break;
+
+			case 2 : 
+			case 4 : 
+			case 5 : 
+			case 6 : 
+			case 7 : 
+			case 8 : 
+			case 9 : this.form.web_status = 0;break;
+
+			case 3 : 
+					this.form.web_status = 0;
+					$("#input-rented_exp").prop("required", true);
+				break;
+		}
+    };
+
 	window.s = $scope;
 
   $scope.submit = function() {
@@ -447,6 +546,12 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
       };
     }
 
+	if( form.room_type_id == 1 && ((form.bedrooms == '' || form.bedrooms == 0) || (form.bathrooms == '' || form.bathrooms == 0)) )
+	{
+		alert("Studio need Bed Room and Bath Room");
+		return false;
+	}
+
     if(!window.confirm('Are you sure?')) return;
 	
 	var i, k, owner = '';
@@ -461,6 +566,13 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 	}
 
 	form.owner = owner.substring(owner.length-1, -1);
+
+	var rented_exp = $("#input-rented_exp").val();
+	if( this.form.property_status_id == 3 && ( rented_exp == "0000-00-00" || rented_exp == "") )
+	{
+		$("#input-rented_exp").focus();
+		return false;
+	}
 
     $.post("../api/property/edit/" + $routeParams.id, form, function(data){
       if(data.error) {
