@@ -302,7 +302,7 @@ MAILCONTENT;
           "requirement_id", "contract_price", "sell_price", "net_sell_price", "rent_price", "net_rent_price", "owner",
           "key_location_id", "zone_id", "road", "province_id", "district_id", "sub_district_id", "bts_id", "mrt_id",
           "airport_link_id", "property_status_id", "contract_expire", "web_status", "property_highlight_id",
-          "feature_unit_id", "rented_expire", "inc_vat", "transfer_status_id", "owner", "web_url_search", "room_type_id"
+          "feature_unit_id", "rented_expire", "inc_vat", "transfer_status_id", "owner", "web_url_search", "room_type_id", "contract_chk_key"
         ], $set);
 
         $set = array_map(function($item) {

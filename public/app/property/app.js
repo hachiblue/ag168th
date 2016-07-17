@@ -119,6 +119,12 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function($s
       }
     };
 
+	$scope.formRequirementChange = function() 
+	{
+		console.log('sdf');
+	};
+
+
     $scope.commaNumber = numberWithCommas;
 }]);
 
@@ -176,20 +182,41 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function($
     };
 
     $scope.getRequirementList = function(){
+	  
+	  if( $scope.collection == undefined ) return false;
       return $scope.collection.requirement.filter(function(item){
         return item.id != 5 || $scope.form.property_status_id == 4;
       });
     };
 
-    $scope.formPropertyTypeChange = function(){
-      if($scope.form.property_type_id == 1) {
-        $('#project_id').prop('required', true);
-      }
-      else {
-        $('#project_id').prop('required', false);
-        delete $scope.form.project_id;
-      }
-    };
+	$scope.formPropertyTypeChange = function()
+	{
+		if($scope.form.property_type_id == '1') 
+		{
+			$('#project_id').prop('required', true);
+		}
+		else 
+		{
+			$('#project_id').prop('required', false);
+			delete $scope.form.project_id;
+		}
+		
+		var u1 = 1;
+
+		switch( +$scope.form.property_type_id )
+		{
+			case 1 :
+					$scope.form.size_unit_id = '1';
+				break;
+			case 2 :
+					$scope.form.size_unit_id = '2';
+				break;
+			case 8 :
+					$scope.form.size_unit_id = '3';
+				break;
+			default : $scope.form.size_unit_id = '0';
+		}
+	};
 
     $scope.formProjectIdChange = function(){
       var project = false;
@@ -221,7 +248,7 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function($
 		var statusID = this.form.property_status_id;
 		
 		$("#input-rented_exp").prop("required", false);
-		switch( statusID )
+		switch( +statusID )
 		{
 			case 1 : this.form.web_status = 1;break;
 
@@ -254,6 +281,58 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function($
 			form.airport_link_id = data.airport_link_id;
 
 		});
+	};
+
+	$scope.formRequirementChange = function() 
+	{
+		switch( +$scope.form.requirement_id )
+		{
+			case 1 :
+					$("#input-sellingprice").prop("disabled", false).prop("required", true);
+					$("#input-rentprice").prop("disabled", true).prop("required", false).val('');
+				
+				break;
+
+			case 2 :
+					
+					$("#input-sellingprice").prop("disabled", true).prop("required", false).val('');
+					$("#input-rentprice").prop("disabled", false).prop("required", true);
+				
+				break;
+			case 3 :
+			case 4 :
+					
+					$("#input-sellingprice").prop("disabled", false).prop("required", true);
+					$("#input-rentprice").prop("disabled", false).prop("required", true);
+				
+				break;
+		}
+
+		$scope.formChkContractUpChange();
+	};
+	
+	$scope.formChkContractUpChange = function()
+	{
+		var up_percent = 0, tmp_plus = 0;
+
+		if( this.form.chkcontact1 === true ) up_percent += 0.033;
+		if( this.form.chkcontact2 === true ) up_percent += 0.005;
+		if( this.form.chkcontact3 === true ) up_percent += 0.02;
+		if( this.form.chkcontact4 === true ) up_percent += 0.01;
+		
+		tmp_plus = this.form.contract_price * up_percent;
+
+		if( $scope.form.requirement_id != 2 && $scope.form.requirement_id != undefined )
+		{
+			this.form.sell_price = parseFloat(this.form.contract_price) + tmp_plus;
+		}
+		
+		var chk1 = ( this.form.chkcontact1 === true)? 1 : 0;
+		var chk2 = ( this.form.chkcontact2 === true)? 1 : 0;
+		var chk3 = ( this.form.chkcontact3 === true)? 1 : 0;
+		var chk4 = ( this.form.chkcontact4 === true)? 1 : 0;
+
+		this.form.contract_chk_key = chk1 + ',' + chk2 + ',' + chk3 + ',' + chk4;
 	};
 
     window.s = $scope;
@@ -447,6 +526,10 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
 			k++;
 		}
+
+		$scope.formRequirementChange();
+		$scope.formSetChkContract();
+
 	});
 
   $scope.initSuccess = false;
@@ -510,7 +593,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 		var statusID = this.form.property_status_id;
 		
 		$("#input-rented_exp").prop("required", false);
-		switch( statusID )
+		switch( +statusID )
 		{
 			case 1 : this.form.web_status = 1;break;
 
@@ -528,6 +611,97 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 				break;
 		}
     };
+
+	$scope.formRequirementChange = function() 
+	{
+		switch( +$scope.form.requirement_id )
+		{
+			case 1 :
+					
+					$("#input-sellingprice").prop("disabled", false).prop("required", true);
+					$("#input-rentprice").prop("disabled", true).prop("required", false).val('');
+				
+				break;
+
+			case 2 :
+					
+					$("#input-sellingprice").prop("disabled", true).prop("required", false).val('');
+					$("#input-rentprice").prop("disabled", false).prop("required", true);
+				
+				break;
+			case 3 :
+			case 4 :
+					
+					$("#input-sellingprice").prop("disabled", false).prop("required", true);
+					$("#input-rentprice").prop("disabled", false).prop("required", true);
+				
+				break;
+		}
+
+		$scope.formChkContractUpChange();
+	};
+
+	$scope.formPropertyTypeChange = function()
+	{
+		if($scope.form.property_type_id == 1) 
+		{
+			$('#project_id').prop('required', true);
+		}
+		else 
+		{
+			$('#project_id').prop('required', false);
+			delete $scope.form.project_id;
+		}
+
+		switch( +$scope.form.property_type_id )
+		{
+			case 1 :
+					$scope.form.size_unit_id = '1';
+				break;
+			case 2 :
+					$scope.form.size_unit_id = '2';
+				break;
+			case 8 :
+					$scope.form.size_unit_id = '3';
+				break;
+			default : $scope.form.size_unit_id = '0';
+		}
+	};
+
+	$scope.formChkContractUpChange = function()
+	{
+		var up_percent = 0, tmp_plus = 0;
+
+		if( this.form.chkcontact1 === true ) up_percent += 0.033;
+		if( this.form.chkcontact2 === true ) up_percent += 0.005;
+		if( this.form.chkcontact3 === true ) up_percent += 0.02;
+		if( this.form.chkcontact4 === true ) up_percent += 0.01;
+		
+		tmp_plus = this.form.contract_price * up_percent;
+
+		if( $scope.form.requirement_id != 2 && $scope.form.requirement_id != undefined )
+		{
+			this.form.sell_price = parseFloag(this.form.contract_price) + tmp_plus;
+		}
+
+		var chk1 = ( this.form.chkcontact1 === true)? 1 : 0;
+		var chk2 = ( this.form.chkcontact2 === true)? 1 : 0;
+		var chk3 = ( this.form.chkcontact3 === true)? 1 : 0;
+		var chk4 = ( this.form.chkcontact4 === true)? 1 : 0;
+
+		this.form.contract_chk_key = chk1 + ',' + chk2 + ',' + chk3 + ',' + chk4;
+	};
+
+	$scope.formSetChkContract = function()
+	{		
+		var arr_chk = this.form.contract_chk_key.split(","), i, j = 1;
+		
+		for( i in arr_chk )
+		{
+			this.form["chkcontact"+j] = (arr_chk[i] == 1)? true: false;
+			j++;
+		}
+	};
 
 	window.s = $scope;
 
@@ -603,7 +777,6 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 			if( typeof this.ctn == 'undefined' ) this.ctn = 2;
 		}
 		
-		//console.log(tmpl.find('div').first());
 		html = '<div class="row" id="row_'+this.ctn+'"><div class="col-md-4"></div>' + tmpl.html()
 										.replace('owner_name1', 'owner_name'+this.ctn)
 										.replace('owner_phone1', 'owner_phone'+this.ctn)

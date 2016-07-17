@@ -63,6 +63,7 @@
         <label>Property Type</label>
         <select class="form-control"
         ng-model="form.property_type_id"
+		ng-change="formPropertyTypeChange()"
         ng-options="item.id as item.name for item in collection.property_type"
         required>
             <option value="">Please select</option>
@@ -97,13 +98,14 @@
         <label>requirement</label>
         <select class="form-control"
         ng-model="form.requirement_id"
+		ng-change="formRequirementChange()"
         ng-options="item.id as item.name for item in collection.requirement"
         required>
             <option value="">Please select</option>
         </select>
       </div>
       <div class="col-md-4 form-group">
-        <label>Address no</label>
+        <label>Address no</label> ( * ใส่แค่ตำแหน่งห้องหรือเลขห้องเท่านั้น )
         <input type="text" class="form-control" ng-model="form.address_no">
       </div>
       <div class="col-md-4 form-group">
@@ -156,17 +158,44 @@
         </select>
       </div>
       <div style="clear: both;"></div>
+		
+		<div class="col-md-8 form-group">
+			<div class="checkboxxx" style="float:left;margin-right: 20px;">
+				<label>
+					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact1" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ภาษีธุรกิจเฉพาะ 3.3%</div>
+				</label>
+			</div>
+			<div class="checkboxxx" style="float:left;margin-right: 20px;">
+				<label>
+					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact2" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ค่าอาการแสตมป์ 0.5%</div>
+				</label>
+			</div>
+			<div class="checkboxxx" style="float:left;margin-right: 20px;">
+				<label>
+					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact3" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ค่าธรรมเนียมการทำนิติกรรม 2%</div>
+				</label>
+			</div>
+			<div class="checkboxxx" style="float:left;margin-right: 20px;">
+				<label>
+					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact4" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ค่าจดจำนอง 1%</div>
+				</label>
+			</div>
+		</div>
+
+
+
+	  <div style="clear: both;"></div>
       <div class="col-md-4 form-group">
         <label>Contract price</label>
-        <input type="text" class="form-control" ng-model="form.contract_price">
+        <input type="text" class="form-control" ng-model="form.contract_price" ng-change="formChkContractUpChange()">
       </div>
       <div class="col-md-4 form-group">
         <label>Selling price</label>
-        <input type="text" class="form-control" ng-model="form.sell_price">
+        <input type="text" class="form-control" ng-model="form.sell_price" id="input-sellingprice" disabled>
       </div>
       <div class="col-md-4 form-group">
         <label>Rental price</label>
-        <input type="text" class="form-control" ng-model="form.rent_price">
+        <input type="text" class="form-control" ng-model="form.rent_price" id="input-rentprice" disabled>
       </div>
 
       <div class="col-md-4 form-group"></div>

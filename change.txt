@@ -2,3 +2,8 @@ C:\xampp\htdocs\agent168th\public\app\property\add.php
 C:\xampp\htdocs\agent168th\public\app\property\app.js
 C:\xampp\htdocs\agent168th\public\app\property\edit.php
 C:\xampp\htdocs\agent168th\private\src\Main\CTL\ApiCollection.php
+C:\xampp\htdocs\agent168th\private\src\Main\CTL\ApiProperty.php
+
+
+
+ALTER TABLE `admin_dev_agen168`.`property`     ADD COLUMN `contract_chk_key` VARCHAR(7) DEFAULT '0,0,0,0' NULL AFTER `room_type_id`;
