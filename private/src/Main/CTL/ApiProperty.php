@@ -21,11 +21,14 @@ use Main\Helper\ImageHelper;
  */
 
 class ApiProperty extends BaseCTL {
+
     private $table = "property";
+
     /**
      * @GET
      */
-    public function index () {
+    public function index () 
+	{
         $field = [
             "property.*",
             // "property_type.name(property_type_name)",
@@ -38,6 +41,7 @@ class ApiProperty extends BaseCTL {
             "project.name(project_name)",
             "zone.name(zone_name)"
         ];
+
         $join = [
             // "[>]property_type"=> ["property_type_id"=> "id"],
             // "[>]zone_group"=> ["zone_group_id"=> "id"],
@@ -48,128 +52,181 @@ class ApiProperty extends BaseCTL {
             "[>]project"=> ["project_id"=> "id"],
             "[>]zone"=> ["zone_id"=> "id"]
         ];
+
         $limit = empty($_GET['limit'])? 15: $_GET['limit'];
         $where = ["AND"=> []];
 
         $params = $this->reqInfo->params();
-        if(!empty($params['property_type_id'])){
+        if(!empty($params['property_type_id']))
+		{
             $where["AND"]['property.property_type_id'] = $params['property_type_id'];
         }
-        if(!empty($params['bedrooms']) || @$params['bedrooms'] === 0 || @$params['bedrooms'] === '0'){
-            if($params['bedrooms'] == "4+") {
+
+        if(!empty($params['bedrooms']) || @$params['bedrooms'] === 0 || @$params['bedrooms'] === '0')
+		{
+            if($params['bedrooms'] == "4+") 
+			{
               $where["AND"]['property.bedrooms[>=]'] = $params['bedrooms'];
             }
-            else {
+            else 
+			{
               $where["AND"]['property.bedrooms'] = $params['bedrooms'];
             }
         }
-        if(!empty($params['requirement_id'])){
-            if(in_array($params['requirement_id'], [1,2,4])) {
-              $where["AND"]['property.requirement_id'] = [$params['requirement_id'], 3];
+
+        if(!empty($params['requirement_id']))
+		{
+            if(in_array($params['requirement_id'], [1,2,4])) 
+			{
+				$where["AND"]['property.requirement_id'] = [$params['requirement_id'], 3];
             }
-            else {
-              $where["AND"]['property.requirement_id'] = $params['requirement_id'];
+            else 
+			{
+				$where["AND"]['property.requirement_id'] = $params['requirement_id'];
             }
         }
-        if(!empty($params['project_id'])){
+
+        if(!empty($params['project_id']))
+		{
             $where["AND"]['property.project_id'] = $params['project_id'];
         }
-        if(!empty($params['web_status'])){
+
+        if(!empty($params['web_status']))
+		{
             $where["AND"]['property.web_status'] = $params['web_status'];
         }
-        if(!empty($params['property_highlight_id'])){
+
+        if(!empty($params['rented_expire']))
+		{
+            $where["AND"]['property.rented_expire[<]'] = date("Y-m-d H:i:s", strtotime("+7 days"));
+        }
+
+        if(!empty($params['property_highlight_id']))
+		{
             $where["AND"]['property.property_highlight_id'] = $params['property_highlight_id'];
         }
+
         if(!empty($params['feature_unit_id'])){
             $where["AND"]['property.feature_unit_id'] = $params['feature_unit_id'];
         }
 
-        if(!empty($params['bts_id'])){
+        if(!empty($params['bts_id']))
+		{
             $where["AND"]['property.bts_id'] = $params['bts_id'];
         }
-        if(!empty($params['mrt_id'])){
+
+        if(!empty($params['mrt_id']))
+		{
             $where["AND"]['property.mrt_id'] = $params['mrt_id'];
         }
-        if(!empty($params['airport_link_id'])){
+
+        if(!empty($params['airport_link_id']))
+		{
             $where["AND"]['property.airport_link_id'] = $params['airport_link_id'];
         }
 
-
         // new
-        if(!empty($params['web_status'])){
+        if(!empty($params['web_status']))
+		{
             $where["AND"]['property.web_status'] = $params['web_status'];
         }
-        if(!empty($params['reference_id'])){
+
+        if(!empty($params['reference_id']))
+		{
             $where["AND"]['property.reference_id'] = $params['reference_id'];
         }
-        if(!empty($params['owner'])){
+
+        if(!empty($params['owner']))
+		{
             $where["AND"]['property.owner[~]'] = $params['owner'];
         }
-        if((!empty($params['size_start']) || !empty($params['size_end'])) && !empty($params['size_unit_id'])){
-            $where["AND"]['property.size_unit_id'] = $params['size_unit_id'];
 
-            if(!empty($params['size_start'])) {
-              $where["AND"]['property.size[>=]'] = $params['size_start'];
+        if((!empty($params['size_start']) || !empty($params['size_end'])) && !empty($params['size_unit_id']))
+		{
+			$where["AND"]['property.size_unit_id'] = $params['size_unit_id'];
+
+            if(!empty($params['size_start'])) 
+			{
+				$where["AND"]['property.size[>=]'] = $params['size_start'];
             }
-            if(!empty($params['size_end'])) {
-              $where["AND"]['property.size[<=]'] = $params['size_end'];
+
+            if(!empty($params['size_end'])) 
+			{
+				$where["AND"]['property.size[<=]'] = $params['size_end'];
             }
         }
 
         // sell price
-        if(!empty($params['sell_price_start'])) {
-          $where["AND"]['property.sell_price[>=]'] = $params['sell_price_start'];
+        if(!empty($params['sell_price_start'])) 
+		{
+			$where["AND"]['property.sell_price[>=]'] = $params['sell_price_start'];
         }
-        if(!empty($params['sell_price_end'])) {
-          $where["AND"]['property.sell_price[<=]'] = $params['sell_price_end'];
+
+        if(!empty($params['sell_price_end'])) 
+		{
+			$where["AND"]['property.sell_price[<=]'] = $params['sell_price_end'];
         }
 
         // rent price
-        if(!empty($params['rent_price_start'])) {
-          $where["AND"]['property.rent_price[>=]'] = $params['rent_price_start'];
+        if(!empty($params['rent_price_start'])) 
+		{
+			$where["AND"]['property.rent_price[>=]'] = $params['rent_price_start'];
         }
-        if(!empty($params['rent_price_end'])) {
-          $where["AND"]['property.rent_price[<=]'] = $params['rent_price_end'];
+
+        if(!empty($params['rent_price_end'])) 
+		{
+			$where["AND"]['property.rent_price[<=]'] = $params['rent_price_end'];
         }
 
         // vat
-        if(!empty($params['inc_vat'])) {
-          $where["AND"]['property.inc_vat'] = $params['inc_vat'];
+        if(!empty($params['inc_vat'])) 
+		{
+			$where["AND"]['property.inc_vat'] = $params['inc_vat'];
         }
 
         // address_no
-        if(!empty($params['address_no'])) {
-          $where["AND"]['property.address_no[~]'] = $params['address_no'];
+        if(!empty($params['address_no'])) 
+		{
+			$where["AND"]['property.address_no[~]'] = $params['address_no'];
         }
 
         // status
-        if(!empty($params['property_status_id'])) {
-          $where["AND"]['property.property_status_id'] = $params['property_status_id'];
+        if(!empty($params['property_status_id'])) 
+		{
+			$where["AND"]['property.property_status_id'] = $params['property_status_id'];
 
-          // 99 is empty
-          if($params['property_status_id'] == 99) {
-            $where["AND"]['property.property_status_id'] = null;
-          }
+			// 99 is empty
+			if($params['property_status_id'] == 99) 
+			{
+				$where["AND"]['property.property_status_id'] = null;
+			}
         }
 
-        if(!empty($params['province_id'])) {
-          $where["AND"]['property.province_id'] = $params['province_id'];
+        if(!empty($params['province_id'])) 
+		{
+			$where["AND"]['property.province_id'] = $params['province_id'];
         }
-        if(!empty($params['district_id'])) {
-          $where["AND"]['property.district_id'] = $params['district_id'];
+
+        if(!empty($params['district_id'])) 
+		{
+			$where["AND"]['property.district_id'] = $params['district_id'];
         }
-        if(!empty($params['sub_district_id'])) {
-          $where["AND"]['property.sub_district_id'] = $params['sub_district_id'];
+
+        if(!empty($params['sub_district_id'])) 
+		{
+			$where["AND"]['property.sub_district_id'] = $params['sub_district_id'];
         }
 
         // zone
-        if(!empty($params['zone_id'])) {
-          $where["AND"]['property.zone_id'] = $params['zone_id'];
+        if(!empty($params['zone_id'])) 
+		{
+			$where["AND"]['property.zone_id'] = $params['zone_id'];
         }
 
         // web url searh
-        if(!empty($params['web_url_search'])) {
-          $where["AND"]['property.web_url_search[~]'] = $params['web_url_search'];
+        if(!empty($params['web_url_search'])) 
+		{
+			$where["AND"]['property.web_url_search[~]'] = $params['web_url_search'];
         }
 
         $page = !empty($params['page'])? $params['page']: 1;
@@ -177,7 +234,8 @@ class ApiProperty extends BaseCTL {
         $orderBy = !empty($params['orderBy'])? $params['orderBy']: "updated_at";
         $order = "{$orderBy} {$orderType}";
 
-        if(count($where["AND"]) > 0){
+        if(count($where["AND"]) > 0)
+		{
             $where['ORDER'] = $order;
             $list = ListDAO::gets($this->table, [
                 "field"=> $field,
@@ -187,7 +245,8 @@ class ApiProperty extends BaseCTL {
                 "limit"=> $limit
             ]);
         }
-        else {
+        else 
+		{
             $list = ListDAO::gets($this->table, [
                 "field"=> $field,
                 "join"=> $join,

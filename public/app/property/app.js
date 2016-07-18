@@ -10,7 +10,7 @@ function numberWithCommas(x) {
   }
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
+//angular.module('angularTable', []);
 var app = angular.module('property-app', ['ngRoute', 'angular-loading-bar']);
 app.config(['$routeProvider', 'cfpLoadingBarProvider',
     function($routeProvider, cfpLoadingBarProvider) {
@@ -38,51 +38,76 @@ app.config(['$routeProvider', 'cfpLoadingBarProvider',
             });
     }]);
 
-app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function($scope, $http, $location, $route){
-    $scope.props = [];
+app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function($scope, $http, $location, $route) {
+
+	$scope.props = [];
 
     $scope.form = {};
     $scope.form.page = 1;
     $scope.form.limit = 15;
-    function getProps(query){
+
+    function getProps(query)
+	{
         var url = "../api/property";
-        if(query){
+
+        if(query)
+		{
             url += "?" + $.param($scope.form);
         }
-        $http.get(url).success(function(data){
-            $scope.props = data;
-            if(data.total > 0){
-              $scope.pagination = [];
-              var numPage = Math.ceil(data.total/$scope.form.limit);
-              for(var i = 1; i <= numPage; i++) {
-                $scope.pagination.push(data.paging.page == i);
-              }
-            }
-            else {
-              $scope.pagination = null;
-            }
+
+        $http.get(url).success(function(data) {
+
+			$scope.props = data;
+			if(data.total > 0)
+			{
+				$scope.pagination = [];
+				var numPage = Math.ceil(data.total / $scope.form.limit);
+				for(var i = 1; i <= numPage; i++) 
+				{
+					$scope.pagination.push(data.paging.page == i);
+				}
+			}
+			else 
+			{
+				$scope.pagination = null;
+			}
+
         });
     }
+
     getProps($scope.form);
+	
+	$scope.sort = function(keyname)
+	{
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+		
+		$scope.form.orderBy = keyname;
+		$scope.form.orderType = !$scope.reverse ? 'ASC' : 'DESC';
 
-    $scope.setPage = function($index) {
-      if($index < 1 || $index > $scope.pagination.length)
-        return;
-
-      $scope.form.page = $index;
-      getProps($scope.form);
+		getProps($scope.form);
     };
 
-    $scope.displayDotLeft = function(){
-      if($scope.form.page > 5) return true;
+	$scope.setPage = function($index) 
+	{
+		if($index < 1 || $index > $scope.pagination.length)
+			return;
+
+		$scope.form.page = $index;
+		getProps($scope.form);
     };
 
-    $scope.filterProps = function(){
-        console.log($scope.form);
-        getProps($scope.form);
+	$scope.displayDotLeft = function()
+	{
+		if($scope.form.page > 5) return true;
+	};
+
+    $scope.filterProps = function()
+	{
+		getProps($scope.form);
     };
 
-    $http.get("../api/collection").success(function(data){
+    $http.get("../api/collection").success(function(data) {
         $scope.collection = data;
         $scope.collection.project = data.project.sort(function(a, b) {
           if(a.name.toLowerCase() < b.name.toLowerCase()) return -1;
@@ -95,37 +120,44 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function($s
       $scope.thailocation = thailocation;
     });
 
-    $scope.remove = function(id){
-        if(!window.confirm("Are you sure?")){
+    $scope.remove = function(id)
+	{
+        if(!window.confirm("Are you sure?"))
+		{
             return;
         }
-        $http.delete("../api/property/"+ id).success(function(data){
-            if(typeof data.error == 'undefined'){
+
+        $http.delete("../api/property/"+ id).success(function(data) {
+
+            if(typeof data.error == 'undefined')
+			{
                 $route.reload();
             }
+
         });
     };
 
-    $scope.edit = function(id){
-
-    };
-
-    $scope.getZoneGroupName = function(id){
-      var arr = $.grep($scope.collection.zone_group, function(o){ return o.id == id; });
-      if (arr.length == 0) {
-        return "";
-      } else {
-        return arr[0].name;
-      }
-    };
-
-	$scope.formRequirementChange = function() 
+    $scope.edit = function(id)
 	{
-		console.log('sdf');
-	};
 
+    };
+
+    $scope.getZoneGroupName = function(id)
+	{
+		var arr = $.grep($scope.collection.zone_group, function(o){ return o.id == id; });
+
+		if (arr.length == 0) 
+		{
+			return "";
+		} 
+		else 
+		{
+			return arr[0].name;
+		}
+    };
 
     $scope.commaNumber = numberWithCommas;
+
 }]);
 
 
@@ -681,7 +713,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
 		if( $scope.form.requirement_id != 2 && $scope.form.requirement_id != undefined )
 		{
-			this.form.sell_price = parseFloag(this.form.contract_price) + tmp_plus;
+			this.form.sell_price = parseFloat(this.form.contract_price) + tmp_plus;
 		}
 
 		var chk1 = ( this.form.chkcontact1 === true)? 1 : 0;

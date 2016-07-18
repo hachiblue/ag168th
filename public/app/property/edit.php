@@ -25,7 +25,7 @@
 		</div>
 
 		<div class="col-sm-2 col-md-2 form-group">
-			<label>Customer</label>
+			<label>Customer VIP</label>
 			<input class="form-control" ng-if="editAllow" ng-model="form.owner_cust1">
 			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
 		</div>
@@ -330,7 +330,7 @@
             <option value="">Please select</option>
         </select>
       </div>
-      <div class="col-md-4 form-group">
+      <div class="col-md-4 form-group" style="display:none;">
         <label>Web URL search</label>
         <textarea class="form-control"
         ng-model="form.web_url_search"></textarea>

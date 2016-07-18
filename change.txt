@@ -6,4 +6,11 @@ C:\xampp\htdocs\agent168th\private\src\Main\CTL\ApiProperty.php
 
 
 
+
+C:\xampp\htdocs\agent168th\private\view\admin\properties.php
+C:\xampp\htdocs\agent168th\private\view\admin\enquiries.php
+C:\xampp\htdocs\agent168th\public\app\enquiry\list.php
+C:\xampp\htdocs\agent168th\public\app\enquiry\app.js
+
+
 ALTER TABLE `admin_dev_agen168`.`property`     ADD COLUMN `contract_chk_key` VARCHAR(7) DEFAULT '0,0,0,0' NULL AFTER `room_type_id`;

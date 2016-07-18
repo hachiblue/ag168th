@@ -12,6 +12,7 @@ function numberWithCommas(x) {
 }
 
 var app = angular.module('enquiry-app', ['ngRoute', 'angular-loading-bar']);
+
 app.config(['$routeProvider', 'cfpLoadingBarProvider',
     function($routeProvider, cfpLoadingBarProvider) {
         $routeProvider.
@@ -41,6 +42,10 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function($s
     $scope.form = {};
     $scope.form.page = 1;
     $scope.form.limit = 15;
+	
+	$scope.form2 = {};
+    $scope.form2.page = 1;
+    $scope.form2.limit = 15;
 
     function getItems(query){
         var url = "../api/enquiry";
@@ -61,7 +66,64 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function($s
             }
         });
     }
+
+    function getPropertiesExpire(query){
+        var url = "../api/property";
+
+		$scope.form2.web_status = 1;
+		$scope.form2.rented_expire = '2017-01-31';
+
+        if(query){
+            url += "?" + $.param($scope.form2);
+        }
+        $http.get(url).success(function(data){
+            $scope.props = data;
+            if(data.total > 0){
+              $scope.p_pagination = [];
+              var numPage = Math.ceil(data.total/$scope.form2.limit);
+              for(var i = 1; i <= numPage; i++) {
+                $scope.p_pagination.push(data.paging.page == i);
+              }
+            }
+            else {
+              $scope.p_pagination = null;
+            }
+        });
+    }
+
     getItems();
+    getPropertiesExpire($scope.form2);
+
+	$("#myModal").toggleClass('show');
+	
+	$scope.closeModel = function()
+	{	
+		$("#myModal").removeClass('show').addClass('hide');
+	};
+
+	$scope.openModel = function()
+	{	
+		$("#myModal").removeClass('hide').addClass('show');
+	};
+	
+	$scope.sort = function(keyname)
+	{
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+		
+		$scope.form2.orderBy = keyname;
+		$scope.form2.orderType = !$scope.reverse ? 'ASC' : 'DESC';
+
+		getPropertiesExpire($scope.form2);
+    };
+
+    $scope.setPageProps = function($index) {
+      if($index < 1 || $index > $scope.p_pagination.length)
+        return;
+
+      $scope.form2.page = $index;
+      getPropertiesExpire($scope.form2);
+    };
 
     $scope.setPage = function($index) {
       if($index < 1 || $index > $scope.pagination.length)
