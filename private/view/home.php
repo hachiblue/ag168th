@@ -131,7 +131,7 @@ html, body {
                                     </div>
                                 </div>
                                   <label>Project:</label><br/>
-                                  <select class="form-control" name="project_id">
+                                  <select class="form-control" name="project_id" id="project_id">
                                       <option value="">Any</option>
                                       <?php foreach($projects as $project){?>
                                       <option value="<?php echo $project["id"];?>" <?php if(@$_GET['project_id']==$project["id"]) echo "selected";?>><?php echo $project["name"];?></option>
@@ -151,6 +151,7 @@ html, body {
         <p>Bangkok Condo, Apartments & Houses for Sale & Rent</p>
     </div>
 </div>
+
 <div class="highlightslide">
     <div class="container">
         <p>Highlight Properties</p>
@@ -212,6 +213,112 @@ html, body {
         </div> -->
     </div>
 </div>
+
+<div class="highlightslide">
+    <div class="container">
+        <p>Best Buy</p>
+        <?php foreach($params['bestbuy'] as $item){?>
+        <div class="highlight">
+            <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
+              <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
+            </a>
+            <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
+            <!-- <p class="add">Annapolls</p> -->
+            <div class="hr"></div>
+            <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
+              <span class="price">
+              <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
+              </span>
+            </p>
+            <div class="detail" style="font-size: 11px;">
+                <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
+                <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
+                <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
+            </div>
+        </div>
+        <?php }?>
+    </div>
+</div>
+
+<div class="highlightslide">
+    <div class="container">
+        <p>Hot Rental</p>
+        <?php foreach($params['hotrental'] as $item){?>
+        <div class="highlight">
+            <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
+              <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
+            </a>
+            <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
+            <!-- <p class="add">Annapolls</p> -->
+            <div class="hr"></div>
+            <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
+              <span class="price">
+              <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
+              </span>
+            </p>
+            <div class="detail" style="font-size: 11px;">
+                <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
+                <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
+                <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
+            </div>
+        </div>
+        <?php }?>
+    </div>
+</div>
+
+<div class="highlightslide">
+    <div class="container">
+        <p>With Tenant</p>
+        <?php foreach($params['withtenant'] as $item){?>
+        <div class="highlight">
+            <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
+              <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
+            </a>
+            <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
+            <!-- <p class="add">Annapolls</p> -->
+            <div class="hr"></div>
+            <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
+              <span class="price">
+              <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
+              </span>
+            </p>
+            <div class="detail" style="font-size: 11px;">
+                <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
+                <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
+                <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
+            </div>
+        </div>
+        <?php }?>
+    </div>
+</div>
+
+<div class="highlightslide">
+    <div class="container">
+        <p>New Coming</p>
+        <?php foreach($params['newcoming'] as $item){?>
+        <div class="highlight">
+            <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
+              <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
+            </a>
+            <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
+            <!-- <p class="add">Annapolls</p> -->
+            <div class="hr"></div>
+            <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
+              <span class="price">
+              <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
+              </span>
+            </p>
+            <div class="detail" style="font-size: 11px;">
+                <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
+                <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
+                <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
+            </div>
+        </div>
+        <?php }?>
+    </div>
+</div>
+
+
 <div class="newsletter skrollable skrollable-between">
     <div class="container" id="subscribe">
         <div class="row">
@@ -434,7 +541,7 @@ html, body {
         var elemTop = Math.round( $elem.offset().top );
         var elemBottom = elemTop + $elem.height();
 
-        console.log(elemTop, viewportTop);
+        //console.log(elemTop, viewportTop);
 
         return ((elemTop < viewportBottom) && (elemBottom > viewportTop));
     }
@@ -451,6 +558,9 @@ html, body {
 
 <script>
     $(function(){
+
+		$("#project_id").chosen({disable_search_threshold: 10});
+
         $(window).scroll(function(){
             var el = $('#recommend');
             if(isElementInViewport(el)){

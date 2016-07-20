@@ -61,9 +61,9 @@
 												<i class="glyphicon glyphicon-remove"></i>
 											</a>
                 	</td>
-									<td ng-if="item.status_id != 1">
-											<span ng-if="item.status_id == 2">Accepted by <strong>{{item.accepted_name}}</strong></span>
-											<span ng-if="item.status_id == 3">Denined</span>
+					<td ng-if="item.status_id != 1">
+							<span ng-if="item.status_id == 2">Accepted by <strong>{{item.accepted_name}}</strong><br>{{item.accepted_at}}</span>
+							<span ng-if="item.status_id == 3">Denined</span>
                 	</td>
             	</tr>
             </tbody>

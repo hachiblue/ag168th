@@ -91,6 +91,8 @@ a.item-type-name:hover,
 .page-next{
 	text-align:center;
 }
+
+
 </style>
 
 <div class="bgList">

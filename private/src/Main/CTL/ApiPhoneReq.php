@@ -75,7 +75,9 @@ class ApiPhoneReq extends BaseCTL
   {
     $id = $this->reqInfo->urlParam("id");
     $db = MedooFactory::getInstance();
-    $db->update("request_contact", ["status_id"=> 2], ["id"=> $id]);
+
+	$now = date('Y-m-d H:i:s');
+    $db->update("request_contact", ["status_id"=> 2, "accepted_at"=> $now], ["id"=> $id]);
 
     $item = $db->get("request_contact", "*", ["id"=> $id]);
     $prop = $db->get("property", "*", ["id"=> $item["property_id"]]);
@@ -106,7 +108,9 @@ MAILCONTENT;
   {
     $id = $this->reqInfo->urlParam("id");
     $db = MedooFactory::getInstance();
-    $db->update("request_contact", ["status_id"=> 3], ["id"=> $id]);
+
+	$now = date('Y-m-d H:i:s');
+    $db->update("request_contact", ["status_id"=> 3, "accepted_at"=> $now], ["id"=> $id]);
 
     $item = $db->get("request_contact", "*", ["id"=> $id]);
     $prop = $db->get("property", "*", ["id"=> $item["property_id"]]);

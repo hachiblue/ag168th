@@ -51,17 +51,9 @@
         </div>
         <div class="col-md-4 form-group">
             <label>Status</label>
-            <select class="form-control" ng-model="form.property_status_id">
-                <option value="">All</option>
-                <option value="1">Available</option>
-                <option value="2">Non-Available</option>
-                <option value="3">Rented</option>
-                <option value="4">Individual</option>
-                <option value="5">Sold</option>
-                <option value="6">Tend to transfer</option>
-
-                <option value="99">----Only empty----</option>
-            </select>
+            <select class="form-control" ng-model="form.property_status_id" ng-options="item.id*1 as item.name for item in collection.property_status">
+			    <option value="">Please select</option>
+		    </select>
         </div>
         <div class="col-md-4 form-group">
             <label class="control-label">Nearest BTS</label>
@@ -85,6 +77,19 @@
             </select>
             </div>
         </div>
+
+        <div class="col-md-4 form-group">
+            <label class="control-label">Admin</label>
+            <div>
+              <select class="form-control"
+              ng-model="form.account_id"
+              ng-options="item.id*1 as item.name for item in collection.property_comment.data"
+              >
+              <option value="">All</option>
+            </select>
+            </div>
+        </div>
+
     </div>
     <div class="row">
       <div class="col-md-4 el-custom-1">
@@ -157,12 +162,13 @@
           <th>Rent</th>
           <th>Status</th>
           <th>Zone</th>
+          <th>VIP</th>
           <th>Province</th>
           <!-- <th>Total Unit</th> -->
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="prop in props.data">
+      <tr ng-repeat="prop in props.data ">
           <td>{{prop.reference_id}}</td>
           <td>
               <div><strong>Project</strong>: <span>{{prop.project_name}}</span></div>
@@ -179,6 +185,7 @@
           <td><span ng-hide="!prop.rent_price">฿{{commaNumber(prop.rent_price)}}</span></td>
           <td>{{prop.property_status_name}}</td>
           <td>{{prop.zone_name}}</td>
+          <td>{{prop.owner}}</td>
           <td>{{prop.province_name}}</td>
           <td><a class="btn btn-info" href="properties#/edit/{{prop.id}}" target="_blank">View</a></td>
       </tr>

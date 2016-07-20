@@ -1039,6 +1039,7 @@ The Seed Atom,
     <!-- Bootstrap -->
     <link href="<?php echo Helper\URL::absolute("/public/css/bootstrap.min.css")?>" rel="stylesheet">
     <link href="<?php echo Helper\URL::absolute("/public/css/style.css")?>" rel="stylesheet">
+    <link href="<?php echo Helper\URL::absolute("/public/css/chosen.css")?>" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -1051,6 +1052,7 @@ The Seed Atom,
     <script src="<?php echo \Main\Helper\URL::absolute("/public/js/bootstrap.min.js")?>"></script>
     <script src="<?php echo \Main\Helper\URL::absolute("/public/js/skrollr.js")?>"></script>
     <script src="<?php echo \Main\Helper\URL::absolute("/public/js/jquery.nicescroll.min.js")?>"></script>
+    <script src="<?php echo \Main\Helper\URL::absolute("/public/js/chosen.jquery.min.js")?>"></script>
 </head>
 <body>
 <script>

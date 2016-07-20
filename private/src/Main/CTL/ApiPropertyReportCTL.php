@@ -106,6 +106,11 @@ class ApiPropertyReportCTL extends BaseCTL {
         if(!empty($params['updated_at_end'])) {
             $where["AND"]['property.updated_at[<=]'] = $params['updated_at_end'].' 00:00:00';
         }
+        if(!empty($params['account_id'])) {
+			//$join["[>]property_comment"] = ["id"=> "property_id"];
+            //$where["AND"]['property_comment.comment_by'] = $params['account_id'];
+			//$where['GROUP'] = "property.reference_id";
+        }
 
         $page = !empty($params['page'])? $params['page']: 1;
         $orderType = !empty($params['orderType'])? $params['orderType']: "DESC";

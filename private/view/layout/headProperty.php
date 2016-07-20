@@ -30,6 +30,7 @@ $mrts = $db->select("mrt", "*");
     <!-- Bootstrap -->
     <link href="<?php echo Helper\URL::absolute("/public/css/bootstrap.min.css")?>" rel="stylesheet">
     <link href="<?php echo Helper\URL::absolute("/public/css/style.css")?>" rel="stylesheet">
+	<link href="<?php echo Helper\URL::absolute("/public/css/chosen.css")?>" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -42,7 +43,37 @@ $mrts = $db->select("mrt", "*");
     <script src="<?php echo \Main\Helper\URL::absolute("/public/js/bootstrap.min.js")?>"></script>
     <script src="<?php echo \Main\Helper\URL::absolute("/public/js/skrollr.js")?>"></script>
     <script src="<?php echo \Main\Helper\URL::absolute("/public/js/jquery.nicescroll.min.js")?>"></script>
+	<script src="<?php echo \Main\Helper\URL::absolute("/public/js/chosen.jquery.min.js")?>"></script>
 </head>
+
+
+
+<style type="text/css">
+	
+.chosen-container {
+	margin-left: -64px;
+}
+
+.chosen-container .chosen-single {
+	background: #fff;
+	color:#333;
+}
+
+.chosen-container .chosen-drop {
+	background: #fff;
+}
+
+.chosen-container .chosen-drop li {
+	color: #333;
+    font-size: 12px;
+}
+
+.chosen-container .chosen-drop input {
+	color: #333;
+    font-size: 12px;
+}
+
+</style>
 <body>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -378,7 +409,7 @@ $mrts = $db->select("mrt", "*");
                                         </li><br><br>
                                         <li>
                                           <!-- <input name="keyword" type="text" class="form-control" style="font-size: 12px; width: 200px;  float: right"> -->
-                                          <select name="project_id" class="form-control" style="padding-top: 3px; width: 200px;  float: right">
+                                          <select name="project_id" id="project_id" class="form-control" style="padding-top: 3px; width: 200px;  float: right">
                                             <option value="">-Please Select-</option>
                                             <?php foreach($projects as $project){?>
                                             <option value="<?php echo $project["id"];?>" <?php if(@$_GET['project_id']==$project["id"]) echo "selected";?>><?php echo $project["name"];?></option>
@@ -453,6 +484,10 @@ $mrts = $db->select("mrt", "*");
 
 <script type="text/javascript">
 $(function(){
+
+	$("#project_id").chosen({disable_search_threshold: 10});
+
+
   var buyPrice = [
     [1000000,3000000],
     [3000001,5000000],

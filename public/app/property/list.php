@@ -152,18 +152,8 @@
 					  </div>
 					  <div class="col-md-4 form-group">
 						  <label>Status</label>
-						  <select class="form-control" ng-model="form.property_status_id">
-							  <option value="">All</option>
-							  <option value="1">Available</option>
-							  <option value="2">Non-Available</option>
-							  <option value="3">Rented</option>
-							  <option value="4">Individual</option>
-							  <option value="5">Sold</option>
-							  <option value="6">Tend to transfer</option>
-							  <option value="8">Not Sure</option>
-							  <option value="9">Wrong Number</option>
-
-							  <option value="99">----Only empty----</option>
+						  <select class="form-control" ng-model="form.property_status_id" ng-options="item.id*1 as item.name for item in collection.property_status">
+							  <option value="">Please select</option>
 						  </select>
 					  </div>
 				  </div>

@@ -57,6 +57,25 @@ class ApiCollection extends BaseCTL {
 
         $collection['property_status'] = $db->select("property_status", "*");
 
+
+		$join = [
+		  "[><]account"=> ["comment_by"=> "id"]
+		];
+		$field = [
+			"account.id",
+			"account.name"
+		];
+		$where = [
+			"GROUP"=> "property_comment.comment_by",
+			"ORDER"=> "account.name"
+		];
+
+		$collection['property_comment'] = ListDAO::gets("property_comment", [
+			"field"=> $field,
+			"join"=> $join,
+			"where"=> $where
+		]);
+
         $collection['requirement'] = $db->select("requirement", "*");
 
         $collection['developer'] = ListDAO::gets("developer", [

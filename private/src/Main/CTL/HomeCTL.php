@@ -44,10 +44,59 @@ class HomeCTL extends BaseCTL {
       $items = $stmt->fetchAll(\PDO::FETCH_ASSOC);
       $this->_buildItems($items);
 
+		
+	  $query = "SELECT * FROM property
+        WHERE web_status=1
+        AND (feature_unit_id = 1)
+        ORDER BY RAND()
+        LIMIT 3";
+
+      $stmt = $db->pdo->prepare($query);
+      $stmt->execute();
+      $items2 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+      $this->_buildItems($items2);
+
+
+	  $query = "SELECT * FROM property
+        WHERE web_status=1
+        AND (feature_unit_id = 2)
+        ORDER BY RAND()
+        LIMIT 3";
+
+      $stmt = $db->pdo->prepare($query);
+      $stmt->execute();
+      $items3 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+      $this->_buildItems($items3);
+
+
+	  $query = "SELECT * FROM property
+        WHERE web_status=1
+        AND (feature_unit_id = 3)
+        ORDER BY RAND()
+        LIMIT 3";
+
+      $stmt = $db->pdo->prepare($query);
+      $stmt->execute();
+      $items4 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+      $this->_buildItems($items4);
+
+
+	  $query = "SELECT * FROM property
+        WHERE web_status=1
+        AND (feature_unit_id = 4)
+        ORDER BY RAND()
+        LIMIT 3";
+
+      $stmt = $db->pdo->prepare($query);
+      $stmt->execute();
+      $items5 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+      $this->_buildItems($items5);
+
+
       $slide_1 = ApiLayout::_get("slide_1");
       $slide_1 = json_decode($slide_1);
 
-      return new HtmlView('/home', ['highlight'=> $items, 'slide_1'=> $slide_1]);
+      return new HtmlView('/home', ['highlight'=> $items, 'bestbuy' => $items2, 'hotrental' => $items3, 'withtenant' => $items4, 'newcoming' => $items5, 'slide_1'=> $slide_1]);
     }
 
     public function _buildItems(&$items)
@@ -62,23 +111,36 @@ class HomeCTL extends BaseCTL {
 
     public function _buildThumb(&$item)
     {
-      $db = MedooFactory::getInstance();
-      $pic = $db->get("property_image", "*", ["property_id"=> $item['id']]);
-      if(!$pic){
-        $pic = [];
-        $path = 'private/src/Main/ThirdParty/uploads/'.$item['project']['image_path'];
-        if(is_file($path)) {
-          $pic['url'] = URL::absolute("/".$path);
-        }
-        else {
-          $pic['url'] = URL::absolute("/public/images/default-project.png");
-        }
-      }
-      else {
-        $pic['url'] = URL::absolute("/public/prop_pic/".$pic['name']);
-      }
-      $item['picture'] = $pic;
-    }
+		$db = MedooFactory::getInstance();
+		$pic = $db->get("property_image", "*", ["property_id"=> $item['id']]);
+
+		if(!$pic)
+		{
+			$pic = [];
+			$path = 'private/src/Main/ThirdParty/uploads/'.$item['project']['image_path'];
+			if(is_file($path)) 
+			{
+				$pic['url'] = URL::absolute("/".$path);
+			}
+			else 
+			{
+				$pic['url'] = URL::absolute("/public/images/default-project.png");
+			}
+		}
+		else 
+		{
+			if(is_file("/public/prop_pic/".$pic['name'])) 
+			{
+				$pic['url'] = URL::absolute("/public/prop_pic/".$pic['name']);
+			}
+			else 
+			{
+				$pic['url'] = URL::absolute("/public/images/default-project.png");
+			}
+		}
+
+		$item['picture'] = $pic;
+	}
 
     public function _buildSizeUnit(&$item)
     {
