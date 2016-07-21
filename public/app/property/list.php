@@ -275,10 +275,11 @@
                 <th>Rent</th>
                 <th>Status</th>
                 <th>Zone</th>
-                <th ng-click="sort('owner')">
+                <!-- <th ng-click="sort('owner')">
 				VIP
 				<span class="glyphicon sort-icon" ng-show="sortKey=='owner'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-				</th>
+				</th> -->
+				<th>VIP</th>
                 <th>Updated</th>
                 <!-- <th></th> -->
                 <th></th>
@@ -306,7 +307,7 @@
                 <!-- <td>
                   <a class="btn btn-info" href="#/{{prop.id}}/gallery" target="_blank">images</a>
                 </td> -->
-                <td>{{prop.owner}}</td>
+                <td>{{prop.VIP | fvip}}</td>
                 <td>{{prop.updated_at}}</td>
                 <td>
                   <a class="xcrud-action btn btn-warning btn-sm" href="#edit/{{prop.id}}" target="_blank"><i class="glyphicon glyphicon-edit"></i></a>

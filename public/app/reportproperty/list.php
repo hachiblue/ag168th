@@ -162,7 +162,7 @@
           <th>Rent</th>
           <th>Status</th>
           <th>Zone</th>
-          <th>VIP</th>
+          <th>Owner</th>
           <th>Province</th>
           <!-- <th>Total Unit</th> -->
       </tr>

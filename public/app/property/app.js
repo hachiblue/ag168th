@@ -4,12 +4,6 @@
 
 "use strict";
 
-function numberWithCommas(x) {
-  if(!x) {
-     return "";
-  }
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
 //angular.module('angularTable', []);
 var app = angular.module('property-app', ['ngRoute', 'angular-loading-bar']);
 app.config(['$routeProvider', 'cfpLoadingBarProvider',
@@ -137,11 +131,6 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function($s
         });
     };
 
-    $scope.edit = function(id)
-	{
-
-    };
-
     $scope.getZoneGroupName = function(id)
 	{
 		var arr = $.grep($scope.collection.zone_group, function(o){ return o.id == id; });
@@ -159,21 +148,6 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function($s
     $scope.commaNumber = numberWithCommas;
 
 }]);
-
-
-function getDate(date){
-    var dd = date.getDate();
-    var mm = date.getMonth()+1; //January is 0!
-
-    var yyyy = date.getFullYear();
-    if(dd<10){
-        dd='0'+dd;
-    }
-    if(mm<10){
-        mm='0'+mm;
-    }
-    return yyyy+'-'+mm+'-'+dd;
-}
 
 app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function($scope, $compile, $http, $location){
     $scope.isSaving = false;
@@ -997,3 +971,32 @@ app.directive('datepicker',function($compile){
         }
     };
 });
+
+app.filter('fvip', function() {
+	return function(str) {
+		var vip = str.split(':');
+		var first_vip = vip[0].split(',');
+		return first_vip[2];
+	};
+});
+
+function getDate(date){
+    var dd = date.getDate();
+    var mm = date.getMonth()+1; //January is 0!
+
+    var yyyy = date.getFullYear();
+    if(dd<10){
+        dd='0'+dd;
+    }
+    if(mm<10){
+        mm='0'+mm;
+    }
+    return yyyy+'-'+mm+'-'+dd;
+}
+
+function numberWithCommas(x) {
+  if(!x) {
+     return "";
+  }
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

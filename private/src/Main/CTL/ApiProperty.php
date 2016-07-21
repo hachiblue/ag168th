@@ -31,6 +31,7 @@ class ApiProperty extends BaseCTL {
 	{
         $field = [
             "property.*",
+            "property.owner(VIP)",
             // "property_type.name(property_type_name)",
             // "property_type.code(property_type_code)",
             // "zone_group.name(zone_group_name)",

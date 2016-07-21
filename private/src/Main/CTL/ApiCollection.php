@@ -57,7 +57,7 @@ class ApiCollection extends BaseCTL {
 
         $collection['property_status'] = $db->select("property_status", "*");
 
-
+        /*
 		$join = [
 		  "[><]account"=> ["comment_by"=> "id"]
 		];
@@ -75,6 +75,7 @@ class ApiCollection extends BaseCTL {
 			"join"=> $join,
 			"where"=> $where
 		]);
+        */
 
         $collection['requirement'] = $db->select("requirement", "*");
 

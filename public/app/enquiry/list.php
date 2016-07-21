@@ -441,7 +441,7 @@
 						<th>Status</th>
 						<th>Zone</th>
 						<th ng-click="sort('owner')">
-						VIP
+						Owner
 						<span class="glyphicon sort-icon" ng-show="sortKey=='owner'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 						</th>
 						<th>Updated</th>
