@@ -177,7 +177,13 @@ class ListCTL extends BaseCTL {
         }
       }
       else {
-        $pic['url'] = URL::absolute("/public/prop_pic/".$pic['name']);
+
+		if(is_file("/public/prop_pic/".$pic['name'])) {
+          $pic['url'] = URL::absolute("/public/prop_pic/".$pic['name']);
+        }
+        else {
+          $pic['url'] = URL::absolute("/public/images/default-project.png");
+        }
       }
       $item['picture'] = $pic;
     }

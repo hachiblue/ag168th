@@ -19,7 +19,7 @@ $projects = $db->select("project", ["id", "name"]);
 
 $btss = $db->select("bts", "*");
 $mrts = $db->select("mrt", "*");
-
+$requirement = $db->select("requirement", "*");
 ?>
 <style>
 .slide .carousel-indicators
@@ -86,7 +86,17 @@ html, body {
                                       <option value="<?php echo $mrt["id"];?>" <?php if(@$_GET['mrt_id']==$mrt["id"]) echo "selected";?>><?php echo $mrt["name"];?></option>
                                     <?php }?>
                                 </select>
+
+								<label>Requirement:</label><br/>
+                                <select class="form-control" name="requirement_id">
+                                    <option value="">Any Feature</option>
+                                    <?php foreach($requirement as $req) {?>
+                                      <option value="<?php echo $req["id"];?>" <?php if(@$_GET['requirement_id']==$req["id"]) echo "selected";?>><?php echo $req["name"];?></option>
+                                    <?php }?>
+                                </select>
+
                             </div>
+
                             <div class="col-lg-4">
                                 <label>Property Type:</label><br/>
                                 <select class="form-control" name="property_type_id">
@@ -104,7 +114,8 @@ html, body {
                                       <option value="<?php echo $bts["id"];?>" <?php if(@$_GET['bts_id']==$bts["id"]) echo "selected";?>><?php echo $bts["name"];?></option>
                                     <?php }?>
                                 </select>
-
+								
+								<label>&nbsp;</label><br/>
                                 <button class="btn btn-primary">Search</button>
                             </div>
                             <div class="col-lg-4">
@@ -219,6 +230,7 @@ html, body {
         <p>Best Buy</p>
         <?php foreach($params['bestbuy'] as $item){?>
         <div class="highlight">
+			<div class="ribbon-wrapper"><div class="ribbon r-green">Best Buy</div></div>
             <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
               <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
             </a>
@@ -242,9 +254,10 @@ html, body {
 
 <div class="highlightslide">
     <div class="container">
-        <p>Hot Rental</p>
+        <p>Hot Price</p>
         <?php foreach($params['hotrental'] as $item){?>
         <div class="highlight">
+			<div class="ribbon-wrapper"><div class="ribbon r-orange">Hot Price</div></div>
             <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
               <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
             </a>
@@ -268,9 +281,12 @@ html, body {
 
 <div class="highlightslide">
     <div class="container">
-        <p>With Tenant</p>
+        <p>Discount</p>
         <?php foreach($params['withtenant'] as $item){?>
         <div class="highlight">
+
+			<div class="ribbon-wrapper"><div class="ribbon r-red">Discount</div></div>
+
             <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
               <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
             </a>
@@ -294,9 +310,10 @@ html, body {
 
 <div class="highlightslide">
     <div class="container">
-        <p>New Coming</p>
+        <p>New</p>
         <?php foreach($params['newcoming'] as $item){?>
         <div class="highlight">
+			<div class="ribbon-wrapper"><div class="ribbon r-blue">New</div></div>
             <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
               <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
             </a>

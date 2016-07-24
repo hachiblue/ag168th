@@ -198,9 +198,9 @@
 						  <select class="form-control" ng-model="form.feature_unit_id">
 							  <option value="">All</option>
 							  <option value="1">Best Buy</option>
-							  <option value="2">Hot Rental</option>
-							  <option value="3">With Tenant</option>
-							  <option value="4">New Coming</option>
+							  <option value="2">Hot Price</option>
+							  <option value="3">Discount</option>
+							  <option value="4">New</option>
 						  </select>
 					  </div>
 					  <div class="col-md-4 form-group">

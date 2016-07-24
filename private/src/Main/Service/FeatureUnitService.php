@@ -10,15 +10,15 @@ class FeatureUnitService extends ItemsService
     ],
     [
       'id'=> 2,
-      'name'=> 'Hot Rental'
+      'name'=> 'Hot Price'
     ],
     [
       'id'=> 3,
-      'name'=> 'With Tenant'
+      'name'=> 'Discount'
     ],
     [
       'id'=> 4,
-      'name'=> 'New Coming'
+      'name'=> 'New'
     ]
   ];
 }

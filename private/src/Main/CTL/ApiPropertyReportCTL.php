@@ -16,21 +16,22 @@ use Main\DB\Medoo\MedooFactory;
  */
 
 class ApiPropertyReportCTL extends BaseCTL {
-    public function getByWeek(){
+
+    public function getByWeek()
+	{
         $back = (int)$this->reqInfo->param('back');
 
         $day = date('w');
-//        $day -= 1;
+        //$day -= 1;
         $week_start = date('Y-m-d', strtotime('-'.$day.' days'));
         $week_end = date('Y-m-d', strtotime('+'.(6-$day).' days'));
-
-
     }
 
     /**
      * @GET
      */
-    public function getByBetween(){
+    public function getByBetween()
+	{
         $db = MedooFactory::getInstance();
 
         $field = [
@@ -46,6 +47,7 @@ class ApiPropertyReportCTL extends BaseCTL {
             "zone.name(zone_name)",
             "province.name(province_name)"
         ];
+
         $join = [
             // "[>]property_type"=> ["property_type_id"=> "id"],
             // "[>]zone_group"=> ["zone_group_id"=> "id"],
@@ -62,54 +64,79 @@ class ApiPropertyReportCTL extends BaseCTL {
         $limit = empty($_GET['limit'])? 15: $_GET['limit'];
         $where = ["AND"=> []];
 
-        if(!empty($params['property_type_id'])){
+        if(!empty($params['property_type_id']))
+		{
             $where["AND"]['property.property_type_id'] = $params['property_type_id'];
         }
-        if(!empty($params['bedrooms']) || @$params['bedrooms'] === 0 || @$params['bedrooms'] === '0'){
-            if($params['bedrooms'] == "4+") {
+
+        if(!empty($params['bedrooms']) || @$params['bedrooms'] === 0 || @$params['bedrooms'] === '0')
+		{
+            if($params['bedrooms'] == "4+") 
+			{
                 $where["AND"]['property.bedrooms[>=]'] = $params['bedrooms'];
             }
-            else {
+            else 
+			{
                 $where["AND"]['property.bedrooms'] = $params['bedrooms'];
             }
         }
 
-        if(!empty($params['project_id'])) {
+        if(!empty($params['project_id'])) 
+		{
             $where["AND"]['property.project_id'] = $params['project_id'];
         }
 
         // zone
-        if(!empty($params['zone_id'])) {
+        if(!empty($params['zone_id'])) 
+		{
             $where["AND"]['property.zone_id'] = $params['zone_id'];
         }
-        if(!empty($params['province_id'])) {
+
+        if(!empty($params['province_id'])) 
+		{
             $where["AND"]['property.province_id'] = $params['province_id'];
         }
-        if(!empty($params['property_status_id'])) {
+
+        if(!empty($params['property_status_id'])) 
+		{
             $where["AND"]['property.property_status_id'] = $params['property_status_id'];
         }
-        if(!empty($params['bts_id'])) {
+
+        if(!empty($params['bts_id'])) 
+		{
             $where["AND"]['property.bts_id'] = $params['bts_id'];
         }
-        if(!empty($params['mrt_id'])) {
+
+        if(!empty($params['mrt_id'])) 
+		{
             $where["AND"]['property.mrt_id'] = $params['mrt_id'];
         }
-        if(!empty($params['created_at_start'])) {
+
+        if(!empty($params['created_at_start'])) 
+		{
             $where["AND"]['property.created_at[>=]'] = $params['created_at_start'].' 00:00:00';
         }
-        if(!empty($params['created_at_end'])) {
+
+        if(!empty($params['created_at_end'])) 
+		{
             $where["AND"]['property.created_at[<=]'] = $params['created_at_end'].' 00:00:00';
         }
-        if(!empty($params['updated_at_start'])) {
+
+        if(!empty($params['updated_at_start'])) 
+		{
             $where["AND"]['property.updated_at[>=]'] = $params['updated_at_start'].' 00:00:00';
         }
-        if(!empty($params['updated_at_end'])) {
+
+        if(!empty($params['updated_at_end'])) 
+		{
             $where["AND"]['property.updated_at[<=]'] = $params['updated_at_end'].' 00:00:00';
         }
-        if(!empty($params['account_id'])) {
-			//$join["[>]property_comment"] = ["id"=> "property_id"];
-            //$where["AND"]['property_comment.comment_by'] = $params['account_id'];
-			//$where['GROUP'] = "property.reference_id";
+
+        if(!empty($params['account_comment_id'])) 
+		{
+			$join["[<]property_comment"] = ["id"=> "property_id"];
+            $where["AND"]['property_comment.comment_by'] = $params['account_comment_id'];
+			$where['GROUP'] = "property.reference_id";
         }
 
         $page = !empty($params['page'])? $params['page']: 1;
@@ -117,7 +144,8 @@ class ApiPropertyReportCTL extends BaseCTL {
         $orderBy = !empty($params['orderBy'])? $params['orderBy']: "updated_at";
         $order = "{$orderBy} {$orderType}";
 
-        if(count($where["AND"]) > 0){
+        if(count($where["AND"]) > 0)
+		{
             $where['ORDER'] = $order;
             $list = ListDAO::gets("property", [
                 "field"=> $field,
@@ -127,7 +155,8 @@ class ApiPropertyReportCTL extends BaseCTL {
                 "limit"=> $limit
             ]);
         }
-        else {
+        else 
+		{
             $list = ListDAO::gets("property", [
                 "field"=> $field,
                 "join"=> $join,
@@ -146,7 +175,8 @@ class ApiPropertyReportCTL extends BaseCTL {
      * @GET
      * @uri /csv
      */
-    public function csvByBetween(){
+    public function csvByBetween()
+	{
         ini_set('memory_limit', '512M');
         $db = MedooFactory::getInstance();
 
@@ -163,6 +193,7 @@ class ApiPropertyReportCTL extends BaseCTL {
             "zone.name(zone_name)",
             "province.name(province_name)"
         ];
+
         $join = [
             // "[>]property_type"=> ["property_type_id"=> "id"],
             // "[>]zone_group"=> ["zone_group_id"=> "id"],
@@ -178,48 +209,71 @@ class ApiPropertyReportCTL extends BaseCTL {
         $params = $this->reqInfo->params();
         $where = ["AND"=> []];
 
-        if(!empty($params['property_type_id'])){
+        if(!empty($params['property_type_id']))
+		{
             $where["AND"]['property.property_type_id'] = $params['property_type_id'];
         }
-        if(!empty($params['bedrooms']) || @$params['bedrooms'] === 0 || @$params['bedrooms'] === '0'){
-            if($params['bedrooms'] == "4+") {
+
+        if(!empty($params['bedrooms']) || @$params['bedrooms'] === 0 || @$params['bedrooms'] === '0')
+		{
+            if($params['bedrooms'] == "4+") 
+			{
                 $where["AND"]['property.bedrooms[>=]'] = $params['bedrooms'];
             }
-            else {
+            else 
+			{
                 $where["AND"]['property.bedrooms'] = $params['bedrooms'];
             }
         }
 
-        if(!empty($params['project_id'])) {
+        if(!empty($params['project_id'])) 
+		{
             $where["AND"]['property.project_id'] = $params['project_id'];
         }
 
         // zone
-        if(!empty($params['zone_id'])) {
+        if(!empty($params['zone_id'])) 
+		{
             $where["AND"]['property.zone_id'] = $params['zone_id'];
         }
-        if(!empty($params['province_id'])) {
+
+        if(!empty($params['province_id'])) 
+		{
             $where["AND"]['property.province_id'] = $params['province_id'];
         }
-        if(!empty($params['property_status_id'])) {
+
+        if(!empty($params['property_status_id'])) 
+		{
             $where["AND"]['property.property_status_id'] = $params['property_status_id'];
         }
-        if(!empty($params['bts_id'])) {
+
+        if(!empty($params['bts_id'])) 
+		{
             $where["AND"]['property.bts_id'] = $params['bts_id'];
         }
-        if(!empty($params['mrt_id'])) {
+
+        if(!empty($params['mrt_id'])) 
+		{
             $where["AND"]['property.mrt_id'] = $params['mrt_id'];
         }
-        if(!empty($params['created_at_start'])) {
+
+        if(!empty($params['created_at_start'])) 
+		{
             $where["AND"]['property.created_at[>=]'] = $params['created_at_start'].' 00:00:00';
         }
-        if(!empty($params['created_at_end'])) {
+
+        if(!empty($params['created_at_end'])) 
+		{
             $where["AND"]['property.created_at[<=]'] = $params['created_at_end'].' 00:00:00';
         }
-        if(!empty($params['updated_at_start'])) {
+
+        if(!empty($params['updated_at_start'])) 
+		{
             $where["AND"]['property.updated_at[>=]'] = $params['updated_at_start'].' 00:00:00';
         }
-        if(!empty($params['updated_at_end'])) {
+
+        if(!empty($params['updated_at_end'])) 
+		{
             $where["AND"]['property.updated_at[<=]'] = $params['updated_at_end'].' 00:00:00';
         }
 
@@ -229,7 +283,8 @@ class ApiPropertyReportCTL extends BaseCTL {
         $orderBy = !empty($params['orderBy'])? $params['orderBy']: "updated_at";
         $order = "{$orderBy} {$orderType}";
 
-        if(count($where["AND"]) > 0){
+        if(count($where["AND"]) > 0)
+		{
             $where['ORDER'] = $order;
             $list = ListDAO::gets("property", [
                 "field"=> $field,
@@ -239,7 +294,8 @@ class ApiPropertyReportCTL extends BaseCTL {
                 "limit"=> $limit
             ]);
         }
-        else {
+        else 
+		{
             $list = ListDAO::gets("property", [
                 "field"=> $field,
                 "join"=> $join,
@@ -264,17 +320,21 @@ class ApiPropertyReportCTL extends BaseCTL {
         header("Content-Disposition: attachment;filename={$filename}");
         header("Content-Transfer-Encoding: binary");
 
-        if (count($list["data"]) == 0) {
+        if (count($list["data"]) == 0) 
+		{
             return null;
         }
+
         ob_start();
         $df = fopen("php://output", 'w');
         fputcsv($df, array_keys(reset($list["data"])));
-        foreach ($list["data"] as $row) {
+        foreach ($list["data"] as $row) 
+		{
             // foreach($row as &$col) { $col = mb_convert_encoding($col, 'WINDOWS-874', 'UTF-8'); }
             foreach($row as &$col) { $col = iconv("UTF-8", "windows-874", $col); }
             fputcsv($df, $row);
         }
+
         fclose($df);
         echo ob_get_clean();
         exit();
@@ -286,7 +346,8 @@ class ApiPropertyReportCTL extends BaseCTL {
      * @GET
      * @uri /csv_vip
      */
-    public function csvVipByBetween(){
+    public function csvVipByBetween()
+	{
         ini_set('memory_limit', '512M');
         $db = MedooFactory::getInstance();
 
@@ -303,6 +364,7 @@ class ApiPropertyReportCTL extends BaseCTL {
             "zone.name(zone_name)",
             "province.name(province_name)"
         ];
+
         $join = [
             // "[>]property_type"=> ["property_type_id"=> "id"],
             // "[>]zone_group"=> ["zone_group_id"=> "id"],
@@ -318,26 +380,34 @@ class ApiPropertyReportCTL extends BaseCTL {
         $params = $this->reqInfo->params();
         $where = ["AND"=> ["owner[~]"=>"vip"]];
 
-        if(!empty($params['property_type_id'])){
+        if(!empty($params['property_type_id']))
+		{
             $where["AND"]['property.property_type_id'] = $params['property_type_id'];
         }
-        if(!empty($params['bedrooms']) || @$params['bedrooms'] === 0 || @$params['bedrooms'] === '0'){
-            if($params['bedrooms'] == "4+") {
+
+        if(!empty($params['bedrooms']) || @$params['bedrooms'] === 0 || @$params['bedrooms'] === '0')
+		{
+            if($params['bedrooms'] == "4+") 
+			{
                 $where["AND"]['property.bedrooms[>=]'] = $params['bedrooms'];
             }
-            else {
+            else 
+			{
                 $where["AND"]['property.bedrooms'] = $params['bedrooms'];
             }
         }
 
-        if(!empty($params['project_id'])) {
+        if(!empty($params['project_id'])) 
+		{
             $where["AND"]['property.project_id'] = $params['project_id'];
         }
 
         // zone
-        if(!empty($params['zone_id'])) {
+        if(!empty($params['zone_id'])) 
+		{
             $where["AND"]['property.zone_id'] = $params['zone_id'];
         }
+
         if(!empty($params['province_id'])) {
             $where["AND"]['property.province_id'] = $params['province_id'];
         }

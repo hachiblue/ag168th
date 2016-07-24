@@ -82,8 +82,8 @@
             <label class="control-label">Admin</label>
             <div>
               <select class="form-control"
-              ng-model="form.account_id"
-              ng-options="item.id*1 as item.name for item in collection.property_comment.data"
+              ng-model="form.account_comment_id"
+              ng-options="item.aid*1 as item.aname for item in gmessages.groupcomment.data"
               >
               <option value="">All</option>
             </select>
@@ -151,6 +151,9 @@
         </div>
     </div>
   </form>
+
+
+
     <table class="table table-striped table-hover ">
       <thead>
       <tr>

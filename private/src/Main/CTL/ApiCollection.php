@@ -125,4 +125,40 @@ class ApiCollection extends BaseCTL {
 
       return $collection;
     }
+	
+	/**
+     * @GET
+     * @uri /propsgroupmessage
+     */
+	public function propsmessage()
+    {
+      $db = MedooFactory::getInstance();
+      $collection = [];
+		
+		//$collection['groupcomment'] = $db->select("property_comment", "*", ["GROUP" => "comment_by"]);
+		
+		
+		$field = [ 
+			"property_comment.*",
+			"account.id(aid)",
+			"account.name(aname)"
+		];
+		$join = [
+			"[><]account"=> ["comment_by"=> "id"]	
+		];
+		$where = [
+		  "GROUP"=> "property_comment.comment_by"
+		];
+
+		$collection['groupcomment'] = ListDAO::gets("property_comment", [
+			"field"=> $field,
+			"join"=> $join,
+			"where"=> $where
+		]);
+		
+
+
+      return $collection;
+    }
 }
+
