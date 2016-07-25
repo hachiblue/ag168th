@@ -218,9 +218,8 @@ html:not(.tablet) .q2-policy-compare {
 }
 
 .com-content {
-	
 	min-height: 100px;
-	border: 3px solid #dcdcdc;
+	border: 3px solid #999;
 }
 
 .com-content.active {
@@ -247,6 +246,8 @@ html:not(.tablet) .q2-policy-compare {
     width: 21px;
     -o-border-radius: 50%;
     border-radius: 50%;
+	text-align: center;
+	z-index: 1;
 }
 
 .remove {
@@ -258,12 +259,47 @@ html:not(.tablet) .q2-policy-compare {
 	color:#333;
 }
 
+.remove i {
+	width: 100%;
+    height: 100%;
+}	
+
 .item-com {
 	padding: 2px 30px;
 }
 
 .item-com .item-com-name {
 	color: #2a6496;
+	font-weight: bold;
+}
+
+.emp-compare {
+	text-align: center;
+	margin-top: 32px;
+	font-weight: bold;
+}
+
+.btn-wrap {
+	position: absolute;
+	width: 200px;
+	margin: auto;
+	height: 40px;
+	background: #fff;
+    -moz-box-shadow: 0 -2px 1px rgba(0,0,0,.5);
+    -ms-box-shadow: 0 -2px 1px rgba(0,0,0,.5);
+    -o-box-shadow: 0 -2px 1px rgba(0,0,0,.5);
+    box-shadow: 0 -2px 1px rgba(0,0,0,.5);
+	top: -40px;
+	right: 44%;
+	text-align: center;
+}
+
+.btn-wrap button {
+	width: 83%;
+    margin-top: 3px;
+	color: #fff;
+	font-weight: bold;
+	font-size: 19px;
 }
 
 </style>
@@ -293,19 +329,13 @@ html:not(.tablet) .q2-policy-compare {
 				<?php if($key % 4 == 0){?><div class="row"><?php }?>
         <div class="col-md-3">
 
-		
-
-					<div class="hidden">
-						<?php //print_r($item); ?>
-					</div>
-
-					
-
+			<div class="hidden">
+				<?php //print_r($item); ?>
+			</div>
 
         	<div class="item-list">
 
 				<a class="q2-policy-compare text-style" compare-id="<?=$key;?>" name="btn-compare" href="javascript:;" title="select to compare"><div class="q2-text">เลือก<br>เปรียบเทียบ</div></a>
-
 
             	<ul class="item-list-box">
                 	<li class="item-list-type-room">
@@ -332,46 +362,54 @@ html:not(.tablet) .q2-policy-compare {
 							Bangkok </a>
 						</div>
                         <div class="item-code clearfix">
-													<span class="pull-left">รหัส</span>
-													<span class="pull-right"><?php echo $item["reference_id"];?></span>
-												</div>
+							<span class="pull-left">รหัส</span>
+							<span class="pull-right"><?php echo $item["reference_id"];?></span>
+						</div>
                         <div class="item-type clearfix">
-													<span class="pull-left">ประเภทอสังหาฯ</span>
-													<span class="pull-right"><a href="" class="item-type-name"><?php echo $item["property_type"]["name_th"];?></a></span>
-												</div>
+							<span class="pull-left">ประเภทอสังหาฯ</span>
+							<span class="pull-right"><a href="" class="item-type-name"><?php echo $item["property_type"]["name_th"];?></a></span>
+						</div>
                         <div class="item-room clearfix">
-													<span class="pull-left">ห้องนอน</span>
-													<span class="pull-right"><a href="" class="item-type-name"><?php echo $item["bedrooms"];?></a></span>
+							<span class="pull-left">ห้องนอน</span>
+							<span class="pull-right"><a href="" class="item-type-name"><?php echo $item["bedrooms"];?></a></span>
                         </div>
                         <div class="item-room clearfix">
-													<span class="pull-left">ห้องน้ำ</span>
-													<span class="pull-right"><a href="" class="item-type-name"><?php echo $item["bathrooms"];?></a></span>
+							<span class="pull-left">ห้องน้ำ</span>
+							<span class="pull-right"><a href="" class="item-type-name"><?php echo $item["bathrooms"];?></a></span>
                         </div>
                        <div class="item-price text-red">
-												 <a id="link_<?=$item["reference_id"];?>" href="<?php echo \Main\Helper\Url::absolute("/property/{$item["id"]}");?>">
-                        	<button type="button" class="btn btn-primary pull-right">Detail</button>
-												</a>
-                            <span id="price_<?=$item["reference_id"];?>">
-															<?php echo empty($item["sell_price"])?"": "ขาย : ".number_format($item["sell_price"])." บาท";?><br>
-															<?php echo empty($item["rent_price"])?"": "เช่า : ".number_format($item["rent_price"])." บาท";?>
-														</span>
+							<a id="link_<?=$item["reference_id"];?>" href="<?php echo \Main\Helper\Url::absolute("/property/{$item["id"]}");?>">
+								<button type="button" class="btn btn-primary pull-right">Detail</button>
+							</a>
+							<span id="price_<?=$item["reference_id"];?>">
+								<?php echo empty($item["sell_price"])?"": "ขาย : ".number_format($item["sell_price"])." บาท";?><br>
+								<?php echo empty($item["rent_price"])?"": "เช่า : ".number_format($item["rent_price"])." บาท";?>
+							</span>
                         </div>
                 	</li>
                 </ul>
 
             </div>
          </div>
-			 	<?php if($key%4 == 3 || ($key+1) == count($params['items'])){?></div><?php }?>
-        <?php }?>
-				<?php
+			 	<?php 
+				if( $key % 4 == 3 || ($key+1) == count($params['items']) )
+				{ ?>
+					</div>
+					<?php 
+				} 
+			}
+
 				// paging
 				$i = 1;
-				if($params["paging"]["pageLimit"] > 9) {
+				if($params["paging"]["pageLimit"] > 9) 
+				{
 					$i = $_GET["page"] - 4;
 					$i = $i>0? $i: 1;
 					$i = $i<$params["paging"]["pageLimit"]-7? $i: $params["paging"]["pageLimit"]-7;
 				}
-				$stop = $i+8;
+
+				$stop = $i + 8;
+
 				?>
         <div class="page-next">
             <nav>
@@ -436,6 +474,14 @@ html:not(.tablet) .q2-policy-compare {
 
 
 <div class="navbar-fixed-bottom" id="compare-panel" style="display:none;">
+
+	<div class="btn-wrap">
+		<div class="row">
+			<button id="btn-go-compare" class="btn" data-toggle="modal" data-target=".model-compare" disabled>เปรียบเทียบเลย</button>
+		</div>
+	</div>
+
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
@@ -457,7 +503,9 @@ html:not(.tablet) .q2-policy-compare {
 </div>
 
 <div id="tmp_compare_sm_box" style="display:none;">
-	<a name="rm-com-box" com-id="#id#" class="remove">&nbsp;<span class="glyphicon glyphicon-minus" aria-hidden="true"></span></a>
+	<div name="rm-com-box" com-id="#id#" class="remove">
+		<i class="glyphicon glyphicon-minus" aria-hidden="true"></i>
+	</div>
 	<div class="compare_sm_content">
 		<div class="row">
 			<div class="col-xs-12 item-com">
@@ -471,6 +519,85 @@ html:not(.tablet) .q2-policy-compare {
 		</div>
 	</div>
 </div>
+
+<div id="tmp_compare_md_box" style="display:none;">
+	<div name="rm-com-box-md" com-id="#id#" class="remove">
+		<i class="glyphicon glyphicon-minus" aria-hidden="true"></i>
+	</div>
+	<div class="item-list">
+		<ul class="item-list-box">
+			<li class="item-list-type-room">
+				<div class="img-item">
+
+					<a href="#link#">
+						<img src="#pic#" alt="condo" width="100%" height="246" style="margin-left:0px;">
+					</a>
+
+				</div>
+
+				<div class="item-name clearfix">
+					<a href="#link#">#title#</a>
+				</div>
+				<div class="item-code clearfix">
+					<span class="pull-left">รหัส</span>
+					<span class="pull-right">#code#</span>
+				</div>
+				<div class="item-type clearfix">
+					<span class="pull-left">ประเภทอสังหาฯ</span>
+					<span class="pull-right"><a href="" class="item-type-name">#type#</a></span>
+				</div>
+				<div class="item-room clearfix">
+					<span class="pull-left">ห้องนอน</span>
+					<span class="pull-right"><a href="" class="item-type-name">#bed#</a></span>
+				</div>
+				<div class="item-room clearfix">
+					<span class="pull-left">ห้องน้ำ</span>
+					<span class="pull-right"><a href="" class="item-type-name">#bath#</a></span>
+				</div>
+			   <div class="item-price text-red">
+					<a id="link_#code#" href="#link#">
+						<button type="button" class="btn btn-primary pull-right">Detail</button>
+					</a>
+					<span id="price_#code#">#price#<br> </span>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+
+
+
+<div id="model-compare" class="modal fade model-compare" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	<div class="modal-dialog modal-lg" style="width: 88%;">
+		<div class="modal-content" style="background: #eee;">
+			<div class="modal-header"> 
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> <h4 class="modal-title" id="myLargeModalLabel">ตารางเปรียบเทียบ</h4> 
+			</div>
+			
+			<div class="modal-body" style="padding-top:0px;">
+				<div class="row">        
+					<div class="col-md-3 md-content" id="mc-1">
+						
+						
+					</div>
+					<div class="col-md-3 md-content" id="mc-2">
+						
+						
+					</div>
+					<div class="col-md-3 md-content" id="mc-3">
+						
+						
+					</div>
+					<div class="col-md-3 md-content" id="mc-4">
+						
+						
+					</div>
+				</div>
+			</div>
+        </div>	
+	</div>
+</div>
+
 
 
 <!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script> -->
@@ -513,9 +640,7 @@ html:not(.tablet) .q2-policy-compare {
 		var address = locations.project.address;
 
 		geocoder.geocode({
-
 			'address': address
-
 		}, 
 		
 		function(results, status) {
@@ -624,7 +749,7 @@ html:not(.tablet) .q2-policy-compare {
 				var i, b=1, tmp = $("#tmp_compare_sm_box"), html; 
 
 				$(".com-content").each(function(){
-					$(this).empty().removeClass("active");
+					$(this).html("<div class='emp-compare'>Compare</div>").removeClass("active");
 				});
 
 				for( i in compare_box )
@@ -639,18 +764,109 @@ html:not(.tablet) .q2-policy-compare {
 					b++;
 				}
 
-				$("a[name=rm-com-box]").unbind().click(function(){
+				$("div[name=rm-com-box]").unbind().click(function(){
 
 					var id = $(this).attr("com-id").replace("com-bx-c", "");
-
+					
+					$("a[name=btn-compare][compare-id="+id+"]").removeClass("active");
 					delete compare_box["c"+id];
+
+					compare_items--;
 
 					setComparePanel();
 
 				});
+				
+				if( compare_items == 0 )
+				{
+					$("#compare-panel").hide();
+				}
+
+				if( compare_items > 1 )
+				{
+					$("#btn-go-compare").prop("disabled", false).addClass("btn-primary");
+				}
+				else
+				{
+					$("#btn-go-compare").prop("disabled", true).removeClass("btn-primary");
+				}
 			}
 
+			function setCompareModel()
+			{
+				var i, b=1, tmp = $("#tmp_compare_md_box"), html, locations; 
+
+				$(".md-content").each(function(){
+					$(this).html("<div class='md-emp-compare text-center'><button class='btn btn-danger'>เลือกกล่องเปรียบเทียบ</button></div>").removeClass("active");
+				});
+
+				for( i in compare_box )
+				{
+					locations = compare_box[i];
+
+					html = tmp.html()
+						.replace("#title#", locations.property_type.name + " " + locations.requirement.name + " " + locations.project.name + " " + locations.road)
+						.replace("#id#", "com-bx-"+i)
+						.replace("#pic#", locations.picture.url)
+						.replace("#code#", locations.reference_id)
+						.replace("#bed#", locations.bedrooms || 0)
+						.replace("#bath#", locations.bathrooms || 0)
+						.replace("#price#", $("#price_"+locations.reference_id).html())
+						.replace(/#link#/g, $("#link_"+locations.reference_id).attr("href"))
+						.replace("#type#", locations.property_type.name_th);		
+
+					$("#mc-"+b).eq(0).html(html).addClass("active");
+
+					b++;
+				}
+
+				$("div[name=rm-com-box-md]").unbind().click(function() {
+
+					var id = $(this).attr("com-id").replace("com-bx-c", "");
+					
+					$("a[name=btn-compare][compare-id="+id+"]").removeClass("active");
+					delete compare_box["c"+id];
+
+					compare_items--;
+
+					setCompareModel();
+					setComparePanel();
+
+				});
+
+				$("div.md-emp-compare").unbind().click(function() {
+					$('#model-compare').modal('hide'); 
+				});
+				
+				if( compare_items == 0 )
+				{
+					$("#compare-panel").hide();
+					$('#model-compare').modal('hide'); 
+				}
+
+				if( compare_items > 1 )
+				{
+					$("#btn-go-compare").prop("disabled", false).addClass("btn-primary");
+				}
+				else
+				{
+					$("#btn-go-compare").prop("disabled", true).removeClass("btn-primary");
+				}
+			}
+
+			$('#model-compare').on('shown.bs.modal', function (event) {
+				var button = $(event.relatedTarget) // Button that triggered the modal
+				var recipient = button.data('whatever') // Extract info from data-* attributes
+				
+				var modal = $(this);
+
+				setCompareModel();
+
+			});
+
 		});
+
+		
 
 	})(jQuery);
 
