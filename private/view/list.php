@@ -213,13 +213,13 @@ html:not(.tablet) .q2-policy-compare {
 }
 
 .com-bx {
-	height: 100px;
+	min-height: 100px;
 	padding:10px;
 }
 
 .com-content {
 	
-	height: 100%;
+	min-height: 100px;
 	border: 3px solid #dcdcdc;
 }
 
@@ -233,6 +233,37 @@ html:not(.tablet) .q2-policy-compare {
 	-ms-box-shadow: 0 -2px 5px rgba(0,0,0,.5);
 	-o-box-shadow: 0 -2px 5px rgba(0,0,0,.5);
 	box-shadow: 0 -2px 5px rgba(0,0,0,.5);
+}
+
+.remove {
+	position: absolute;
+    right: 5px;
+    background: red;
+    color: #fff;
+    top: 3px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    width: 21px;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.remove {
+	cursor:pointer;
+}
+
+.remove:hover{
+	text-decoration: none;
+	color:#333;
+}
+
+.item-com {
+	padding: 2px 30px;
+}
+
+.item-com .item-com-name {
+	color: #2a6496;
 }
 
 </style>
@@ -409,17 +440,33 @@ html:not(.tablet) .q2-policy-compare {
 		<div class="row">
 			<div class="col-md-12">
 				<div class="col-md-3 com-bx">
-					<div class="com-content active">TEST2</div>
+					<div id="com-b1" class="com-content b1"></div>
 				</div>
 				<div class="col-md-3 com-bx">
-					<div class="com-content">TEST2</div>
+					<div id="com-b2" class="com-content b2"></div>
 				</div>
 				<div class="col-md-3 com-bx">
-					<div class="com-content">TEST2</div>
+					<div id="com-b3" class="com-content b3"></div>
 				</div>
 				<div class="col-md-3 com-bx">
-					<div class="com-content">TEST2</div>
+					<div id="com-b4" class="com-content b4"></div>
 				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="tmp_compare_sm_box" style="display:none;">
+	<a name="rm-com-box" com-id="#id#" class="remove">&nbsp;<span class="glyphicon glyphicon-minus" aria-hidden="true"></span></a>
+	<div class="compare_sm_content">
+		<div class="row">
+			<div class="col-xs-12 item-com">
+				<div class="item-com-name clearfix">
+					#name#
+				</div>
+				<div class="item-com-price  text-red">
+					#price#				
+                </div>
 			</div>
 		</div>
 	</div>
@@ -540,7 +587,6 @@ html:not(.tablet) .q2-policy-compare {
 
 	(function() {
 
-		
 		$(function() {
 
 			$("a[name=btn-compare]").click(function() {
@@ -569,11 +615,42 @@ html:not(.tablet) .q2-policy-compare {
 						$("#compare-panel").hide();
 					}
 				}
+
+				setComparePanel();
 			});
 
+			function setComparePanel()
+			{
+				var i, b=1, tmp = $("#tmp_compare_sm_box"), html; 
+
+				$(".com-content").each(function(){
+					$(this).empty().removeClass("active");
+				});
+
+				for( i in compare_box )
+				{
+					html = tmp.html();
+					html = html.replace("#name#", compare_box[i].name + " " + compare_box[i].project.name );	
+					html = html.replace("#price#", $("#price_"+compare_box[i].reference_id).html().replace("<br>", ""));
+					html = html.replace("#id#", "com-bx-"+i);		
+
+					$("#com-b"+b).eq(0).html(html).addClass("active");
+
+					b++;
+				}
+
+				$("a[name=rm-com-box]").unbind().click(function(){
+
+					var id = $(this).attr("com-id").replace("com-bx-c", "");
+
+					delete compare_box["c"+id];
+
+					setComparePanel();
+
+				});
+			}
+
 		});
-
-
 
 	})(jQuery);
 
