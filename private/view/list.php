@@ -401,9 +401,10 @@ html:not(.tablet) .q2-policy-compare {
 
 				// paging
 				$i = 1;
+				$pag = ( isset($_GET["page"]) )? $_GET["page"] : 0;
 				if($params["paging"]["pageLimit"] > 9) 
 				{
-					$i = $_GET["page"] - 4;
+					$i = $pag - 4;
 					$i = $i>0? $i: 1;
 					$i = $i<$params["paging"]["pageLimit"]-7? $i: $params["paging"]["pageLimit"]-7;
 				}
@@ -554,6 +555,18 @@ html:not(.tablet) .q2-policy-compare {
 					<span class="pull-left">ห้องน้ำ</span>
 					<span class="pull-right"><a href="" class="item-type-name">#bath#</a></span>
 				</div>
+				<div class="item-room clearfix">
+					<span class="pull-left">ชั้น</span>
+					<span class="pull-right"><a href="" class="item-type-name">#floor#</a></span>
+				</div>
+				<div class="item-room clearfix">
+					<span class="pull-left">Indoor amenities</span>
+					<span class="pull-left"><a href="" class="item-type-name">#indoor#</a></span>
+				</div>
+				<div class="item-room clearfix">
+					<span class="pull-left">Outdoor amenities</span>
+					<span class="pull-left"><a href="" class="item-type-name">#outdoor#</a></span>
+				</div>
 			   <div class="item-price text-red">
 					<a id="link_#code#" href="#link#">
 						<button type="button" class="btn btn-primary pull-right">Detail</button>
@@ -604,9 +617,39 @@ html:not(.tablet) .q2-policy-compare {
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_mlBrkkojSUJnMjYKf00nhno1nlO9CCI"></script>
 
+<?php
 
+	$indoor = array(
+		"has_bowling" => "Bowline",
+		"has_pool_room" => "Pool Room",
+		"has_game_room" => "Game Room",
+		"has_meeting_room" => "Meeting Room",
+		"has_private_butler" => "Private Butler",
+		"has_minimart_supermarket" => "Minimart Supermarket",
+		"has_restaurant" => "Restaurant",
+		"has_laundry_service" => "Laundry Servic",
+		"has_bathtub_inside_unit" => "Bathtub Inside Unit"
+	);
+
+	$outdoor = array(
+		"has_swimming_pool" => "Swimming Pool",
+		"has_gym" => "Gym",
+		"has_garden" => "Garden",
+		"has_futsal" => "Futsal",
+		"has_badminton" => "Badminton",
+		"has_basketball" => "Basketball",
+		"has_tennis" => "Tennis",
+		"has_playground" => "Playground",
+		"has_shuttle_bus" => "Shuttle Bus",
+		"has_private_parking" => "Private Parking"
+	);
+
+?>
 
 <script type="text/javascript">
+
+	var indoor = <?=json_encode($indoor);?>;
+	var outdoor = <?=json_encode($outdoor);?>;
 
 	function initialize(proj) 
 	{
@@ -794,7 +837,7 @@ html:not(.tablet) .q2-policy-compare {
 
 			function setCompareModel()
 			{
-				var i, b=1, tmp = $("#tmp_compare_md_box"), html, locations; 
+				var i,j=0, b=1, tmp = $("#tmp_compare_md_box"), html, locations, ind, ond; 
 
 				$(".md-content").each(function(){
 					$(this).html("<div class='md-emp-compare text-center'><button class='btn btn-danger'>เลือกกล่องเปรียบเทียบ</button></div>").removeClass("active");
@@ -804,6 +847,26 @@ html:not(.tablet) .q2-policy-compare {
 				{
 					locations = compare_box[i];
 
+					ind = '';
+					for( j in indoor )
+					{
+						if( typeof locations.project[j] != 'undefined' && locations.project[j] != 0 )
+						{
+							ind += indoor[j] + ", ";
+						}
+					}
+					
+					j = 0;
+					ond = '';
+					for( j in outdoor )
+					{
+						if( typeof locations.project[j] != 'undefined' && locations.project[j] != 0 )
+						{
+							ond += outdoor[j] + ", ";
+						}
+					}
+
+
 					html = tmp.html()
 						.replace("#title#", locations.property_type.name + " " + locations.requirement.name + " " + locations.project.name + " " + locations.road)
 						.replace("#id#", "com-bx-"+i)
@@ -811,6 +874,9 @@ html:not(.tablet) .q2-policy-compare {
 						.replace("#code#", locations.reference_id)
 						.replace("#bed#", locations.bedrooms || 0)
 						.replace("#bath#", locations.bathrooms || 0)
+						.replace("#floor#", locations.floors || 0)
+						.replace("#indoor#", ind)
+						.replace("#outdoor#", ond)
 						.replace("#price#", $("#price_"+locations.reference_id).html())
 						.replace(/#link#/g, $("#link_"+locations.reference_id).attr("href"))
 						.replace("#type#", locations.property_type.name_th);		
