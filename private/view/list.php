@@ -561,11 +561,11 @@ html:not(.tablet) .q2-policy-compare {
 				</div>
 				<div class="item-room clearfix">
 					<div class="col-sm-12" style="padding:0;">Indoor amenities</div>
-					<div class="pull-left"><a href="" class="item-type-name">#indoor#</a></div>
+					<div class="pull-left"><a class="item-type-name">#indoor#</a></div>
 				</div>
 				<div class="item-room clearfix">
 					<div class="col-sm-12" style="padding:0;">Outdoor amenities</div>
-					<div class="pull-left"><a href="" class="item-type-name">#outdoor#</a></div>
+					<div class="pull-left"><a class="item-type-name">#outdoor#</a></div>
 				</div>
 			   <div class="item-price text-red">
 					<a id="link_#code#" href="#link#">
