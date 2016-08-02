@@ -178,6 +178,8 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
         $scope.collection = data;
         // $scope.form.project_id = data.project[0].id;
         $scope.collection.project = data.project.sort(function(a, b) {
+
+          if( a.id == 0 || b.id == 0 ) return -1;
           if(a.name.toLowerCase() < b.name.toLowerCase()) return -1;
           if(a.name.toLowerCase() > b.name.toLowerCase()) return 1;
           return 0;

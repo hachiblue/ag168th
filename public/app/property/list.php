@@ -12,20 +12,21 @@
 			</div>
 			<div class="panel-body" style="">
 				<form ng-submit="filterProps()">
+
 				  <div class="row">
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						  <label>reference no.</label>
 						  <input type="text" class="form-control" ng-model="form.reference_id">
 					  </div>
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						  <label>Owner</label>
 						  <input type="text" class="form-control" ng-model="form.owner">
 					  </div>
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						  <label>Address no</label>
 						  <input type="text" class="form-control" ng-model="form.address_no">
 					  </div>
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						  <label class="control-label">Requirement</label>
 						  <select class="form-control"
 							  ng-options="item.id as item.name for item in collection.requirement"
@@ -33,7 +34,10 @@
 							  <option value="">All</option>
 						  </select>
 					  </div>
-					  <div class="col-md-4 form-group">
+				  </div>
+
+				  <div class="row">
+					  <div class="col-md-3 form-group">
 						<label class="control-label">Property Type</label>
 						<select class="form-control"
 							ng-options="item.id as item.name for item in collection.property_type"
@@ -41,10 +45,8 @@
 							<option value="">All</option>
 						</select>
 					  </div>
-				  </div>
 
-				  <div class="row">
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						<label class="control-label">Project</label>
 						<select class="form-control"
 							ng-options="item.id as item.name for item in collection.project"
@@ -52,7 +54,7 @@
 							<option value="">All</option>
 						</select>
 					  </div>
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						  <label>bed rooms</label>
 						  <select class="form-control"
 							  ng-model="form.bedrooms">
@@ -64,7 +66,7 @@
 							  <option value="4+">4+</option>
 						  </select>
 					  </div>
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						  <label class="control-label">Size</label>
 						  <div class="row">
 							  <div class="col-md-3">
@@ -85,7 +87,12 @@
 							  </div>
 						  </div>
 					  </div>
-					  <div class="col-md-4 form-group">
+
+				  </div>
+
+				  <div class="row">
+					  
+					  <div class="col-md-3 form-group">
 						  <label>Room Type</label>
 						  <select class="form-control"
 							  ng-model="form.room_type_id">
@@ -94,9 +101,8 @@
 							  <option value="2">Duplex</option>
 						  </select>
 					  </div>
-				  </div>
-				  <div class="row">
-					  <div class="col-md-4 form-group">
+
+					  <div class="col-md-3 form-group">
 						<label class="control-label">Selling Price</label>
 						<div class="row">
 							<div class="col-md-5">
@@ -110,7 +116,7 @@
 							</div>
 						</div>
 					  </div>
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						<label class="control-label">Rental Price</label>
 						<div class="row">
 							<div class="col-md-3">
@@ -124,7 +130,7 @@
 							</div>
 						</div>
 					  </div>
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						  <label>Inc. 7% VAT</label>
 						  <select class="form-control" ng-model="form.inc_vat">
 							  <option value="">All</option>
@@ -132,9 +138,11 @@
 							  <option value="0">no</option>
 						  </select>
 					  </div>
+
 				  </div>
+			
 				  <div class="row">
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						  <label>Zone</label>
 						  <select class="form-control"
 						  ng-model="form.zone_id"
@@ -142,7 +150,7 @@
 							  <option value="">All</option>
 						  </select>
 					  </div>
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						  <label>Province</label>
 						  <select class="form-control"
 													ng-model="form.province_id"
@@ -150,40 +158,37 @@
 						  <option value="">All</option>
 							</select>
 					  </div>
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						  <label>Status</label>
 						  <select class="form-control" ng-model="form.property_status_id" ng-options="item.id*1 as item.name for item in collection.property_status">
 							  <option value="">Please select</option>
 						  </select>
 					  </div>
-				  </div>
-
-				  <div class="row">
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						  <label>BTS</label>
 						  <select class="form-control" ng-model="form.bts_id"
 							  ng-options="item.id as item.name for item in collection.bts">
 							  <option value="">All</option>
 						  </select>
 					  </div>
-					  <div class="col-md-4 form-group">
+				  </div>
+
+				  <div class="row">
+					  <div class="col-md-3 form-group">
 						  <label>MRT</label>
 						  <select class="form-control" ng-model="form.mrt_id"
 							  ng-options="item.id as item.name for item in collection.mrt">
 							  <option value="">All</option>
 						  </select>
 					  </div>
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						  <label>Airport link</label>
 						  <select class="form-control" ng-model="form.airport_link_id"
 							  ng-options="item.id as item.name for item in collection.airport_link">
 							  <option value="">All</option>
 						  </select>
 					  </div>
-				  </div>
-
-				  <div class="row">
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						  <label>Property Highlight</label>
 						  <select class="form-control" ng-model="form.property_highlight_id">
 							  <option value="">All</option>
@@ -193,7 +198,7 @@
 							  <option value="4">Made Over already</option>
 						  </select>
 					  </div>
-					  <div class="col-md-4 form-group">
+					  <div class="col-md-3 form-group">
 						  <label>Feature unit</label>
 						  <select class="form-control" ng-model="form.feature_unit_id">
 							  <option value="">All</option>
@@ -203,7 +208,10 @@
 							  <option value="4">New</option>
 						  </select>
 					  </div>
-					  <div class="col-md-4 form-group">
+				  </div>
+
+				  <div class="row">
+					  <div class="col-md-3 form-group">
 						  <label>Web status</label>
 						  <select ng-model="form.web_status" class="form-control">
 							  <option value="">All</option>
@@ -211,9 +219,7 @@
 							  <option value="0">Offline</option>
 						  </select>
 					  </div>
-				  </div>
-				  <div class="row">
-					<div class="col-md-2 el-custom-1">
+					  <div class="col-md-3 el-custom-1x">
 					  <label>Order By</label>
 					  <select ng-model="form.orderBy" ng-init="form.orderBy='property.updated_at'" class="form-control">
 						  <option value="property.updated_at">Updated at</option>
@@ -226,19 +232,21 @@
 						  <option value="property.size">Size</option>
 					  </select>
 					</div>
-					<div class="col-md-2 el-custom-1">
-					  <label></label>
+					<div class="col-md-3 el-custom-1x">
+					  <label>&nbsp;</label>
 					  <select ng-model="form.orderType" ng-init="form.orderType='DESC'" class="form-control">
 						  <option value="DESC">max -> min</option>
 						  <option value="ASC">min -> max</option>
 					  </select>
 					</div>
-					<div class="col-md-4 form-group" style="display:none;">
+					<div class="col-md-3 form-group" style="display:none;">
 					  <label>Web URL search</label>
 					  <textarea class="form-control"
 					  ng-model="form.web_url_search"></textarea>
 					</div>
+
 				  </div>
+
 				  <div class="row">
 					  <div class="col-md-12">
 						  <button type="submit" class="btn btn-success" ng-click="filterProps()">Search</button>

@@ -32,7 +32,6 @@
                                     <input type="text" class="form-control" ng-model="form.customer">
                                 </div>
                             </div>
-                            <div style="clear: both;"></div>
                             <div class="col-md-3 form-group">
                                 <label class="control-label">Requirement Type</label>
                                 <div>
@@ -43,6 +42,11 @@
                                   </select>
                                 </div>
                             </div>
+
+                            
+
+                            <div style="clear: both;"></div>
+
                             <div class="col-md-3 form-group">
                                 <label class="control-label">Property Type</label>
                                 <div>
@@ -53,6 +57,7 @@
                                   </select>
                                 </div>
                             </div>
+
                             <div class="col-md-3 form-group">
                                 <label class="control-label">Project</label>
                                 <div>
@@ -63,7 +68,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <div style="clear: both;"></div>
                             <div class="col-md-3 form-group">
                                 <label class="control-label">Zone</label>
                                 <div>
@@ -84,7 +88,9 @@
                                     </select>
                                 </div>
                             </div>
+
                             <div style="clear: both;"></div>
+
                             <div class="col-md-3 form-group">
                                 <label class="control-label">Buying Budget</label>
                                 <div class="row">
@@ -101,7 +107,6 @@
                                     <div class="col-md-5"><input type="text" class="form-control" ng-model="form.rent_budget_end"></div>
                                 </div>
                             </div>
-                            <div style="clear: both;"></div>
                             <div class="col-md-3 form-group">
                                 <label class="control-label">Enquiry is the decision maker</label>
                                 <div>
@@ -118,14 +123,16 @@
                                 <div>
                                   <select class="form-control" ng-model="form.ptime_to_pol">
                                     <option value="">All</option>
-                                   <option>Within a week</option>
-                                     <option>Within a month</option>
-                                     <option>Within 3 months</option>
+                                    <option>Within a week</option>
+                                    <option>Within a month</option>
+                                    <option>Within 3 months</option>
                                   </select>
                                 </div>
                             </div>
+
                             <div style="clear: both;"></div>
-                            <div class="col-md-3 form-group">
+
+                            <div class="col-md-2 form-group">
                                 <label class="control-label">Bed room</label>
                                 <div>
                                     <select class="form-control" ng-model="form.bedroom">
@@ -137,15 +144,12 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3 ">
-                              <div class="checkbox">
-                                <label style="padding-left: 20px">
-                                  <input
-                                  type="checkbox"
-                                  ng-model="form.is_studio">
-                                  is studio
-                                </label>
-                              </div>
+                            <div class="col-md-1 form-group">
+                              
+                                <label class="control-label">is studio</label>
+                                <div class="checkbox">
+                                  <div><input type="checkbox" ng-model="form.is_studio"></div>
+                                </div>
                             </div>
                             <div class="col-md-3 form-group">
                               <label class="control-label">Size</label>
@@ -168,7 +172,7 @@
                                   </div>
                               </div>
                             </div>
-                            <div style="clear: both;"></div>
+                            
                             <div class="col-md-3 form-group">
                                 <label class="control-label">Nearest BTS</label>
                                 <div>
@@ -180,6 +184,9 @@
                                 </select>
                                 </div>
                             </div>
+
+                            <div style="clear: both;"></div>
+
                             <div class="col-md-3 form-group">
                                 <label class="control-label">Nearest MRT</label>
                                 <div>
@@ -202,7 +209,7 @@
                                 </select>
                                 </div>
                             </div>
-                            <div style="clear: both;"></div>
+                            
                             <div class="col-md-3 form-group">
                                 <label class="control-label">Status</label>
                                 <div>
@@ -220,6 +227,9 @@
                                     <input type="text" class="form-control" ng-model="form.ex_location">
                                 </div>
                             </div>
+
+                            <div style="clear: both;"></div>
+
                             <div class="col-md-3 form-group">
                                 <label class="control-label">Contact Type</label>
                                 <div>
@@ -231,62 +241,66 @@
                                   </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                          <?php if(@$_SESSION['login']['level_id'] == 1 || @$_SESSION['login']['level_id'] == 2){?>
-                          <div class="col-md-3 form-group">
-                              <label class="control-label">Manager</label>
-                              <div>
-                                <select
-                                  class="form-control"
-                                  ng-model="form.assign_manager_id"
-                                  ng-options="item.id as item.name for item in accounts | filter: {level_id: '3'}">
-                                    <option value="">-Please select-</option>
-                                </select>
-                              </div>
-                          </div>
-                          <?php }?>
-                          <?php if(@$_SESSION['login']['level_id'] == 1 || @$_SESSION['login']['level_id'] == 2 || @$_SESSION['login']['level_id'] == 3){?>
-                          <div class="col-md-3 form-group">
-                              <label class="control-label">Sale</label>
-                              <div>
-                                <select
-                                  class="form-control"
-                                  ng-model="form.assign_sale_id"
-                                  ng-options="item.id as item.name for item in accounts | filter: {level_id: '4'}">
-                                    <option value="">-Please select-</option>
-                                </select>
-                              </div>
-                          </div>
-                          <?php }?>
+
+                            <?php if(@$_SESSION['login']['level_id'] == 1 || @$_SESSION['login']['level_id'] == 2){?>
+                            <div class="col-md-3 form-group">
+                                <label class="control-label">Manager</label>
+                                <div>
+                                  <select
+                                    class="form-control"
+                                    ng-model="form.assign_manager_id"
+                                    ng-options="item.id as item.name for item in accounts | filter: {level_id: '3'}">
+                                      <option value="">-Please select-</option>
+                                  </select>
+                                </div>
+                            </div>
+                            <?php }?>
+                            <?php if(@$_SESSION['login']['level_id'] == 1 || @$_SESSION['login']['level_id'] == 2 || @$_SESSION['login']['level_id'] == 3){?>
+                            <div class="col-md-3 form-group">
+                                <label class="control-label">Sale</label>
+                                <div>
+                                  <select
+                                    class="form-control"
+                                    ng-model="form.assign_sale_id"
+                                    ng-options="item.id as item.name for item in accounts | filter: {level_id: '4'}">
+                                      <option value="">-Please select-</option>
+                                  </select>
+                                </div>
+                            </div>
+                            <?php }?>
+
                         </div>
 
+
                         <div class="row">
-                          <div class="col-md-4 el-custom-1">
+                          <div class="col-md-3 el-custom-1">
                             <label>Created start</label>
                             <input type="text" class="form-control" ng-model="form.created_at_start"
                             id="created_at_start">
                           </div>
-                          <div class="col-md-4 el-custom-1">
+                          <div class="col-md-3 el-custom-1">
                             <label>Created end</label>
                             <input type="text" class="form-control" ng-model="form.created_at_end"
                             id="created_at_end">
                           </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-4 el-custom-1">
+
+                          <div class="col-md-3 el-custom-1">
                             <label>Updated start</label>
                             <input type="text" class="form-control" ng-model="form.updated_at_start"
                             id="updated_at_start">
                           </div>
-                          <div class="col-md-4 el-custom-1">
+                          <div class="col-md-3 el-custom-1">
                             <label>Updated end</label>
                             <input type="text" class="form-control" ng-model="form.updated_at_end"
                             id="updated_at_end">
                           </div>
+
                         </div>
 
+
                         <div class="row">
+                          
+
                           <div class="col-md-2">
                             <label>Order By</label>
                             <select ng-model="form.orderBy" ng-init="form.orderBy='enquiry.updated_at'" class="form-control">
@@ -296,13 +310,15 @@
                             </select>
                           </div>
                           <div class="col-md-2">
-                            <label></label>
+                            <label>&nbsp;</label>
                             <select ng-model="form.orderType" ng-init="form.orderType='DESC'" class="form-control">
                                 <option value="DESC">max -> min</option>
                                 <option value="ASC">min -> max</option>
                             </select>
                           </div>
+
                         </div>
+
                         <div class="row">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-success" ng-click="filterItems()">Filter</button>

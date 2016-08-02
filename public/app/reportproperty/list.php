@@ -2,7 +2,7 @@
 <div ng-controller="ListCTL">
   <form ng-submit="getProps(1)">
     <div class="row">
-        <div class="col-md-4 form-group">
+        <div class="col-md-3 form-group">
           <label class="control-label">Property Type</label>
           <select class="form-control"
               ng-options="item.id as item.name for item in collection.property_type"
@@ -10,7 +10,7 @@
               <option value="">All</option>
           </select>
         </div>
-        <div class="col-md-4 form-group">
+        <div class="col-md-3 form-group">
             <label>bed rooms</label>
             <select class="form-control"
                 ng-model="form.bedrooms">
@@ -22,7 +22,7 @@
                 <option value="4+">4+</option>
             </select>
         </div>
-        <div class="col-md-4 form-group">
+        <div class="col-md-3 form-group">
           <label class="control-label">Project</label>
           <select class="form-control"
               ng-options="item.id as item.name for item in collection.project"
@@ -30,10 +30,8 @@
               <option value="">All</option>
           </select>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-4 form-group">
+        <div class="col-md-3 form-group">
             <label>Zone</label>
             <select class="form-control"
             ng-model="form.zone_id"
@@ -41,7 +39,12 @@
                 <option value="">All</option>
             </select>
         </div>
-        <div class="col-md-4 form-group">
+
+    </div>
+
+    <div class="row">
+        
+        <div class="col-md-3 form-group">
             <label>Province</label>
             <select class="form-control"
             ng-model="form.province_id"
@@ -49,13 +52,13 @@
             <option value="">All</option>
           </select>
         </div>
-        <div class="col-md-4 form-group">
+        <div class="col-md-3 form-group">
             <label>Status</label>
             <select class="form-control" ng-model="form.property_status_id" ng-options="item.id*1 as item.name for item in collection.property_status">
 			    <option value="">Please select</option>
 		    </select>
         </div>
-        <div class="col-md-4 form-group">
+        <div class="col-md-3 form-group">
             <label class="control-label">Nearest BTS</label>
             <div>
               <select class="form-control"
@@ -66,7 +69,7 @@
             </select>
             </div>
         </div>
-        <div class="col-md-4 form-group">
+        <div class="col-md-3 form-group">
             <label class="control-label">Nearest MRT</label>
             <div>
               <select class="form-control"
@@ -78,7 +81,7 @@
             </div>
         </div>
 
-        <div class="col-md-4 form-group">
+        <div class="col-md-3 form-group">
             <label class="control-label">Admin</label>
             <div>
               <select class="form-control"
@@ -91,30 +94,33 @@
         </div>
 
     </div>
+
     <div class="row">
-      <div class="col-md-4 el-custom-1">
+      <div class="col-md-3 el-custom-1">
         <label>Created start</label>
         <input type="text" class="form-control" ng-model="form.created_at_start"
         id="created_at_start">
       </div>
-      <div class="col-md-4 el-custom-1">
+      <div class="col-md-3 el-custom-1">
         <label>Created end</label>
         <input type="text" class="form-control" ng-model="form.created_at_end"
         id="created_at_end">
       </div>
     </div>
+
     <div class="row">
-      <div class="col-md-4 el-custom-1">
+      <div class="col-md-3 el-custom-1">
         <label>Updated start</label>
         <input type="text" class="form-control" ng-model="form.updated_at_start"
         id="updated_at_start">
       </div>
-      <div class="col-md-4 el-custom-1">
+      <div class="col-md-3 el-custom-1">
         <label>Updated end</label>
         <input type="text" class="form-control" ng-model="form.updated_at_end"
         id="updated_at_end">
       </div>
     </div>
+    
     <div class="row">
       <div class="col-md-2 el-custom-1">
         <label>Order By</label>

@@ -46,7 +46,7 @@ use Main\Helper;
                               </a>
                             </li>
                         </ul>
-                        <img style= "margin-top: -200px; margin-left: 280px;" src="<?php echo \Main\Helper\URL::absolute("/public/images/ads.png")?>" />
+                        <!--<img style= "margin-top: -200px; margin-left: 280px;" src="<?php echo \Main\Helper\URL::absolute("/public/images/ads.png")?>" /> -->
                         <img style= "margin-left: 420px;" src="<?php echo \Main\Helper\URL::absolute("/public/images/Vector-Smart-Object.png")?>" />
                     </div>
                 </div>

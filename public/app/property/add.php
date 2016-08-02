@@ -39,7 +39,7 @@ session_start();
   <div class="row">
     <fieldset>
 
-		<div class="col-md-4 form-group">
+		<div class="col-md-3 form-group">
 		  <label>Status</label>
 		  <select class="form-control"
 		  ng-model="form.property_status_id"
@@ -51,7 +51,7 @@ session_start();
 		</div>
 
 
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>Property Type</label>
         <select class="form-control"
         ng-model="form.property_type_id"
@@ -61,7 +61,7 @@ session_start();
             <option value="">Please select</option>
         </select>
       </div>
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>Project</label>
         <select class="form-control"
         ng-model="form.project_id"
@@ -72,7 +72,7 @@ session_start();
         </select>
       </div>
 
-	  <div class="col-md-4 form-group">
+	  <div class="col-md-3 form-group">
         <label>Size</label>
         <div class="row">
           <div class="col-md-6">
@@ -88,7 +88,7 @@ session_start();
         </div>
       </div>
 
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>Requirement</label>
         <select class="form-control"
         ng-model="form.requirement_id"
@@ -102,12 +102,15 @@ session_start();
         <label>Address no </label> ( * ใส่แค่ตำแหน่งห้องหรือเลขห้องเท่านั้น )
         <input type="text" class="form-control" ng-model="form.address_no">
       </div>
-      <div class="col-md-4 form-group">
+
+      <div style="clear: both;"></div>
+
+      <div class="col-md-3 form-group">
         <label>Floors</label>
         <input type="text" class="form-control" ng-model="form.floors">
       </div>
 
-	  <div class="col-md-4 form-group">
+	  <div class="col-md-3 form-group">
         <label>Room type</label>
         <select class="form-control"
         ng-model="form.room_type_id">
@@ -121,7 +124,7 @@ session_start();
       </div>
 
       
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>bedrooms</label>
 		<select class="form-control" ng-model="form.bedrooms">
             <option value="">Please select</option>
@@ -137,7 +140,7 @@ session_start();
 			<option value="10">10</option>	
         </select>
       </div>
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>bathrooms</label>
 		<select class="form-control" ng-model="form.bathrooms">
             <option value="">Please select</option>
@@ -182,28 +185,28 @@ session_start();
 
 	  <div style="clear: both;"></div>
 
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>Contract price</label>
         <input type="text" class="form-control" ng-model="form.contract_price" ng-change="formChkContractUpChange()">
       </div>
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>Selling price</label>
         <input type="text" class="form-control" ng-model="form.sell_price" id="input-sellingprice" disabled>
       </div>
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>Rental price</label>
         <input type="text" class="form-control" ng-model="form.rent_price" id="input-rentprice" disabled>
       </div>
 
-      <div class="col-md-4 form-group"></div>
-      <div class="col-md-4 form-group">
+      <div style="clear: both;"></div>
+      <div class="col-md-3 form-group">
         <label>Contract expire</label>
         <div class="input-group">
           <input class="form-control datepicker" datepicker ng-model="form.contract_expire" placeholder="-">
           <div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
         </div>
       </div>
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>Rented expire</label>
         <div class="input-group">
           <input class="form-control datepicker" datepicker ng-model="form.rented_expire" id="input-rented_exp" placeholder="-">
@@ -216,7 +219,7 @@ session_start();
     margin: 30px 10px;">
 
 
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>key location</label>
         <select class="form-control"
         ng-model="form.key_location_id"
@@ -227,11 +230,11 @@ session_start();
       </div>
       <div style="clear: both;"></div>
 
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>road</label>
         <input type="text" class="form-control" ng-model="form.road">
       </div>
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>zone</label>
         <select class="form-control"
         ng-model="form.zone_id"
@@ -242,7 +245,7 @@ session_start();
       </div>
       <div style="clear: both;"></div>
 
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>Province</label>
         <select class="form-control"
         ng-model="form.province_id"
@@ -252,7 +255,7 @@ session_start();
             <option value="">Please select</option>
         </select>
       </div>
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>District</label>
         <select class="form-control"
         ng-model="form.district_id"
@@ -261,7 +264,7 @@ session_start();
             <option value="">Please select</option>
         </select>
       </div>
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>Sub District</label>
         <select class="form-control"
         ng-model="form.sub_district_id"
@@ -270,7 +273,10 @@ session_start();
             <option value="">Please select</option>
         </select>
       </div>
-      <div class="col-md-4 form-group">
+
+      <div style="clear: both;"></div>
+      
+      <div class="col-md-3 form-group">
         <label>bts</label>
         <select class="form-control"
           ng-model="form.bts_id"
@@ -279,7 +285,7 @@ session_start();
           <option value="">Please select</option>
         </select>
       </div>
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>mrt</label>
         <select class="form-control"
           ng-model="form.mrt_id"
@@ -288,7 +294,7 @@ session_start();
           <option value="">Please select</option>
         </select>
       </div>
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>Airport link</label>
         <select class="form-control"
           ng-model="form.airport_link_id"
@@ -304,14 +310,14 @@ session_start();
     margin: 30px 10px;">
 
 
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>Web Status</label>
         <select class="form-control" ng-model="form.web_status" >
             <option value="0">Offline</option>
             <option value="1">Online</option>
         </select>
       </div>
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>Feature Unit</label>
         <select class="form-control"
         ng-model="form.feature_unit_id"
@@ -320,7 +326,7 @@ session_start();
             <option value="">Please select</option>
         </select>
       </div>
-      <div class="col-md-4 form-group">
+      <div class="col-md-3 form-group">
         <label>Highlight</label>
         <select class="form-control"
         ng-model="form.property_highlight_id"
@@ -329,7 +335,7 @@ session_start();
             <option value="">Please select</option>
         </select>
       </div>
-      <div class="col-md-4 form-group" style="display:none;">
+      <div class="col-md-3 form-group" style="display:none;">
         <label>Web URL search</label>
         <textarea class="form-control"
         ng-model="form.web_url_search"></textarea>

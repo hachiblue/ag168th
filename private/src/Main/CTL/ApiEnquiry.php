@@ -82,9 +82,12 @@ class ApiEnquiry extends BaseCTL {
         if(!empty($params['property_type_id'])) {
           $where["AND"]['enquiry.property_type_id'] = $params['property_type_id'];
         }
-        if(!empty($params['project_id'])) {
+
+        if( isset($params['project_id']) && $params['project_id'] != '' ) 
+        {
           $where["AND"]['enquiry.project_id'] = $params['project_id'];
         }
+
         if(!empty($params['province_id'])) {
           $where["AND"]['enquiry.province_id'] = $params['province_id'];
         }

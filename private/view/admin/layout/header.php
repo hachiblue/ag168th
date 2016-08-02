@@ -22,6 +22,17 @@ use Main\Helper;
     <link href="<?php echo Helper\URL::absolute("/public/css/material.min.css")?>" rel="stylesheet">
     <link href="<?php echo Helper\URL::absolute("/public/css/ripples.min.css")?>" rel="stylesheet">
 
+    <style type="text/css">
+        
+        .form-control, select.form-control {
+            background-position: center bottom,center calc(100% - 0px);
+            border-top: 1px solid #d2d2d2;
+            border-left: 1px solid #d2d2d2;
+            border-right: 1px solid #d2d2d2;
+        }    
+
+    </style>
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

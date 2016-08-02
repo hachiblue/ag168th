@@ -1040,6 +1040,8 @@ The Seed Atom,
     <link href="<?php echo Helper\URL::absolute("/public/css/bootstrap.min.css")?>" rel="stylesheet">
     <link href="<?php echo Helper\URL::absolute("/public/css/style.css")?>" rel="stylesheet">
     <link href="<?php echo Helper\URL::absolute("/public/css/chosen.css")?>" rel="stylesheet">
+    <link href="<?php echo Helper\URL::absolute("/public/jquery-ui-1.12.0/jquery-ui.min.css")?>" rel="stylesheet">
+    
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -1047,12 +1049,26 @@ The Seed Atom,
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+    <script src="<?php echo \Main\Helper\URL::absolute("/public/socket.io.js")?>"></script>
+
     <script src="<?php echo \Main\Helper\URL::absolute("/public/js/jquery.min.js")?>"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="<?php echo \Main\Helper\URL::absolute("/public/js/bootstrap.min.js")?>"></script>
     <script src="<?php echo \Main\Helper\URL::absolute("/public/js/skrollr.js")?>"></script>
     <script src="<?php echo \Main\Helper\URL::absolute("/public/js/jquery.nicescroll.min.js")?>"></script>
     <script src="<?php echo \Main\Helper\URL::absolute("/public/js/chosen.jquery.min.js")?>"></script>
+    
+
+
+    <script src="<?php echo \Main\Helper\URL::absolute("/public/jquery-ui-1.12.0/jquery-ui.min.js")?>"></script>
+    <script src="<?php echo \Main\Helper\URL::absolute("/public/js/jquery.slimscroll.min.js")?>"></script>
+    <script src="<?php echo \Main\Helper\URL::absolute("/public/js/jquery.tipsy.js")?>"></script>
+    <script src="<?php echo \Main\Helper\URL::absolute("/public/chat.main.js")?>"></script>
+    <script src="<?php echo \Main\Helper\URL::absolute("/public/config.js")?>"></script>
+    <script src="<?php echo \Main\Helper\URL::absolute("/public/i18n_en.js")?>"></script>
+
+
 </head>
 <body>
 <script>

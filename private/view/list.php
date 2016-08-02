@@ -560,6 +560,14 @@ html:not(.tablet) .q2-policy-compare {
 					<span class="pull-right"><a href="" class="item-type-name">#floor#</a></span>
 				</div>
 				<div class="item-room clearfix">
+					<span class="pull-left">ขนาด</span>
+					<span class="pull-right"><a href="" class="item-type-name">#size#</a></span>
+				</div>
+				<div class="item-room clearfix">
+					<span class="pull-left">ราคา ต่อ #unit#</span>
+					<span class="pull-right"><a href="" class="item-type-name">#priceunit#</a></span>
+				</div>
+				<div class="item-room clearfix">
 					<div class="col-sm-12" style="padding:0;">Indoor amenities</div>
 					<div class="pull-left"><a class="item-type-name">#indoor#</a></div>
 				</div>
@@ -644,12 +652,19 @@ html:not(.tablet) .q2-policy-compare {
 		"has_private_parking" => "Private Parking"
 	);
 
+	$size_unit = array(
+		"1" => "Sq. m.",
+		"2" => "Sq. wa.",
+		"3" => "Rai"
+	);
+
 ?>
 
 <script type="text/javascript">
 
 	var indoor = <?=json_encode($indoor);?>;
 	var outdoor = <?=json_encode($outdoor);?>;
+	var size_unit = <?=json_encode($size_unit);?>;
 
 	function initialize(proj) 
 	{
@@ -866,7 +881,6 @@ html:not(.tablet) .q2-policy-compare {
 						}
 					}
 
-
 					html = tmp.html()
 						.replace("#title#", locations.property_type.name + " " + locations.requirement.name + " " + locations.project.name + " " + locations.road)
 						.replace("#id#", "com-bx-"+i)
@@ -877,6 +891,9 @@ html:not(.tablet) .q2-policy-compare {
 						.replace("#floor#", locations.floors || 0)
 						.replace("#indoor#", ind)
 						.replace("#outdoor#", ond)
+						.replace("#unit#", size_unit[locations.size_unit_id])
+						.replace("#priceunit#", (locations.sell_price / locations.size).format(2))
+						.replace("#size#", locations.size + " " + size_unit[locations.size_unit_id])
 						.replace("#price#", $("#price_"+locations.reference_id).html())
 						.replace(/#link#/g, $("#link_"+locations.reference_id).attr("href"))
 						.replace("#type#", locations.property_type.name_th);		
@@ -937,6 +954,17 @@ html:not(.tablet) .q2-policy-compare {
 	})(jQuery);
 
 
+
+	/**
+	 * Number.prototype.format(n, x)
+	 * 
+	 * @param integer n: length of decimal
+	 * @param integer x: length of sections
+	 */
+	Number.prototype.format = function(n, x) {
+	    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+	    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+	};
 
 	//google.maps.event.addDomListener(window, 'load', initialize);
 
