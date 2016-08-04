@@ -14,13 +14,13 @@ app.config(['$routeProvider', 'cfpLoadingBarProvider',
             templateUrl: '../public/app/property/list.php'
         }).
         when('/add',
-            {
-                templateUrl: '../public/app/property/add.php'
-            })
-            .when('/edit/:id',
-            {
-                templateUrl: '../public/app/property/edit.php'
-            }).
+        {
+            templateUrl: '../public/app/property/add.php'
+        })
+        .when('/edit/:id',
+        {
+            templateUrl: '../public/app/property/edit.php'
+        }).
         when('/:id/gallery',
         {
             templateUrl: '../public/app/property/gallery.php'
@@ -42,7 +42,6 @@ app.config(['$routeProvider', 'cfpLoadingBarProvider',
 
 app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function ($scope, $http, $location, $route)
 {
-
     $scope.props = [];
 
     $scope.form = {};
@@ -239,17 +238,17 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
 
         switch (+$scope.form.property_type_id)
         {
-        case 1:
-            $scope.form.size_unit_id = '1';
-            break;
-        case 2:
-            $scope.form.size_unit_id = '2';
-            break;
-        case 8:
-            $scope.form.size_unit_id = '3';
-            break;
-        default:
-            $scope.form.size_unit_id = '0';
+            case 1:
+                $scope.form.size_unit_id = '1';
+                break;
+            case 2:
+                $scope.form.size_unit_id = '2';
+                break;
+            case 8:
+                $scope.form.size_unit_id = '3';
+                break;
+            default:
+                $scope.form.size_unit_id = '0';
         }
     };
 
@@ -269,6 +268,7 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
                 return false;
             })();
         }
+
         if (project)
         {
             $scope.form.zone_id = project.zone_id;
@@ -290,24 +290,24 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         $("#input-rented_exp").prop("required", false);
         switch (+statusID)
         {
-        case 1:
-            this.form.web_status = 1;
-            break;
+            case 1:
+                this.form.web_status = 1;
+                break;
 
-        case 2:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
-            this.form.web_status = 0;
-            break;
+            case 2:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+                this.form.web_status = 0;
+                break;
 
-        case 3:
-            this.form.web_status = 0;
-            $("#input-rented_exp").prop("required", true);
-            break;
+            case 3:
+                this.form.web_status = 0;
+                $("#input-rented_exp").prop("required", true);
+                break;
         }
     };
 
@@ -333,25 +333,25 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
     {
         switch (+$scope.form.requirement_id)
         {
-        case 1:
-            $("#input-sellingprice").prop("disabled", false).prop("required", true);
-            $("#input-rentprice").prop("disabled", true).prop("required", false).val('');
+            case 1:
+                $("#input-sellingprice").prop("disabled", false).prop("required", true);
+                $("#input-rentprice").prop("disabled", true).prop("required", false).val('');
 
-            break;
+                break;
 
-        case 2:
+            case 2:
 
-            $("#input-sellingprice").prop("disabled", true).prop("required", false).val('');
-            $("#input-rentprice").prop("disabled", false).prop("required", true);
+                $("#input-sellingprice").prop("disabled", true).prop("required", false).val('');
+                $("#input-rentprice").prop("disabled", false).prop("required", true);
 
-            break;
-        case 3:
-        case 4:
+                break;
+            case 3:
+            case 4:
 
-            $("#input-sellingprice").prop("disabled", false).prop("required", true);
-            $("#input-rentprice").prop("disabled", false).prop("required", true);
+                $("#input-sellingprice").prop("disabled", false).prop("required", true);
+                $("#input-rentprice").prop("disabled", false).prop("required", true);
 
-            break;
+                break;
         }
 
         $scope.formChkContractUpChange();
@@ -381,8 +381,6 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
 
         this.form.contract_chk_key = chk1 + ',' + chk2 + ',' + chk3 + ',' + chk4;
     };
-
-    window.s = $scope;
 
     $scope.submit = function ()
     {
@@ -432,7 +430,7 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
             if (i.indexOf("owner_name") != -1)
             {
                 k = i.replace("owner_name", "");
-                owner += $scope.form["owner_name" + k] + ',' + $scope.form["owner_phone" + k] + ',' + $scope.form["owner_cust" + k] + ':';
+                owner += $scope.form["owner_name" + k] + ',' + $scope.form["owner_phone" + k + "a"] + $scope.form["owner_phone" + k + "b"] + $scope.form["owner_phone" + k + "c"] + ',' + $scope.form["owner_cust" + k] + ':';
             }
         }
 
@@ -470,7 +468,6 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
 
     $scope.addmore_owner = function ()
     {
-
         var
             moreowner = $("#moreowner"),
             tmpl = $("#tmpl-owner"),
@@ -488,14 +485,15 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         }
 
         html = '<div class="row" id="row_' + this.ctn + '">' + tmpl.html()
-            .replace('owner_name1', 'owner_name' + this.ctn)
-            .replace('owner_phone1', 'owner_phone' + this.ctn)
-            .replace('owner_cust1', 'owner_cust' + this.ctn)
+            .replace(/owner_name1/g, 'owner_name' + this.ctn)
+            .replace(/owner_phone1/g, 'owner_phone' + this.ctn)
+            .replace(/owner_cust1/g, 'owner_cust' + this.ctn)
             .replace('ng-click="addmore_owner();"', 'onclick="s.delmore_owner(this, ' + this.ctn + ')"')
             .replace("plus", "minus") + '</div>';
 
         moreowner.append($compile(html)($scope));
 
+        setphonehop();
     };
 
     $scope.delmore_owner = function (obj, c)
@@ -510,15 +508,19 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         delete this.form["owner_cust" + c];
     };
 
-
     $scope.images = [];
     $scope.parseImagesInput = function (input)
     {
         $scope.images = input.files;
     };
 
+    window.s = $scope;
+
     $.fn.datepicker.defaults.format = "yyyy-mm-dd";
     $('.rented_expire').datepicker();
+
+    setphonehop();
+
 }]);
 
 app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route', '$routeParams', function ($scope, $compile, $http, $location, $route, $routeParams)
@@ -558,12 +560,15 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             moreowner = $("#moreowner"),
             html,
             k = 2,
-            owner_field;
+            owner_field,
+            oa = '', ob = '', oc = '';
 
         owner_field = owner[0].split(',');
 
         $scope.form["owner_name1"] = owner_field[0];
-        $scope.form["owner_phone1"] = owner_field[1];
+        $scope.form["owner_phone1a"] = owner_field[1].substring(0, 3);
+        $scope.form["owner_phone1b"] = owner_field[1].substring(3, 6);
+        $scope.form["owner_phone1c"] = owner_field[1].substring(6, 10);
         $scope.form["owner_cust1"] = owner_field[2];
 
         for (i in owner)
@@ -572,9 +577,9 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
             html = '<div class="row" id="row_' + k + '"><div class="col-md-4"></div>' +
                 tmpl.html()
-                .replace('owner_name1', 'owner_name' + k)
-                .replace('owner_phone1', 'owner_phone' + k)
-                .replace('owner_cust1', 'owner_cust' + k)
+                .replace(/owner_name1/g, 'owner_name' + k)
+                .replace(/owner_phone1/g, 'owner_phone' + k)
+                .replace(/owner_cust1/g, 'owner_cust' + k)
                 .replace('ng-click="addmore_owner();"', 'onclick="s.delmore_owner(this, ' + k + ')"')
                 .replace("plus", "minus") + '</div>';
 
@@ -588,8 +593,17 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
             owner_field = owner[i].split(',');
 
+            if( typeof owner_field[1] != 'undefined' && owner_field[1].length > 0 )
+            {
+                oa = owner_field[1].substring(0, 3);
+                ob = owner_field[1].substring(3, 6);
+                oc = owner_field[1].substring(6, 10);
+            }
+
             $scope.form["owner_name" + k] = owner_field[0];
-            $scope.form["owner_phone" + k] = owner_field[1];
+            $scope.form["owner_phone" + k + "a"] = oa;
+            $scope.form["owner_phone" + k + "b"] = ob;
+            $scope.form["owner_phone" + k + "c"] = oc;
             $scope.form["owner_cust" + k] = owner_field[2];
 
             k++;
@@ -598,6 +612,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
         $scope.formRequirementChange();
         $scope.formSetChkContract();
 
+        
     });
 
     $scope.initSuccess = false;
@@ -606,6 +621,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
         if ($scope.form && $scope.collection && $scope.thailocation)
         {
             $scope.initSuccess = true;
+            setphonehop();
             clearInterval(itv);
         }
     }, 100);
@@ -645,7 +661,6 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
         });
     };
 
-
     $scope.formProjectIdChange = function ()
     {
         var project = false;
@@ -681,24 +696,24 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
         $("#input-rented_exp").prop("required", false);
         switch (+statusID)
         {
-        case 1:
-            this.form.web_status = 1;
-            break;
+            case 1:
+                this.form.web_status = 1;
+                break;
 
-        case 2:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
-            this.form.web_status = 0;
-            break;
+            case 2:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+                this.form.web_status = 0;
+                break;
 
-        case 3:
-            this.form.web_status = 0;
-            $("#input-rented_exp").prop("required", true);
-            break;
+            case 3:
+                this.form.web_status = 0;
+                $("#input-rented_exp").prop("required", true);
+                break;
         }
     };
 
@@ -706,26 +721,26 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
     {
         switch (+$scope.form.requirement_id)
         {
-        case 1:
+            case 1:
 
-            $("#input-sellingprice").prop("disabled", false).prop("required", true);
-            $("#input-rentprice").prop("disabled", true).prop("required", false).val('');
+                $("#input-sellingprice").prop("disabled", false).prop("required", true);
+                $("#input-rentprice").prop("disabled", true).prop("required", false).val('');
 
-            break;
+                break;
 
-        case 2:
+            case 2:
 
-            $("#input-sellingprice").prop("disabled", true).prop("required", false).val('');
-            $("#input-rentprice").prop("disabled", false).prop("required", true);
+                $("#input-sellingprice").prop("disabled", true).prop("required", false).val('');
+                $("#input-rentprice").prop("disabled", false).prop("required", true);
 
-            break;
-        case 3:
-        case 4:
+                break;
+            case 3:
+            case 4:
 
-            $("#input-sellingprice").prop("disabled", false).prop("required", true);
-            $("#input-rentprice").prop("disabled", false).prop("required", true);
+                $("#input-sellingprice").prop("disabled", false).prop("required", true);
+                $("#input-rentprice").prop("disabled", false).prop("required", true);
 
-            break;
+                break;
         }
 
         $scope.formChkContractUpChange();
@@ -745,17 +760,17 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
         switch (+$scope.form.property_type_id)
         {
-        case 1:
-            $scope.form.size_unit_id = '1';
-            break;
-        case 2:
-            $scope.form.size_unit_id = '2';
-            break;
-        case 8:
-            $scope.form.size_unit_id = '3';
-            break;
-        default:
-            $scope.form.size_unit_id = '0';
+            case 1:
+                $scope.form.size_unit_id = '1';
+                break;
+            case 2:
+                $scope.form.size_unit_id = '2';
+                break;
+            case 8:
+                $scope.form.size_unit_id = '3';
+                break;
+            default:
+                $scope.form.size_unit_id = '0';
         }
     };
 
@@ -796,8 +811,6 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
         }
     };
 
-    window.s = $scope;
-
     $scope.submit = function ()
     {
         if (!$scope.form.comment)
@@ -832,7 +845,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             if (i.indexOf("owner_name") != -1)
             {
                 k = i.replace("owner_name", "");
-                owner += form["owner_name" + k] + ',' + form["owner_phone" + k] + ',' + form["owner_cust" + k] + ':';
+                owner += $scope.form["owner_name" + k] + ',' + $scope.form["owner_phone" + k + "a"] + $scope.form["owner_phone" + k + "b"] + $scope.form["owner_phone" + k + "c"] + ',' + $scope.form["owner_cust" + k] + ':';
             }
         }
 
@@ -860,7 +873,6 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
     $scope.addmore_owner = function ()
     {
-
         var
             moreowner = $("#moreowner"),
             tmpl = $("#tmpl-owner"),
@@ -877,10 +889,12 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             if (typeof this.ctn == 'undefined') this.ctn = 2;
         }
 
+        var ctn = this.ctn;
+
         html = '<div class="row" id="row_' + this.ctn + '"><div class="col-md-4"></div>' + tmpl.html()
-            .replace('owner_name1', 'owner_name' + this.ctn)
-            .replace('owner_phone1', 'owner_phone' + this.ctn)
-            .replace('owner_cust1', 'owner_cust' + this.ctn)
+            .replace(/owner_name1/g, 'owner_name' + this.ctn)
+            .replace(/owner_phone1/g, 'owner_phone' + this.ctn)
+            .replace(/owner_cust1/g, 'owner_cust' + this.ctn)
             .replace('ng-click="addmore_owner();"', 'onclick="s.delmore_owner(this, ' + this.ctn + ')"')
             .replace("plus", "minus") + '</div>';
 
@@ -893,6 +907,10 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             $(this).remove();
         });
 
+        var ph = setInterval(function ()
+        {
+            setphonehop();
+        }, 100);
     };
 
     $scope.delmore_owner = function (obj, c)
@@ -912,6 +930,9 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
     {
         window.location.hash = hash;
     };
+
+    window.s = $scope;
+
 }]);
 
 app.controller('GalleryCTL', ['$scope', '$http', '$location', '$route', '$routeParams', function ($scope, $http, $location, $route, $routeParams)
@@ -1002,7 +1023,6 @@ app.controller('ProjectdetailCTL', ['$scope', '$http', '$location', '$route', '$
         $http.get("../api/property/project/" + data.project_id).success(function (data2)
         {
             $scope.project = data2;
-            console.log($scope.project);
         });
     });
     $scope.id = $routeParams.id;
@@ -1154,4 +1174,11 @@ function numberWithCommas(x)
         return "";
     }
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function setphonehop()
+{
+     $("input[name=cphone]").keyup(function() {
+        if( this.value.length >= 3 ) $(this).parent().next().find("input").focus();
+    });   
 }
