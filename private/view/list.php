@@ -563,9 +563,9 @@ html:not(.tablet) .q2-policy-compare {
 					<span class="pull-left">ขนาด</span>
 					<span class="pull-right"><a href="" class="item-type-name">#size#</a></span>
 				</div>
-				<div class="item-room clearfix">
+				<div class="item-room clearfix" style="display:#dsppunit#;>
 					<span class="pull-left">ราคา ต่อ #unit#</span>
-					<span class="pull-right"><a href="" class="item-type-name">#priceunit#</a></span>
+					<span class="pull-right"><a class="item-type-name">#priceunit#</a></span>
 				</div>
 				<div class="item-room clearfix">
 					<div class="col-sm-12" style="padding:0;">Indoor amenities</div>
@@ -893,6 +893,7 @@ html:not(.tablet) .q2-policy-compare {
 						.replace("#outdoor#", ond)
 						.replace("#unit#", size_unit[locations.size_unit_id])
 						.replace("#priceunit#", (locations.sell_price / locations.size).format(2))
+						.replace("#dsppunit#", ( (locations.sell_price == 0)? "none" : "" ) )
 						.replace("#size#", locations.size + " " + size_unit[locations.size_unit_id])
 						.replace("#price#", $("#price_"+locations.reference_id).html())
 						.replace(/#link#/g, $("#link_"+locations.reference_id).attr("href"))

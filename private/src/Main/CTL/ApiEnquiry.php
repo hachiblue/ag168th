@@ -273,6 +273,13 @@ class ApiEnquiry extends BaseCTL {
 
     /**
      * @POST
+     */
+    public function rentalexpire() {
+      echo 'xx';exit;
+    }
+
+    /**
+     * @POST
      * @uri /edit/[i:id]
      */
     public function edit() {

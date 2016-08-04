@@ -124,6 +124,12 @@ $this->import("/admin/layout/header");
                             class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries</a></li>
                 <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/properties') ?>"><i
                             class="fa fa-building fa-2"></i> Properties</a></li>
+
+                <li>
+                    <a href="<?php echo \Main\Helper\URL::absolute('/admin/enquiries#/rentalexpire') ?>">Rental Expire (<?php echo $params['exCount'];?>)</a>
+                </li>
+
+
                 <?php if($_SESSION['login']['level_id'] == 1){?>
                 <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/manager') ?>"><i
                             class="fa fa-user-secret fa-3"></i> Manager</a></li>

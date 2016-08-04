@@ -113,6 +113,9 @@ $mrts = $db->select("mrt", "*");
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
+                <li>
+                    <a href="<?php echo \Main\Helper\URL::absolute("/home")?>">HOME</a>
+                </li>
                 <li class="dropdown" id="buy">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">BUY</a>
                     <ul class="dropdown-menu">
