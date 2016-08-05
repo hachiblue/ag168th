@@ -109,9 +109,31 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
 							</div>
                 <div class="col-md-6">
             			<div class="form-group">
+
+                    <div class="col-sm-2">
+                      <label class="require">Customer</label><strong>: </strong>
+                    </div>
+
+                    <div class="col-sm-10">
+                      <div class="col-sm-4"><input type="text" class="form-control cbox" id="cname" placeholder="name" ng-model="form.ncustomer" required></div>
+                      <div class="col-sm-4">
+                        <div class="col-sm-3">
+                          <input type="text" class="form-control cbox" id="ctel1" name="cphone" ng-model="form.t1customer" maxlength="3" required>
+                        </div>
+                        <div class="col-sm-4">
+                          <input type="text" class="form-control cbox" id="ctel2" name="cphone" ng-model="form.t2customer" maxlength="3" required>
+                        </div>
+                        <div class="col-sm-5">
+                          <input type="text" class="form-control cbox" id="ctel3" name="cphone" ng-model="form.t3customer" maxlength="4" required>
+                        </div>
+                      </div>
+                      <div class="col-sm-4"><input type="text" class="form-control cbox" id="cemail" placeholder="email" ng-model="form.ecustomer" required></div>
+                    </div>
+
+                    <!--
                     <label class="require">Customer</label><strong>: </strong>
                     <input type="text" class="form-control" id="name" placeholder="name,tel,email" ng-model="form.customer" ng-disabled="!editAllow" required>
-                    <br><small style="margin-left: 88px;">คั่นรายละเอียดการติดต่อด้วยลูกน้ำ " , "</small>
+                    <br><small style="margin-left: 88px;">คั่นรายละเอียดการติดต่อด้วยลูกน้ำ " , "</small>-->
                   </div>
             	</div>
                 <!-- <div class="col-md-6">

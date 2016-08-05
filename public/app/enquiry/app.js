@@ -292,6 +292,7 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
     $scope.form2 = {};
     $scope.form3 = {};
     $scope.vm = {};
+
     $scope.vm.changeStudio = function()
     {
         if ($scope.form.is_studio)
@@ -299,6 +300,7 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
             $scope.form.bedroom = 0;
         }
     };
+
     $scope.form = {};
     $http.get("../api/collection").success(function(data)
     {
@@ -313,10 +315,14 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
             return 0;
         });
     });
+
     $http.get("../api/collection/thailocation").success(function(thailocation)
     {
         $scope.thailocation = thailocation;
+
+        setphonehop();
     });
+
     $scope.triggerChangeSource = function()
     {
         // if($scope.form.source_id == 1) {
@@ -327,6 +333,7 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
         // }
         delete $scope.form.sub_source_id;
     };
+
     $scope.triggerFromWebsite = function()
     {
         if ($scope.sub_source_id != 1)
@@ -370,6 +377,9 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
         });
 
         if (!window.confirm('Are you sure?')) return;
+
+        var cust = $scope.form["ncustomer"] + ',' + $scope.form["t1customer"] + $scope.form["t2customer"] + $scope.form["t3customer"] + ',' + $scope.form["ecustomer"];
+        $scope.form.customer = cust;
 
         $.post("../api/enquiry", $scope.form, function(data)
         {
@@ -462,6 +472,7 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
             window.location.hash = "/";
         }, "json");
     };
+
 }]);
 
 app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routeParams', function($scope, $http, $location, $route, $routeParams)
@@ -563,8 +574,25 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
                 return 0;
             });
 
+            var cust = $scope.form.customer.split(",");
+            var tel1 = '', tel2 = '', tel3 = '';
+            if( typeof cust[1] != 'undefined' && cust[1] != '' )
+            {
+                tel1 = cust[1].substring(0, 3);
+                tel2 = cust[1].substring(3, 6);
+                tel3 = cust[1].substring(6, 10);
+            }
+            
+            $scope.form.ncustomer = cust[0] || '';
+            $scope.form.t1customer = tel1;
+            $scope.form.t2customer = tel2;
+            $scope.form.t3customer = tel3;
+            $scope.form.ecustomer = cust[2] || '';
+
             $scope.prepareDisplayEdit = true;
             $scope.$apply();
+
+            setphonehop();
         });
 
     (function()
@@ -640,6 +668,10 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
             alert("require comment");
             return;
         }
+
+        var cust = $scope.form["ncustomer"] + ',' + $scope.form["t1customer"] + $scope.form["t2customer"] + $scope.form["t3customer"] + ',' + $scope.form["ecustomer"];
+        $scope.form.customer = cust;
+
         var form = $scope.form;
         if (!$scope.editAllow)
         {
@@ -880,3 +912,10 @@ app.controller('CommentCTL', ['$scope', '$http', '$location', '$route', '$routeP
         $scope.comments = data.data;
     });
 }]);
+
+function setphonehop()
+{
+     $("input[name=cphone]").keyup(function() {
+        if( this.value.length >= 3 ) $(this).parent().next().find("input").focus();
+    });   
+}

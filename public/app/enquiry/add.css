@@ -58,11 +58,20 @@ label.require:after{
 	width:100%;
 	margin-bottom:5px;
 }
+
+
+
+
 .detail-type input.form-control{
 	width:60%;
 	padding: 0 5px;
 	display: inline-block;
 }
+
+.detail-type input.form-control.cbox {
+  width: 99%;
+}
+
 #owner{
 	margin-top: 20px;
 }
@@ -126,3 +135,4 @@ fieldset {
 .row.detail-type .col-md-12.comment{
 	margin: 20px 0;
 }
+
