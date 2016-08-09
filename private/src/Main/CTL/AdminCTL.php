@@ -71,7 +71,12 @@ class AdminCTL extends BaseCTL {
         $pqCount = $db->count("request_contact", "*", ["status_id"=> 1]);
 
         $where = array();
-        $where['rented_expire[<]'] = date("Y-m-d H:i:s", strtotime("+7 days"));
+
+        $where["AND"]['rented_expire[>]'] = "0000-00-00";
+        $where["AND"]['rented_expire[<]'] = date("Y-m-d H:i:s", strtotime("+7 days"));
+
+        //$where['rented_expire[<]'] = date("Y-m-d H:i:s", strtotime("+7 days"));
+        
         $exCount = $db->count("property", "*", $where);
 
         return new HtmlView('/admin/index', array("view"=>$view, "pqCount"=> $pqCount, "exCount"=> $exCount));

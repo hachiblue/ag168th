@@ -99,6 +99,7 @@ class ApiProperty extends BaseCTL {
 
         if(!empty($params['rented_expire']))
 		{
+            $where["AND"]['property.rented_expire[>]'] = "0000-00-00";
             $where["AND"]['property.rented_expire[<]'] = date("Y-m-d H:i:s", strtotime("+7 days"));
         }
 
