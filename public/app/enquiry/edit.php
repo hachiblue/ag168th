@@ -127,7 +127,7 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
                           <input type="text" class="form-control cbox" id="ctel3" name="cphone" ng-model="form.t3customer" maxlength="4" required>
                         </div>
                       </div>
-                      <div class="col-sm-4"><input type="text" class="form-control cbox" id="cemail" placeholder="email" ng-model="form.ecustomer" required></div>
+                      <div class="col-sm-4"><input type="text" class="form-control cbox" id="cemail" placeholder="email, line id" ng-model="form.ecustomer" required></div>
                     </div>
 
                     <!--

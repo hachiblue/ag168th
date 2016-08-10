@@ -73,6 +73,7 @@ class AdminCTL extends BaseCTL {
         $where = array();
 
         $where["AND"]['rented_expire[>]'] = "0000-00-00";
+        $where["AND"]['requirement_id[!]'] = "1";
         $where["AND"]['rented_expire[<]'] = date("Y-m-d H:i:s", strtotime("+7 days"));
 
         //$where['rented_expire[<]'] = date("Y-m-d H:i:s", strtotime("+7 days"));
