@@ -13,6 +13,8 @@ $projects = $db->select("project", ["id", "name"]);
 
 $btss = $db->select("bts", "*");
 $mrts = $db->select("mrt", "*");
+$property_types = $db->select("property_type", "*");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,6 +73,10 @@ $mrts = $db->select("mrt", "*");
 .chosen-container .chosen-drop input {
 	color: #333;
     font-size: 12px;
+}
+
+.chosen-container-single .chosen-single span {
+    margin-left: 10px;
 }
 
 </style>
@@ -387,10 +393,9 @@ $mrts = $db->select("mrt", "*");
                                         <li>
                                           <select name="property_type_id" class="form-control" style="padding-top: 3px; width: 200px;  float: right">
                                             <option value="">-Please Select-</option>
-                                            <option value="1" <?php if(@$_GET['property_type_id']==1) echo "selected";?>>Condominium</option>
-                                            <option value="2" <?php if(@$_GET['property_type_id']==2) echo "selected";?>>Single detached house</option>
-                                            <option value="10" <?php if(@$_GET['property_type_id']==10) echo "selected";?>>Townhome</option>
-                                            <option value="7" <?php if(@$_GET['property_type_id']==7) echo "selected";?>>Home office</option>
+                                            <?php foreach($property_types as $property_type) {?>
+                                              <option value="<?php echo $property_type["id"];?>" <?php if(@$_GET['property_type_id']==$property_type["id"]) echo "selected";?>><?php echo $property_type["name"];?></option>
+                                            <?php }?>
                                           </select>
                                         </li><br><br>
                                         <li>

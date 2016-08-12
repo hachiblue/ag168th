@@ -82,7 +82,7 @@
         </div>
 
         <div class="col-md-3 form-group">
-            <label class="control-label">Admin</label>
+            <label class="control-label">User</label>
             <div>
               <select class="form-control"
               ng-model="form.account_comment_id"

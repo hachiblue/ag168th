@@ -200,7 +200,6 @@ body{
     margin-top: 10px;
 }
 .highlightslide{
-    margin-left: 200px;
     margin-bottom: 40px;
 }
 .highlightslide p{
@@ -332,10 +331,7 @@ hr {
 }
 
 .highlight{
-	float:left;
-	width:262px;
-	margin-right:30px;
-	position: relative;
+    width: 262px;
 	overflow: hidden;
 }
 .highlight:last-child{
@@ -813,3 +809,6 @@ input.login_text {
     padding: .4em;
 }
 
+.see-more {
+    margin-top: 27px;
+}

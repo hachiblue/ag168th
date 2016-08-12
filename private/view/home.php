@@ -20,6 +20,8 @@ $projects = $db->select("project", ["id", "name"]);
 $btss = $db->select("bts", "*");
 $mrts = $db->select("mrt", "*");
 $requirement = $db->select("requirement", "*");
+$property_types = $db->select("property_type", "*");
+
 ?>
 <style>
 .slide .carousel-indicators
@@ -101,10 +103,9 @@ html, body {
                                 <label>Property Type:</label><br/>
                                 <select class="form-control" name="property_type_id">
                                     <option value="">Any Type</option>
-                                    <option value="1">Condominium</option>
-                                    <option value="2">Single detached house</option>
-                                    <option value="10">Townhome</option>
-                                    <option value="7">Home office</option>
+                                    <?php foreach($property_types as $property_type) {?>
+                                      <option value="<?php echo $property_type["id"];?>" <?php if(@$_GET['property_type_id']==$property_type["id"]) echo "selected";?>><?php echo $property_type["name"];?></option>
+                                    <?php }?>
                                 </select>
 
                                 <label>Near BTS:</label><br/>
@@ -165,27 +166,35 @@ html, body {
 
 <div class="highlightslide">
     <div class="container">
-        <p>Highlight Properties</p>
-        <?php foreach($params['highlight'] as $item){?>
-        <div class="highlight">
-            <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
-              <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
-            </a>
-            <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
-            <!-- <p class="add">Annapolls</p> -->
-            <div class="hr"></div>
-            <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
-              <span class="price">
-              <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
-              </span>
-            </p>
-            <div class="detail" style="font-size: 11px;">
-                <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
-                <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
-                <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
+        <div class="row">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-3"><p>Highlight Properties</p></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-sm-2"></div>
+                <?php foreach($params['highlight'] as $item){?>
+                <div class="col-sm-3 highlight">
+                    <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
+                      <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
+                    </a>
+                    <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
+                    <!-- <p class="add">Annapolls</p> -->
+                    <div class="hr"></div>
+                    <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
+                      <span class="price">
+                      <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
+                      </span>
+                    </p>
+                    <div class="detail" style="font-size: 11px;">
+                        <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
+                        <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
+                        <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
+                    </div>
+                </div>
+                <?php }?>
             </div>
         </div>
-        <?php }?>
         <!-- <div class="highlight">
             <a class="images-home" href=""><img src="<?php echo \Main\Helper\URL::absolute("/public/images/house.jpg")?>"  /></a>
             <a class="name" href="">678 Bay Hills Lane</a>
@@ -227,111 +236,154 @@ html, body {
 
 <div class="highlightslide">
     <div class="container">
-        <p>Best Buy</p>
-        <?php foreach($params['bestbuy'] as $item){?>
-        <div class="highlight">
-			<div class="ribbon-wrapper"><div class="ribbon r-green">Best Buy</div></div>
-            <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
-              <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
-            </a>
-            <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
-            <!-- <p class="add">Annapolls</p> -->
-            <div class="hr"></div>
-            <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
-              <span class="price">
-              <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
-              </span>
-            </p>
-            <div class="detail" style="font-size: 11px;">
-                <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
-                <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
-                <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
+        <div class="row">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-3"><p>Best Buy</p></div>
+            <div class="col-xs-3"></div>
+            <div class="col-xs-3 pull-right see-more"><a href="<?php echo \Main\Helper\URL::absolute('/list?feature_unit_id=1');?>">ดูเพิ่มเติม</a></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-sm-2"></div>
+            <?php foreach($params['bestbuy'] as $item){?>
+                <div class="col-sm-3 highlight">
+        			<div class="ribbon-wrapper"><div class="ribbon r-green">Best Buy</div></div>
+                    <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
+                      <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
+                    </a>
+                    <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
+                    <!-- <p class="add">Annapolls</p> -->
+                    <div class="hr"></div>
+                    <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
+                      <span class="price">
+                      <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
+                      </span>
+                    </p>
+                    <div class="detail" style="font-size: 11px;">
+                        <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
+                        <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
+                        <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
+                    </div>
+                </div>
+            <?php }?>
             </div>
         </div>
-        <?php }?>
     </div>
 </div>
 
 <div class="highlightslide">
     <div class="container">
-        <p>Hot Price</p>
-        <?php foreach($params['hotrental'] as $item){?>
-        <div class="highlight">
-			<div class="ribbon-wrapper"><div class="ribbon r-orange">Hot Price</div></div>
-            <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
-              <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
-            </a>
-            <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
-            <!-- <p class="add">Annapolls</p> -->
-            <div class="hr"></div>
-            <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
-              <span class="price">
-              <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
-              </span>
-            </p>
-            <div class="detail" style="font-size: 11px;">
-                <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
-                <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
-                <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
+        
+        <div class="row">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-3"><p>Hot Price</p></div>
+            <div class="col-xs-3"></div>
+            <div class="col-xs-3 pull-right see-more"><a href="<?php echo \Main\Helper\URL::absolute('/list?feature_unit_id=2');?>">ดูเพิ่มเติม</a></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-sm-2"></div>
+                <?php foreach($params['hotrental'] as $item){?>
+                <div class="col-sm-3 highlight">
+        			<div class="ribbon-wrapper"><div class="ribbon r-orange">Hot Price</div></div>
+                    <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
+                      <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
+                    </a>
+                    <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
+                    <!-- <p class="add">Annapolls</p> -->
+                    <div class="hr"></div>
+                    <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
+                      <span class="price">
+                      <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
+                      </span>
+                    </p>
+                    <div class="detail" style="font-size: 11px;">
+                        <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
+                        <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
+                        <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
+                    </div>
+                </div>
+                <?php }?>
             </div>
         </div>
-        <?php }?>
     </div>
 </div>
 
 <div class="highlightslide">
     <div class="container">
-        <p>Discount</p>
-        <?php foreach($params['withtenant'] as $item){?>
-        <div class="highlight">
+        
+        <div class="row">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-3"><p>Discount</p></div>
+            <div class="col-xs-3"></div>
+            <div class="col-xs-3 pull-right see-more"><a href="<?php echo \Main\Helper\URL::absolute('/list?feature_unit_id=3');?>">ดูเพิ่มเติม</a></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-sm-2"></div>
+                <?php foreach($params['withtenant'] as $item){?>
+                <div class="col-sm-3 highlight">
 
-			<div class="ribbon-wrapper"><div class="ribbon r-red">Discount</div></div>
+        			<div class="ribbon-wrapper"><div class="ribbon r-red">Discount</div></div>
 
-            <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
-              <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
-            </a>
-            <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
-            <!-- <p class="add">Annapolls</p> -->
-            <div class="hr"></div>
-            <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
-              <span class="price">
-              <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
-              </span>
-            </p>
-            <div class="detail" style="font-size: 11px;">
-                <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
-                <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
-                <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
+                    <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
+                      <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
+                    </a>
+                    <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
+                    <!-- <p class="add">Annapolls</p> -->
+                    <div class="hr"></div>
+                    <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
+                      <span class="price">
+                      <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
+                      </span>
+                    </p>
+                    <div class="detail" style="font-size: 11px;">
+                        <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
+                        <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
+                        <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
+                    </div>
+                </div>
+                <?php }?>
             </div>
         </div>
-        <?php }?>
     </div>
 </div>
 
 <div class="highlightslide">
     <div class="container">
-        <p>New</p>
-        <?php foreach($params['newcoming'] as $item){?>
-        <div class="highlight">
-			<div class="ribbon-wrapper"><div class="ribbon r-blue">New</div></div>
-            <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
-              <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
-            </a>
-            <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
-            <!-- <p class="add">Annapolls</p> -->
-            <div class="hr"></div>
-            <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
-              <span class="price">
-              <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
-              </span>
-            </p>
-            <div class="detail" style="font-size: 11px;">
-                <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
-                <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
-                <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
+        <div class="row">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-3"><p>New</p></div>
+            <div class="col-xs-3"></div>
+            <div class="col-xs-3 pull-right see-more"><a href="<?php echo \Main\Helper\URL::absolute('/list?feature_unit_id=4');?>">ดูเพิ่มเติม</a></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-sm-2"></div>
+                <?php foreach($params['newcoming'] as $item){?>
+                <div class="col-sm-3 highlight">
+        			<div class="ribbon-wrapper"><div class="ribbon r-blue">New</div></div>
+                    <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
+                      <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
+                    </a>
+                    <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
+                    <!-- <p class="add">Annapolls</p> -->
+                    <div class="hr"></div>
+                    <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
+                      <span class="price">
+                      <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
+                      </span>
+                    </p>
+                    <div class="detail" style="font-size: 11px;">
+                        <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
+                        <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
+                        <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
+                    </div>
+                </div>
+                <?php }?>
             </div>
         </div>
-        <?php }?>
+
     </div>
 </div>
 

@@ -61,6 +61,13 @@ class ListCTL extends BaseCTL {
         $searchQuery .= " AND (property.requirement_id=:requirement_id OR property.requirement_id=3)";
         $excParams[":requirement_id"] = $params['requirement_id'];
       }
+
+      if(!empty($params['feature_unit_id'])) 
+      {
+        $searchQuery .= " AND property.feature_unit_id=:feature_unit_id";
+        $excParams[":feature_unit_id"] = $params['feature_unit_id'];
+      }
+
       if(!empty($params['bedrooms'])) {
         if($params['bedrooms'] == "4+") {
           $searchQuery .= " AND property.bedrooms > 3";
