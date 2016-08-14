@@ -11,7 +11,7 @@ function numberWithCommas(x)
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-var app = angular.module('enquiry-app', ['ngRoute', 'angular-loading-bar']);
+var app = angular.module('enquiry-app', ['ngRoute', 'angular-loading-bar', 'localytics.directives']);
 
 app.config(['$routeProvider', 'cfpLoadingBarProvider',
     function ($routeProvider, cfpLoadingBarProvider)

@@ -10,3 +10,4 @@
 <script src="<?php echo \Main\Helper\URL::absolute("/bower_components/angular-loading-bar/build/loading-bar.min.js");?>"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/public/app/reportproperty/app.js");?>"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/public/bootstrap-datepicker/js/bootstrap-datepicker.min.js");?>"></script>
+<script src="<?php echo \Main\Helper\URL::absolute("/public/js/angular-chosen.min.js")?>"></script>

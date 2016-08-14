@@ -13,6 +13,6 @@ C:\xampp\htdocs\agent168th\public\app\enquiry\list.php
 C:\xampp\htdocs\agent168th\public\app\enquiry\app.js
 
 
-ALTER TABLE `admin_dev_agen168`.`property`     ADD COLUMN `contract_chk_key` VARCHAR(7) DEFAULT '0,0,0,0' NULL AFTER `room_type_id`;
+ALTER TABLE `admin_dev_agen168`.`property`     ADD COLUMN `contract_chk_key` VARCHAR(9) DEFAULT '0,0,0,0' NULL AFTER `room_type_id`;
 
 ALTER TABLE `dev_agent_168`.`request_contact`     ADD COLUMN `accepted_at` DATETIME NULL AFTER `created_at`;

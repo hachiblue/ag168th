@@ -1,3 +1,5 @@
+
+
 <div id="content" ng-app="enquiry-app">
     <div ng-view=""></div>
 </div>
@@ -11,6 +13,6 @@
 <script src="<?php echo \Main\Helper\URL::absolute("/public/app/enquiry/app.js") . "?" . date('ymdhis');?>"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/public/bootstrap-datepicker/js/bootstrap-datepicker.min.js");?>"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/public/js/bootstrap.min.js");?>"></script>
-
+<script src="<?php echo \Main\Helper\URL::absolute("/public/js/angular-chosen.min.js")?>"></script>
 
 

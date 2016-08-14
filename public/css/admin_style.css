@@ -72,3 +72,9 @@ input:disabled.form-control, select:disabled.form-control, textarea:disabled.for
 .padding3 {
   padding: 0 3px;
 }
+
+.fee_percent_sel select {
+  width: 44px;
+  margin-top: -3px;
+  margin-left: -4px;
+}

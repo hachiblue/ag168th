@@ -4,7 +4,7 @@
 "use strict";
 
 //angular.module('angularTable', []);
-var app = angular.module('property-app', ['ngRoute', 'angular-loading-bar']);
+var app = angular.module('property-app', ['ngRoute', 'angular-loading-bar', 'localytics.directives']);
 app.config(['$routeProvider', 'cfpLoadingBarProvider',
     function ($routeProvider, cfpLoadingBarProvider)
     {
@@ -20,6 +20,10 @@ app.config(['$routeProvider', 'cfpLoadingBarProvider',
         .when('/edit/:id',
         {
             templateUrl: '../public/app/property/edit.php'
+        }).
+        when('/quotation/:id',
+        {
+            templateUrl: '../public/app/property/quotation.php'
         }).
         when('/:id/gallery',
         {
@@ -40,6 +44,11 @@ app.config(['$routeProvider', 'cfpLoadingBarProvider',
     }
 ]);
 
+app.controller('QuotCTL', ['$scope', '$http', '$location', '$route', function ($scope, $http, $location, $route)
+{
+    console.log(quotationItem);
+}]);
+
 app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function ($scope, $http, $location, $route)
 {
     $scope.props = [];
@@ -47,10 +56,13 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function ($
     $scope.form = {};
     $scope.form.page = 1;
     $scope.form.limit = 15;
+    $scope.form.total_q_items = 0;
+
+    window.s = $scope;
 
     function getProps(query)
     {
-        var url = "../api/property";
+        var url = "../api/property", i;
 
         if (query)
         {
@@ -59,8 +71,13 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function ($
 
         $http.get(url).success(function (data)
         {
-
             $scope.props = data;
+    
+            for( i in data.data )
+            {
+                getImgProps(i, data.data[i].id);
+            }
+
             if (data.total > 0)
             {
                 $scope.pagination = [];
@@ -75,10 +92,43 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function ($
                 $scope.pagination = null;
             }
 
+            $scope.initSuccess = false;
+            var itv = setInterval(function ()
+            {
+                if ($scope.props)
+                {
+                    $scope.initSuccess = true;
+                
+                    var x;
+                    $("input[name=chk_q]").each(function() {
+                        x = quotationItem.indexOf(this.id.replace("chk_", ""));
+
+                        if( x != -1 )
+                        {
+                            $(this).prop("checked", true);
+                        }
+                    });
+
+                    $scope.form.total_q_items = quotationItem.length;
+
+                    clearInterval(itv);
+                }
+            }, 100);
+
         });
     }
 
     getProps($scope.form);
+
+    function getImgProps(i, $id)
+    {
+        var url = "../api/property/imageprops/"+$id;
+
+        $http.get(url).success(function (data)
+        {
+            $scope.props.data[i].image_url = data.image_url;
+        });
+    }
 
     $scope.sort = function (keyname)
     {
@@ -162,6 +212,7 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function ($
     };
 
     $scope.commaNumber = numberWithCommas;
+
 }]);
 
 app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function ($scope, $compile, $http, $location)
@@ -173,6 +224,8 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         if ($scope.collection && $scope.thailocation)
         {
             $scope.initSuccess = true;
+            $scope.form.feature_unit_id = 4;
+            $scope.form.chkcontact3a = 1;
             clearInterval(itv);
         }
     }, 100);
@@ -287,11 +340,15 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
 
         var statusID = this.form.property_status_id;
 
+        $("#pending-box").hide();
+        $("#pending-date-box").hide();
+        $("#pending-info-box").hide();
         $("#input-rented_exp").prop("required", false);
         switch (+statusID)
         {
             case 1:
                 this.form.web_status = 1;
+                this.form.property_pending_type = 0;
                 break;
 
             case 2:
@@ -302,12 +359,31 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
             case 8:
             case 9:
                 this.form.web_status = 0;
+                this.form.property_pending_type = 0;
                 break;
 
             case 3:
                 this.form.web_status = 0;
+                this.form.property_pending_type = 0;
                 $("#input-rented_exp").prop("required", true);
                 break;
+            case 10:
+                $("#pending-box").show();
+                $("#pending-date-box").show();
+                break;
+            default : $("#pending-box").hide(); $("#pending-date-box").hide();
+        }
+    };
+
+    $scope.formPendingTypeChange = function()
+    {
+        if( +this.form.property_pending_type == 4 )
+        {
+            $("#pending-info-box").show();
+        }
+        else
+        {
+            $("#pending-info-box").hide();
         }
     };
 
@@ -317,7 +393,6 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
             form = $scope.form;
         $http.get("../api/property/project/" + projectID).success(function (data)
         {
-
             form.zone_id = data.zone_id;
             form.province_id = data.province_id;
             form.district_id = data.district_id;
@@ -325,7 +400,6 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
             form.bts_id = data.bts_id;
             form.mrt_id = data.mrt_id;
             form.airport_link_id = data.airport_link_id;
-
         });
     };
 
@@ -360,26 +434,42 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
     $scope.formChkContractUpChange = function ()
     {
         var up_percent = 0,
-            tmp_plus = 0;
+            tmp_plus = 0,
+            vat7p = 1;
 
         if (this.form.chkcontact1 === true) up_percent += 0.033;
         if (this.form.chkcontact2 === true) up_percent += 0.005;
-        if (this.form.chkcontact3 === true) up_percent += 0.02;
-        if (this.form.chkcontact4 === true) up_percent += 0.01;
+        if (this.form.chkcontact3 === true) 
+        {
+            if( this.form.chkcontact3a == 1 ) up_percent += 0.01;
+            if( this.form.chkcontact3a == 2 ) up_percent += 0.02;
+        }
+
+        if (this.form.chkcontact4 === true) up_percent += 0.03;
+        if (this.form.chkcontact5 === true) vat7p = 1.002039;
 
         tmp_plus = this.form.contract_price * up_percent;
 
-        if ($scope.form.requirement_id != 2 && $scope.form.requirement_id != undefined)
-        {
-            this.form.sell_price = parseFloat(this.form.contract_price) + tmp_plus;
-        }
+        //if ($scope.form.requirement_id != 2 && $scope.form.requirement_id != undefined)
+        //{
+            //this.form.net_sell_price = Math.round( ((parseFloat(this.form.contract_price) + tmp_plus) * vat7p) * 100 ) / 100;
+
+            this.form.net_sell_price = ((parseFloat(this.form.contract_price) + tmp_plus) * vat7p).toFixed(2);
+        //}
 
         var chk1 = (this.form.chkcontact1 === true) ? 1 : 0;
         var chk2 = (this.form.chkcontact2 === true) ? 1 : 0;
-        var chk3 = (this.form.chkcontact3 === true) ? 1 : 0;
-        var chk4 = (this.form.chkcontact4 === true) ? 1 : 0;
 
-        this.form.contract_chk_key = chk1 + ',' + chk2 + ',' + chk3 + ',' + chk4;
+        var chk3 = 0;
+        if (this.form.chkcontact3 === true) 
+        { 
+            if( this.form.chkcontact3a == 1 ) chk3 = 1;
+            if( this.form.chkcontact3a == 2 ) chk3 = 2;
+        }
+        var chk4 = (this.form.chkcontact4 === true) ? 1 : 0;
+        var chk5 = (this.form.chkcontact5 === true) ? 1 : 0;
+
+        this.form.contract_chk_key = chk1 + ',' + chk2 + ',' + chk3 + ',' + chk4 + ',' + chk5;
     };
 
     $scope.submit = function ()
@@ -434,6 +524,7 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
             }
         }
 
+        $scope.form.property_pending_date = $("#datetime-pick").val();
         $scope.form.owner = owner.substring(owner.length - 1, -1);
 
         $.post("../api/property", $scope.form, function (data)
@@ -548,13 +639,14 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
     $http.get("../api/property/" + $routeParams.id).success(function (data)
     {
-
         $scope.reference_id = data.reference_id;
         $scope.owner = data.owner;
         $scope.form = data;
 
+        $scope.form.chkcontact3a = 0;
+
         var
-            i,
+            i, j,
             owner = data.owner.split(':'),
             tmpl = $("#tmpl-owner"),
             moreowner = $("#moreowner"),
@@ -562,6 +654,22 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             k = 2,
             owner_field,
             oa = '', ob = '', oc = '';
+
+        for( j in $scope.collection.project)
+        {
+            if( $scope.collection.project[j].id == $scope.form.project_id )
+            {
+                var proj = $scope.collection.project[j];
+                $scope.form.airport_link_id = proj.airport_link_id;
+                $scope.form.bts_id = proj.bts_id;
+                $scope.form.district_id = proj.district_id;
+                $scope.form.mrt_id = proj.mrt_id;
+                $scope.form.province_id = proj.province_id;
+                $scope.form.sub_district_id = proj.sub_district_id;
+                $scope.form.zone_id = proj.zone_id;
+                break;
+            }
+        }
 
         owner_field = owner[0].split(',');
 
@@ -609,10 +717,10 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             k++;
         }
 
-        $scope.formRequirementChange();
         $scope.formSetChkContract();
-
-        
+        $scope.formRequirementChange();
+        $scope.formPropertyStatusIdChange();
+        $scope.formPendingTypeChange();        
     });
 
     $scope.initSuccess = false;
@@ -693,11 +801,15 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
     {
         var statusID = this.form.property_status_id;
 
+        $("#pending-box").hide();
+        $("#pending-date-box").hide();
+        $("#pending-info-box").hide();
         $("#input-rented_exp").prop("required", false);
         switch (+statusID)
         {
             case 1:
                 this.form.web_status = 1;
+                this.form.property_pending_type = 0;
                 break;
 
             case 2:
@@ -708,12 +820,31 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             case 8:
             case 9:
                 this.form.web_status = 0;
+                this.form.property_pending_type = 0;
                 break;
 
             case 3:
                 this.form.web_status = 0;
+                this.form.property_pending_type = 0;
                 $("#input-rented_exp").prop("required", true);
                 break;
+            case 10:
+                $("#pending-box").show();
+                $("#pending-date-box").show();
+                break;
+            default : $("#pending-box").hide(); $("#pending-date-box").hide();
+        }
+    };
+
+    $scope.formPendingTypeChange = function()
+    {
+        if( +this.form.property_pending_type == 4 )
+        {
+            $("#pending-info-box").show();
+        }
+        else
+        {
+            $("#pending-info-box").hide();
         }
     };
 
@@ -777,26 +908,42 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
     $scope.formChkContractUpChange = function ()
     {
         var up_percent = 0,
-            tmp_plus = 0;
+            tmp_plus = 0,
+            vat7p = 1;
 
         if (this.form.chkcontact1 === true) up_percent += 0.033;
         if (this.form.chkcontact2 === true) up_percent += 0.005;
-        if (this.form.chkcontact3 === true) up_percent += 0.02;
-        if (this.form.chkcontact4 === true) up_percent += 0.01;
+        if (this.form.chkcontact3 === true) 
+        {
+            if( this.form.chkcontact3a == 1 ) up_percent += 0.01;
+            if( this.form.chkcontact3a == 2 ) up_percent += 0.02;
+        }
+
+        if (this.form.chkcontact4 === true) up_percent += 0.03;
+        if (this.form.chkcontact5 === true) vat7p = 1.002039;
 
         tmp_plus = this.form.contract_price * up_percent;
 
-        if ($scope.form.requirement_id != 2 && $scope.form.requirement_id != undefined)
-        {
-            this.form.sell_price = parseFloat(this.form.contract_price) + tmp_plus;
-        }
+        //if ($scope.form.requirement_id != 2 && $scope.form.requirement_id != undefined)
+        //{
+            //this.form.net_sell_price = Math.round( ((parseFloat(this.form.contract_price) + tmp_plus) * vat7p) * 100 ) / 100;
+
+            this.form.net_sell_price = ((parseFloat(this.form.contract_price) + tmp_plus) * vat7p).toFixed(2);
+        //}
 
         var chk1 = (this.form.chkcontact1 === true) ? 1 : 0;
         var chk2 = (this.form.chkcontact2 === true) ? 1 : 0;
-        var chk3 = (this.form.chkcontact3 === true) ? 1 : 0;
-        var chk4 = (this.form.chkcontact4 === true) ? 1 : 0;
 
-        this.form.contract_chk_key = chk1 + ',' + chk2 + ',' + chk3 + ',' + chk4;
+        var chk3 = 0;
+        if (this.form.chkcontact3 === true) 
+        { 
+            if( this.form.chkcontact3a == 1 ) chk3 = 1;
+            if( this.form.chkcontact3a == 2 ) chk3 = 2;
+        }
+        var chk4 = (this.form.chkcontact4 === true) ? 1 : 0;
+        var chk5 = (this.form.chkcontact5 === true) ? 1 : 0;
+
+        this.form.contract_chk_key = chk1 + ',' + chk2 + ',' + chk3 + ',' + chk4 + ',' + chk5;
     };
 
     $scope.formSetChkContract = function ()
@@ -806,7 +953,13 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
         for (i in arr_chk)
         {
-            this.form["chkcontact" + j] = (arr_chk[i] == 1) ? true : false;
+            this.form["chkcontact" + j] = (arr_chk[i] == 1 || arr_chk[i] == 2) ? true : false;
+
+            if( this.form["chkcontact" + j + "a"] !== undefined )
+            {
+                this.form["chkcontact" + j + "a"] = arr_chk[i];
+            }
+
             j++;
         }
     };
@@ -848,6 +1001,8 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
                 owner += $scope.form["owner_name" + k] + ',' + $scope.form["owner_phone" + k + "a"] + $scope.form["owner_phone" + k + "b"] + $scope.form["owner_phone" + k + "c"] + ',' + $scope.form["owner_cust" + k] + ':';
             }
         }
+
+        form.property_pending_date = $("#datetime-pick").val();
 
         form.owner = owner.substring(owner.length - 1, -1);
 
@@ -1140,6 +1295,25 @@ app.directive('datepicker', function ($compile)
     };
 });
 
+app.directive('datetimepicker', function ($compile)
+{
+    return {
+        // replace:true,
+        // templateUrl:'custom-datepicker.html',
+        scope:
+        {
+            ngModel: '=',
+            dateOptions: '='
+        },
+        link: function ($scope, $element, $attrs, $controller)
+        {
+            $element.datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:ss'
+            });
+        }
+    };
+});
+
 app.filter('fvip', function ()
 {
     return function (str)
@@ -1149,6 +1323,7 @@ app.filter('fvip', function ()
         return first_vip[2];
     };
 });
+
 
 function getDate(date)
 {
@@ -1182,3 +1357,39 @@ function setphonehop()
         if( this.value.length >= 3 ) $(this).parent().next().find("input").focus();
     });   
 }
+
+var quotationItem = [];
+var setQuotationItem = function(elem)
+{
+    var 
+        $this = $(elem),
+        id = elem.id.replace("chk_", ""), index;
+
+    if( $this.prop("checked") )
+    {
+        quotationItem.push(id);    
+    }
+    else
+    {
+        index = quotationItem.indexOf(id);
+        quotationItem.splice(index, 1);
+    }
+
+    $("#cnt-quotation").html(quotationItem.length);
+};
+
+Array.prototype.indexOf || (Array.prototype.indexOf = function(d, e) {
+    var a;
+    if (null == this) throw new TypeError('"this" is null or not defined');
+    var c = Object(this),
+        b = c.length >>> 0;
+    if (0 === b) return -1;
+    a = +e || 0;
+    Infinity === Math.abs(a) && (a = 0);
+    if (a >= b) return -1;
+    for (a = Math.max(0 <= a ? a : b - Math.abs(a), 0); a < b;) {
+        if (a in c && c[a] === d) return a;
+        a++
+    }
+    return -1
+});

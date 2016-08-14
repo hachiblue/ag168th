@@ -130,8 +130,9 @@
                     <div class="form-group">
                   		<i class="col-md-6 box-1"><label>Project</label><strong>:</strong></i>
                   		<i class="col-md-5 box-2">
-                        	<select class="form-control"
+                        	<select chosen class="form-control"
 													ng-model="form.project_id"
+                          ng-change="formProjectIdChange()"
 										      ng-options="item.id as item.name for item in collection.project"
 													required>
                           <option value="">-Please Select-</option>

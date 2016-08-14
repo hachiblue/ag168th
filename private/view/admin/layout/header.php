@@ -31,6 +31,19 @@ use Main\Helper;
             border-right: 1px solid #d2d2d2;
         }    
 
+        .chosen-container { width: 100% !important;}
+        .chosen-single{  
+            background-color: #eee !important; 
+            color: #333 !important;
+            border-top: 1px solid #d2d2d2;
+            border-left: 1px solid #d2d2d2;
+            border-bottom: 1px solid #d2d2d2;
+            border-right: 1px solid #d2d2d2;
+            line-height: 17px !important;
+            height: 28px !important;
+            border-radius: 0px !important;
+        }
+
     </style>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -53,7 +66,11 @@ use Main\Helper;
     <script src="<?php echo Helper\URL::absolute("/public/js/ripples.min.js")?>"></script>
     <script src="<?php echo Helper\URL::absolute("/public/js/material.min.js")?>"></script>
 
+    <link href="<?php echo Helper\URL::absolute("/public/css/chosen.css")?>" rel="stylesheet">
     <link href="<?php echo Helper\URL::absolute("/public/css/admin_style.css")?>" rel="stylesheet">
+
+    <script src="<?php echo \Main\Helper\URL::absolute("/public/js/chosen.jquery.min.js")?>"></script>
+    
 
     <!-- Q -->
     <script src="<?php echo Helper\URL::absolute("/public/js/q.js")?>"></script>

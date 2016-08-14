@@ -3,6 +3,12 @@
 .el-custom-1 {
   margin-top: 51px;
 }
+.chosen-single{  
+	background-color: #fff !important; 
+}
+.prop-img {
+	width: 290px;
+}
 </style>
 <div ng-controller="ListCTL">
     <div>
@@ -48,7 +54,7 @@
 
 					  <div class="col-md-3 form-group">
 						<label class="control-label">Project</label>
-						<select class="form-control"
+						<select chosen class="form-control"
 							ng-options="item.id as item.name for item in collection.project"
 							ng-model="form.project_id">
 							<option value="">All</option>
@@ -263,6 +269,7 @@
     <div>
         <?php //if(@$_SESSION['login']['level_id'] <= 2){?>
           <a href="#add" class="btn btn-primary">Add</a>
+          <a href="#quotation/22" class="btn btn-info"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> [<span id="cnt-quotation">{{form.total_q_items}}</span>] </a>
           <?php //}?>
         <!-- <a class="btn btn-primary" id="add_excel-btn" ng-click="addExcelClick()">{{inputExcelText}}</a> -->
         <!-- <input type="file" class="hidden" id="add_excel-input"> -->
@@ -271,6 +278,7 @@
         <table class="table table-striped table-hover ">
             <thead>
             <tr>
+            	<th></th>
                 <th ng-click="sort('reference_id')">
 				#
 				<span class="glyphicon sort-icon" ng-show="sortKey=='reference_id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
@@ -295,7 +303,8 @@
             </thead>
             <tbody>
             <tr ng-repeat="prop in props.data">
-                <td>{{prop.reference_id}}</td>
+            	<td><input type="checkbox" name="chk_q" id="chk_{{prop.id}}" onclick="setQuotationItem(this)"></td>
+                <td>{{prop.reference_id}}  <span ng-hide="!prop.image_url"><img src="{{prop.image_url}}" class="img-responsive prop-img"></span></td>
                 <td>{{prop.created_at}}</td>
                 <td>
                     <div><strong>Project</strong>: <span>{{prop.project_name}}</span></div>

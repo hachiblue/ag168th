@@ -1,4 +1,9 @@
 <?php session_start();?>
+<style>
+.chosen-single{  
+  background-color: #fff !important; 
+}
+</style>
 <div ng-controller="ListCTL">
     <div>
         <form id="searchForm">
@@ -61,7 +66,7 @@
                             <div class="col-md-3 form-group">
                                 <label class="control-label">Project</label>
                                 <div>
-                                    <select class="form-control"
+                                    <select chosen class="form-control"
                                     ng-model="form.project_id"
                                     ng-options="item.id as item.name for item in collection.project">
                                         <option value="">All</option>

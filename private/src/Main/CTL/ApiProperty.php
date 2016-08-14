@@ -275,7 +275,8 @@ class ApiProperty extends BaseCTL {
           "requirement_id", "contract_price", "sell_price", "net_sell_price", "rent_price", "net_rent_price", "owner",
           "key_location_id", "zone_id", "road", "province_id", "district_id", "sub_district_id", "bts_id", "mrt_id",
           "airport_link_id", "property_status_id", "contract_expire", "web_status", "property_highlight_id",
-          "feature_unit_id", "rented_expire", "inc_vat", "transfer_status_id", "owner", "web_url_search", "room_type_id"
+          "feature_unit_id", "rented_expire", "inc_vat", "transfer_status_id", "owner", "web_url_search", "room_type_id", "contract_chk_key",
+          "property_pending_type", "property_pending_info", "property_pending_date"
         ], $params);
 
         $insert = array_map(function($item) {
@@ -364,7 +365,8 @@ MAILCONTENT;
           "requirement_id", "contract_price", "sell_price", "net_sell_price", "rent_price", "net_rent_price", "owner",
           "key_location_id", "zone_id", "road", "province_id", "district_id", "sub_district_id", "bts_id", "mrt_id",
           "airport_link_id", "property_status_id", "contract_expire", "web_status", "property_highlight_id",
-          "feature_unit_id", "rented_expire", "inc_vat", "transfer_status_id", "owner", "web_url_search", "room_type_id", "contract_chk_key"
+          "feature_unit_id", "rented_expire", "inc_vat", "transfer_status_id", "owner", "web_url_search", "room_type_id", "contract_chk_key",
+          "property_pending_type", "property_pending_info", "property_pending_date"
         ], $set);
 
         $set = array_map(function($item) {
@@ -517,7 +519,8 @@ MAILCONTENT;
             "property_status.name(property_status_name)",
             // "developer.name(developer_name)",
             "size_unit.name(size_unit_name)",
-            "project.name(project_name)"
+            "project.name(project_name)",
+            "project.number_buildings(proj_num_building)"
         ];
         $join = [
             // "[>]property_type"=> ["property_type_id"=> "id"],
@@ -530,9 +533,11 @@ MAILCONTENT;
         ];
         $item = $db->get("property", $join, $field, ["property.id"=> $id]);
       }
-      else {
+      else 
+      {
         $item = $db->get("property", "*", ["id"=> $id]);
       }
+
       $this->_build($item);
       return $item;
     }
@@ -727,6 +732,35 @@ MAILCONTENT;
       return $item;
     }
 
+    /**
+     * @GET
+     * @uri /imageprops/[i:id]
+     */
+    public function imageprops() {
+
+        $id = $this->reqInfo->urlParam("id");
+
+        $db = MedooFactory::getInstance();
+
+        $item = array();
+        //$item = $db->get("property_image", "*", ["property_id"=> $id]);
+
+        $sql = "SELECT name, id FROM property_image WHERE property_id = '{$id}' LIMIT 1";
+        $r = $db->query($sql);
+        $item = $r->fetch(\PDO::FETCH_ASSOC);
+
+        if( isset($item["name"]) && !empty($item["name"]) )
+        {
+            $item['image_url'] = URL::absolute("/public/prop_pic/".$item["name"]); 
+        }
+        else
+        {
+            $item['image_url'] = '';
+        }
+        
+
+        return $item;
+    }
 
     public function _buildImage(&$item){
         $item['url'] = URL::absolute("/public/prop_pic/".$item['name']);

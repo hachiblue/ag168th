@@ -13,7 +13,7 @@ function numberWithCommas(x)
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-var app = angular.module('enquiry-app', ['ngRoute', 'angular-loading-bar']);
+var app = angular.module('enquiry-app', ['ngRoute', 'angular-loading-bar', 'localytics.directives']);
 
 app.config(['$routeProvider', 'cfpLoadingBarProvider',
     function($routeProvider, cfpLoadingBarProvider)
@@ -473,6 +473,36 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
         }, "json");
     };
 
+    $scope.formProjectIdChange = function ()
+    {
+        console.log('sdf');
+        var project = false;
+        if ($scope.form.project_id)
+        {
+            project = (function ()
+            {
+                var i = 0;
+                for (i = 0; i < $scope.collection.project.length; i++)
+                {
+                    if ($scope.collection.project[i].id == $scope.form.project_id)
+                        return $scope.collection.project[i];
+                }
+                return false;
+            })();
+        }
+
+        if (project)
+        {
+            $scope.form.zone_id = project.zone_id;
+            $scope.form.airport_link_id = project.airport_link_id;
+            $scope.form.bts_id = project.bts_id;
+            $scope.form.province_id = project.province_id;
+            $scope.form.district_id = project.district_id;
+            $scope.form.sub_district_id = project.sub_district_id;
+            $scope.form.mrt_id = project.mrt_id;
+        }
+    };
+
 }]);
 
 app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routeParams', function($scope, $http, $location, $route, $routeParams)
@@ -526,7 +556,6 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
     Q.all([promise1, promise2, promise3, promise4, promise5])
         .spread(function(result1, result2, result3, result4, result5)
         {
-
             $scope.form = result1;
             $scope.collection = result2;
             $scope.collection2 = result4;
@@ -581,6 +610,23 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
                 tel1 = cust[1].substring(0, 3);
                 tel2 = cust[1].substring(3, 6);
                 tel3 = cust[1].substring(6, 10);
+            }
+
+            var j;
+            for( j in $scope.collection.project)
+            {
+                if( $scope.collection.project[j].id == $scope.form.project_id )
+                {
+                    var proj = $scope.collection.project[j];
+                    $scope.form.airport_link_id = proj.airport_link_id;
+                    $scope.form.bts_id = proj.bts_id;
+                    $scope.form.district_id = proj.district_id;
+                    $scope.form.mrt_id = proj.mrt_id;
+                    $scope.form.province_id = proj.province_id;
+                    $scope.form.sub_district_id = proj.sub_district_id;
+                    $scope.form.zone_id = proj.zone_id;
+                    break;
+                }
             }
             
             $scope.form.ncustomer = cust[0] || '';
@@ -690,6 +736,36 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
         {
             $route.reload();
         }, "json");
+    };
+
+    $scope.formProjectIdChange = function ()
+    {
+        console.log('sdf');
+        var project = false;
+        if ($scope.form.project_id)
+        {
+            project = (function ()
+            {
+                var i = 0;
+                for (i = 0; i < $scope.collection.project.length; i++)
+                {
+                    if ($scope.collection.project[i].id == $scope.form.project_id)
+                        return $scope.collection.project[i];
+                }
+                return false;
+            })();
+        }
+
+        if (project)
+        {
+            $scope.form.zone_id = project.zone_id;
+            $scope.form.airport_link_id = project.airport_link_id;
+            $scope.form.bts_id = project.bts_id;
+            $scope.form.province_id = project.province_id;
+            $scope.form.district_id = project.district_id;
+            $scope.form.sub_district_id = project.sub_district_id;
+            $scope.form.mrt_id = project.mrt_id;
+        }
     };
 }]);
 

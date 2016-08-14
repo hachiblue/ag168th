@@ -53,28 +53,56 @@ session_start();
 			  <option value="">Please select</option>
 		  </select>
 		</div>
+ 
+    <div id="pending-box" class="col-md-3 form-group" style="display:none;">
+      <label>Pending</label>
+       <select class="form-control"
+      ng-model="form.property_pending_type"
+      ng-change="formPendingTypeChange()"
+      required>
+        <option value="">Please select</option>
+        <option value="1">No Answer</option>
+        <option value="2">Line Busy</option>
+        <option value="3">Leave message</option>
+        <option value="4">Etc.</option>
+      </select>
+    </div>
 
+    <div id="pending-info-box" class="col-md-3 form-group" style="display:none;">
+      <label>&nbsp;</label>
+       <input class="form-control" ng-model="form.property_pending_info">
+    </div>
 
-      <div class="col-md-3 form-group">
-        <label>Property Type</label>
-        <select class="form-control"
-        ng-model="form.property_type_id"
-        ng-options="item.id as item.name for item in collection.property_type"
-        ng-change="formPropertyTypeChange()"
-        required>
-            <option value="">Please select</option>
-        </select>
+    <div id="pending-date-box" class="col-md-2 form-group" style="display:none;">
+      <label>&nbsp;</label>
+      <div class="input-group">
+        <input id="datetime-pick" class="form-control datepicker" datetimepicker ng-model="form.property_pending_date" placeholder=" - ">
+        <div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
       </div>
-      <div class="col-md-3 form-group">
-        <label>Project</label>
-        <select class="form-control"
-        ng-model="form.project_id"
-        ng-options="item.id*1 as item.name for item in collection.project"
-        ng-change="formProjectIdChange()"
-        id="project_id">
-            <option value="">-None-</option>
-        </select>
-      </div>
+    </div>
+
+    <div style="clear:both;"></div>
+
+    <div class="col-md-3 form-group">
+      <label>Property Type</label>
+      <select class="form-control"
+      ng-model="form.property_type_id"
+      ng-options="item.id as item.name for item in collection.property_type"
+      ng-change="formPropertyTypeChange()"
+      required>
+          <option value="">Please select</option>
+      </select>
+    </div>
+    <div class="col-md-3 form-group">
+      <label>Project</label>
+      <select chosen class="form-control"
+      ng-model="form.project_id"
+      ng-options="item.id*1 as item.name for item in collection.project"
+      ng-change="formProjectIdChange()"
+      id="project_id">
+          <option value="">-None-</option>
+      </select>
+    </div>
 
 	  <div class="col-md-3 form-group">
         <label>Size</label>
@@ -96,7 +124,7 @@ session_start();
         <label>Requirement</label>
         <select class="form-control"
         ng-model="form.requirement_id"
-		ng-change="formRequirementChange()"
+		    ng-change="formRequirementChange()"
         ng-options="item.id*1 as item.name for item in getRequirementList()"
         required>
             <option value="">Please select</option>
@@ -116,75 +144,84 @@ session_start();
 
 	  <div class="col-md-3 form-group">
         <label>Room type</label>
-        <select class="form-control"
-        ng-model="form.room_type_id">
-            <option value="">Please select</option>
-            <option value="1">Studio</option>
-            <option value="2">Duplex</option>
-			<option value="3">Normal</option>
-            <option value="4">Triplex</option>
-            <option value="5">Pent House</option>
+        <select class="form-control" ng-model="form.room_type_id">
+          <option value="">Please select</option>
+          <option value="1">Studio</option>
+          <option value="2">Duplex</option>
+          <option value="3">Normal</option>
+          <option value="4">Triplex</option>
+          <option value="5">Pent House</option>
         </select>
       </div>
 
-      
       <div class="col-md-3 form-group">
         <label>bedrooms</label>
-		<select class="form-control" ng-model="form.bedrooms">
-            <option value="">Please select</option>
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>
-			<option value="7">7</option>
-			<option value="8">8</option>
-			<option value="9">9</option>
-			<option value="10">10</option>	
+        <select class="form-control" ng-model="form.bedrooms">
+          <option value="">Please select</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>	
         </select>
       </div>
       <div class="col-md-3 form-group">
         <label>bathrooms</label>
-		<select class="form-control" ng-model="form.bathrooms">
-            <option value="">Please select</option>
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>
-			<option value="7">7</option>
-			<option value="8">8</option>
-			<option value="9">9</option>
-			<option value="10">10</option>	
+        <select class="form-control" ng-model="form.bathrooms">
+          <option value="">Please select</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>	
         </select>
       </div>
       <div style="clear: both;"></div>
 		
 		<div class="col-md-8 form-group">
-			<div class="checkboxxx" style="float:left;margin-right: 20px;">
-				<label>
-					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact1" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ภาษีธุรกิจเฉพาะ 3.3%</div>
-				</label>
-			</div>
-			<div class="checkboxxx" style="float:left;margin-right: 20px;">
-				<label>
-					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact2" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ค่าอาการแสตมป์ 0.5%</div>
-				</label>
-			</div>
-			<div class="checkboxxx" style="float:left;margin-right: 20px;">
-				<label>
-					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact3" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ค่าธรรมเนียมการทำนิติกรรม 2%</div>
-				</label>
-			</div>
-			<div class="checkboxxx" style="float:left;margin-right: 20px;">
-				<label>
-					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact4" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ค่าจดจำนอง 1%</div>
-				</label>
-			</div>
-		</div>
-
+      <div class="checkboxxx" style="float:left;margin-right: 20px;">
+        <label>
+          <input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact1" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ภาษีธุรกิจเฉพาะ 3.3%</div>
+        </label>
+      </div>
+      <div class="checkboxxx" style="float:left;margin-right: 20px;">
+        <label>
+          <input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact2" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ค่าอาการแสตมป์ 0.5%</div>
+        </label>
+      </div>
+      <div class="checkboxxx" style="float:left;margin-right: 20px;">
+        <label class="col-xs-10 nopadd">
+          <input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact3" ng-click="formChkContractUpChange()" style="float: left;">
+          <div style="margin-left: 20px;">ค่าธรรมเนียมการโอน</div>
+        </label>
+        <div class="col-xs-2 nopadd fee_percent_sel">
+          <select class="form-control" id="fee-sel" ng-model="form.chkcontact3a"  ng-change="formChkContractUpChange()">
+            <option value="1" selected>1%</option>
+            <option value="2">2%</option>
+          </select>
+        </div>
+      </div>
+      <div class="checkboxxx" style="float:left;margin-right: 20px;">
+        <label>
+          <input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact4" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">Commission 3%</div>
+        </label>
+      </div>
+      <div class="checkboxxx" style="float:left;margin-right: 20px;">
+        <label>
+          <input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact5" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">Vat 7%</div>
+        </label>
+      </div>
+    </div>
 
 
 	  <div style="clear: both;"></div>
@@ -192,6 +229,10 @@ session_start();
       <div class="col-md-3 form-group">
         <label>Contract price</label>
         <input type="text" class="form-control" ng-model="form.contract_price" ng-change="formChkContractUpChange()">
+      </div>
+      <div class="col-md-3 form-group">
+        <label>Net price</label>
+        <input type="text" class="form-control" ng-model="form.net_sell_price" id="input-net_sell_price">
       </div>
       <div class="col-md-3 form-group">
         <label>Selling price</label>
@@ -243,7 +284,7 @@ session_start();
         <select class="form-control"
         ng-model="form.zone_id"
         ng-options="item.id as item.name group by getZoneGroupName(item.zone_group_id) for item in collection.zone"
-        >
+        disabled>
             <option value="">Please select</option>
         </select>
       </div>
@@ -255,7 +296,7 @@ session_start();
         ng-model="form.province_id"
         ng-init="form.province_id = null"
         ng-options="item.id as item.name for item in thailocation.province"
-        >
+        disabled>
             <option value="">Please select</option>
         </select>
       </div>
@@ -264,7 +305,7 @@ session_start();
         <select class="form-control"
         ng-model="form.district_id"
         ng-options="item.id as item.name for item in getDistrict()"
-        >
+        disabled>
             <option value="">Please select</option>
         </select>
       </div>
@@ -273,7 +314,7 @@ session_start();
         <select class="form-control"
         ng-model="form.sub_district_id"
         ng-options="item.id as item.name for item in getSubDistrict()"
-        >
+        disabled>
             <option value="">Please select</option>
         </select>
       </div>
@@ -285,7 +326,7 @@ session_start();
         <select class="form-control"
           ng-model="form.bts_id"
           ng-options="item.id as item.name for item in collection.bts"
-          >
+          disabled>
           <option value="">Please select</option>
         </select>
       </div>
@@ -294,7 +335,7 @@ session_start();
         <select class="form-control"
           ng-model="form.mrt_id"
           ng-options="item.id as item.name for item in collection.mrt"
-          >
+          disabled>
           <option value="">Please select</option>
         </select>
       </div>
@@ -303,7 +344,7 @@ session_start();
         <select class="form-control"
           ng-model="form.airport_link_id"
           ng-options="item.id as item.name for item in collection.airport_link"
-          >
+          disabled>
           <option value="">Please select</option>
         </select>
       </div>

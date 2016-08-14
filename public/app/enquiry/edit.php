@@ -193,9 +193,10 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
                     <div class="form-group">
                   		<i class="col-md-6 box-1"><label>Project</label><strong>:</strong></i>
                   		<i class="col-md-5 box-2">
-                        	<select class="form-control"
+                        	<select chosen class="form-control"
 													ng-model="form.project_id"
 										      ng-options="item.id as item.name for item in collection.project"
+                          ng-change="formProjectIdChange()"
 													ng-disabled="!editAllow"
 													required>
                           <option value="">-Please Select-</option>

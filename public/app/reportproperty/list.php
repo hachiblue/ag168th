@@ -24,7 +24,7 @@
         </div>
         <div class="col-md-3 form-group">
           <label class="control-label">Project</label>
-          <select class="form-control"
+          <select chosen class="form-control"
               ng-options="item.id as item.name for item in collection.project"
               ng-model="form.project_id">
               <option value="">All</option>
