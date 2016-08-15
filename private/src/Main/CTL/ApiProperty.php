@@ -732,6 +732,39 @@ MAILCONTENT;
       return $item;
     }
 
+
+    /**
+     * @GET
+     * @uri /quotation
+     */
+    public function getQuotation() {
+
+      //$id = $this->reqInfo->urlParam("q");
+      ///$eid = explode("#", $id);
+
+        $_GET["q"] = substr($_GET["q"], 0, -1);
+
+        $q_id = str_replace(",", "','", $_GET["q"]);
+
+        $db = MedooFactory::getInstance();
+        $sql = "SELECT pj.name as propjectname, pt.name_th as prop_type, pj.id as proj_id, prop.* FROM property prop, project pj, property_type pt WHERE prop.project_id = pj.id AND prop.property_type_id = pt.id AND prop.id IN ('".$q_id."') ";
+        $r = $db->query($sql);
+        $row = $r->fetchAll(\PDO::FETCH_ASSOC);
+
+        $proj = array();
+        if(!empty($row)) 
+        {
+            foreach( $row as $i => $r )
+            {
+                $proj[$r["proj_id"]]["list"][] = $r;
+            }
+        }
+
+
+      return $proj;
+    }
+
+
     /**
      * @GET
      * @uri /imageprops/[i:id]

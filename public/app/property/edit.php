@@ -206,8 +206,8 @@
 				</label>
         <div class="col-xs-2 nopadd fee_percent_sel">
           <select class="form-control" id="fee-sel" ng-model="form.chkcontact3a"  ng-change="formChkContractUpChange()">
-            <option value="1" selected>1%</option>
-            <option value="2">2%</option>
+            <option value="1">1%</option>
+            <option value="2" selected>2%</option>
           </select>
         </div>
 			</div>
@@ -226,11 +226,11 @@
 	   <div style="clear: both;"></div>
       <div class="col-md-3 form-group">
         <label>Contract price</label>
-        <input type="text" class="form-control" ng-model="form.contract_price" ng-change="formChkContractUpChange()">
+        <input type="text" class="form-control" ng-model="form.contract_price">
       </div>
       <div class="col-md-3 form-group">
         <label>Net price</label>
-        <input type="text" class="form-control" ng-model="form.net_sell_price" id="input-net_sell_price">
+        <input type="text" class="form-control" ng-model="form.net_sell_price" id="input-net_sell_price" ng-change="formChkContractUpChange()">
       </div>
       <div class="col-md-3 form-group">
         <label>Selling price</label>

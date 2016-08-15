@@ -46,7 +46,28 @@ app.config(['$routeProvider', 'cfpLoadingBarProvider',
 
 app.controller('QuotCTL', ['$scope', '$http', '$location', '$route', function ($scope, $http, $location, $route)
 {
-    console.log(quotationItem);
+    
+    $scope.quot = {};
+
+    //var quotationItem = ["46633", "46632", "46631", "46629"];
+
+    var formGetQuotation = function ()
+    {
+        var qId = '';
+        $.each(quotationItem, function(i, e) {
+            qId += e + ",";
+        });
+
+        $http.get("../api/property/quotation?q=" + qId).success(function (data)
+        {
+            $scope.quot = data;
+        });
+    };
+
+    formGetQuotation();
+
+    window.s = $scope;
+
 }]);
 
 app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function ($scope, $http, $location, $route)
@@ -225,7 +246,7 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         {
             $scope.initSuccess = true;
             $scope.form.feature_unit_id = 4;
-            $scope.form.chkcontact3a = 1;
+            $scope.form.chkcontact3a = 2;
             clearInterval(itv);
         }
     }, 100);
@@ -448,13 +469,13 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         if (this.form.chkcontact4 === true) up_percent += 0.03;
         if (this.form.chkcontact5 === true) vat7p = 1.002039;
 
-        tmp_plus = this.form.contract_price * up_percent;
+        tmp_plus = this.form.net_sell_price * up_percent;
 
         //if ($scope.form.requirement_id != 2 && $scope.form.requirement_id != undefined)
         //{
-            //this.form.net_sell_price = Math.round( ((parseFloat(this.form.contract_price) + tmp_plus) * vat7p) * 100 ) / 100;
+            //this.form.net_sell_price = Math.round( ((parseFloat(this.form.net_sell_price) + tmp_plus) * vat7p) * 100 ) / 100;
 
-            this.form.net_sell_price = ((parseFloat(this.form.contract_price) + tmp_plus) * vat7p).toFixed(2);
+            this.form.sell_price = ((parseFloat(this.form.net_sell_price) + tmp_plus) * vat7p).toFixed(2);
         //}
 
         var chk1 = (this.form.chkcontact1 === true) ? 1 : 0;
@@ -922,13 +943,13 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
         if (this.form.chkcontact4 === true) up_percent += 0.03;
         if (this.form.chkcontact5 === true) vat7p = 1.002039;
 
-        tmp_plus = this.form.contract_price * up_percent;
+        tmp_plus = this.form.net_sell_price * up_percent;
 
         //if ($scope.form.requirement_id != 2 && $scope.form.requirement_id != undefined)
         //{
-            //this.form.net_sell_price = Math.round( ((parseFloat(this.form.contract_price) + tmp_plus) * vat7p) * 100 ) / 100;
+            //this.form.net_sell_price = Math.round( ((parseFloat(this.form.net_sell_price) + tmp_plus) * vat7p) * 100 ) / 100;
 
-            this.form.net_sell_price = ((parseFloat(this.form.contract_price) + tmp_plus) * vat7p).toFixed(2);
+            this.form.sell_price = ((parseFloat(this.form.net_sell_price) + tmp_plus) * vat7p).toFixed(2);
         //}
 
         var chk1 = (this.form.chkcontact1 === true) ? 1 : 0;
