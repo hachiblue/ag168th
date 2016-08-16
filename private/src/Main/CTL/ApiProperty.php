@@ -14,6 +14,14 @@ use Main\Helper\ArrayHelper;
 use Main\Helper\ResponseHelper;
 use Main\Helper\URL;
 use Main\Helper\ImageHelper;
+//use Main\Excel\PHPExcel;
+
+if (!defined('SPHPEXCEL_ROOT')) 
+{
+    define('SPHPEXCEL_ROOT', dirname(__FILE__) . '/');
+    require(SPHPEXCEL_ROOT . '/../Excel/PHPExcel.php');
+}
+
 
 /**
  * @Restful
@@ -737,7 +745,8 @@ MAILCONTENT;
      * @GET
      * @uri /quotation
      */
-    public function getQuotation() {
+    public function getQuotation() 
+    {
 
       //$id = $this->reqInfo->urlParam("q");
       ///$eid = explode("#", $id);
@@ -764,6 +773,446 @@ MAILCONTENT;
       return $proj;
     }
 
+
+    /**
+     * @GET
+     * @uri /quotation2
+     */
+    public function csvVipByBetween()
+    {
+        ini_set('memory_limit', '512M');
+        $db = MedooFactory::getInstance();
+
+        $objPHPExcel = new \PHPExcel();
+
+        $objPHPExcel->getProperties()->setKeywords("office 2007 openxml php");
+
+        $sharedStyle1 = new \PHPExcel_Style();
+        $style0 = new \PHPExcel_Style();
+        $style1 = new \PHPExcel_Style();
+        $style2 = new \PHPExcel_Style();
+
+        $_GET["q"] = substr($_GET["q"], 0, -1);
+
+        $q_id = str_replace(",", "','", $_GET["q"]);
+
+        $db = MedooFactory::getInstance();
+        $sql = "SELECT pj.name as propjectname, pt.name_th as prop_type, pj.id as proj_id, prop.* FROM property prop, project pj, property_type pt WHERE prop.project_id = pj.id AND prop.property_type_id = pt.id AND prop.id IN ('".$q_id."') ";
+        $r = $db->query($sql);
+        $row = $r->fetchAll(\PDO::FETCH_ASSOC);
+
+        $proj = array();
+        if(!empty($row)) 
+        {
+            foreach( $row as $i => $r )
+            {
+                $proj[$r["propjectname"]]["list"][] = $r;
+            }
+        }
+
+
+        $styleBorder = array(
+              'borders' => array(
+                  'bottom' => array(
+                      'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                      'color' => array('rgb' => '95B3D7')
+                  )
+              )
+          );
+       
+
+        $sharedStyle1->applyFromArray(
+            array(
+                    'fill' => array(
+                        'type' => \PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('argb' => 'DBE5F1')
+                    ),
+                    'alignment' => array(
+                        'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                    )
+                 ));
+
+        $style0->applyFromArray(
+            array(
+                    'fill' => array(
+                        'type' => \PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('argb' => 'C2D69B')
+                    ),
+                    'alignment' => array(
+                        'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                    )
+                 ));
+
+        $style1->applyFromArray(
+            array(
+                    'fill' => array(
+                        'type' => \PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('argb' => '92CDDC')
+                    ),
+                    'alignment' => array(
+                        'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                    )
+                 ));
+
+        $style2->applyFromArray(
+            array(
+                    'fill' => array(
+                        'type' => \PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('argb' => 'B8CCE4')
+                    ),
+                    'alignment' => array(
+                        'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                    )
+                 ));
+
+        $headerstyle = array('font' => array('size' => 18,'bold' => true,'color' => array('rgb' => '1F497D')));
+        $signstyle = array('alignment' => array(
+                        'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_RIGHT,
+                    ),'font' => array('size' => 13,'bold' => true,'color' => array('rgb' => '000000')));
+
+        $bankstyle1 = array(
+            'borders' => array(
+                'top' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '548DD4')
+                ),
+                'right' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '548DD4')
+                ),
+                'left' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '548DD4')
+                ),'font' => array('bold' => true)
+            )
+        );
+
+        $bankstyle2 = array(
+            'borders' => array(
+                'bottom' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '548DD4')
+                ),
+                'right' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '548DD4')
+                ),
+                'left' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '548DD4')
+                ),'font' => array('bold' => true)
+            )
+        );
+
+        $projstyle0 = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '4F6128')
+                )
+            )
+        );
+        $projstyle1 = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '31859B')
+                )
+            )
+        );
+
+        $projstyle2 = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '1F497D')
+                )
+            )
+        );
+
+        $hd10 = array(
+            'borders' => array(
+                'right' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '4F6128')
+                ),
+                'left' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '4F6128')
+                ),
+                'top' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '4F6128')
+                )
+            )
+        );
+        $hd11 = array(
+            'borders' => array(
+                'right' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '31859B')
+                ),
+                'left' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '4F6128')
+                ),
+                'top' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '4F6128')
+                )
+            )
+        );
+        $hd12 = array(
+            'borders' => array(
+                'right' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '1F497D')
+                ),
+                'left' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '4F6128')
+                ),
+                'top' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '4F6128')
+                )
+            )
+        );
+
+        $hd20 = array(
+            'borders' => array(
+                'right' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '4F6128')
+                ),
+                'left' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '4F6128')
+                ),
+                'bottom' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '4F6128')
+                )
+            )
+        );
+        $hd21 = array(
+            'borders' => array(
+                'right' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '31859B')
+                ),
+                'left' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '4F6128')
+                ),
+                'bottom' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '4F6128')
+                )
+            )
+        );
+        $hd22 = array(
+            'borders' => array(
+                'right' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '1F497D')
+                ),
+                'left' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '4F6128')
+                ),
+                'bottom' => array(
+                    'style' => \PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('rgb' => '4F6128')
+                )
+            )
+        );
+ 
+
+ 
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(20);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(20);
+
+        $objPHPExcel->getDefaultStyle()
+            ->getAlignment()
+            ->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+        $sheet = $objPHPExcel->getActiveSheet();
+
+        $objDrawing = new \PHPExcel_Worksheet_Drawing();
+        $objDrawing->setName('Logo');
+        $objDrawing->setDescription('Logo');
+        $logo = 'public/images/Logo.png'; // Provide path to your logo file
+        $objDrawing->setPath($logo);
+        $objDrawing->setOffsetX(6);    // setOffsetX works properly
+        $objDrawing->setOffsetY(250);  //setOffsetY has no effect
+        $objDrawing->setCoordinates('B1');
+        $objDrawing->setHeight(65); // logo height
+        $objDrawing->setWorksheet($sheet); 
+
+        $sheet
+            ->mergeCells('B6:C6')->setCellValue('B6', 'DATE')
+            ->mergeCells('B7:C7')->setCellValue('B7', 'TIME')
+            ->mergeCells('B8:C8')->setCellValue('B8', 'Customer name')
+            ->mergeCells('B9:C9')->setCellValue('B9', 'Contact no.')
+            ->mergeCells('D6:F6')->setCellValue('D6', '')
+            ->mergeCells('D7:F7')->setCellValue('D7', '')
+            ->mergeCells('D8:F8')->setCellValue('D8', '')
+            ->mergeCells('D9:F9')->setCellValue('D9', '')
+            ->mergeCells('B11:J11')->setCellValue('B11', 'QUOTATION');
+
+        $sheet->getStyle("B11")->applyFromArray($headerstyle);
+
+        $i = 13;
+        $istyle = 0;
+        foreach( $proj as $pid => $p )
+        {
+            $sty = "style" . ($istyle % 3);
+            $psty = "projstyle" . ($istyle % 3);
+            $hd2 = "hd2" . ($istyle % 3);
+            $hd1 = "hd1" . ($istyle % 3);
+
+            $istyle++;
+
+            $sheet->mergeCells('B'.$i.':C'.$i)->setCellValue('B'.$i, $pid);
+            $sheet->setSharedStyle(${$sty}, 'B'.$i.':C'.$i);
+            $sheet->getStyle('B'.$i.':C'.$i)->applyFromArray(${$psty});
+
+            $i++;
+
+            $sheet->setCellValue('B'.$i, 'No.');
+            $sheet->setCellValue('C'.$i, 'Address');
+            $sheet->setCellValue('D'.$i, 'Floor');
+            $sheet->setCellValue('E'.$i, 'Area (sq.m)');
+            $sheet->setCellValue('F'.$i, 'TYPE');
+            $sheet->setCellValue('G'.$i, 'Bedroom/Bathroom');
+            $sheet->setCellValue('H'.$i, 'Price/sqm. (Baht)');
+            $sheet->setCellValue('I'.$i, 'Unit Price (Baht)');
+
+            $sheet->setSharedStyle(${$sty}, 'B'.$i.':I'.$i);
+            $sheet->getStyle('B'.$i.':I'.$i)->applyFromArray(${$hd1});
+
+            $i++;
+
+            $sheet->setCellValue('B'.$i, 'ลำดับ');
+            $sheet->setCellValue('C'.$i, 'บ้านเลขที่');
+            $sheet->setCellValue('D'.$i, 'ชั้น');
+            $sheet->setCellValue('E'.$i, 'พื้นที่ (ตร.ม.)');
+            $sheet->setCellValue('F'.$i, 'ประเภท');
+            $sheet->setCellValue('G'.$i, 'ห้องนอน / ห้องน้ำ');
+            $sheet->setCellValue('H'.$i, 'ราคาต่อตร.ม. (บาท)');
+            $sheet->setCellValue('I'.$i, 'ราคาสุทธิ (บาท)');
+
+            $sheet->setSharedStyle(${$sty}, 'B'.$i.':I'.$i);
+            $sheet->getStyle('B'.$i.':I'.$i)->applyFromArray(${$hd2});
+
+            $seq = 1;
+            foreach( $p["list"] as $j => $list )
+            {
+                $i++;
+
+                $xsize = ( $list["size"] == 0 ) ? 1 : $list["size"];
+                $sheet->setCellValue('B'.$i, $seq);
+                $sheet->setCellValue('C'.$i, $list["address_no"]);
+                $sheet->setCellValue('D'.$i, $list["floors"]);
+                $sheet->setCellValue('E'.$i, $list["size"]);
+                $sheet->setCellValue('F'.$i, $list["prop_type"]);
+                $sheet->setCellValue('G'.$i, $list["bedrooms"] . ' / ' . $list["bathrooms"]);
+                $sheet->setCellValue('H'.$i, number_format($list["sell_price"] / $xsize, 2));
+                $sheet->setCellValue('I'.$i, number_format($list["sell_price"], 2));
+
+                $seq++;
+            }
+
+            $i += 3;
+        }
+
+        $i += 2;
+
+        $sheet->setCellValue('H'.$i, 'Contact Person :');
+        $sheet->setCellValue('I'.$i, '');
+
+        $sheet->getStyle('H'.$i)->applyFromArray($signstyle);
+
+        $i++;
+
+        $sheet->setCellValue('I'.$i, 'Property Consultant - Sales');
+
+        $i++;
+
+        $sheet->setCellValue('H'.$i, 'Mobile :');
+        $sheet->setCellValue('I'.$i, '');
+
+        $sheet->getStyle('H'.$i)->applyFromArray($signstyle);
+
+        $i++;
+
+        $sheet->setCellValue('H'.$i, 'Email :');
+        $sheet->setCellValue('I'.$i, '');
+
+        $sheet->getStyle('H'.$i)->applyFromArray($signstyle);
+
+        $i += 3;
+
+        $sheet->getStyle('B'.$i.':I'.$i)->applyFromArray($bankstyle1);
+
+        $objDrawing = new \PHPExcel_Worksheet_Drawing();
+        $objDrawing->setName('Logo2');
+        $objDrawing->setDescription('Logo2');
+        $logo2 = 'public/images/kasikornlogo.gif'; // Provide path to your logo file
+        $objDrawing->setPath($logo2);
+        
+        $objDrawing->setCoordinates('C'.$i);
+        $objDrawing->setHeight(40); // logo height
+        $objDrawing->setWorksheet($sheet); 
+
+        $sheet->mergeCells('D'.$i.':E'.$i)->setCellValue('D'.$i, 'ชื่อบัญชี  Account Name');
+        $sheet->mergeCells('F'.$i.':G'.$i)->setCellValue('F'.$i, 'เลขที่บัญชี  Account No.');
+        $sheet->setCellValue('H'.$i, 'สาขา  Branch');
+        $sheet->setCellValue('I'.$i, 'ประเภทบัญชี');
+
+        $i++;
+
+        $sheet->getStyle('B'.$i.':I'.$i)->applyFromArray($bankstyle2);
+
+        $sheet->mergeCells('D'.$i.':E'.$i)->setCellValue('D'.$i, 'บริษัท เอเจ้นท์168');
+        $sheet->mergeCells('F'.$i.':G'.$i)->setCellValue('F'.$i, '732-1-02459-3');
+        $sheet->setCellValue('H'.$i, 'เดอะมอลล์บางกะปิ');
+        $sheet->setCellValue('I'.$i, 'กระแสรายวัน');
+
+
+        $sheet->setSharedStyle($sharedStyle1, "B6:C6")->getStyle('B6:C6')->applyFromArray($styleBorder);
+        $sheet->setSharedStyle($sharedStyle1, "B7:C7")->getStyle('B7:C7')->applyFromArray($styleBorder);
+        $sheet->setSharedStyle($sharedStyle1, "B8:C8")->getStyle('B8:C8')->applyFromArray($styleBorder);
+        $sheet->setSharedStyle($sharedStyle1, "B9:C9")->getStyle('B9:C9')->applyFromArray($styleBorder);
+        //$sheet->getStyle('B9:J9')->applyFromArray($style);
+
+        
+
+
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+
+        // We'll be outputting an excel file
+        header('Content-type: application/vnd.ms-excel');
+
+        // It will be called file.xls
+        header('Content-Disposition: attachment; filename="quotation.xls"');
+        $objWriter->save('php://output');
+
+        
+        exit();
+
+        //return $list;   
+    }
 
     /**
      * @GET

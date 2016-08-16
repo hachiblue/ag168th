@@ -64,6 +64,17 @@ app.controller('QuotCTL', ['$scope', '$http', '$location', '$route', function ($
         });
     };
 
+    $scope.getExcel = function() 
+    {
+        var qId = '';
+        $.each(quotationItem, function(i, e) {
+            qId += e + ",";
+        });
+        
+        window.open("../api/property/quotation2?q=" + qId);
+
+    };
+
     formGetQuotation();
 
     window.s = $scope;

@@ -4,10 +4,13 @@ session_start();
 //   return "";
 // }
 ?>
+
+<div ng-controller="QuotCTL">
+
 <div class="row">
 	<a href="#list" class="btn btn-primary pull-right">Back</a>
 	<button class="btn btn-danger pull-right" onclick="printDiv()">PRINT</button>
-	<button class="btn btn-danger pull-right" onclick="exportToExcel()">EXCEL</button>
+	<button class="btn btn-danger pull-right" ng-click="getExcel()">EXCEL</button>
 </div>
 <div id="printout">
 <style>
@@ -246,6 +249,8 @@ session_start();
 		</div>
 	</div>	
 		
+</div>
+
 </div>
 
 </div>
