@@ -469,13 +469,14 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         if (this.form.chkcontact4 === true) up_percent += 0.03;
         if (this.form.chkcontact5 === true) vat7p = 1.002039;
 
-        tmp_plus = this.form.net_sell_price * up_percent;
+        tmp_plus = this.form.net_sell_price * up_percent || 0;
+
 
         //if ($scope.form.requirement_id != 2 && $scope.form.requirement_id != undefined)
         //{
             //this.form.net_sell_price = Math.round( ((parseFloat(this.form.net_sell_price) + tmp_plus) * vat7p) * 100 ) / 100;
 
-            this.form.sell_price = ((parseFloat(this.form.net_sell_price) + tmp_plus) * vat7p).toFixed(2);
+            this.form.sell_price = ((parseFloat(this.form.net_sell_price || 0) + tmp_plus) * vat7p).toFixed(2);
         //}
 
         var chk1 = (this.form.chkcontact1 === true) ? 1 : 0;
@@ -943,13 +944,15 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
         if (this.form.chkcontact4 === true) up_percent += 0.03;
         if (this.form.chkcontact5 === true) vat7p = 1.002039;
 
-        tmp_plus = this.form.net_sell_price * up_percent;
+        tmp_plus = this.form.net_sell_price * up_percent || 0;
 
         //if ($scope.form.requirement_id != 2 && $scope.form.requirement_id != undefined)
         //{
             //this.form.net_sell_price = Math.round( ((parseFloat(this.form.net_sell_price) + tmp_plus) * vat7p) * 100 ) / 100;
 
-            this.form.sell_price = ((parseFloat(this.form.net_sell_price) + tmp_plus) * vat7p).toFixed(2);
+
+        
+        this.form.sell_price = ((parseFloat(this.form.net_sell_price || 0) + tmp_plus) * vat7p).toFixed(2);
         //}
 
         var chk1 = (this.form.chkcontact1 === true) ? 1 : 0;

@@ -70,7 +70,7 @@ use Main\Helper;
     <link href="<?php echo Helper\URL::absolute("/public/css/admin_style.css")?>" rel="stylesheet">
 
     <script src="<?php echo \Main\Helper\URL::absolute("/public/js/chosen.jquery.min.js")?>"></script>
-    
+    <script src="<?php echo \Main\Helper\URL::absolute("/public/js/jquery.table2excel.min.js")?>"></script>
 
     <!-- Q -->
     <script src="<?php echo Helper\URL::absolute("/public/js/q.js")?>"></script>
