@@ -663,6 +663,8 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
             return 0;
         });
+
+        getProperty();
     });
 
     $http.get("../api/collection/thailocation").success(function (thailocation)
@@ -670,91 +672,95 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
         $scope.thailocation = thailocation;
     });
 
-    $http.get("../api/property/" + $routeParams.id).success(function (data)
+
+    function getProperty()
     {
-        $scope.reference_id = data.reference_id;
-        $scope.owner = data.owner;
-        $scope.form = data;
-
-        $scope.form.chkcontact3a = 0;
-
-        var
-            i, j,
-            owner = data.owner.split(':'),
-            tmpl = $("#tmpl-owner"),
-            moreowner = $("#moreowner"),
-            html,
-            k = 2,
-            owner_field,
-            oa = '', ob = '', oc = '';
-
-        for( j in $scope.collection.project)
+        $http.get("../api/property/" + $routeParams.id).success(function (data)
         {
-            if( $scope.collection.project[j].id == $scope.form.project_id )
+            $scope.reference_id = data.reference_id;
+            $scope.owner = data.owner;
+            $scope.form = data;
+
+            $scope.form.chkcontact3a = 0;
+
+            var
+                i, j,
+                owner = data.owner.split(':'),
+                tmpl = $("#tmpl-owner"),
+                moreowner = $("#moreowner"),
+                html,
+                k = 2,
+                owner_field,
+                oa = '', ob = '', oc = '';
+
+            for( j in $scope.collection.project)
             {
-                var proj = $scope.collection.project[j];
-                $scope.form.airport_link_id = proj.airport_link_id;
-                $scope.form.bts_id = proj.bts_id;
-                $scope.form.district_id = proj.district_id;
-                $scope.form.mrt_id = proj.mrt_id;
-                $scope.form.province_id = proj.province_id;
-                $scope.form.sub_district_id = proj.sub_district_id;
-                $scope.form.zone_id = proj.zone_id;
-                break;
-            }
-        }
-
-        owner_field = owner[0].split(',');
-
-        $scope.form["owner_name1"] = owner_field[0];
-        $scope.form["owner_phone1a"] = owner_field[1].substring(0, 3);
-        $scope.form["owner_phone1b"] = owner_field[1].substring(3, 6);
-        $scope.form["owner_phone1c"] = owner_field[1].substring(6, 10);
-        $scope.form["owner_cust1"] = owner_field[2];
-
-        for (i in owner)
-        {
-            if (i == 0) continue;
-
-            html = '<div class="row" id="row_' + k + '"><div class="col-md-4"></div>' +
-                tmpl.html()
-                .replace(/owner_name1/g, 'owner_name' + k)
-                .replace(/owner_phone1/g, 'owner_phone' + k)
-                .replace(/owner_cust1/g, 'owner_cust' + k)
-                .replace('ng-click="addmore_owner();"', 'onclick="s.delmore_owner(this, ' + k + ')"')
-                .replace("plus", "minus") + '</div>';
-
-            $(html).find('div').first().remove();
-
-            moreowner.append($compile(html)($scope));
-            moreowner.find('div[name=ref_id]').each(function ()
-            {
-                $(this).remove();
-            });
-
-            owner_field = owner[i].split(',');
-
-            if( typeof owner_field[1] != 'undefined' && owner_field[1].length > 0 )
-            {
-                oa = owner_field[1].substring(0, 3);
-                ob = owner_field[1].substring(3, 6);
-                oc = owner_field[1].substring(6, 10);
+                if( $scope.collection.project[j].id == $scope.form.project_id )
+                {
+                    var proj = $scope.collection.project[j];
+                    $scope.form.airport_link_id = proj.airport_link_id;
+                    $scope.form.bts_id = proj.bts_id;
+                    $scope.form.district_id = proj.district_id;
+                    $scope.form.mrt_id = proj.mrt_id;
+                    $scope.form.province_id = proj.province_id;
+                    $scope.form.sub_district_id = proj.sub_district_id;
+                    $scope.form.zone_id = proj.zone_id;
+                    break;
+                }
             }
 
-            $scope.form["owner_name" + k] = owner_field[0];
-            $scope.form["owner_phone" + k + "a"] = oa;
-            $scope.form["owner_phone" + k + "b"] = ob;
-            $scope.form["owner_phone" + k + "c"] = oc;
-            $scope.form["owner_cust" + k] = owner_field[2];
+            owner_field = owner[0].split(',');
 
-            k++;
-        }
+            $scope.form["owner_name1"] = owner_field[0];
+            $scope.form["owner_phone1a"] = owner_field[1].substring(0, 3);
+            $scope.form["owner_phone1b"] = owner_field[1].substring(3, 6);
+            $scope.form["owner_phone1c"] = owner_field[1].substring(6, 10);
+            $scope.form["owner_cust1"] = owner_field[2];
 
-        $scope.formSetChkContract();
-        $scope.formRequirementChange();
-        $scope.formPropertyStatusIdChange();
-        $scope.formPendingTypeChange();        
-    });
+            for (i in owner)
+            {
+                if (i == 0) continue;
+
+                html = '<div class="row" id="row_' + k + '"><div class="col-md-4"></div>' +
+                    tmpl.html()
+                    .replace(/owner_name1/g, 'owner_name' + k)
+                    .replace(/owner_phone1/g, 'owner_phone' + k)
+                    .replace(/owner_cust1/g, 'owner_cust' + k)
+                    .replace('ng-click="addmore_owner();"', 'onclick="s.delmore_owner(this, ' + k + ')"')
+                    .replace("plus", "minus") + '</div>';
+
+                $(html).find('div').first().remove();
+
+                moreowner.append($compile(html)($scope));
+                moreowner.find('div[name=ref_id]').each(function ()
+                {
+                    $(this).remove();
+                });
+
+                owner_field = owner[i].split(',');
+
+                if( typeof owner_field[1] != 'undefined' && owner_field[1].length > 0 )
+                {
+                    oa = owner_field[1].substring(0, 3);
+                    ob = owner_field[1].substring(3, 6);
+                    oc = owner_field[1].substring(6, 10);
+                }
+
+                $scope.form["owner_name" + k] = owner_field[0];
+                $scope.form["owner_phone" + k + "a"] = oa;
+                $scope.form["owner_phone" + k + "b"] = ob;
+                $scope.form["owner_phone" + k + "c"] = oc;
+                $scope.form["owner_cust" + k] = owner_field[2];
+
+                k++;
+            }
+
+            $scope.formSetChkContract();
+            $scope.formRequirementChange();
+            $scope.formPropertyStatusIdChange();
+            $scope.formPendingTypeChange();        
+        });
+    }
 
     $scope.initSuccess = false;
     var itv = setInterval(function ()

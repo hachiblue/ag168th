@@ -130,7 +130,7 @@ $this->import("/admin/layout/header");
                             class="fa fa-building fa-2"></i> Properties</a></li>
 
                 <li>
-                    <a href="<?php echo \Main\Helper\URL::absolute('/admin/enquiries#/rentalexpire') ?>">Rental Expire (<?php echo $params['exCount'];?>)</a>
+                    <a href="<?php echo \Main\Helper\URL::absolute('/admin/enquiries#/rentalexpire') ?>">Rental Expire (<?php echo (isset($params['exCount'])?$params['exCount']:0);?>)</a>
                 </li>
 
 
