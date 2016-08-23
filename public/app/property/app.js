@@ -553,7 +553,7 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
             if (i.indexOf("owner_name") != -1)
             {
                 k = i.replace("owner_name", "");
-                owner += $scope.form["owner_name" + k] + ',' + $scope.form["owner_phone" + k + "a"] + $scope.form["owner_phone" + k + "b"] + $scope.form["owner_phone" + k + "c"] + ',' + $scope.form["owner_cust" + k] + ':';
+                owner += ($scope.form["owner_name" + k] || '') + ',' + ($scope.form["owner_phone" + k + "a"] || '') + ($scope.form["owner_phone" + k + "b"] || '') + ($scope.form["owner_phone" + k + "c"] || '') + ',' + ($scope.form["owner_cust" + k] || '') + ':';
             }
         }
 
