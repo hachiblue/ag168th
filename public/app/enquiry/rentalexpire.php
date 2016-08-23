@@ -5,6 +5,7 @@
 		<table class="table table-striped table-hover ">
 			<thead>
 			<tr>
+				<th></th>
 				<th ng-click="sort('reference_id')">
 				#
 				<span class="glyphicon sort-icon" ng-show="sortKey=='reference_id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
@@ -27,6 +28,7 @@
 			</thead>
 			<tbody>
 			<tr ng-repeat="prop in props.data">
+				<td><a href="properties#/edit/{{prop.id}}"><button class="btn btn-success">View</button></a></td>
 				<td>{{prop.reference_id}}</td>
 				<td>{{prop.rented_expire}}</td>
 				<td>{{prop.created_at}}</td>

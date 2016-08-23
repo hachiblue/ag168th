@@ -378,7 +378,13 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
 
         if (!window.confirm('Are you sure?')) return;
 
-        var cust = $scope.form["ncustomer"] + ',' + $scope.form["t1customer"] + $scope.form["t2customer"] + $scope.form["t3customer"] + ',' + $scope.form["ecustomer"];
+        var ncustomer = $scope.form["ncustomer"] || '';
+        var ecustomer = $scope.form["ecustomer"] || '';
+        var t1customer = $scope.form["t1customer"] || '';
+        var t2customer = $scope.form["t2customer"] || '';
+        var t3customer = $scope.form["t3customer"] || '';
+
+        var cust = ncustomer + ',' + t1customer + t2customer + t3customer + ',' + ecustomer;
         $scope.form.customer = cust;
 
         $.post("../api/enquiry", $scope.form, function(data)

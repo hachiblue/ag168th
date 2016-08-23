@@ -515,7 +515,7 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
 
         var bedrooms = this.form.bedrooms || '';
         var bathrooms = this.form.bathrooms || '';
-        if (this.form.room_type_id == 1 && ((bedrooms == '' || bedrooms == 0) || (bathrooms == '' || bathrooms == 0)))
+        if (this.form.room_type_id == 1 && ( bedrooms == '' || (bathrooms == '' || bathrooms == 0)))
         {
             alert("Studio need Bed Room and Bath Room");
             return false;
@@ -709,13 +709,13 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
                 }
             }
 
-            owner_field = owner[0].split(',');
+            owner_field = owner[0].replace(/(-|\s)/g,'').split(',');
 
             $scope.form["owner_name1"] = owner_field[0];
             $scope.form["owner_phone1a"] = owner_field[1].substring(0, 3);
             $scope.form["owner_phone1b"] = owner_field[1].substring(3, 6);
             $scope.form["owner_phone1c"] = owner_field[1].substring(6, 10);
-            $scope.form["owner_cust1"] = owner_field[2];
+            $scope.form["owner_cust1"] = (owner_field[2] || '').replace('undefined','');
 
             for (i in owner)
             {
@@ -989,7 +989,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
     $scope.formSetChkContract = function ()
     {
-        var arr_chk = this.form.contract_chk_key.split(","),
+        var arr_chk = (this.form.contract_chk_key || '').split(","),
             i, j = 1;
 
         for (i in arr_chk)
@@ -1024,7 +1024,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             };
         }
 
-        if (form.room_type_id == 1 && ((form.bedrooms == '' || form.bedrooms == 0) || (form.bathrooms == '' || form.bathrooms == 0)))
+        if (form.room_type_id == 1 && ( form.bedrooms == '' || (form.bathrooms == '' || form.bathrooms == 0)))
         {
             alert("Studio need Bed Room and Bath Room");
             return false;
@@ -1361,7 +1361,13 @@ app.filter('fvip', function ()
     {
         var vip = str.split(':');
         var first_vip = vip[0].split(',');
-        return first_vip[2];
+
+        if( undefined !== first_vip[2] && first_vip[2] != '' )
+        {
+            return 'VIP';
+        }
+
+        return '';
     };
 });
 
