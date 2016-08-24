@@ -257,7 +257,10 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         {
             $scope.initSuccess = true;
             $scope.form.feature_unit_id = 4;
+            $scope.form.chkcontact1a = 2;
+            $scope.form.chkcontact2a = 2;
             $scope.form.chkcontact3a = 2;
+            $scope.form.chkcontact4a = 2;
             clearInterval(itv);
         }
     }, 100);
@@ -469,29 +472,57 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
             tmp_plus = 0,
             vat7p = 1;
 
-        if (this.form.chkcontact1 === true) up_percent += 0.033;
-        if (this.form.chkcontact2 === true) up_percent += 0.005;
+        //if (this.form.chkcontact1 === true) up_percent += 0.033;
+        if (this.form.chkcontact1 === true) 
+        {
+            if( this.form.chkcontact1a == 1 ) up_percent += 0.0165;
+            if( this.form.chkcontact1a == 2 ) up_percent += 0.033;
+        }
+
+        if (this.form.chkcontact2 === true) 
+        {
+            if( this.form.chkcontact2a == 1 ) up_percent += 0.0025;
+            if( this.form.chkcontact2a == 2 ) up_percent += 0.005;
+        }
+
         if (this.form.chkcontact3 === true) 
         {
             if( this.form.chkcontact3a == 1 ) up_percent += 0.01;
             if( this.form.chkcontact3a == 2 ) up_percent += 0.02;
         }
 
-        if (this.form.chkcontact4 === true) up_percent += 0.03;
+        if (this.form.chkcontact4 === true) 
+        {
+            if( this.form.chkcontact4a == 1 ) up_percent += 0.015;
+            if( this.form.chkcontact4a == 2 ) up_percent += 0.03;
+        }
+
         if (this.form.chkcontact5 === true) vat7p = 1.002039;
 
         tmp_plus = this.form.net_sell_price * up_percent || 0;
-
 
         //if ($scope.form.requirement_id != 2 && $scope.form.requirement_id != undefined)
         //{
             //this.form.net_sell_price = Math.round( ((parseFloat(this.form.net_sell_price) + tmp_plus) * vat7p) * 100 ) / 100;
 
-            this.form.sell_price = ((parseFloat(this.form.net_sell_price || 0) + tmp_plus) * vat7p).toFixed(2);
+
+        
+        this.form.sell_price = ((parseFloat(this.form.net_sell_price || 0) + tmp_plus) * vat7p).toFixed(2);
         //}
 
-        var chk1 = (this.form.chkcontact1 === true) ? 1 : 0;
-        var chk2 = (this.form.chkcontact2 === true) ? 1 : 0;
+        var chk1 = 0;
+        if (this.form.chkcontact1 === true) 
+        { 
+            if( this.form.chkcontact1a == 1 ) chk1 = 1;
+            if( this.form.chkcontact1a == 2 ) chk1 = 2;
+        }
+
+        var chk2 = 0;
+        if (this.form.chkcontact2 === true) 
+        { 
+            if( this.form.chkcontact2a == 1 ) chk2 = 1;
+            if( this.form.chkcontact2a == 2 ) chk2 = 2;
+        }
 
         var chk3 = 0;
         if (this.form.chkcontact3 === true) 
@@ -499,7 +530,14 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
             if( this.form.chkcontact3a == 1 ) chk3 = 1;
             if( this.form.chkcontact3a == 2 ) chk3 = 2;
         }
-        var chk4 = (this.form.chkcontact4 === true) ? 1 : 0;
+        
+        var chk4 = 0;
+        if (this.form.chkcontact4 === true) 
+        { 
+            if( this.form.chkcontact4a == 1 ) chk4 = 1;
+            if( this.form.chkcontact4a == 2 ) chk4 = 2;
+        }
+
         var chk5 = (this.form.chkcontact5 === true) ? 1 : 0;
 
         this.form.contract_chk_key = chk1 + ',' + chk2 + ',' + chk3 + ',' + chk4 + ',' + chk5;
@@ -553,7 +591,7 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
             if (i.indexOf("owner_name") != -1)
             {
                 k = i.replace("owner_name", "");
-                owner += ($scope.form["owner_name" + k] || '') + ',' + ($scope.form["owner_phone" + k + "a"] || '') + ($scope.form["owner_phone" + k + "b"] || '') + ($scope.form["owner_phone" + k + "c"] || '') + ',' + ($scope.form["owner_cust" + k] || '') + ':';
+                owner += ($scope.form["owner_name" + k] || '') + ',' + ($scope.form["owner_phone" + k + "a"] || '') + ($scope.form["owner_phone" + k + "b"] || '') + ($scope.form["owner_phone" + k + "c"] || '') + ',' + ($scope.form["owner_cust" + k] || '') + ',' + ($scope.form["owner_email" + k] || '') + ':';
             }
         }
 
@@ -611,6 +649,7 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         html = '<div class="row" id="row_' + this.ctn + '">' + tmpl.html()
             .replace(/owner_name1/g, 'owner_name' + this.ctn)
             .replace(/owner_phone1/g, 'owner_phone' + this.ctn)
+            .replace(/owner_email1/g, 'owner_email' + this.ctn)
             .replace(/owner_cust1/g, 'owner_cust' + this.ctn)
             .replace('ng-click="addmore_owner();"', 'onclick="s.delmore_owner(this, ' + this.ctn + ')"')
             .replace("plus", "minus") + '</div>';
@@ -681,7 +720,10 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             $scope.owner = data.owner;
             $scope.form = data;
 
-            $scope.form.chkcontact3a = 0;
+            $scope.form.chkcontact1a = 2;
+            $scope.form.chkcontact2a = 2;
+            $scope.form.chkcontact3a = 2;
+            $scope.form.chkcontact4a = 2;
 
             var
                 i, j,
@@ -714,17 +756,19 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             $scope.form["owner_name1"] = owner_field[0];
             $scope.form["owner_phone1a"] = owner_field[1].substring(0, 3);
             $scope.form["owner_phone1b"] = owner_field[1].substring(3, 6);
-            $scope.form["owner_phone1c"] = owner_field[1].substring(6, 10);
+            $scope.form["owner_phone1c"] = owner_field[1].substring(6, 6+owner_field[1].length);
+            $scope.form["owner_email1"] = (owner_field[3] || '').replace('undefined','');
             $scope.form["owner_cust1"] = (owner_field[2] || '').replace('undefined','');
 
             for (i in owner)
             {
                 if (i == 0) continue;
 
-                html = '<div class="row" id="row_' + k + '"><div class="col-md-4"></div>' +
+                html = '<div class="row" id="row_' + k + '"><div class="col-md-2"></div>' +
                     tmpl.html()
                     .replace(/owner_name1/g, 'owner_name' + k)
                     .replace(/owner_phone1/g, 'owner_phone' + k)
+                    .replace(/owner_email1/g, 'owner_email' + k)
                     .replace(/owner_cust1/g, 'owner_cust' + k)
                     .replace('ng-click="addmore_owner();"', 'onclick="s.delmore_owner(this, ' + k + ')"')
                     .replace("plus", "minus") + '</div>';
@@ -743,13 +787,14 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
                 {
                     oa = owner_field[1].substring(0, 3);
                     ob = owner_field[1].substring(3, 6);
-                    oc = owner_field[1].substring(6, 10);
+                    oc = owner_field[1].substring(6, 6+owner_field[1].length);
                 }
 
                 $scope.form["owner_name" + k] = owner_field[0];
                 $scope.form["owner_phone" + k + "a"] = oa;
                 $scope.form["owner_phone" + k + "b"] = ob;
                 $scope.form["owner_phone" + k + "c"] = oc;
+                $scope.form["owner_email" + k] = owner_field[3];
                 $scope.form["owner_cust" + k] = owner_field[2];
 
                 k++;
@@ -950,15 +995,31 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             tmp_plus = 0,
             vat7p = 1;
 
-        if (this.form.chkcontact1 === true) up_percent += 0.033;
-        if (this.form.chkcontact2 === true) up_percent += 0.005;
+        //if (this.form.chkcontact1 === true) up_percent += 0.033;
+        if (this.form.chkcontact1 === true) 
+        {
+            if( this.form.chkcontact1a == 1 ) up_percent += 0.0165;
+            if( this.form.chkcontact1a == 2 ) up_percent += 0.033;
+        }
+
+        if (this.form.chkcontact2 === true) 
+        {
+            if( this.form.chkcontact2a == 1 ) up_percent += 0.0025;
+            if( this.form.chkcontact2a == 2 ) up_percent += 0.005;
+        }
+
         if (this.form.chkcontact3 === true) 
         {
             if( this.form.chkcontact3a == 1 ) up_percent += 0.01;
             if( this.form.chkcontact3a == 2 ) up_percent += 0.02;
         }
 
-        if (this.form.chkcontact4 === true) up_percent += 0.03;
+        if (this.form.chkcontact4 === true) 
+        {
+            if( this.form.chkcontact4a == 1 ) up_percent += 0.015;
+            if( this.form.chkcontact4a == 2 ) up_percent += 0.03;
+        }
+
         if (this.form.chkcontact5 === true) vat7p = 1.002039;
 
         tmp_plus = this.form.net_sell_price * up_percent || 0;
@@ -972,8 +1033,19 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
         this.form.sell_price = ((parseFloat(this.form.net_sell_price || 0) + tmp_plus) * vat7p).toFixed(2);
         //}
 
-        var chk1 = (this.form.chkcontact1 === true) ? 1 : 0;
-        var chk2 = (this.form.chkcontact2 === true) ? 1 : 0;
+        var chk1 = 0;
+        if (this.form.chkcontact1 === true) 
+        { 
+            if( this.form.chkcontact1a == 1 ) chk1 = 1;
+            if( this.form.chkcontact1a == 2 ) chk1 = 2;
+        }
+
+        var chk2 = 0;
+        if (this.form.chkcontact2 === true) 
+        { 
+            if( this.form.chkcontact2a == 1 ) chk2 = 1;
+            if( this.form.chkcontact2a == 2 ) chk2 = 2;
+        }
 
         var chk3 = 0;
         if (this.form.chkcontact3 === true) 
@@ -981,7 +1053,14 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             if( this.form.chkcontact3a == 1 ) chk3 = 1;
             if( this.form.chkcontact3a == 2 ) chk3 = 2;
         }
-        var chk4 = (this.form.chkcontact4 === true) ? 1 : 0;
+        
+        var chk4 = 0;
+        if (this.form.chkcontact4 === true) 
+        { 
+            if( this.form.chkcontact4a == 1 ) chk4 = 1;
+            if( this.form.chkcontact4a == 2 ) chk4 = 2;
+        }
+
         var chk5 = (this.form.chkcontact5 === true) ? 1 : 0;
 
         this.form.contract_chk_key = chk1 + ',' + chk2 + ',' + chk3 + ',' + chk4 + ',' + chk5;
@@ -999,6 +1078,10 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             if( this.form["chkcontact" + j + "a"] !== undefined )
             {
                 this.form["chkcontact" + j + "a"] = arr_chk[i];
+            }
+            else
+            {
+                this.form["chkcontact" + j + "a"] = 2;
             }
 
             j++;
@@ -1039,7 +1122,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             if (i.indexOf("owner_name") != -1)
             {
                 k = i.replace("owner_name", "");
-                owner += $scope.form["owner_name" + k] + ',' + $scope.form["owner_phone" + k + "a"] + $scope.form["owner_phone" + k + "b"] + $scope.form["owner_phone" + k + "c"] + ',' + $scope.form["owner_cust" + k] + ':';
+                owner += $scope.form["owner_name" + k] + ',' + $scope.form["owner_phone" + k + "a"] + $scope.form["owner_phone" + k + "b"] + $scope.form["owner_phone" + k + "c"] + ',' + $scope.form["owner_cust" + k] + ',' + $scope.form["owner_email" + k] + ':';
             }
         }
 
@@ -1087,9 +1170,10 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
         var ctn = this.ctn;
 
-        html = '<div class="row" id="row_' + this.ctn + '"><div class="col-md-4"></div>' + tmpl.html()
+        html = '<div class="row" id="row_' + this.ctn + '"><div class="col-md-2"></div>' + tmpl.html()
             .replace(/owner_name1/g, 'owner_name' + this.ctn)
             .replace(/owner_phone1/g, 'owner_phone' + this.ctn)
+            .replace(/owner_email1/g, 'owner_email' + this.ctn)
             .replace(/owner_cust1/g, 'owner_cust' + this.ctn)
             .replace('ng-click="addmore_owner();"', 'onclick="s.delmore_owner(this, ' + this.ctn + ')"')
             .replace("plus", "minus") + '</div>';
@@ -1359,14 +1443,17 @@ app.filter('fvip', function ()
 {
     return function (str)
     {
-        var vip = str.split(':');
-        var first_vip = vip[0].split(',');
-
-        if( undefined !== first_vip[2] && first_vip[2] != '' )
+        var vip = str.split(':'), i, item_vip;
+        for( i in vip )
         {
-            return 'VIP';
-        }
+            item_vip = vip[i].split(',');
 
+            if( undefined !== item_vip[2] && item_vip[2] != '' && item_vip[2].trim() != 'vim' )
+            {
+                return 'VIP';
+            }
+        }
+       
         return '';
     };
 });
