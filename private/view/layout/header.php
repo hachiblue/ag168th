@@ -1141,7 +1141,7 @@ The Seed Atom,
                     </ul>
                 </li>
                 <li><a href="<?php echo \Main\Helper\URL::absolute("/list")?>">PROPERTY SEARCH</a></li>
-                <li><a href="<?php echo \Main\Helper\URL::absolute("/listprops")?>">LIST YOUR PROPERTY</a></li>
+                <li><a href="<?php echo \Main\Helper\URL::absolute("/regisprops")?>">LIST YOUR PROPERTY</a></li>
                 <li><a href="<?php echo \Main\Helper\URL::absolute("/campaign")?>">EDITORIAL</a></li>
                 <li><a href="<?php echo \Main\Helper\URL::absolute("/contact")?>">CONTACT US</a></li>
             </ul>
