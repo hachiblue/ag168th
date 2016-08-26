@@ -74,7 +74,7 @@ input:disabled.form-control, select:disabled.form-control, textarea:disabled.for
 }
 
 .fee_percent_sel select {
-  width: 44px;
+  width: 64px;
   margin-top: -3px;
-  margin-left: -4px;
+  margin-left: -11px;
 }

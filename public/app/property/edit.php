@@ -7,7 +7,7 @@
 
 	<div class="row" id="tmpl-owner">
 		
-		<div class="col-md-4 form-group" name="ref_id">
+		<div class="col-md-2 form-group" name="ref_id">
 		  <label>Reference ID</label>
 		  <input class="form-control" value="{{reference_id}}" ReadOnly>
 		</div>
@@ -21,18 +21,24 @@
 		<div class="col-sm-2 col-md-2 form-group">
 			<label>Owner Phone</label>
       <div class="col-sm-12 nopadd">
-      <div class="col-sm-3 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1a" pattern="[^\,.]+" maxlength="3" required></div>
-      <div class="col-sm-4 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1b" pattern="[^\,.]+" maxlength="3" required></div>
-      <div class="col-sm-5 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1c" pattern="[^\,.]+" maxlength="4" required></div>
+      <div class="col-sm-3 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1a" pattern="[^\,\:.]+" maxlength="3" required></div>
+      <div class="col-sm-4 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1b" pattern="[^\,\:.]+" maxlength="3" required></div>
+      <div class="col-sm-5 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1c" pattern="[^\,\:.]+" required></div>
       </div>
 
 			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
 		</div>
 
+    <div class="col-sm-1 col-md-2 form-group">
+      <label>Email, Line Id</label>
+      <input class="form-control" ng-model="form.owner_email1" pattern="[^\,\:.]+">
+      <!-- <input class="form-control" disabled="disabled" value="ปิดไว้จนกว่าจะเสร็จ"> -->
+    </div>
+
 		<div class="col-sm-2 col-md-2 form-group">
 			<label>Customer VIP</label>
-			<input class="form-control" ng-if="editAllow" ng-model="form.owner_cust1">
-			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
+			<input class="form-control" ng-if="editAllow" ng-model="form.owner_cust1" pattern="[^\,\:.]+">
+			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="" pattern="[^\,\:.]+">
 		</div>
 
 		<div class="col-sm-2 col-md-2 form-group">
@@ -58,6 +64,10 @@
 			  <option value="">Please select</option>
 		  </select>
 		</div>
+
+    <div class="col-md-3 col-md-offset-1 form-group">
+      <label>{{form.owner}}</label>
+    </div>
 
     <div id="pending-box" class="col-md-3 form-group" style="display:none;">
       <label>Pending</label>
@@ -189,19 +199,35 @@
       </div>
       <div style="clear: both;"></div>
 		
-		<div class="col-md-8 form-group">
-			<div class="checkboxxx" style="float:left;margin-right: 20px;">
-				<label>
-					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact1" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ภาษีธุรกิจเฉพาะ 3.3%</div>
+		<div class="col-md-12 form-group">
+
+			<div class=" col-md-2 checkboxxx">
+				<label class="col-xs-6 nopadd">
+					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact1" ng-click="formChkContractUpChange()" style="float: left;">
+          <div style="margin-left: 20px;">ภาษีธุรกิจเฉพาะ</div>
 				</label>
+        <div class="col-xs-2 nopadd fee_percent_sel">
+          <select class="form-control" id="fee-sel" ng-model="form.chkcontact1a"  ng-change="formChkContractUpChange()">
+            <option value="1">1.65%</option>
+            <option value="2" selected>3.3%</option>
+          </select>
+        </div>
 			</div>
-			<div class="checkboxxx" style="float:left;margin-right: 20px;">
-				<label>
-					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact2" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ค่าอาการแสตมป์ 0.5%</div>
+
+			<div class=" col-md-2 checkboxxx">
+				<label class="col-xs-8 nopadd">
+					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact2" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ค่าอาการแสตมป์</div>
 				</label>
+        <div class="col-xs-2 nopadd fee_percent_sel">
+          <select class="form-control" id="fee-sel" ng-model="form.chkcontact2a"  ng-change="formChkContractUpChange()">
+            <option value="1">0.25%</option>
+            <option value="2" selected>0.5%</option>
+          </select>
+        </div>
 			</div>
-			<div class="checkboxxx" style="float:left;margin-right: 20px;">
-				<label class="col-xs-10 nopadd">
+
+			<div class=" col-md-2 checkboxxx">
+				<label class="col-xs-8 nopadd">
 					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact3" ng-click="formChkContractUpChange()" style="float: left;">
           <div style="margin-left: 20px;">ค่าธรรมเนียมการโอน</div>
 				</label>
@@ -212,16 +238,25 @@
           </select>
         </div>
 			</div>
-			<div class="checkboxxx" style="float:left;margin-right: 20px;">
-				<label>
-					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact4" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">Commission 3%</div>
+
+			<div class="col-md-2 checkboxxx">
+				<label class="col-xs-8 nopadd">
+					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact4" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">Commission</div>
 				</label>
+        <div class="col-xs-2 nopadd fee_percent_sel">
+          <select class="form-control" id="fee-sel" ng-model="form.chkcontact4a"  ng-change="formChkContractUpChange()">
+            <option value="1">1.5%</option>
+            <option value="2" selected>3%</option>
+          </select>
+        </div>
 			</div>
-      <div class="checkboxxx" style="float:left;margin-right: 20px;">
+
+      <div class="col-md-2 checkboxxx">
         <label>
           <input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact5" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">Vat 7%</div>
         </label>
       </div>
+
 		</div>
 
 	   <div style="clear: both;"></div>
