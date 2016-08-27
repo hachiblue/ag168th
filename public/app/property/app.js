@@ -751,23 +751,17 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
                 }
             }
 
-<<<<<<< HEAD
-            owner_field = owner[0].replace('-','').split(',');
-=======
+
             owner_field = owner[0].replace(/(-|\s)/g,'').split(',');
->>>>>>> e59c0d285f5b5674bce93b7a8f2f3f928249f25c
+
 
             $scope.form["owner_name1"] = owner_field[0];
             $scope.form["owner_phone1a"] = owner_field[1].substring(0, 3);
             $scope.form["owner_phone1b"] = owner_field[1].substring(3, 6);
-<<<<<<< HEAD
-            $scope.form["owner_phone1c"] = owner_field[1].substring(6, 10);
-            $scope.form["owner_cust1"] = owner_field[2].replace('undefined','');
-=======
             $scope.form["owner_phone1c"] = owner_field[1].substring(6, 6+owner_field[1].length);
             $scope.form["owner_email1"] = (owner_field[3] || '').replace('undefined','');
             $scope.form["owner_cust1"] = (owner_field[2] || '').replace('undefined','');
->>>>>>> e59c0d285f5b5674bce93b7a8f2f3f928249f25c
+
 
             for (i in owner)
             {

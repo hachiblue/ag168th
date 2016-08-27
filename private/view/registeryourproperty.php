@@ -247,24 +247,9 @@ $province = $db->select("province", "*");
 
 		<label for="data-floor" class="col-xs-1 col-form-label">Floor</label>
 		<div class="col-xs-3">
-			<select name="Floor" class="form-control" id="data-floor" required>
-                <option></option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-                <option>12</option>
-                <option>13</option>
-                <option>14</option>
-                <option>15</option>
-            </select>
+
+			<input class="form-control" type="number" name="Floor" class="form-control" id="data-floor" required>
+
 		</div>
 
 		<label for="data-direction" class="col-xs-1 col-form-label">Direction</label>
@@ -283,12 +268,12 @@ $province = $db->select("province", "*");
 
 		<label for="data-net" class="col-xs-1 col-form-label">Net Price</label>
 		<div class="col-xs-3">
-			<input class="form-control" type="number" value="" id="data-net" name="Net Price" required>
+			<input class="form-control" type="number" value="" id="data-net" name="Net Price">
 		</div>
 
 		<label for="data-rental" class="col-xs-1 col-form-label">Rental Price</label>
 		<div class="col-xs-3">
-			<input class="form-control" type="number" value="" id="data-rental" name="Rental Price" required>
+			<input class="form-control" type="number" value="" id="data-rental" name="Rental Price">
 		</div>
 
 	</div>
@@ -355,6 +340,28 @@ $(document).ready(function() {
 
 	});
 
+	$("#data-requirement").change(function() {
+
+		$('#data-net').prop('required', false);
+		$('#data-rental').prop('required', false);
+
+		if( 'For Sale' === this.value || 'For Sale/Rent' === this.value )
+		{
+			$('#data-net').prop('required', true);
+		}
+
+		if( 'For Rent' === this.value || 'For Sale/Rent' === this.value )
+		{
+			$('#data-rental').prop('required', true);
+		}
+
+		if( 'Sale With Tenant' === this.value )
+		{
+			$('#data-rental').prop('required', true);
+			$('#data-net').prop('required', true);
+		}
+	});
+
 
 	$('#img-a').click(function(e) {
         $('#img-input').click();
@@ -371,7 +378,6 @@ $(document).ready(function() {
           $imgName.text("");
         }
       });
-
 
 });
 

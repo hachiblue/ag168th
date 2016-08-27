@@ -31,14 +31,14 @@
 
     <div class="col-sm-1 col-md-2 form-group">
       <label>Email, Line Id</label>
-      <input class="form-control" ng-model="form.owner_email1" pattern="[^\,\:.]+">
+      <input class="form-control" ng-model="form.owner_email1" pattern="[^\,\:]+">
       <!-- <input class="form-control" disabled="disabled" value="ปิดไว้จนกว่าจะเสร็จ"> -->
     </div>
 
 		<div class="col-sm-2 col-md-2 form-group">
 			<label>Customer VIP</label>
-			<input class="form-control" ng-if="editAllow" ng-model="form.owner_cust1" pattern="[^\,\:.]+">
-			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="" pattern="[^\,\:.]+">
+			<input class="form-control" ng-if="editAllow" ng-model="form.owner_cust1" pattern="[^\,\:]+">
+			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="" pattern="[^\,\:]+">
 		</div>
 
 		<div class="col-sm-2 col-md-2 form-group">
