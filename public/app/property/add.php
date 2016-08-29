@@ -68,9 +68,10 @@ session_start();
       required>
         <option value="">Please select</option>
         <option value="1">No Answer</option>
-        <option value="2">Line Busy</option>
+        <option value="2">Follow Up</option>
+        <!--<option value="2">Line Busy</option>
         <option value="3">Leave message</option>
-        <option value="4">Etc.</option>
+        <option value="4">Etc.</option>-->
       </select>
     </div>
 

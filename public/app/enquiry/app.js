@@ -182,6 +182,20 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function($s
         $scope.accounts = accs;
     });
 
+    $scope.downloadCsv = function ()
+    {
+        var url = "../api/enquiry/csv";
+        url += "?" + $.param($scope.form);
+        document.location = url;
+    };
+
+    $scope.downloadCsvVip = function ()
+    {
+        var url = "../api/enquiry/csv_vip";
+        url += "?" + $.param($scope.form);
+        document.location = url;
+    };
+
     $scope.remove = function(id)
     {
         if (!window.confirm("Are you sure?"))

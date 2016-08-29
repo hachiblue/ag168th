@@ -339,6 +339,11 @@
       <?php if(@$_SESSION['login']['level_id'] <= 2){?>
         <a href="#add" class="btn btn-primary">Add</a>
       <?php }?>
+
+      <?php if(@$_SESSION['login']['level_id'] == 1){?>
+              <button type="button" class="btn btn-primary" ng-click="downloadCsv()">Download</button>
+            <?php }?>
+
     </div>
     <div style="overflow-x: auto;">
         <table class="table table-striped table-hover ">

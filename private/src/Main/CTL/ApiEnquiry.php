@@ -204,6 +204,220 @@ class ApiEnquiry extends BaseCTL {
     }
 
     /**
+     * @GET
+     * @uri /csv
+     */
+    public function csvByBetween () {
+
+        ini_set('memory_limit', '512M');
+
+        $field = [
+          "*",
+          "enquiry_type.name(enquiry_type_name)",
+          "enquiry_status.name(enquiry_status_name)",
+          "sale.name(sale_name)",
+          "manager.name(manager_name)",
+          "project.name(project_name)",
+          "enquiry.*"
+      ];
+        $join = [
+            "[>]requirement"=> ["requirement_id"=> "id"],
+            "[>]size_unit"=> ["size_unit_id"=> "id"],
+            "[>]project"=> ["project_id"=> "id"],
+            "[>]enquiry_type"=> ["enquiry_type_id"=> "id"],
+            "[>]enquiry_status"=> ["enquiry_status_id"=> "id"],
+            "[>]account(sale)"=> ["assign_sale_id"=> "id"],
+            "[>]account(manager)"=> ["assign_manager_id"=> "id"]
+        ];
+        $where = ["AND"=> []];
+
+        if(@$_SESSION["login"]["level_id"] == 3) {
+          $where["AND"]["assign_manager_id"] = $_SESSION["login"]["id"];
+        }
+        else if(@$_SESSION["login"]["level_id"] == 4) {
+          $where["AND"]["assign_sale_id"] = $_SESSION["login"]["id"];
+        }
+
+        $params = $this->reqInfo->params();
+        // if(!empty($params['match_enquiry_id'])) {
+        //   $where["AND"]['property.inc_vat'] = $params['inc_vat'];
+        // }
+
+        if(!empty($params['enquiry_no'])) {
+          $where["AND"]['enquiry.enquiry_no[~]'] = $params['enquiry_no'];
+        }
+        if(!empty($params['enquiry_type_id'])) {
+          $where["AND"]['enquiry.enquiry_type_id'] = $params['enquiry_type_id'];
+        }
+        if(!empty($params['customer'])) {
+          $where["AND"]['enquiry.customer[~]'] = $params['customer'];
+        }
+
+        if(!empty($params['requirement_id'])) {
+          $where["AND"]['enquiry.requirement_id'] = $params['requirement_id'];
+        }
+        // if(!empty($params['requirement_id'])){
+        //     if($params['requirement_id'] != 3) {
+        //       $where["AND"]['enquiry.requirement_id'] = [$params['requirement_id'], 3];
+        //     }
+        //     else {
+        //       $where["AND"]['enquiry.requirement_id'] = $params['requirement_id'];
+        //     }
+        // }
+
+        if(!empty($params['property_type_id'])) {
+          $where["AND"]['enquiry.property_type_id'] = $params['property_type_id'];
+        }
+
+        if( isset($params['project_id']) && $params['project_id'] != '' ) 
+        {
+          $where["AND"]['enquiry.project_id'] = $params['project_id'];
+        }
+
+        if(!empty($params['province_id'])) {
+          $where["AND"]['enquiry.province_id'] = $params['province_id'];
+        }
+
+        if((!empty($params['size_start']) || !empty($params['size_end'])) && !empty($params['size_unit_id'])){
+            $where["AND"]['enquiry.size_unit_id'] = $params['size_unit_id'];
+
+            if(!empty($params['size_start'])) {
+              $where["AND"]['enquiry.size[>=]'] = $params['size_start'];
+            }
+            if(!empty($params['size_end'])) {
+              $where["AND"]['enquiry.size[<=]'] = $params['size_end'];
+            }
+        }
+
+        if(!empty($params['buy_budget_start']) || !empty($params['buy_budget_end'])){
+            if(!empty($params['buy_budget_start'])) {
+              $where["AND"]['enquiry.buy_budget_start[>=]'] = $params['buy_budget_start'];
+            }
+            if(!empty($params['buy_budget_end'])) {
+              $where["AND"]['enquiry.buy_budget_end[<=]'] = $params['buy_budget_end'];
+            }
+        }
+
+        if(!empty($params['rent_budget_start']) || !empty($params['rent_budget_end'])){
+            if(!empty($params['rent_budget_start'])) {
+              $where["AND"]['enquiry.rent_budget_start[>=]'] = $params['rent_budget_start'];
+            }
+            if(!empty($params['rent_budget_end'])) {
+              $where["AND"]['enquiry.rent_budget_end[<=]'] = $params['rent_budget_end'];
+            }
+        }
+
+        if(!empty($params['decision_maker'])) {
+          $where["AND"]['enquiry.decision_maker'] = $params['decision_maker'];
+        }
+        if(!empty($params['ptime_to_pol'])) {
+          $where["AND"]['enquiry.ptime_to_pol'] = $params['ptime_to_pol'];
+        }
+        if(!empty($params['bedroom'])) {
+          $where["AND"]['enquiry.bedroom'] = $params['bedroom'];
+        }
+        if(!empty($params['is_studio'])) {
+          $where["AND"]['enquiry.is_studio'] = $params['is_studio'];
+        }
+        if(!empty($params['bts_id'])) {
+          $where["AND"]['enquiry.bts_id'] = $params['bts_id'];
+        }
+        if(!empty($params['mrt_id'])) {
+          $where["AND"]['enquiry.mrt_id'] = $params['mrt_id'];
+        }
+        if(!empty($params['enquiry_status_id'])) {
+          $where["AND"]['enquiry.enquiry_status_id'] = $params['enquiry_status_id'];
+        }
+        if(!empty($params['ex_location'])) {
+          $where["AND"]['enquiry.ex_location[~]'] = $params['ex_location'];
+        }
+        if(!empty($params['contact_type_id'])) {
+          $where["AND"]['enquiry.contact_type_id'] = $params['contact_type_id'];
+        }
+
+        if(!empty($params['assign_manager_id'])) {
+          $where["AND"]['enquiry.assign_manager_id'] = $params['assign_manager_id'];
+        }
+        if(!empty($params['assign_sale_id'])) {
+          $where["AND"]['enquiry.assign_sale_id'] = $params['assign_sale_id'];
+        }
+
+        if(!empty($params['created_at_start'])) {
+          $where["AND"]['enquiry.created_at[>=]'] = $params['created_at_start'].' 00:00:00';
+        }
+        if(!empty($params['created_at_end'])) {
+          $where["AND"]['enquiry.created_at[<=]'] = $params['created_at_end'].' 00:00:00';
+        }
+        if(!empty($params['updated_at_start'])) {
+          $where["AND"]['enquiry.updated_at[>=]'] = $params['updated_at_start'].' 00:00:00';
+        }
+        if(!empty($params['updated_at_end'])) {
+          $where["AND"]['enquiry.updated_at[<=]'] = $params['updated_at_end'].' 00:00:00';
+        }
+
+        $page = 1;
+        $limit = 999999;
+        $orderType = !empty($params['orderType'])? $params['orderType']: "DESC";
+        $orderBy = !empty($params['orderBy'])? $params['orderBy']: "updated_at";
+        $order = "{$orderBy} {$orderType}";
+
+
+        if(count($where["AND"]) > 0){
+            $where["ORDER"] = $order;
+            $list = ListDAO::gets($this->table, [
+                "field"=> $field,
+                "join"=> $join,
+                "where"=> $where,
+                "page"=> $page,
+                "limit"=> $limit
+            ]);
+        }
+        else {
+            $list = ListDAO::gets($this->table, [
+                "field"=> $field,
+                "join"=> $join,
+                'where'=> ["ORDER"=> $order],
+                "page"=> $page,
+                "limit"=> $limit
+            ]);
+        }
+
+        $filename = "export.csv";
+        $now = gmdate("D, d M Y H:i:s");
+        header("Expires: Tue, 03 Jul 2001 06:00:00 GMT");
+        header("Cache-Control: max-age=0, no-cache, must-revalidate, proxy-revalidate");
+        header("Last-Modified: {$now} GMT");
+
+        // force download
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+
+        // disposition / encoding on response body
+        header("Content-Disposition: attachment;filename={$filename}");
+        header("Content-Transfer-Encoding: binary");
+
+        if (count($list["data"]) == 0) 
+        {
+            return null;
+        }
+
+        ob_start();
+        $df = fopen("php://output", 'w');
+        fputcsv($df, array_keys(reset($list["data"])));
+        foreach ($list["data"] as $row) 
+        {
+          // foreach($row as &$col) { $col = mb_convert_encoding($col, 'WINDOWS-874', 'UTF-8'); }
+          foreach($row as &$col) { $col = iconv("UTF-8", "windows-874", $col); }
+          fputcsv($df, $row);
+        }
+
+        fclose($df);
+        echo ob_get_clean();
+        exit();
+    }
+
+    /**
      * @POST
      */
     public function add () {

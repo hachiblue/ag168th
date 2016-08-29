@@ -281,16 +281,42 @@ $province = $db->select("province", "*");
 	<div class="form-group row">
 
 		<label for="data-contract" class="col-xs-2 col-form-label">Upload a photo :</label>
-				
-		<div class="formRight">
-			<div class="formRight formWidth ">
-				<div>
-					<a id="img-a" class="btn btn-primary">SELECT FILE</a>
-					<span id="img-name"></span>
-					<input type="file" name="image" id="img-input" style="display: none;" />
-				</div>Allow .jpg .gif .png and Max file size per image is not 1Mb
+		
+		<div class="row" style="margin-bottom: 10px;float:left;">
+			<div class="formRight">
+				<div class="formRight formWidth ">
+					<div>
+						<a id="img-a1" class="btn btn-primary">SELECT FILE 1</a>
+						<span id="img-name1"></span>
+						<input type="file" name="image1" id="img-input1" style="display: none;" />
+					</div>Allow .jpg .gif .png and Max file size per image is not 1Mb
+				</div>
 			</div>
 		</div>
+
+		<?php
+		$i = 2;
+		while( $i <= 9 )
+		{
+		?>
+		<label for="data-contract" class="col-xs-2 col-form-label">&nbsp;</label>
+
+		<div class="row" style="margin-bottom: 10px;float:left;">
+			<div class="formRight">
+				<div class="formRight formWidth ">
+					<div>
+						<a id="img-a<?php echo $i; ?>" class="btn btn-primary">SELECT FILE <?php echo $i; ?></a>
+						<span id="img-name<?php echo $i; ?>"></span>
+						<input type="file" name="image<?php echo $i; ?>" id="img-input<?php echo $i; ?>" style="display: none;" />
+					</div>Allow .jpg .gif .png and Max file size per image is not 1Mb
+				</div>
+			</div>
+		</div>
+		<?php
+			$i++;
+		}
+		?>
+
 	</div>
 
 	<div class="form-group row">
@@ -363,19 +389,20 @@ $(document).ready(function() {
 	});
 
 
-	$('#img-a').click(function(e) {
-        $('#img-input').click();
+	$('a[id^=img-a]').click(function(e) {
+		var id = this.id.replace('img-a', '');
+        $('#img-input'+id).click();
       });
 
-	var $imgName = $('#img-name');
-	$('#img-input').change(function(e){
+	//var $imgName = $('[id^=img-name]');
+	$('[id^=img-input]').change(function(e){
+		var id = this.id.replace('img-input', '');
         try {
           var f = e.target.files[0];
-          $imgName.text(f.name);
+          $('#img-name'+id).text(f.name);
         }
         catch (err) {
-          console.log(err);
-          $imgName.text("");
+          $('#img-name'+id).text(f.name);
         }
       });
 
