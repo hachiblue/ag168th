@@ -85,7 +85,7 @@ class ApiProperty extends BaseCTL {
 
         if(!empty($params['requirement_id']))
 		{
-            if(in_array($params['requirement_id'], [1,2,4])) 
+            if(in_array($params['requirement_id'], [2,4])) 
 			{
 				$where["AND"]['property.requirement_id'] = [$params['requirement_id'], 3];
             }

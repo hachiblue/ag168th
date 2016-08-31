@@ -21,9 +21,9 @@
 		<div class="col-sm-2 col-md-2 form-group">
 			<label>Owner Phone</label>
       <div class="col-sm-12 nopadd">
-      <div class="col-sm-3 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1a" pattern="[^\,\:.]+" maxlength="3" required></div>
-      <div class="col-sm-4 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1b" pattern="[^\,\:.]+" maxlength="3" required></div>
-      <div class="col-sm-5 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1c" pattern="[^\,\:.]+" required></div>
+      <div class="col-sm-3 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1a" pattern="[^\,\:.]+" maxlength="3"></div>
+      <div class="col-sm-4 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1b" pattern="[^\,\:.]+" maxlength="3"></div>
+      <div class="col-sm-5 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1c" pattern="[^\,\:.]+"></div>
       </div>
 
 			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">

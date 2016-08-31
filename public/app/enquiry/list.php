@@ -327,6 +327,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-success" ng-click="filterItems()">Filter</button>
+                                <button type="reset" class="btn btn-success">Reset</button>
                             </div>
                         </div>
                     </form>

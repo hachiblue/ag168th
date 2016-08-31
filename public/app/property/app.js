@@ -444,13 +444,13 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         {
             case 1:
                 $("#input-sellingprice").prop("disabled", false).prop("required", true);
-                $("#input-rentprice").prop("disabled", true).prop("required", false).val('');
+                $("#input-rentprice").prop("disabled", true).prop("required", false)/*.val('')*/;
 
                 break;
 
             case 2:
 
-                $("#input-sellingprice").prop("disabled", true).prop("required", false).val('');
+                $("#input-sellingprice").prop("disabled", true).prop("required", false)/*.val('')*/;
                 $("#input-rentprice").prop("disabled", false).prop("required", true);
 
                 break;
@@ -505,9 +505,10 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         //{
             //this.form.net_sell_price = Math.round( ((parseFloat(this.form.net_sell_price) + tmp_plus) * vat7p) * 100 ) / 100;
 
-
-        
-        this.form.sell_price = ((parseFloat(this.form.net_sell_price || 0) + tmp_plus) * vat7p).toFixed(2);
+        if( this.form.net_sell_price !== null )
+        {
+            this.form.sell_price = ((parseFloat(this.form.net_sell_price || 0) + tmp_plus) * vat7p).toFixed(2);
+        }
         //}
 
         var chk1 = 0;
@@ -591,7 +592,9 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
             if (i.indexOf("owner_name") != -1)
             {
                 k = i.replace("owner_name", "");
-                owner += ($scope.form["owner_name" + k] || '') + ',' + ($scope.form["owner_phone" + k + "a"] || '') + ($scope.form["owner_phone" + k + "b"] || '') + ($scope.form["owner_phone" + k + "c"] || '') + ',' + ($scope.form["owner_cust" + k] || '') + ',' + ($scope.form["owner_email" + k] || '') + ':';
+                owner += ($scope.form["owner_name" + k] || '') + ',' + ($scope.form["owner_phone" + k + "a"] || '') 
+                + ($scope.form["owner_phone" + k + "b"] || '') + ($scope.form["owner_phone" + k + "c"] || '') + ',' 
+                + ($scope.form["owner_cust" + k] || '') + ',' + ($scope.form["owner_email" + k] || '') + ':';
             }
         }
 
@@ -942,13 +945,13 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             case 1:
 
                 $("#input-sellingprice").prop("disabled", false).prop("required", true);
-                $("#input-rentprice").prop("disabled", true).prop("required", false).val('');
+                $("#input-rentprice").prop("disabled", true).prop("required", false)/*.val('')*/;
 
                 break;
 
             case 2:
 
-                $("#input-sellingprice").prop("disabled", true).prop("required", false).val('');
+                $("#input-sellingprice").prop("disabled", true).prop("required", false)/*.val('')*/;
                 $("#input-rentprice").prop("disabled", false).prop("required", true);
 
                 break;
@@ -1031,9 +1034,11 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
         //{
             //this.form.net_sell_price = Math.round( ((parseFloat(this.form.net_sell_price) + tmp_plus) * vat7p) * 100 ) / 100;
 
-
+        if( this.form.net_sell_price !== null )
+        {
+            this.form.sell_price = ((parseFloat(this.form.net_sell_price || 0) + tmp_plus) * vat7p).toFixed(2);    
+        }
         
-        this.form.sell_price = ((parseFloat(this.form.net_sell_price || 0) + tmp_plus) * vat7p).toFixed(2);
         //}
 
         var chk1 = 0;
@@ -1125,7 +1130,9 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             if (i.indexOf("owner_name") != -1)
             {
                 k = i.replace("owner_name", "");
-                owner += $scope.form["owner_name" + k] + ',' + $scope.form["owner_phone" + k + "a"] + $scope.form["owner_phone" + k + "b"] + $scope.form["owner_phone" + k + "c"] + ',' + $scope.form["owner_cust" + k] + ',' + $scope.form["owner_email" + k] + ':';
+                owner += ($scope.form["owner_name" + k] || '') + ',' + ($scope.form["owner_phone" + k + "a"] || '') + ($scope.form["owner_phone" + k + "b"] || '')
+                + ($scope.form["owner_phone" + k + "c"] || '') + ',' + ($scope.form["owner_cust" + k] || '') + ',' + ($scope.form["owner_email" + k] || '') 
+                + ':';
             }
         }
 

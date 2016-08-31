@@ -149,6 +149,8 @@
     <div class="row">
         <div class="col-md-12">
             <button type="submit" class="btn btn-success">Search</button>
+            <button type="reset" class="btn btn-success">Reset</button>
+
             <?php if(@$_SESSION['login']['level_id'] == 1){?>
             <button type="button" class="btn btn-primary" ng-click="downloadCsv()">Download</button>
 			<button type="button" class="btn btn-primary" ng-click="downloadCsvVip()">Download Vip</button>
