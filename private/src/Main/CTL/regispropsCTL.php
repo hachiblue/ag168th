@@ -47,26 +47,37 @@ class regispropsCTL extends BaseCTL {
         //$mail->addAddress('info@agent168th.com; agent168th@yahoo.com');
         $mail->addAddress('info@agent168th.com');
         $mail->addAddress('agent168th@yahoo.com');
+        //$mail->addAddress('oom34299@gmail.com');
 
         $mail->Subject = 'Send property from list your property page';
         $mail->msgHTML($contentMail);
 
-        if( isset($_FILES['image']['tmp_name']) )
+        $i = 1;
+        $mx = 9;
+        while( $i <= $mx )
         {
-            $mail->AddAttachment($_FILES['image']['tmp_name'], $_FILES['image']['name']);
-        }
-        
-        if($mail->send()) {
+          if( isset($_FILES['image'.$i]['tmp_name']) )
+          {
+            $uploadfile = tempnam(sys_get_temp_dir(), sha1($_FILES['image'.$i]['name']));
+            move_uploaded_file($_FILES['image'.$i]['tmp_name'], $uploadfile);
+            $mail->addAttachment($uploadfile, $_FILES['image'.$i]['name']);
+          }
 
+          $i++;
+        }
+
+        if($mail->send()) 
+        { 
           header("location: http://agent168th.com/");
           return ["success"=> true];
         }
-        else {
+        else 
+        {
           return ResponseHelper::error($mail->ErrorInfo);
         }
-
       }
-      catch (\Exception $e) {
+      catch (\Exception $e) 
+      {
         return ResponseHelper::error($e->getMessage());
       }
     }

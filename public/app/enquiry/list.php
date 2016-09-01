@@ -327,6 +327,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-success" ng-click="filterItems()">Filter</button>
+                                <button type="reset" class="btn btn-success">Reset</button>
                             </div>
                         </div>
                     </form>
@@ -339,6 +340,11 @@
       <?php if(@$_SESSION['login']['level_id'] <= 2){?>
         <a href="#add" class="btn btn-primary">Add</a>
       <?php }?>
+
+      <?php if(@$_SESSION['login']['level_id'] == 1){?>
+              <button type="button" class="btn btn-primary" ng-click="downloadCsv()">Download</button>
+            <?php }?>
+
     </div>
     <div style="overflow-x: auto;">
         <table class="table table-striped table-hover ">
