@@ -100,16 +100,21 @@ class ApiProperty extends BaseCTL {
             $where["AND"]['property.project_id'] = $params['project_id'];
         }
 
-        if(!empty($params['web_status']))
-		{
-            $where["AND"]['property.web_status'] = $params['web_status'];
-        }
-
         if(!empty($params['rented_expire']))
 		{
-            $where["AND"]['property.rented_expire[>]'] = "0000-00-00";
-            $where["AND"]['property.requirement_id[!]'] = "1";
-            $where["AND"]['property.rented_expire[<]'] = date("Y-m-d H:i:s", strtotime("+7 days"));
+            $where["AND"] = array(
+              "OR" => array( 
+                "web_status" => 1,
+                "AND" => array(
+                  "web_status" => 0, 
+                  "property_status_id" => 1 
+                )
+              )
+            );
+
+            $where["AND"]['rented_expire[>]'] = "0000-00-00";
+            $where["AND"]['rented_expire[<]'] = date("Y-m-d H:i:s", strtotime("+7 days"));
+            $where["AND"]['requirement_id[!]'] = "1";
         }
 
         if(!empty($params['property_highlight_id']))
@@ -137,8 +142,8 @@ class ApiProperty extends BaseCTL {
         }
 
         // new
-        if(!empty($params['web_status']))
-		{
+         if( !empty($params['web_status']) && empty($params['rented_expire']) )
+        {
             $where["AND"]['property.web_status'] = $params['web_status'];
         }
 
