@@ -213,7 +213,7 @@ session_start();
 
       <div class=" col-md-2 checkboxxx">
         <label class="col-xs-8 nopadd">
-          <input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact2" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ค่าอาการแสตมป์</div>
+          <input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact2" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ค่าอากรแสตมป์</div>
         </label>
         <div class="col-xs-2 nopadd fee_percent_sel">
           <select class="form-control" id="fee-sel" ng-model="form.chkcontact2a"  ng-change="formChkContractUpChange()">

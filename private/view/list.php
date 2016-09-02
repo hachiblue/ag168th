@@ -304,6 +304,8 @@ html:not(.tablet) .q2-policy-compare {
 
 </style>
 
+<div class="corner-ribbon top-right sticky orange">system maintenance</div>
+
 <div class="bgList">
     <div class="container">
 		

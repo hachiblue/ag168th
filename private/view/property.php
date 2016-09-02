@@ -160,6 +160,9 @@ $(document).ready(function() {
 		text-decoration: none;
 	}
 </style>
+
+<div class="corner-ribbon top-right sticky orange">system maintenance</div>
+
 <div class="hidden">
   <?php print_r($params["item"]);?>
 </div>
