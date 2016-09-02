@@ -81,18 +81,6 @@
             </div>
         </div>
 
-        <div class="col-md-3 form-group">
-            <label class="control-label">User</label>
-            <div>
-              <select class="form-control"
-              ng-model="form.account_comment_id"
-              ng-options="item.aid*1 as item.aname for item in gmessages.groupcomment.data"
-              >
-              <option value="">All</option>
-            </select>
-            </div>
-        </div>
-
     </div>
 
     <div class="row">
@@ -122,6 +110,37 @@
     </div>
     
     <div class="row">
+
+
+      <div class="col-md-3 form-group">
+            <label class="control-label">User</label>
+            <div>
+              <select class="form-control"
+              ng-model="form.account_comment_id"
+              ng-options="item.aid*1 as item.aname for item in gmessages.groupcomment.data"
+              >
+              <option value="">All</option>
+            </select>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 el-custom-1">
+        <label>User Updated start</label>
+        <input type="text" class="form-control" ng-model="form.user_updated_at_start"
+        id="user_updated_at_start">
+      </div>
+      <div class="col-md-3 el-custom-1">
+        <label>User Updated end</label>
+        <input type="text" class="form-control" ng-model="form.user_updated_at_end"
+        id="user_updated_at_end">
+      </div>
+    </div>
+
+
+    <div class="row">
       <div class="col-md-2 el-custom-1">
         <label>Order By</label>
         <select ng-model="form.orderBy" ng-init="form.orderBy='property.updated_at'" class="form-control">
@@ -143,6 +162,7 @@
         </select>
       </div>
     </div>
+
     <div class="row">
       <div class="col-md-6"></div>
     </div>
@@ -251,5 +271,8 @@ $(function(){
   $('#created_at_end').datepicker();
   $('#updated_at_start').datepicker();
   $('#updated_at_end').datepicker();
+
+  $('#user_updated_at_start').datepicker();
+  $('#user_updated_at_end').datepicker();
 });
 </script>

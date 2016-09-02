@@ -147,7 +147,8 @@ class ApiCollection extends BaseCTL {
 			"[><]account"=> ["comment_by"=> "id"]	
 		];
 		$where = [
-		  "GROUP"=> "property_comment.comment_by"
+		  "GROUP"=> "property_comment.comment_by",
+      "ORDER"=> 'account.name'
 		];
 
 		$collection['groupcomment'] = ListDAO::gets("property_comment", [
