@@ -198,7 +198,7 @@ $this->import("/admin/layout/header");
                       FROM
                         property_comment 
                       WHERE comment_by = '".$_SESSION['login']['id']."'
-                      GROUP BY comment_by)";   
+                      GROUP BY property_id)";   
             }
             
             $r = $db->query($sql);
@@ -285,7 +285,7 @@ $this->import("/admin/layout/header");
         <?php
         if( $_SESSION["login"]["username"] == 'somporn' )
         {
-            $sql = "SELECT * AS cnt FROM property p WHERE p.property_status_id = 10  ";  
+            $sql = "SELECT p.*  FROM property p WHERE p.property_status_id = 10  ";  
         }
         else
         {
@@ -300,9 +300,9 @@ $this->import("/admin/layout/header");
                   FROM
                     property_comment 
                   WHERE comment_by = '".$_SESSION['login']['id']."'
-                  GROUP BY comment_by)";   
+                  GROUP BY property_id)";   
         }
-        
+
         $r = $db->query($sql);
         $items = $r->fetchAll(\PDO::FETCH_ASSOC);
 
