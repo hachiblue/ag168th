@@ -821,7 +821,7 @@ input.login_text {
 /* The ribbons */
 
 .corner-ribbon{
-  width: 224px;
+  width: 290px;
   background: #e43;
   position: absolute;
   top: 25px;
@@ -831,6 +831,7 @@ input.login_text {
   letter-spacing: 1px;
   color: #f0f0f0;
       z-index: 9;
+  font-size : 20px;
   transform: rotate(-45deg);
   -webkit-transform: rotate(-45deg);
 }
@@ -855,8 +856,8 @@ input.login_text {
 }
 
 .corner-ribbon.top-right{
-  top: 30px;
-  right: -58px;
+  top: 55px;
+  right: -62px;
   left: auto;
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
