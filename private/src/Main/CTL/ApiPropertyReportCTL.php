@@ -36,8 +36,6 @@ class ApiPropertyReportCTL extends BaseCTL {
 
         $params = $this->reqInfo->params();
 
-
-
         if(!empty($params['account_comment_id']) || !empty($params['user_updated_at_start']) || !empty($params['user_updated_at_end'])) 
         {
             $sql = "SELECT property_id FROM property_comment 
@@ -217,6 +215,43 @@ class ApiPropertyReportCTL extends BaseCTL {
         ini_set('memory_limit', '512M');
         $db = MedooFactory::getInstance();
 
+        $params = $this->reqInfo->params();
+
+        if(!empty($params['account_comment_id']) || !empty($params['user_updated_at_start']) || !empty($params['user_updated_at_end'])) 
+        {
+            $sql = "SELECT property_id FROM property_comment 
+            WHERE 1=1 ";
+
+            if( !empty($params['account_comment_id']) )
+            {
+                $sql .= " AND comment_by = '{$params['account_comment_id']}' ";
+            }
+
+            if( !empty($params['user_updated_at_start']) )
+            {
+                $sql .= " AND updated_at >= '{$params['user_updated_at_start']}' ";
+            }
+
+            if( !empty($params['user_updated_at_end']) )
+            {
+                $sql .= " AND updated_at <= '{$params['user_updated_at_end']}' ";
+            }
+
+            $sql .= " GROUP BY property_id ";
+
+            $r = $db->query($sql);
+
+            $row = $r->fetchAll(\PDO::FETCH_ASSOC);
+
+            $data_id = array();
+            foreach( $row as $v )
+            {
+                $data_id[] = $v['property_id'];
+            }
+            //print_r($row);exit;
+        }
+
+
         $field = [
             "property.*",
             // "property_type.name(property_type_name)",
@@ -243,9 +278,14 @@ class ApiPropertyReportCTL extends BaseCTL {
             "[>]province"=> ["province_id"=> "id"]
         ];
 
-        $params = $this->reqInfo->params();
+        
         $where = ["AND"=> []];
 
+        if( !empty($params['account_comment_id']) || !empty($params['user_updated_at_start']) || !empty($params['user_updated_at_end']) ) 
+        {
+            $where["AND"]['property.id'] = $data_id;
+        }
+        
         if(!empty($params['property_type_id']))
 		{
             $where["AND"]['property.property_type_id'] = $params['property_type_id'];

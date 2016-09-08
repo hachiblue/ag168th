@@ -434,7 +434,7 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
             	<!-- <label>Comment/Remark</label><strong>:</strong>
                	<textarea class="form-control" rows="2" id="comment" style="min-height:100px; margin-top:10px; margin-left:10px; width:1000px; display: inline; vertical-align: middle; background-color: #fff; padding:5px;"></textarea> -->
                 <button class="btn btn-success update" type="submit">Save</button>
-                <a class="btn btn-warning update" type="button" href="#/">Cancle</a>
+                <a class="btn btn-warning update" type="button" href="#/">Cancel</a>
             </div>
     	</div><!--enquiry-->
     </form>

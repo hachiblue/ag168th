@@ -314,7 +314,8 @@ $this->import("/admin/layout/header");
             <tr>
                 <th>#</th>
                 <th>Rented Expire</th>
-                <th>Created</th>
+                <th>Uploaded</th>
+                <th>Admin</th>
                 <th>LINK</th>
             </tr>
             </thead>
@@ -327,6 +328,7 @@ $this->import("/admin/layout/header");
                 <td><?=$item["reference_id"];?></td>
                 <td><?=$item["rented_expire"];?></td>
                 <td><?=$item["created_at"];?></td>
+                <td><?=$_SESSION['login']['name'];?></td>
                 <td><a class="btn btn-info" href="properties#/edit/<?=$item["id"];?>" target="_blank">View</a></td>
             </tr>
             <?php
