@@ -318,7 +318,7 @@
         <select class="form-control"
         ng-model="form.zone_id"
         ng-options="item.id as item.name group by getZoneGroupName(item.zone_group_id) for item in collection.zone"
-        disabled>
+        ng-disabled="form.property_type_id.toString() == '1'">
             <option value="">Please select</option>
         </select>
       </div>
@@ -329,7 +329,7 @@
         <select class="form-control"
         ng-model="form.province_id"
         ng-options="item.id as item.name for item in thailocation.province"
-        disabled>
+        ng-disabled="form.property_type_id.toString() == '1'">
             <option value="">Please select</option>
         </select>
       </div>
@@ -338,7 +338,7 @@
         <select class="form-control"
         ng-model="form.district_id"
         ng-options="item.id as item.name for item in getDistrict()"
-        disabled>
+        ng-disabled="form.property_type_id.toString() == '1'">
             <option value="">Please select</option>
         </select>
       </div>
@@ -347,7 +347,7 @@
         <select class="form-control"
         ng-model="form.sub_district_id"
         ng-options="item.id as item.name for item in getSubDistrict()"
-        disabled>
+        ng-disabled="form.property_type_id.toString() == '1'">
             <option value="">Please select</option>
         </select>
       </div>
@@ -359,7 +359,7 @@
         <select class="form-control"
           ng-model="form.bts_id"
           ng-options="item.id as item.name for item in collection.bts"
-          disabled>
+          ng-disabled="form.property_type_id.toString() == '1'">
           <option value="">Please select</option>
         </select>
       </div>
@@ -368,7 +368,7 @@
         <select class="form-control"
           ng-model="form.mrt_id"
           ng-options="item.id as item.name for item in collection.mrt"
-          disabled>
+          ng-disabled="form.property_type_id.toString() == '1'">
           <option value="">Please select</option>
         </select>
       </div>
@@ -377,7 +377,7 @@
         <select class="form-control"
           ng-model="form.airport_link_id"
           ng-options="item.id as item.name for item in collection.airport_link"
-          disabled>
+          ng-disabled="form.property_type_id.toString() == '1'">
           <option value="">Please select</option>
         </select>
       </div>
