@@ -964,7 +964,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
                 break;
         }
 
-        $scope.formChkContractUpChange();
+        //$scope.formChkContractUpChange();
     };
 
     $scope.formPropertyTypeChange = function ()
