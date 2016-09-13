@@ -755,7 +755,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             }
 
 
-            owner_field = owner[0].replace(/(-|\s)/g,'').split(',');
+            owner_field = owner[0].replace(/(-)/g,'').split(',');
 
 
             $scope.form["owner_name1"] = owner_field[0];

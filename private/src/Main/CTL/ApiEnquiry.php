@@ -458,7 +458,8 @@ class ApiEnquiry extends BaseCTL {
           "enquiry_id"=> $id,
           "comment"=> $params["comment"],
           "comment_by"=> $accId,
-          "updated_at"=> $now
+          "updated_at"=> $now,
+          "user_remind"=> $params["account"]
         ];
 
         $db->insert("enquiry_comment", $commentInsert);
@@ -539,7 +540,8 @@ class ApiEnquiry extends BaseCTL {
           "enquiry_id"=> $id,
           "comment"=> $params["comment"],
           "comment_by"=> $accId,
-          "updated_at"=> $now
+          "updated_at"=> $now,
+          "user_remind"=> $params["account"]
         ];
 
         $db->insert("enquiry_comment", $commentInsert);
@@ -684,6 +686,26 @@ MAILCONTENT;
         ];
     }
 
+
+
+    /**
+    * @GET
+    * @uri /[i:id]/accept_comment
+    */
+    public function accept_comment()
+    {
+      $id = $this->reqInfo->urlParam("id");
+
+      $set = array();
+      $set['read_status'] = 'read';
+
+      $db = MedooFactory::getInstance();
+      $db->update('enquiry_comment', $set, ['id'=> $id]);
+
+      echo json_encode(array('id'=>$id));
+    }
+
+
     /**
     * @GET
     * @uri /[i:id]/comment
@@ -705,9 +727,20 @@ MAILCONTENT;
           ]
       ]);
 
-      foreach($list['data'] as &$item) {
-        if(is_null($item['account_id'])) {
+      foreach($list['data'] as &$item) 
+      {
+        if(is_null($item['account_id'])) 
+        {
           $item['name'] = "System";
+        }
+
+        if( $item['user_remind'] == $_SESSION['login']['id'] && $item['read_status'] == 'noread') 
+        {
+          $item['btn_read'] = 'READ';
+        }
+        else
+        {
+          $item['btn_read'] = "";
         }
       }
 

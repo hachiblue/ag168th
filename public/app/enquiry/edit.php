@@ -411,16 +411,31 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
                         <option value="6">bangkokpost.com</option>
                     </select>
                 </div> -->
-                <!--col-md-12-->
-                <div class="col-md-12 contact-type">
-                	<label>Contact Type</label><strong>:</strong>
-                    <select ng-model="form.contact_type_id" ng-disabled="!editAllow">
+           
+
+
+                <div class="col-md-2 contact-type">
+                  <label>Contact Type</label><strong>:</strong>
+                    <select class="form-control" ng-model="form.contact_type_id" ng-disabled="!editAllow">
                         <option value="">-Please select-</option>
                         <option value="1">Online</option>
                         <option value="2">Walkin</option>
                         <option value="3">Call</option>
                     </select>
                 </div><!--col-md-12-->
+                <div style="clear:both;"></div>
+                <div class="col-md-2 contact-type">
+                  <label>User List</label><strong>:</strong>
+                  <select class="form-control"
+                  ng-model="form.account"
+                  ng-options="item.id*1 as item.name for item in collection.account"
+                  required>
+                    <option value="">-Please select-</option>
+                  </select>
+                </div>
+
+
+
                 <div class="col-md-12 form-group">
                   <label>
                   	<strong>Comment.</strong>
@@ -455,6 +470,7 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
         <td>{{item.updated_at}}</td>
         <td>{{item.comment}}</td>
         <td>{{item.name}}</td>
+        <td><a style="cursor:pointer;" ng-click="accept_comment(item.id)" ng-show=" item.btn_read != '' ">{{item.btn_read}}</a></td>
       </tr>
     </tbody>
   </table>

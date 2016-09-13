@@ -89,6 +89,8 @@ class ApiCollection extends BaseCTL {
 
         /** enquiry collection */
 
+        $collection['account'] = $db->select("account", "*");
+
         $collection['enquiry_status'] = $db->select("enquiry_status", "*");
 
         $collection['enquiry_budget_payment'] = ListDAO::gets("enquiry_budget_payment", [

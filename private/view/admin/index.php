@@ -204,10 +204,29 @@ $this->import("/admin/layout/header");
             $r = $db->query($sql);
             $istatus = $r->fetch(\PDO::FETCH_ASSOC);
 
+
+            $sql = "SELECT 
+                      COUNT(id) AS cnt 
+                    FROM
+                      enquiry_comment
+                    WHERE user_remind = '".$_SESSION['login']['id']."' AND read_status = 'noread'  ";   
+            $r = $db->query($sql);
+            $iremind = $r->fetch(\PDO::FETCH_ASSOC);
+
             ?>
             <div class="navbar">
               <ul class="nav navbar-nav navbar-right">
+
                 <?php
+                if( $iremind["cnt"] > 0 )
+                {
+                ?>
+                <li>
+                    <a class="bell-alert" id="open-userremind" data-toggle="modal" data-target="#userremind-model" style="cursor:pointer; font-size:20px;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <span>[<?=$iremind["cnt"];?>]</span></a>
+                </li>
+                <?php
+                }
+
                 if( $_SESSION['login']["level"]["id"] == 1 || $_SESSION['login']["level"]["id"] == 2 )
                 {
                 ?>
@@ -255,6 +274,10 @@ $this->import("/admin/layout/header");
                 $("#pending-model").toggleClass('show');
             });
 
+            $("#open-userremind").click(function() {
+                $("#userremind-model").toggleClass('show');
+            });
+
             $("button[name=model-dismiss]").click(function() {
                 closeModel();
             });
@@ -263,6 +286,7 @@ $this->import("/admin/layout/header");
         function closeModel()
         {
             $("#pending-model").removeClass('show').addClass('hide');
+            $("#userremind-model").removeClass('show').addClass('hide');
         };
 
         function openModel()
@@ -328,11 +352,81 @@ $this->import("/admin/layout/header");
                 <td><?=$item["reference_id"];?></td>
                 <td><?=$item["rented_expire"];?></td>
                 <td><?=$item["created_at"];?></td>
-                <td><?=$_SESSION['login']['name'];?></td>
+                <td><?=getuseradmin($item["id"], $db);?></td>
                 <td><a class="btn btn-info" href="properties#/edit/<?=$item["id"];?>" target="_blank">View</a></td>
             </tr>
             <?php
             }
+
+            function getuseradmin($id, $db)
+            {   
+                $sql = " SELECT 
+                  a.name
+                FROM
+                  property p , property_comment c, account a
+                WHERE p.id = '".$id."'  AND p.id = c.property_id AND c.comment_by = a.id ORDER BY c.updated_at DESC LIMIT 1";  
+
+                $r = $db->query($sql);
+                $items = $r->fetch(\PDO::FETCH_ASSOC);
+
+                return $items['name'];
+            }
+
+            ?>
+            </tbody>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" name="model-dismiss" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal hide" id="userremind-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" name="model-dismiss" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">User #</h4>
+      </div>
+      <div class="modal-body">
+        
+        <?php
+        $sql = "SELECT 
+              *
+            FROM
+              enquiry_comment
+            WHERE user_remind = '".$_SESSION['login']['id']."' AND read_status = 'noread'  ";   
+           
+        $r = $db->query($sql);
+        $items = $r->fetchAll(\PDO::FETCH_ASSOC);
+
+        //print_r($items);
+
+        ?>
+        <table class="table table-striped table-hover ">
+            <thead>
+            <tr>
+                <th>Enquiry Id</th>
+                <th>Uploaded</th>
+                <th>LINK</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach( $items as $item )
+            {
+            ?>
+            <tr>
+                <td><?=$item["enquiry_id"];?></td>
+                <td><?=$item["updated_at"];?></td>
+                <td><a class="btn btn-info" href="enquiries#/edit/<?=$item["enquiry_id"];?>" target="_blank">View</a></td>
+            </tr>
+            <?php
+            }
+
             ?>
             </tbody>
         </table>

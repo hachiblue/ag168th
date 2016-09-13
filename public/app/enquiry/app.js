@@ -677,6 +677,7 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
             delete $scope.form.book_property_id;
         }
     };
+
     $scope.changeHash = function(hash)
     {
         window.location.hash = hash;
@@ -1007,6 +1008,17 @@ app.controller('CommentCTL', ['$scope', '$http', '$location', '$route', '$routeP
     {
         $scope.comments = data.data;
     });
+
+    $scope.accept_comment = function(id)
+    {
+        $.get("../api/enquiry/" + id + "/accept_comment", function(data)
+        {
+            //alert(data.id);
+            window.location = '';
+            
+        }, "json");
+    };
+
 }]);
 
 function setphonehop()

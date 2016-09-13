@@ -330,15 +330,26 @@
                     </select>
                 </div> -->
                 <!--col-md-12-->
-                <div class="col-md-12 contact-type">
+                <div class="col-md-2 contact-type">
                 	<label>Contact Type</label><strong>:</strong>
-                    <select ng-model="form.contact_type_id">
+                    <select class="form-control" ng-model="form.contact_type_id">
                         <option value="">-Please select-</option>
                         <option value="1">Online</option>
                         <option value="2">Walkin</option>
                         <option value="3">Call</option>
                     </select>
                 </div><!--col-md-12-->
+                <div style="clear:both;"></div>
+                <div class="col-md-2 contact-type">
+                  <label>User List</label><strong>:</strong>
+                  <select class="form-control"
+                  ng-model="form.account"
+                  ng-options="item.id*1 as item.name for item in collection.account"
+                  required>
+                    <option value="">-Please select-</option>
+                  </select>
+                </div>
+
                 <div class="col-md-12 form-group">
                   <label>
                   	<strong>Remark.</strong>
