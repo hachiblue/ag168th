@@ -218,8 +218,10 @@ $this->import("/admin/layout/header");
               <ul class="nav navbar-nav navbar-right">
 
                 <?php
+                $dsp_iremind = 'hide';
                 if( $iremind["cnt"] > 0 )
                 {
+                    $dsp_iremind = 'show';
                 ?>
                 <li>
                     <a class="bell-alert" id="open-userremind" data-toggle="modal" data-target="#userremind-model" style="cursor:pointer; font-size:20px;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <span>[<?=$iremind["cnt"];?>]</span></a>
@@ -384,7 +386,7 @@ $this->import("/admin/layout/header");
   </div>
 </div>
 
-<div class="modal hide" id="userremind-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
+<div class="modal <?=$dsp_iremind;?>" id="userremind-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">

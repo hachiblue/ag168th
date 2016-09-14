@@ -344,8 +344,7 @@
                   <label>User List</label><strong>:</strong>
                   <select class="form-control"
                   ng-model="form.account"
-                  ng-options="item.id*1 as item.name for item in collection.account"
-                  required>
+                  ng-options="item.id*1 as item.name for item in collection.account">
                     <option value="">-Please select-</option>
                   </select>
                 </div>

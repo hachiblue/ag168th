@@ -319,7 +319,7 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         else
         {
             $('#project_id').prop('required', false);
-            delete $scope.form.project_id;
+            $scope.form.project_id = 0;
         }
 
         var u1 = 1;
@@ -976,7 +976,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
         else
         {
             $('#project_id').prop('required', false);
-            delete $scope.form.project_id;
+            $scope.form.project_id = 0;
         }
 
         switch (+$scope.form.property_type_id)
