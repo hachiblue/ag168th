@@ -339,8 +339,9 @@ $this->import("/admin/layout/header");
             <thead>
             <tr>
                 <th>#</th>
-                <th>Rented Expire</th>
-                <th>Uploaded</th>
+                <th>Create Date</th>
+                <th>Update Date</th>
+                <th>Pending Date</th>
                 <th>Admin</th>
                 <th>LINK</th>
             </tr>
@@ -352,8 +353,9 @@ $this->import("/admin/layout/header");
             ?>
             <tr>
                 <td><?=$item["reference_id"];?></td>
-                <td><?=$item["rented_expire"];?></td>
                 <td><?=$item["created_at"];?></td>
+                <td><?=$item["updated_at"];?></td>
+                <td><?=$item["property_pending_date"];?></td>
                 <td><?=getuseradmin($item["id"], $db);?></td>
                 <td><a class="btn btn-info" href="properties#/edit/<?=$item["id"];?>" target="_blank">View</a></td>
             </tr>

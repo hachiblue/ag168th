@@ -89,7 +89,7 @@ class ApiCollection extends BaseCTL {
 
         /** enquiry collection */
         $where = [
-          "account.id" => array(4, 10, 11, 14, 15, 17),
+          "account.id[!]" => array(4, 10, 11, 14, 15, 17),
           "ORDER"=> 'account.name'
         ];
         $collection['account'] = $db->select("account", "*", $where);

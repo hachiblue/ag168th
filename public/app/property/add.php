@@ -4,7 +4,7 @@ session_start();
 //   return "";
 // }
 ?>
-<form ng-submit="submit()" ng-controller="AddCTL" id="form-edit-prop" ng-show="initSuccess">
+<form ng-submit="submit()" ng-controller="AddCTL" id="form-edit-prop" ng-show="initSuccess" ng-init="isadmin = <?php echo json_encode($_SESSION['login']['level_id'] == 2 );?>;">
 
 	<div class="row" id="tmpl-owner">
 
@@ -317,7 +317,7 @@ session_start();
         <select class="form-control"
         ng-model="form.zone_id"
         ng-options="item.id as item.name group by getZoneGroupName(item.zone_group_id) for item in collection.zone"
-        ng-disabled="form.property_type_id.toString() == '1'">
+        ng-disabled="form.property_type_id.toString() == '1' || isadmin">
             <option value="">Please select</option>
         </select>
       </div>
@@ -329,7 +329,7 @@ session_start();
         ng-model="form.province_id"
         ng-init="form.province_id = null"
         ng-options="item.id as item.name for item in thailocation.province"
-        ng-disabled="form.property_type_id.toString() == '1'">
+        ng-disabled="form.property_type_id.toString() == '1' || isadmin">
             <option value="">Please select</option>
         </select>
       </div>
@@ -338,7 +338,7 @@ session_start();
         <select class="form-control"
         ng-model="form.district_id"
         ng-options="item.id as item.name for item in getDistrict()"
-        ng-disabled="form.property_type_id.toString() == '1'">
+        ng-disabled="form.property_type_id.toString() == '1' || isadmin">
             <option value="">Please select</option>
         </select>
       </div>
@@ -347,7 +347,7 @@ session_start();
         <select class="form-control"
         ng-model="form.sub_district_id"
         ng-options="item.id as item.name for item in getSubDistrict()"
-        ng-disabled="form.property_type_id.toString() == '1'">
+        ng-disabled="form.property_type_id.toString() == '1' || isadmin">
             <option value="">Please select</option>
         </select>
       </div>
@@ -359,7 +359,7 @@ session_start();
         <select class="form-control"
           ng-model="form.bts_id"
           ng-options="item.id as item.name for item in collection.bts"
-          ng-disabled="form.property_type_id.toString() == '1'">
+          ng-disabled="form.property_type_id.toString() == '1' || isadmin">
           <option value="">Please select</option>
         </select>
       </div>
@@ -368,7 +368,7 @@ session_start();
         <select class="form-control"
           ng-model="form.mrt_id"
           ng-options="item.id as item.name for item in collection.mrt"
-          ng-disabled="form.property_type_id.toString() == '1'">
+          ng-disabled="form.property_type_id.toString() == '1' || isadmin">
           <option value="">Please select</option>
         </select>
       </div>
@@ -377,7 +377,7 @@ session_start();
         <select class="form-control"
           ng-model="form.airport_link_id"
           ng-options="item.id as item.name for item in collection.airport_link"
-          ng-disabled="form.property_type_id.toString() == '1'">
+          ng-disabled="form.property_type_id.toString() == '1' || isadmin">
           <option value="">Please select</option>
         </select>
       </div>
