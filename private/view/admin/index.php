@@ -183,7 +183,7 @@ $this->import("/admin/layout/header");
 
             if( $_SESSION["login"]["username"] == 'somporn' )
             {
-                $sql = "SELECT COUNT(p.id) AS cnt FROM property p WHERE p.property_status_id = 10  ";  
+                $sql = "SELECT COUNT(p.id) AS cnt FROM property p WHERE p.property_status_id = 10 AND p.property_pending_date > '0000-00-00' AND p.property_pending_date <= now() ORDER BY p.property_pending_date ";  
             }
             else
             {
@@ -192,18 +192,20 @@ $this->import("/admin/layout/header");
                     FROM
                       property p 
                     WHERE p.property_status_id = 10 
+                      AND p.property_pending_date > '0000-00-00'
+                      AND p.property_pending_date <= now()
                       AND p.id IN 
                       (SELECT 
                         property_id 
                       FROM
                         property_comment 
                       WHERE comment_by = '".$_SESSION['login']['id']."'
-                      GROUP BY property_id)";   
+                      GROUP BY property_id)
+                      ORDER BY p.property_pending_date ";   
             }
-            
+           
             $r = $db->query($sql);
             $istatus = $r->fetch(\PDO::FETCH_ASSOC);
-
 
             $sql = "SELECT 
                       COUNT(id) AS cnt 
@@ -311,7 +313,7 @@ $this->import("/admin/layout/header");
         <?php
         if( $_SESSION["login"]["username"] == 'somporn' )
         {
-            $sql = "SELECT p.*  FROM property p WHERE p.property_status_id = 10  ";  
+            $sql = "SELECT p.*  FROM property p WHERE p.property_status_id = 10 AND p.property_pending_date > '0000-00-00' AND p.property_pending_date <= now()  ORDER BY p.property_pending_date ";  
         }
         else
         {
@@ -320,13 +322,16 @@ $this->import("/admin/layout/header");
                 FROM
                   property p 
                 WHERE p.property_status_id = 10 
+                  AND p.property_pending_date > '0000-00-00'
+                  AND p.property_pending_date <= now()
                   AND p.id IN 
                   (SELECT 
                     property_id 
                   FROM
                     property_comment 
                   WHERE comment_by = '".$_SESSION['login']['id']."'
-                  GROUP BY property_id)";   
+                  GROUP BY property_id)
+                  ORDER BY p.property_pending_date ";   
         }
 
         $r = $db->query($sql);
