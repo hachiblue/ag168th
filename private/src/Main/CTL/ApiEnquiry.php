@@ -459,7 +459,7 @@ class ApiEnquiry extends BaseCTL {
           "comment"=> $params["comment"],
           "comment_by"=> $accId,
           "updated_at"=> $now,
-          "user_remind"=> $params["account"]
+          "user_remind"=> ( ( isset($params["account"]) ) ? $params["account"] : '') 
         ];
 
         $db->insert("enquiry_comment", $commentInsert);
@@ -541,7 +541,7 @@ class ApiEnquiry extends BaseCTL {
           "comment"=> $params["comment"],
           "comment_by"=> $accId,
           "updated_at"=> $now,
-          "user_remind"=> $params["account"]
+          "user_remind"=> ( ( isset($params["account"]) ) ? $params["account"] : '') 
         ];
 
         $db->insert("enquiry_comment", $commentInsert);

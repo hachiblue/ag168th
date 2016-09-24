@@ -14,16 +14,16 @@
 
 		<div class="col-sm-2 col-md-2 form-group">
 			<label>Owner Name</label>
-			<input class="form-control" ng-if="editAllow" ng-model="form.owner_name1" pattern="[^\,.]+" required>
+			<input class="form-control" ng-if="editAllow" ng-model="form.owner_name1" pattern="[^,:.]+" required>
 			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
 		</div>
 
 		<div class="col-sm-2 col-md-2 form-group">
 			<label>Owner Phone</label>
       <div class="col-sm-12 nopadd">
-      <div class="col-sm-3 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1a" pattern="[^\,\:.]+" maxlength="3"></div>
-      <div class="col-sm-4 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1b" pattern="[^\,\:.]+" maxlength="3"></div>
-      <div class="col-sm-5 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1c" pattern="[^\,\:.]+"></div>
+      <div class="col-sm-3 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1a" pattern="[^,:.]+" maxlength="3"></div>
+      <div class="col-sm-4 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1b" pattern="[^,:.]+" maxlength="3"></div>
+      <div class="col-sm-5 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1c" pattern="[^,:.]+"></div>
       </div>
 
 			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
@@ -31,14 +31,14 @@
 
     <div class="col-sm-1 col-md-2 form-group">
       <label>Email, Line Id</label>
-      <input class="form-control" ng-model="form.owner_email1" pattern="[^\,\:]+">
+      <input class="form-control" ng-model="form.owner_email1" pattern="[^,:]+">
       <!-- <input class="form-control" disabled="disabled" value="ปิดไว้จนกว่าจะเสร็จ"> -->
     </div>
 
 		<div class="col-sm-2 col-md-2 form-group">
 			<label>Customer VIP</label>
-			<input class="form-control" ng-if="editAllow" ng-model="form.owner_cust1" pattern="[^\,\:]+">
-			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="" pattern="[^\,\:]+">
+			<input class="form-control" ng-if="editAllow" ng-model="form.owner_cust1" pattern="[^,:]+">
+			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="" pattern="[^,:]+">
 		</div>
 
 		<div class="col-sm-2 col-md-2 form-group">

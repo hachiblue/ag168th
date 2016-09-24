@@ -691,7 +691,6 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
 
 app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route', '$routeParams', function ($scope, $compile, $http, $location, $route, $routeParams)
 {
-
     $scope.form = null;
     $scope.collection = null;
     $scope.thailocation = null;
@@ -808,7 +807,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
             $scope.formSetChkContract();
             $scope.formRequirementChange();
-            $scope.formPropertyStatusIdChange();
+            //$scope.formPropertyStatusIdChange();
             $scope.formPendingTypeChange();        
         });
     }
