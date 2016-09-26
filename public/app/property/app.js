@@ -314,11 +314,11 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
     {
         if ($scope.form.property_type_id == '1')
         {
-            $('#project_id').prop('required', true);
+            //$('#project_id').prop('required', true);
         }
         else
         {
-            $('#project_id').prop('required', false);
+            //$('#project_id').prop('required', false);
             $scope.form.project_id = 0;
         }
 
@@ -499,15 +499,17 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
 
         if (this.form.chkcontact5 === true) vat7p = 1.002039;
 
-        tmp_plus = this.form.net_sell_price * up_percent || 0;
+        var net_sell_price = (this.form.net_sell_price || '').replace(/,/g, '');
+
+        tmp_plus = net_sell_price * up_percent || 0;
 
         //if ($scope.form.requirement_id != 2 && $scope.form.requirement_id != undefined)
         //{
             //this.form.net_sell_price = Math.round( ((parseFloat(this.form.net_sell_price) + tmp_plus) * vat7p) * 100 ) / 100;
 
-        if( this.form.net_sell_price !== null )
+        if( net_sell_price !== null )
         {
-            this.form.sell_price = ((parseFloat(this.form.net_sell_price || 0) + tmp_plus) * vat7p).toFixed(2);
+            this.form.sell_price = ((parseFloat(net_sell_price || 0) + tmp_plus) * vat7p).format(2);
         }
         //}
 
@@ -598,8 +600,19 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
             }
         }
 
+
+        if ( +$scope.form.property_type_id == 1 && +$scope.form.project_id == 0 )
+        {
+            alert('Please Select Project if Your Property Type is Condominium!!');
+            return false;
+        }
+
+
         $scope.form.property_pending_date = $("#datetime-pick").val();
         $scope.form.owner = owner.substring(owner.length - 1, -1);
+
+        $scope.form.net_sell_price = $scope.form.net_sell_price.replace(/,/g, '');
+        $scope.form.sell_price = $scope.form.sell_price.replace(/,/g, '');
 
         $.post("../api/property", $scope.form, function (data)
         {
@@ -809,6 +822,8 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             $scope.formRequirementChange();
             //$scope.formPropertyStatusIdChange();
             $scope.formPendingTypeChange();        
+
+            $scope.setmoneyformat();
         });
     }
 
@@ -820,8 +835,22 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             $scope.initSuccess = true;
             setphonehop();
             clearInterval(itv);
+
+            var statusID = $scope.form.property_status_id;
+            if( +statusID == 10 )
+            {
+                $("#pending-box").show();
+                $("#pending-date-box").show();
+            }
+
         }
     }, 100);
+
+    $scope.setmoneyformat = function ()
+    {
+        $scope.form.net_sell_price = (+$scope.form.net_sell_price).format(2); 
+        $scope.form.sell_price = (+$scope.form.sell_price).format(2); 
+    };
 
     $scope.getZoneGroupName = function (id)
     {
@@ -970,11 +999,11 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
     {
         if ($scope.form.property_type_id == 1)
         {
-            $('#project_id').prop('required', true);
+            //$('#project_id').prop('required', true);
         }
         else
         {
-            $('#project_id').prop('required', false);
+            //$('#project_id').prop('required', false);
             $scope.form.project_id = 0;
         }
 
@@ -1027,15 +1056,17 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
         if (this.form.chkcontact5 === true) vat7p = 1.002039;
 
-        tmp_plus = this.form.net_sell_price * up_percent || 0;
+        var net_sell_price = this.form.net_sell_price.replace(/,/g, '');
+
+        tmp_plus = net_sell_price * up_percent || 0;
 
         //if ($scope.form.requirement_id != 2 && $scope.form.requirement_id != undefined)
         //{
             //this.form.net_sell_price = Math.round( ((parseFloat(this.form.net_sell_price) + tmp_plus) * vat7p) * 100 ) / 100;
 
-        if( this.form.net_sell_price !== null )
+        if( net_sell_price !== null )
         {
-            this.form.sell_price = ((parseFloat(this.form.net_sell_price || 0) + tmp_plus) * vat7p).toFixed(2);    
+            this.form.sell_price = ((parseFloat(net_sell_price || 0) + tmp_plus) * vat7p).format(2);    
         }
         
         //}
@@ -1143,6 +1174,15 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
         if (this.form.property_status_id == 3 && (rented_exp == "0000-00-00" || rented_exp == ""))
         {
             $("#input-rented_exp").focus();
+            return false;
+        }
+
+        form.net_sell_price = form.net_sell_price.replace(/,/g, '');
+        form.sell_price = form.sell_price.replace(/,/g, '');
+
+        if ( +form.property_type_id == 1 && +form.project_id == 0 )
+        {
+            alert('Please Select Project if Your Property Type is Condominium!!');
             return false;
         }
 
@@ -1457,7 +1497,7 @@ app.filter('fvip', function ()
         {
             item_vip = vip[i].split(',');
 
-            if( undefined !== item_vip[2] && item_vip[2] != '' && item_vip[2].trim() != 'vim' )
+            if( undefined !== item_vip[2] && item_vip[2] != '' && item_vip[2].toLowerCase().trim() != 'vim' )
             {
                 return 'VIP';
             }
@@ -1538,3 +1578,7 @@ Array.prototype.indexOf || (Array.prototype.indexOf = function(d, e) {
 });
 
 
+Number.prototype.format = function(n, x) {
+    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};

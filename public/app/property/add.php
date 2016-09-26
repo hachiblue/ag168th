@@ -10,29 +10,29 @@ session_start();
 
 		<div class="col-sm-2 col-md-2 form-group">
 			<label>Owner Name</label>
-			<input class="form-control" ng-model="form.owner_name1" pattern="[^\,.]+" required>
+			<input class="form-control" ng-model="form.owner_name1" pattern="[^,]+" required>
 			<!-- <input class="form-control" disabled="disabled" value="ปิดไว้จนกว่าจะเสร็จ"> -->
 		</div>
 
 		<div class="col-sm-2 col-md-2 form-group">
 			<label>Owner Phone</label>
       <div class="col-sm-12 nopadd">
-  			<div class="col-sm-3 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1a" pattern="[^\,\:.]+" maxlength="3" required></div>
-        <div class="col-sm-4 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1b" pattern="[^\,\:.]+" maxlength="3" required></div>
-        <div class="col-sm-5 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1c" pattern="[^\,\:.]+" required></div>
+  			<div class="col-sm-3 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1a" pattern="[^,:]+" maxlength="3" required></div>
+        <div class="col-sm-4 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1b" pattern="[^,:]+" maxlength="3" required></div>
+        <div class="col-sm-5 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1c" pattern="[^,:]+" required></div>
       </div>
 			<!-- <input class="form-control" disabled="disabled" value="ปิดไว้จนกว่าจะเสร็จ"> -->
 		</div>
 
     <div class="col-sm-2 col-md-2 form-group">
       <label>Email, Line Id</label>
-      <input class="form-control" ng-model="form.owner_email1" pattern="[^\,\:]+">
+      <input class="form-control" ng-model="form.owner_email1" pattern="[^,:]+">
       <!-- <input class="form-control" disabled="disabled" value="ปิดไว้จนกว่าจะเสร็จ"> -->
     </div>
 
 		<div class="col-sm-2 col-md-2 form-group">
 			<label>Customer VIP</label>
-			<input class="form-control" ng-model="form.owner_cust1" pattern="[^\,\:]+">
+			<input class="form-control" ng-model="form.owner_cust1" pattern="[^,:]+">
 			<!-- <input class="form-control" disabled="disabled" value="ปิดไว้จนกว่าจะเสร็จ"> -->
 		</div>
 
@@ -161,7 +161,7 @@ session_start();
         </select>
       </div>
 
-      <div class="col-md-3 form-group">
+      <div class="col-md-2 form-group">
         <label>bedrooms</label>
         <select class="form-control" ng-model="form.bedrooms">
           <option value="">Please select</option>
@@ -178,7 +178,7 @@ session_start();
           <option value="10">10</option>	
         </select>
       </div>
-      <div class="col-md-3 form-group">
+      <div class="col-md-2 form-group">
         <label>bathrooms</label>
         <select class="form-control" ng-model="form.bathrooms">
           <option value="">Please select</option>
@@ -259,7 +259,7 @@ session_start();
 
 	  <div style="clear: both;"></div>
 
-      <div class="col-md-3 form-group">
+      <div class="col-md-3 form-group" style="display:none;">
         <label>Contract price</label>
         <input type="text" class="form-control" ng-model="form.contract_price">
       </div>
@@ -271,12 +271,14 @@ session_start();
         <label>Selling price</label>
         <input type="text" class="form-control" ng-model="form.sell_price" id="input-sellingprice" disabled>
       </div>
+
+      <div style="clear: both;"></div>
+
       <div class="col-md-3 form-group">
         <label>Rental price</label>
         <input type="text" class="form-control" ng-model="form.rent_price" id="input-rentprice" disabled>
       </div>
 
-      <div style="clear: both;"></div>
       <div class="col-md-3 form-group">
         <label>Contract expire</label>
         <div class="input-group">

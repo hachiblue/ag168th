@@ -69,7 +69,7 @@
       <label>{{form.owner}}</label>
     </div>
 
-    <div id="pending-box" class="col-md-3 form-group" style="display:none;">
+    <div id="pending-box" class="col-md-2 form-group" style="display:none;">
       <label>Pending</label>
        <select class="form-control"
       ng-model="form.property_pending_type"
@@ -84,7 +84,7 @@
       </select>
     </div>
 
-    <div id="pending-info-box" class="col-md-3 form-group" style="display:none;">
+    <div id="pending-info-box" class="col-md-2 form-group" style="display:none;">
       <label>&nbsp;</label>
        <input class="form-control" ng-model="form.property_pending_info">
     </div>
@@ -165,7 +165,7 @@
         </select>
       </div>
       
-      <div class="col-md-3 form-group">
+      <div class="col-md-1 form-group">
         <label>bedrooms</label>
         <select class="form-control" ng-model="form.bedrooms">
           <option value="">Please select</option>
@@ -182,7 +182,7 @@
     			<option value="10">10</option>	
         </select>
       </div>
-      <div class="col-md-3 form-group">
+      <div class="col-md-1 form-group">
         <label>bathrooms</label>
         <select class="form-control" ng-model="form.bathrooms">
           <option value="">Please select</option>
@@ -261,7 +261,7 @@
 		</div>
 
 	   <div style="clear: both;"></div>
-      <div class="col-md-3 form-group">
+      <div class="col-md-3 form-group" style="display:none;">
         <label>Contract price</label>
         <input type="text" class="form-control" ng-model="form.contract_price">
       </div>
@@ -273,12 +273,14 @@
         <label>Selling price</label>
         <input type="text" class="form-control" ng-model="form.sell_price" id="input-sellingprice" disabled>
       </div>
+
+      <div style="clear: both;"></div>
+
       <div class="col-md-3 form-group">
         <label>Rental price</label>
         <input type="text" class="form-control" ng-model="form.rent_price" id="input-rentprice" disabled>
       </div>
 
-      <div style="clear: both;"></div>
       <div class="col-md-3 form-group">
         <label>Contract expire</label>
         <div class="input-group">

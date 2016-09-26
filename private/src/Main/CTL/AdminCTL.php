@@ -72,6 +72,7 @@ class AdminCTL extends BaseCTL {
 
         $where = array();
 
+        /*
         $where["AND"] = array(
           "OR" => array( 
             "web_status" => 1,
@@ -80,9 +81,9 @@ class AdminCTL extends BaseCTL {
               "property_status_id" => 1 
             )
           )
-        );
+        );*/
 
-        $where["AND"]['rented_expire[>]'] = "0000-00-00";
+        //$where["AND"]['rented_expire[>]'] = "0000-00-00";
         $where["AND"]['rented_expire[<]'] = date("Y-m-d H:i:s", strtotime("+7 days"));
         $where["AND"]['requirement_id[!]'] = "1";
 
