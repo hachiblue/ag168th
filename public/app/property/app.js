@@ -281,6 +281,14 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         $scope.thailocation = thailocation;
     });
 
+    $scope.setmoneyformat = function ()
+    {
+        $scope.form.net_sell_price = (+($scope.form.net_sell_price || '').replace(/,/g,'')).format(2); 
+        $scope.form.sell_price = (+($scope.form.sell_price || '').replace(/,/g,'')).format(2); 
+        $scope.form.contract_price = (+($scope.form.contract_price || '').replace(/,/g,'')).format(2); 
+        $scope.form.rent_price = (+($scope.form.rent_price || '').replace(/,/g,'')).format(2); 
+    };
+
     $scope.getDistrict = function ()
     {
         if (!$scope.initSuccess) return [];
@@ -613,6 +621,8 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
 
         $scope.form.net_sell_price = $scope.form.net_sell_price.replace(/,/g, '');
         $scope.form.sell_price = $scope.form.sell_price.replace(/,/g, '');
+        $scope.form.contract_price = $scope.form.contract_price.replace(/,/g, '');
+        $scope.form.rent_price = $scope.form.rent_price.replace(/,/g, '');
 
         $.post("../api/property", $scope.form, function (data)
         {
@@ -848,8 +858,10 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
     $scope.setmoneyformat = function ()
     {
-        $scope.form.net_sell_price = (+$scope.form.net_sell_price).format(2); 
-        $scope.form.sell_price = (+$scope.form.sell_price).format(2); 
+        $scope.form.net_sell_price = (+($scope.form.net_sell_price || '').replace(/,/g,'')).format(2); 
+        $scope.form.sell_price = (+($scope.form.sell_price || '').replace(/,/g,'')).format(2); 
+        $scope.form.contract_price = (+($scope.form.contract_price || '').replace(/,/g,'')).format(2); 
+        $scope.form.rent_price = (+($scope.form.rent_price || '').replace(/,/g,'')).format(2); 
     };
 
     $scope.getZoneGroupName = function (id)
@@ -1179,6 +1191,8 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
         form.net_sell_price = form.net_sell_price.replace(/,/g, '');
         form.sell_price = form.sell_price.replace(/,/g, '');
+        form.contract_price = form.contract_price.replace(/,/g, '');
+        form.rent_price = form.rent_price.replace(/,/g, '');
 
         if ( +form.property_type_id == 1 && +form.project_id == 0 )
         {

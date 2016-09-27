@@ -259,33 +259,34 @@ session_start();
 
 	  <div style="clear: both;"></div>
 
-      <div class="col-md-3 form-group" style="display:none;">
+      <div class="col-md-3 form-group">
         <label>Contract price</label>
-        <input type="text" class="form-control" ng-model="form.contract_price">
+        <input type="text" class="form-control" ng-model="form.contract_price" ng-blur="setmoneyformat()">
       </div>
       <div class="col-md-3 form-group">
         <label>Net price</label>
-        <input type="text" class="form-control" ng-model="form.net_sell_price" id="input-net_sell_price" ng-change="formChkContractUpChange()">
+        <input type="text" class="form-control" ng-model="form.net_sell_price" id="input-net_sell_price" ng-blur="setmoneyformat()" ng-change="formChkContractUpChange()">
       </div>
       <div class="col-md-3 form-group">
         <label>Selling price</label>
-        <input type="text" class="form-control" ng-model="form.sell_price" id="input-sellingprice" disabled>
+        <input type="text" class="form-control" ng-model="form.sell_price" ng-blur="setmoneyformat()" id="input-sellingprice" disabled>
       </div>
 
       <div style="clear: both;"></div>
 
       <div class="col-md-3 form-group">
         <label>Rental price</label>
-        <input type="text" class="form-control" ng-model="form.rent_price" id="input-rentprice" disabled>
+        <input type="text" class="form-control" ng-model="form.rent_price" ng-blur="setmoneyformat()" id="input-rentprice" disabled>
       </div>
 
-      <div class="col-md-3 form-group">
+      <div class="col-md-3 form-group" style="display:none;">
         <label>Contract expire</label>
         <div class="input-group">
           <input class="form-control datepicker" datepicker ng-model="form.contract_expire" placeholder="-">
           <div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
         </div>
       </div>
+
       <div class="col-md-3 form-group">
         <label>Rented expire</label>
         <div class="input-group">

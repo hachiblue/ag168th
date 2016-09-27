@@ -154,7 +154,7 @@ $this->import("/admin/layout/header");
                 <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/reportproperty') ?>"><i
                             class="fa fa-user-secret fa-3"></i> Report Property</a></li>
 
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/reportuser') ?>"><i
+                <li style="display:none;"><a href="<?php echo \Main\Helper\URL::absolute('/admin/reportuser') ?>"><i
                             class="fa fa-user-secret fa-3"></i> Report User</a></li>
 
                 <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/article') ?>"><i
