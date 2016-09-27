@@ -34,7 +34,8 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function ($
     $scope.props = [];
     $scope.form = {};
     $scope.form.page = 1;
-    $scope.form.limit = 15
+    $scope.form.limit = 15;
+    $scope.form.report_type = 'property';
 
     $scope.getProps = function (page)
     {
@@ -44,11 +45,12 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function ($
         //   return;
         // }
 
-        var url = "../api/report_property";
+        var url = "../api/user_property";
         url += "?" + $.param($scope.form);
         $http.get(url).success(function (data)
         {
             $scope.props = data;
+
             if (data.total > 0)
             {
                 $scope.pagination = [];
@@ -63,20 +65,6 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function ($
                 $scope.pagination = null;
             }
         });
-    };
-
-    $scope.downloadCsv = function ()
-    {
-        var url = "../api/report_property/csv";
-        url += "?" + $.param($scope.form);
-        document.location = url;
-    };
-
-    $scope.downloadCsvVip = function ()
-    {
-        var url = "../api/report_property/csv_vip";
-        url += "?" + $.param($scope.form);
-        document.location = url;
     };
 
     $scope.setPage = function ($index)

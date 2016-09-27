@@ -781,9 +781,9 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
 
             $scope.form["owner_name1"] = owner_field[0];
-            $scope.form["owner_phone1a"] = owner_field[1].substring(0, 3);
-            $scope.form["owner_phone1b"] = owner_field[1].substring(3, 6);
-            $scope.form["owner_phone1c"] = owner_field[1].substring(6, 6+owner_field[1].length);
+            $scope.form["owner_phone1a"] = (owner_field[1] || '').substring(0, 3);
+            $scope.form["owner_phone1b"] = (owner_field[1] || '').substring(3, 6);
+            $scope.form["owner_phone1c"] = (owner_field[1] || '').substring(6, 6 + (owner_field[1] || 0).length);
             $scope.form["owner_email1"] = (owner_field[3] || '').replace('undefined','');
             $scope.form["owner_cust1"] = (owner_field[2] || '').replace('undefined','');
 
@@ -858,10 +858,10 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
     $scope.setmoneyformat = function ()
     {
-        $scope.form.net_sell_price = (+($scope.form.net_sell_price || '').replace(/,/g,'')).format(2); 
-        $scope.form.sell_price = (+($scope.form.sell_price || '').replace(/,/g,'')).format(2); 
-        $scope.form.contract_price = (+($scope.form.contract_price || '').replace(/,/g,'')).format(2); 
-        $scope.form.rent_price = (+($scope.form.rent_price || '').replace(/,/g,'')).format(2); 
+        $scope.form.net_sell_price = (+($scope.form.net_sell_price+'' || '').replace(/,/g,'')).format(2); 
+        $scope.form.sell_price = (+($scope.form.sell_price+'' || '').replace(/,/g,'')).format(2); 
+        $scope.form.contract_price = (+($scope.form.contract_price+'' || '').replace(/,/g,'')).format(2); 
+        $scope.form.rent_price = (+($scope.form.rent_price+'' || '').replace(/,/g,'')).format(2); 
     };
 
     $scope.getZoneGroupName = function (id)

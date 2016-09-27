@@ -64,8 +64,7 @@ session_start();
       <label>Pending</label>
        <select class="form-control"
       ng-model="form.property_pending_type"
-      ng-change="formPendingTypeChange()"
-      required>
+      ng-change="formPendingTypeChange()">
         <option value="">Please select</option>
         <option value="1">No Answer</option>
         <option value="2">Follow Up</option>

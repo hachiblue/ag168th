@@ -17,6 +17,18 @@
             </div>
         </div>
 
+        <div class="col-md-3 form-group">
+            <label class="control-label">Report Type</label>
+            <div>
+              <select class="form-control"
+              ng-model="form.report_type"
+              >
+              <option value="property" selected>Property</option>
+              <option value="enquiry">Enquiry</option>
+            </select>
+            </div>
+        </div>
+
     </div>
 
     <div class="row">
@@ -83,7 +95,7 @@
       <tbody>
       <tr ng-repeat="prop in props.data ">
           <td>{{prop.reference_id}}</td>
-          <td></td>
+          <td>{{prop.updated_at}}</td>
           <td>
               <div><strong>Project</strong>: <span>{{prop.project_name}}</span></div>
               <div ng-if="prop.address_no"><strong>Address no</strong>: <span>{{prop.address_no}}</span></div>
@@ -91,11 +103,12 @@
               <!-- <div><strong>Type</strong>: <span>{{prop.property_type_name}}</span></div> -->
               <div ng-if="prop.bedrooms"><strong>Bed room</strong>: <span>{{prop.bedrooms}}</span></div>
               <div ng-if="prop.bathrooms"><strong>Bath room</strong>: <span>{{prop.bathrooms}}</span></div>
+              <div ng-if="prop.customer"><strong>Customer</strong>: <span>{{prop.customer}}</span></div>
               <!-- <div><strong>Transfer Status</strong>: <span>{{prop.property_status_name}}</span></div> -->
           </td>
-          <td></td>
+          <td style="width:40%;">{{prop.comment}}</td>
          
-          <td><a class="btn btn-info" href="properties#/edit/{{prop.id}}" target="_blank">View</a></td>
+          <td><a class="btn btn-info" href="{{prop.mode}}#/edit/{{prop.id}}" target="_blank">View</a></td>
       </tr>
       </tbody>
     </table>

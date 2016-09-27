@@ -1026,6 +1026,8 @@ MAILCONTENT;
     public function matched()
     {
         $id = $this->reqInfo->urlParam("id");
+        $params = $this->reqInfo->params();
+
         $field = [
             "property.*",
             "requirement.name(requirement_name)",

@@ -55,7 +55,11 @@ class ApiCollection extends BaseCTL {
 //
 //        }
 
-        $collection['property_status'] = $db->select("property_status", "*");
+        $where = [
+          "property_status.id[!]" => array(6, 7)
+        ];
+
+        $collection['property_status'] = $db->select("property_status", "*", $where);
 
         /*
 		$join = [

@@ -906,7 +906,10 @@ app.controller('MatchedCTL', ['$scope', '$http', '$location', '$route', '$routeP
 
     function getProps(query)
     {
-        var url = "../api/enquiry/" + $scope.id + "/matched";
+        var url = "../api/enquiry/" + $scope.id + "/matched?page="+$scope.form.page;
+
+        console.log($scope.form.page);
+
         $http.get(url).success(function(data)
         {
             $scope.props = data;
