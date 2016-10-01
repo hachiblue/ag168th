@@ -15,7 +15,7 @@ foreach($zonegroups as &$zonegroup) {
   });
 }
 
-$projects = $db->select("project", ["id", "name"]);
+$projects = $db->select("project", ["id", "name"], ["ORDER"=> "name ASC"]);
 
 $btss = $db->select("bts", "*");
 $mrts = $db->select("mrt", "*");

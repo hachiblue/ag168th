@@ -95,6 +95,23 @@ class ApiUserReportCTL extends BaseCTL {
             $sql .= " ORDER BY {$order} LIMIT {$start}, {$limit}";
         }
         
+        else if( $params['report_type'] == 'phonerequest' )
+        {
+            $sql = "SELECT SQL_CALC_FOUND_ROWS 'properties' as mode, property.id, request_contact.created_at as updated_at, project.name as project_name, request_contact.id as reference_id, enquiry.customer, '' as comment FROM request_contact, enquiry, property, project WHERE enquiry.id = request_contact.enquiry_id AND property.id = request_contact.property_id AND property.project_id = project.id ";
+
+            $limit = empty($_GET['limit'])? 15: $_GET['limit'];
+
+            $page = !empty($params['page'])? $params['page']: 1;
+            $orderType = !empty($params['orderType'])? $params['orderType']: "DESC";
+            $orderBy = !empty($params['orderBy'])? $params['orderBy']: "updated_at";
+            $order = "{$orderBy} {$orderType}";
+
+            $order = str_replace('property.', 'enquiry.', $order);
+            
+            $start = ( $page == 1 )? 1 : ( ($page-1) * $limit);
+
+            $sql .= " ORDER BY {$order} LIMIT {$start}, {$limit}";
+        }
 
         $r = $db->query($sql);
 

@@ -55,6 +55,7 @@ class ApiCollection extends BaseCTL {
 //
 //        }
 
+        
         $where = [
           "property_status.id[!]" => array(6, 7)
         ];
