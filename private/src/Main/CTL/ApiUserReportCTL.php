@@ -57,7 +57,7 @@ class ApiUserReportCTL extends BaseCTL {
             $orderBy = !empty($params['orderBy'])? $params['orderBy']: "updated_at";
             $order = "{$orderBy} {$orderType}";
 
-            $start = ( $page == 1 )? 1 : ( ($page-1) * $limit);
+            $start = ( $page == 1 )? 0 : ( ($page-1) * $limit);
 
             $sql .= " ORDER BY {$order} LIMIT {$start}, {$limit}";
         }
@@ -90,7 +90,7 @@ class ApiUserReportCTL extends BaseCTL {
 
             $order = str_replace('property.', 'enquiry.', $order);
             
-            $start = ( $page == 1 )? 1 : ( ($page-1) * $limit);
+            $start = ( $page == 1 )? 0 : ( ($page-1) * $limit);
 
             $sql .= " ORDER BY {$order} LIMIT {$start}, {$limit}";
         }
@@ -108,7 +108,7 @@ class ApiUserReportCTL extends BaseCTL {
 
             $order = str_replace('property.', 'enquiry.', $order);
             
-            $start = ( $page == 1 )? 1 : ( ($page-1) * $limit);
+            $start = ( $page == 1 )? 0 : ( ($page-1) * $limit);
 
             $sql .= " ORDER BY {$order} LIMIT {$start}, {$limit}";
         }
