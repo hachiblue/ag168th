@@ -1183,7 +1183,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
         form.owner = owner.substring(owner.length - 1, -1);
 
         var rented_exp = $("#input-rented_exp").val();
-        if (this.form.property_status_id == 3 && (rented_exp == "0000-00-00" || rented_exp == ""))
+        if (form.property_status_id == 3 && (rented_exp == "0000-00-00" || rented_exp == ""))
         {
             $("#input-rented_exp").focus();
             return false;
