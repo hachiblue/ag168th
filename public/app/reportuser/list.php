@@ -101,6 +101,7 @@
               <div><strong>Project</strong>: <span>{{prop.project_name}}</span></div>
               <div ng-if="prop.address_no"><strong>Address no</strong>: <span>{{prop.address_no}}</span></div>
               <div ng-if="prop.floors"><strong>Floor</strong>: <span>{{prop.floors}}</span></div>
+              <div ng-if="prop.enquiry_no"><strong>Enquiry No</strong>: <span><a href="enquiries#/edit/{{prop.enquiry_id}}" target="_blank">{{prop.enquiry_no}}</a></span></div>
               <!-- <div><strong>Type</strong>: <span>{{prop.property_type_name}}</span></div> -->
               <div ng-if="prop.bedrooms"><strong>Bed room</strong>: <span>{{prop.bedrooms}}</span></div>
               <div ng-if="prop.bathrooms"><strong>Bath room</strong>: <span>{{prop.bathrooms}}</span></div>

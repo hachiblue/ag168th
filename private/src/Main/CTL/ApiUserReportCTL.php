@@ -97,7 +97,12 @@ class ApiUserReportCTL extends BaseCTL {
         
         else if( $params['report_type'] == 'phonerequest' )
         {
-            $sql = "SELECT SQL_CALC_FOUND_ROWS 'properties' as mode, property.id, request_contact.created_at as updated_at, project.name as project_name, request_contact.id as reference_id, enquiry.customer, '' as comment FROM request_contact, enquiry, property, project WHERE enquiry.id = request_contact.enquiry_id AND property.id = request_contact.property_id AND property.project_id = project.id ";
+            $sql = "SELECT SQL_CALC_FOUND_ROWS 'properties' as mode, property.id, request_contact.created_at as updated_at, project.name as project_name, request_contact.id as reference_id, enquiry.customer, '' as comment, enquiry.id as enquiry_id , enquiry.enquiry_no as enquiry_no FROM request_contact, enquiry LEFT JOIN enquiry_comment ON enquiry.id = enquiry_comment.enquiry_id, property, project WHERE enquiry.id = request_contact.enquiry_id AND property.id = request_contact.property_id AND property.project_id = project.id ";
+
+            if( !empty($params['account_comment_id']) )
+            {
+                $sql .= " AND enquiry_comment.comment_by = '{$params['account_comment_id']}' ";
+            }
 
             $limit = empty($_GET['limit'])? 15: $_GET['limit'];
 
