@@ -53,11 +53,11 @@
             <option value="property.updated_at">Updated at</option>
             <option value="property.created_at">Created at</option>
             <option value="property.reference_id">Reference ID</option>
-            <option value="property.rented_expire">Rent expire</option>
+            <!-- <option value="property.rented_expire">Rent expire</option> -->
             <option value="project.name">Project name</option>
-            <option value="property.sell_price">Sell price</option>
-            <option value="property.rent_price">Rent price</option>
-            <option value="property.size">Size</option>
+            <!-- <option value="property.sell_price">Sell price</option>  -->
+            <!-- <option value="property.rent_price">Rent price</option> -->
+            <!-- <option value="property.size">Size</option> -->
         </select>
       </div>
       <div class="col-md-2 el-custom-1">
@@ -106,6 +106,8 @@
               <div ng-if="prop.bedrooms"><strong>Bed room</strong>: <span>{{prop.bedrooms}}</span></div>
               <div ng-if="prop.bathrooms"><strong>Bath room</strong>: <span>{{prop.bathrooms}}</span></div>
               <div ng-if="prop.customer"><strong>Customer</strong>: <span>{{prop.customer}}</span></div>
+
+              <div ng-if="prop.sale"><strong>Sale</strong>: <span>{{prop.sale}}, {{prop.sphone}}</span></div>
               <!-- <div><strong>Transfer Status</strong>: <span>{{prop.property_status_name}}</span></div> -->
           </td>
           <td style="width:40%;">{{prop.comment}}</td>
