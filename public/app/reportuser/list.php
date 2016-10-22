@@ -108,6 +108,8 @@
               <div ng-if="prop.customer"><strong>Customer</strong>: <span>{{prop.customer}}</span></div>
 
               <div ng-if="prop.sale"><strong>Sale</strong>: <span>{{prop.sale}}, {{prop.sphone}}</span></div>
+              <div ng-if="prop.owner"><strong>Owner</strong>: <span>{{prop.owner}}</span></div>
+
               <!-- <div><strong>Transfer Status</strong>: <span>{{prop.property_status_name}}</span></div> -->
           </td>
           <td style="width:40%;">{{prop.comment}}</td>
