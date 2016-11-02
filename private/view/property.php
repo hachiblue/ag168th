@@ -257,6 +257,7 @@ $(document).ready(function() {
                     </div>
         		</div>
      		</div>
+
             <div class="col-md-3">
             	<div class="box-right">
     			<form id="frmQuickSendEnquiry">
@@ -292,9 +293,9 @@ $(document).ready(function() {
                     <input type="hidden" name="reference_id" value="<?php echo $params['item']['reference_id'];?>">
                     <input type="hidden" name="id" value="<?php echo $params['item']['id'];?>">
      			</form>
-          <div id="message-success"
-          style="display:none; text-align:center; line-height:30px;">Success send form</div>
-    	</div>
+				<div id="message-success" style="display:none; text-align:center; line-height:30px;">Success send form</div>
+    		</div>
+
             </div>
      	</div>
      </div>
