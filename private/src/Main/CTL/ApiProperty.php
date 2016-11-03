@@ -85,6 +85,7 @@ class ApiProperty extends BaseCTL {
 
         if(!empty($params['requirement_id']))
 		{
+            /*
             if(in_array($params['requirement_id'], [2,4])) 
 			{
 				$where["AND"]['property.requirement_id'] = [$params['requirement_id'], 3];
@@ -92,6 +93,19 @@ class ApiProperty extends BaseCTL {
             else 
 			{
 				$where["AND"]['property.requirement_id'] = $params['requirement_id'];
+            }*/
+
+            if( $params['requirement_id'] == 1 )
+            {
+                $where["AND"]['property.requirement_id'] = [$params['requirement_id'], 3, 4];
+            }
+            elseif( $params['requirement_id'] == 2 )
+            {
+                $where["AND"]['property.requirement_id'] = [$params['requirement_id'], 3];
+            }
+            else
+            {
+                $where["AND"]['property.requirement_id'] = $params['requirement_id'];
             }
         }
 

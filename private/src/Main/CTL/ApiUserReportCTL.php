@@ -83,6 +83,8 @@ class ApiUserReportCTL extends BaseCTL {
 
             $limit = empty($_GET['limit'])? 15: $_GET['limit'];
 
+            $params['orderBy'] = str_replace('property.', 'enquiry.', $params['orderBy']);
+            
             $page = !empty($params['page'])? $params['page']: 1;
             $orderType = !empty($params['orderType'])? $params['orderType']: "DESC";
             $orderBy = !empty($params['orderBy'])? $params['orderBy']: "updated_at";

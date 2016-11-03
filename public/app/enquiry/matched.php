@@ -53,7 +53,7 @@
                   <span ng-if="prop.request_contact.status_id.toString()=='3'" class="badge" style="background-color: red;">Denine</span>
                 </td>
                 <td><a class="xcrud-action btn btn-warning btn-sm" href="properties#/edit/{{prop.id}}" target="_blank">View</a></td>
-                <td><button class="xcrud-action btn btn-danger btn-sm" ng-click="removeMathClick(prop)">Delete Match</button></td>
+                <td><button ng-show="<?php echo json_encode(@$_SESSION['login']['level_id'] == 2);?>" class="xcrud-action btn btn-danger btn-sm" ng-click="removeMathClick(prop)">Delete Match</button></td>
             </tr>
             </tbody>
         </table>
