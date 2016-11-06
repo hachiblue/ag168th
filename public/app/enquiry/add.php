@@ -339,8 +339,20 @@
                         <option value="3">Call</option>
                     </select>
                 </div><!--col-md-12-->
-                <div style="clear:both;"></div>
+                
+                <div class="col-md-2 col-md-offset-1 contact-type">
+                    <br><label><input type="checkbox" id="chk1" ng-model="form.chk1"> Agent 168</label>
+                </div><!--col-md-12-->
+
                 <div class="col-md-2 contact-type">
+                    <br><label><input type="checkbox" id="chk2" ng-model="form.chk2"> Hotstock</label>
+                </div><!--col-md-12-->
+
+                <div class="col-md-2 contact-type">
+                    <br><label><input type="checkbox" id="chk3" ng-model="form.chk3"> Individual</label>
+                </div><!--col-md-12-->
+
+                <div class="col-md-2 col-md-offset-1 contact-type">
                   <label>User List</label><strong>:</strong>
                   <select class="form-control"
                   ng-model="form.account"
@@ -349,13 +361,39 @@
                   </select>
                 </div>
 
+                <div style="clear:both;"></div>
+
+                <div class="col-sm-8 col-sm-offset-3">
+                    <div class="col-sm-4">
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control cbox" id="ctel_comment1" name="cphone_comment" ng-model="form.t1comment" maxlength="3">
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control cbox" id="ctel_comment2" name="cphone_comment" ng-model="form.t2comment" maxlength="3">
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control cbox" id="ctel_comment3" name="cphone_comment" ng-model="form.t3comment" maxlength="4">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control cbox" id="cemail_comment" placeholder="email, line id" ng-model="form.ecomment">
+                    </div>
+                </div>
+
+                <div style="clear:both;"></div>
+
+                <div class="col-sm-3 col-sm-offset-3">
+                    <input type="text" class="form-control cbox" id="cwebsite" name="cwebsite" ng-model="form.wcomment" placeholder="Website">
+                </div>
+
                 <div class="col-md-12 form-group">
                   <label>
                   	<strong>Remark.</strong>
                   </label>
                   <small>(กรุณาใส่รายละเอียดความต้องการของลูกค้าให้ครบถ้วน)</small>
                   <br>
-                	<textarea ng-model="form.comment" class="form-control" rows="2" id="comment" style="min-height:80px; margin:10px 0 10px 10px; display: inline; vertical-align: middle;"></textarea>
+                	<textarea ng-model="form.comment" class="form-control" rows="2" id="bt_comment" style="min-height:80px; margin:10px 0 10px 10px; display: inline; vertical-align: middle;"></textarea>
+                  &nbsp;&nbsp;(<span id="cnt_comment">0</span>/400) 
                 </div>
             </div><!--detail-type-->
             <div class="col-md-12 comment text-center" style="margin:20px 0; text-align:center;">

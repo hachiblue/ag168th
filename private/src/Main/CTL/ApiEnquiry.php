@@ -203,6 +203,263 @@ class ApiEnquiry extends BaseCTL {
         return $list;
     }
 
+
+    /**
+    * @GET
+    * @uri /reportenquiry
+    */
+    public function reportenquiry()
+    {
+        ini_set('memory_limit', '512M');
+
+        $field = [
+            "project.name(project_name)",
+            "enquiry.enquiry_no",
+            "enquiry.customer",
+            "enquiry_comment.updated_at(comm_update)",
+            "enquiry_comment.comment",
+            "comm.name(comment_name)"
+        ];
+
+        $join = [
+            "[>]requirement"=> ["requirement_id"=> "id"],
+            "[>]size_unit"=> ["size_unit_id"=> "id"],
+            "[>]project"=> ["project_id"=> "id"],
+            "[>]enquiry_type"=> ["enquiry_type_id"=> "id"],
+            "[>]enquiry_status"=> ["enquiry_status_id"=> "id"],
+            "[>]account(sale)"=> ["assign_sale_id"=> "id"],
+            "[>]account(manager)"=> ["assign_manager_id"=> "id"],
+            "[>]enquiry_comment"=> ["id"=> "enquiry_id"],
+            "[>]account(comm)"=> ["enquiry_comment.comment_by"=> "id"]
+        ];
+
+        $where = ["AND"=> []];
+
+        if(@$_SESSION["login"]["level_id"] == 3) {
+          $where["AND"]["assign_manager_id"] = $_SESSION["login"]["id"];
+        }
+        else if(@$_SESSION["login"]["level_id"] == 4) {
+          $where["AND"]["assign_sale_id"] = $_SESSION["login"]["id"];
+        }
+
+        $params = $this->reqInfo->params();
+        // if(!empty($params['match_enquiry_id'])) {
+        //   $where["AND"]['property.inc_vat'] = $params['inc_vat'];
+        // }
+
+        if(!empty($params['enquiry_no'])) {
+          $where["AND"]['enquiry.enquiry_no[~]'] = $params['enquiry_no'];
+        }
+        if(!empty($params['enquiry_type_id'])) {
+          $where["AND"]['enquiry.enquiry_type_id'] = $params['enquiry_type_id'];
+        }
+        if(!empty($params['customer'])) {
+          $where["AND"]['enquiry.customer[~]'] = $params['customer'];
+        }
+
+        if(!empty($params['requirement_id'])) {
+          $where["AND"]['enquiry.requirement_id'] = $params['requirement_id'];
+        }
+        // if(!empty($params['requirement_id'])){
+        //     if($params['requirement_id'] != 3) {
+        //       $where["AND"]['enquiry.requirement_id'] = [$params['requirement_id'], 3];
+        //     }
+        //     else {
+        //       $where["AND"]['enquiry.requirement_id'] = $params['requirement_id'];
+        //     }
+        // }
+
+        if(!empty($params['property_type_id'])) {
+          $where["AND"]['enquiry.property_type_id'] = $params['property_type_id'];
+        }
+
+        if( isset($params['project_id']) && $params['project_id'] != '' ) 
+        {
+          $where["AND"]['enquiry.project_id'] = $params['project_id'];
+        }
+
+        if(!empty($params['province_id'])) {
+          $where["AND"]['enquiry.province_id'] = $params['province_id'];
+        }
+
+        if((!empty($params['size_start']) || !empty($params['size_end'])) && !empty($params['size_unit_id'])){
+            $where["AND"]['enquiry.size_unit_id'] = $params['size_unit_id'];
+
+            if(!empty($params['size_start'])) {
+              $where["AND"]['enquiry.size[>=]'] = $params['size_start'];
+            }
+            if(!empty($params['size_end'])) {
+              $where["AND"]['enquiry.size[<=]'] = $params['size_end'];
+            }
+        }
+
+        if(!empty($params['buy_budget_start']) || !empty($params['buy_budget_end'])){
+            if(!empty($params['buy_budget_start'])) {
+              $where["AND"]['enquiry.buy_budget_start[>=]'] = $params['buy_budget_start'];
+            }
+            if(!empty($params['buy_budget_end'])) {
+              $where["AND"]['enquiry.buy_budget_end[<=]'] = $params['buy_budget_end'];
+            }
+        }
+
+        if(!empty($params['rent_budget_start']) || !empty($params['rent_budget_end'])){
+            if(!empty($params['rent_budget_start'])) {
+              $where["AND"]['enquiry.rent_budget_start[>=]'] = $params['rent_budget_start'];
+            }
+            if(!empty($params['rent_budget_end'])) {
+              $where["AND"]['enquiry.rent_budget_end[<=]'] = $params['rent_budget_end'];
+            }
+        }
+
+        if(!empty($params['decision_maker'])) {
+          $where["AND"]['enquiry.decision_maker'] = $params['decision_maker'];
+        }
+        if(!empty($params['ptime_to_pol'])) {
+          $where["AND"]['enquiry.ptime_to_pol'] = $params['ptime_to_pol'];
+        }
+        if(!empty($params['bedroom'])) {
+          $where["AND"]['enquiry.bedroom'] = $params['bedroom'];
+        }
+        if(!empty($params['is_studio'])) {
+          $where["AND"]['enquiry.is_studio'] = $params['is_studio'];
+        }
+        if(!empty($params['bts_id'])) {
+          $where["AND"]['enquiry.bts_id'] = $params['bts_id'];
+        }
+        if(!empty($params['mrt_id'])) {
+          $where["AND"]['enquiry.mrt_id'] = $params['mrt_id'];
+        }
+        if(!empty($params['enquiry_status_id'])) {
+          $where["AND"]['enquiry.enquiry_status_id'] = $params['enquiry_status_id'];
+        }
+        if(!empty($params['ex_location'])) {
+          $where["AND"]['enquiry.ex_location[~]'] = $params['ex_location'];
+        }
+        if(!empty($params['contact_type_id'])) {
+          $where["AND"]['enquiry.contact_type_id'] = $params['contact_type_id'];
+        }
+
+        if(!empty($params['assign_manager_id'])) {
+          $where["AND"]['enquiry.assign_manager_id'] = $params['assign_manager_id'];
+        }
+        if(!empty($params['assign_sale_id'])) {
+          $where["AND"]['enquiry.assign_sale_id'] = $params['assign_sale_id'];
+        }
+
+        if(!empty($params['created_at_start'])) {
+          $where["AND"]['enquiry.created_at[>=]'] = $params['created_at_start'].' 00:00:00';
+        }
+        if(!empty($params['created_at_end'])) {
+          $where["AND"]['enquiry.created_at[<=]'] = $params['created_at_end'].' 00:00:00';
+        }
+        if(!empty($params['updated_at_start'])) {
+          $where["AND"]['enquiry.updated_at[>=]'] = $params['updated_at_start'].' 00:00:00';
+        }
+        if(!empty($params['updated_at_end'])) {
+          $where["AND"]['enquiry.updated_at[<=]'] = $params['updated_at_end'].' 00:00:00';
+        }
+
+        $page = 1;
+        $limit = 999999;
+        $orderType = !empty($params['orderType'])? $params['orderType']: "DESC";
+        $orderBy = !empty($params['orderBy'])? $params['orderBy']: "updated_at";
+        $order = "{$orderBy} {$orderType}";
+
+
+        if(count($where["AND"]) > 0){
+            $where["ORDER"] = $order;
+            $list = ListDAO::gets($this->table, [
+                "field"=> $field,
+                "join"=> $join,
+                "where"=> $where,
+                "page"=> $page,
+                "limit"=> $limit
+            ]);
+        }
+        else {
+            $list = ListDAO::gets($this->table, [
+                "field"=> $field,
+                "join"=> $join,
+                'where'=> ["ORDER"=> $order],
+                "page"=> $page,
+                "limit"=> $limit
+            ]);
+        }
+
+        $enq = array();
+
+        foreach( $list['data'] as $e )
+        {
+          $enq[$e['enquiry_no']][] = $e;
+        }
+
+
+
+        $objPHPExcel = new \PHPExcel();
+
+        $objPHPExcel->getProperties()->setKeywords("office 2007 openxml php");
+
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(50);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(30);
+        $sheet = $objPHPExcel->getActiveSheet();
+
+        $sheet->setCellValue('A1', '');
+        $sheet->setCellValue('B1', 'Date/Time');
+        $sheet->setCellValue('C1', 'Details');
+        $sheet->setCellValue('D1', 'Comment');
+
+        $i = 1;
+        $lfcr = chr(10) . chr(13);
+
+        foreach( $enq as $en )
+        {
+          $i++;
+
+          $sheet->setCellValue('A'.$i, 'Enquiry No');
+          $sheet->getStyle('A'.$i)->getFont()->setBold(true);
+          $sheet->setCellValue('B'.$i, $en[0]['enquiry_no']);
+          $i++;
+
+          $sheet->setCellValue('A'.$i, 'Project');
+          $sheet->getStyle('A'.$i)->getFont()->setBold(true);
+          $sheet->setCellValue('B'.$i, $en[0]['project_name']);
+          $i++;
+
+          $sheet->setCellValue('A'.$i, 'Customer');
+          $sheet->getStyle('A'.$i)->getFont()->setBold(true);
+          $sheet->setCellValue('B'.$i, $en[0]['customer']);
+          $i++;
+
+          $sheet->setCellValue('A'.$i, 'วันที่');
+          $sheet->getStyle('A'.$i)->getFont()->setBold(true);
+          $sheet->setCellValue('B'.$i, 'ข้อความ');
+          $sheet->getStyle('B'.$i)->getFont()->setBold(true);
+          $sheet->setCellValue('C'.$i, 'โดย');
+          $sheet->getStyle('C'.$i)->getFont()->setBold(true);
+          $i++;
+
+          foreach( $en as $cm )
+          {
+            $sheet->setCellValue('A'.$i, $cm['comm_update']);
+            $sheet->setCellValue('B'.$i, $cm['comment']);
+            $sheet->setCellValue('C'.$i, $cm['comment_name']);
+            $i++;
+          }
+        }
+
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+
+        // We'll be outputting an excel file
+        header('Content-type: application/vnd.ms-excel');
+
+        // It will be called file.xls
+        header('Content-Disposition: attachment; filename="enquiry_report.xls"');
+        $objWriter->save('php://output');
+    }
+
     /**
      * @GET
      * @uri /csv
@@ -212,14 +469,14 @@ class ApiEnquiry extends BaseCTL {
         ini_set('memory_limit', '512M');
 
         $field = [
-          "*",
-          "enquiry_type.name(enquiry_type_name)",
-          "enquiry_status.name(enquiry_status_name)",
-          "sale.name(sale_name)",
-          "manager.name(manager_name)",
-          "project.name(project_name)",
-          "enquiry.*"
-      ];
+            "*",
+            "enquiry_type.name(enquiry_type_name)",
+            "enquiry_status.name(enquiry_status_name)",
+            "sale.name(sale_name)",
+            "manager.name(manager_name)",
+            "project.name(project_name)",
+            "enquiry.*"
+        ];
         $join = [
             "[>]requirement"=> ["requirement_id"=> "id"],
             "[>]size_unit"=> ["size_unit_id"=> "id"],
@@ -459,7 +716,13 @@ class ApiEnquiry extends BaseCTL {
           "comment"=> $params["comment"],
           "comment_by"=> $accId,
           "updated_at"=> $now,
-          "user_remind"=> ( ( isset($params["account"]) ) ? $params["account"] : '') 
+          "user_remind"=> ( ( isset($params["account"]) ) ? $params["account"] : ''),
+          "chk1" => ( ( isset($params["chk1"]) && $params["chk1"] == true ) ? 'Y' : 'N'),
+          "chk2" => ( ( isset($params["chk2"]) && $params["chk2"] == true ) ? 'Y' : 'N'),
+          "chk3" => ( ( isset($params["chk3"]) && $params["chk3"] == true ) ? 'Y' : 'N'),
+          "phone" => ( ( isset($params["t1comment"]) ) ? $params["t1comment"].$params["t2comment"].$params["t3comment"] : ''),
+          "email_line" => ( ( isset($params["ecomment"]) ) ? $params["ecomment"] : ''),
+          "website" => ( ( isset($params["wcomment"]) ) ? $params["wcomment"] : '')
         ];
 
         $db->insert("enquiry_comment", $commentInsert);
@@ -541,7 +804,13 @@ class ApiEnquiry extends BaseCTL {
           "comment"=> $params["comment"],
           "comment_by"=> $accId,
           "updated_at"=> $now,
-          "user_remind"=> ( ( isset($params["account"]) ) ? $params["account"] : '') 
+          "user_remind"=> ( ( isset($params["account"]) ) ? $params["account"] : ''),
+          "chk1" => ( ( isset($params["chk1"]) && $params["chk1"] == true ) ? 'Y' : 'N'),
+          "chk2" => ( ( isset($params["chk2"]) && $params["chk2"] == true ) ? 'Y' : 'N'),
+          "chk3" => ( ( isset($params["chk3"]) && $params["chk3"] == true ) ? 'Y' : 'N'),
+          "phone" => ( ( isset($params["t1comment"]) ) ? $params["t1comment"].$params["t2comment"].$params["t3comment"] : ''),
+          "email_line" => ( ( isset($params["ecomment"]) ) ? $params["ecomment"] : ''),
+          "website" => ( ( isset($params["wcomment"]) ) ? $params["wcomment"] : '')
         ];
 
         $db->insert("enquiry_comment", $commentInsert);

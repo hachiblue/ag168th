@@ -62,6 +62,9 @@ use Main\Helper;
     <link href="<?php echo Helper\URL::absolute("/public/css/ie9.css")?>" rel="stylesheet">
     <!-- font awesome -->
     <link href="<?php echo Helper\URL::absolute("/public/css/font-awesome.min.css")?>" rel="stylesheet">
+
+    <script src="<?php echo \Main\Helper\URL::absolute("/public/js/main.js")?>"></script>
+    
     <!-- Material jQuery -->
     <script src="<?php echo Helper\URL::absolute("/public/js/ripples.min.js")?>"></script>
     <script src="<?php echo Helper\URL::absolute("/public/js/material.min.js")?>"></script>

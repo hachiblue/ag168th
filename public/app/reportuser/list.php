@@ -73,11 +73,17 @@
       <div class="col-md-6"></div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+
+        <div class="col-md-6">
             <button type="submit" class="btn btn-success">Search</button>
             <button type="reset" class="btn btn-success">Reset</button>
             <span ng-if="isShowTotal()">Search total: {{props.total}} item</span>
         </div>
+
+        <div class="col-md-6 text-right">
+            <button class="btn btn-primary" ng-click="get_reportuser()">Report User</button>
+        </div>
+
     </div>
   </form>
 

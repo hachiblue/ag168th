@@ -59,7 +59,14 @@ class ApiUserReportCTL extends BaseCTL {
 
             $start = ( $page == 1 )? 0 : ( ($page-1) * $limit);
 
-            $sql .= " ORDER BY {$order} LIMIT {$start}, {$limit}";
+            if( isset($params['mode']) && $params['mode'] == 'getreport' )
+            {
+                $sql .= " ORDER BY {$order}";
+            }
+            else
+            {
+                $sql .= " ORDER BY {$order} LIMIT {$start}, {$limit}";
+            }
         }
 
         else if( $params['report_type'] == 'enquiry' )
@@ -94,7 +101,14 @@ class ApiUserReportCTL extends BaseCTL {
             
             $start = ( $page == 1 )? 0 : ( ($page-1) * $limit);
 
-            $sql .= " ORDER BY {$order} LIMIT {$start}, {$limit}";
+            if( isset($params['mode']) && $params['mode'] == 'getreport' )
+            {
+                $sql .= " ORDER BY {$order}";
+            }
+            else
+            {
+                $sql .= " ORDER BY {$order} LIMIT {$start}, {$limit}";
+            }
         }
         
         else if( $params['report_type'] == 'phonerequest' )
@@ -127,7 +141,14 @@ class ApiUserReportCTL extends BaseCTL {
             
             $start = ( $page == 1 )? 0 : ( ($page-1) * $limit);
 
-            $sql .= " ORDER BY {$order} LIMIT {$start}, {$limit}";
+            if( isset($params['mode']) && $params['mode'] == 'getreport' )
+            {
+                $sql .= " ORDER BY {$order}";
+            }
+            else
+            {
+                $sql .= " ORDER BY {$order} LIMIT {$start}, {$limit}";
+            }
         }
 
         $r = $db->query($sql);
@@ -151,6 +172,78 @@ class ApiUserReportCTL extends BaseCTL {
         );
 
         return $list;
+    }
+
+    /**
+     * @GET
+     * @uri /reportuser
+     */
+    public function reportuser()
+    {
+        $data = $this->getByBetween();
+        $data = $data['data'];
+
+        $params = $this->reqInfo->params();
+
+        ini_set('memory_limit', '512M');
+        $db = MedooFactory::getInstance();
+
+        $objPHPExcel = new \PHPExcel();
+
+        $objPHPExcel->getProperties()->setKeywords("office 2007 openxml php");
+
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(25);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(50);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(80);
+
+        $sheet = $objPHPExcel->getActiveSheet();
+
+        $sheet->setCellValue('A1', '');
+        $sheet->setCellValue('B1', 'Date/Time');
+        $sheet->setCellValue('C1', 'Details');
+        $sheet->setCellValue('D1', 'Comment');
+
+        $i = 2;
+        $lfcr = chr(10) . chr(13);
+
+        foreach( $data as $k => $d )
+        {
+
+            $sheet->setCellValue('A'.$i, $d['reference_id']);
+            $sheet->getStyle('A'.$i)->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_TOP);
+
+            $sheet->setCellValue('B'.$i, $d['updated_at']);
+            $sheet->getStyle('B'.$i)->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_TOP);
+
+            $sheet->setCellValue('C'.$i, 'Project:' . $d['project_name'] 
+                . ( ( isset($d['address_no']) )? "\n" . 'Address:' . $d['address_no'] : '' )
+                . ( ( isset($d['customer']) )? "\n" . 'Customer:' . $d['customer'] : '' )
+                . ( ( isset($d['floors']) )? "\n" . 'Floor:' . $d['floors'] : '' )
+                . ( ( isset($d['bedrooms']) )? "\n" . 'Bed room:' . $d['bedrooms'] : '' )
+                . ( ( isset($d['bathrooms']) )? "\n" . 'Bath room:' . $d['bathrooms'] : '' )
+                . ( ( isset($d['sale']) )? "\n" . 'Sale:' . $d['sale'] : '' )
+                . ( ( isset($d['sphone']) )? "\n" . 'Phone:' . $d['sphone'] : '' )
+                . ( ( isset($d['owner']) )? "\n" . 'Owner:' . $d['owner'] : '' )
+            );
+            $sheet->getStyle('C'.$i)->getAlignment()->setWrapText(true);
+
+            $sheet->setCellValue('D'.$i, $d['comment']);
+            $sheet->getStyle('D'.$i)->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_TOP);
+
+            $i++;
+        }
+
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+
+        // We'll be outputting an excel file
+        header('Content-type: application/vnd.ms-excel');
+
+        // It will be called file.xls
+        header('Content-Disposition: attachment; filename="report_user.xls"');
+        $objWriter->save('php://output');
     }
 
 }

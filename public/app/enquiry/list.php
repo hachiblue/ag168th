@@ -343,7 +343,9 @@
 
       <?php if(@$_SESSION['login']['level_id'] == 1){?>
               <button type="button" class="btn btn-primary" ng-click="downloadCsv()">Download</button>
-            <?php }?>
+      <?php }?>
+
+      <button class="btn btn-primary" ng-click="get_reportenquiry()">Enquiry Report</button>
 
     </div>
     <div style="overflow-x: auto;">

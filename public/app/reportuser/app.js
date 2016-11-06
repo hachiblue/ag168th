@@ -107,6 +107,13 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function ($
         return typeof $scope.props.total != 'undefined';
     };
 
+    $scope.get_reportuser = function ()
+    {
+        var url = "../api/user_property/reportuser";
+        url += "?mode=getreport&" + $.param($scope.form);
+        document.location = url;
+    };
+
     $scope.commaNumber = numberWithCommas;
 
 	window.s = $scope;

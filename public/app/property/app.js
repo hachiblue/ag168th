@@ -709,6 +709,7 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
     $('.rented_expire').datepicker();
 
     setphonehop();
+    set_cntcomment();
 
 }]);
 
@@ -843,7 +844,10 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
         if ($scope.form && $scope.collection && $scope.thailocation)
         {
             $scope.initSuccess = true;
+
             setphonehop();
+            set_cntcomment();
+
             clearInterval(itv);
 
             var statusID = $scope.form.property_status_id;

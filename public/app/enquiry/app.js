@@ -211,6 +211,13 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function($s
         });
     };
 
+    $scope.get_reportenquiry = function()
+    {
+        var url = "../api/enquiry/reportenquiry";
+        url += "?mode=getreport&" + $.param($scope.form);
+        document.location = url;
+    };
+
     $scope.commaNumber = numberWithCommas;
 }]);
 
@@ -335,6 +342,7 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
         $scope.thailocation = thailocation;
 
         setphonehop();
+        set_cntcomment();
     });
 
     $scope.triggerChangeSource = function()
@@ -659,6 +667,7 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
             $scope.$apply();
 
             setphonehop();
+            set_cntcomment();
         });
 
     (function()
@@ -743,8 +752,18 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
         if (!$scope.editAllow)
         {
             form = {
-                comment: $scope.form.comment
+                comment: $scope.form.comment,
+                account: $scope.form.account,
+                chk1: $scope.form.chk1,
+                chk2: $scope.form.chk2,
+                chk3: $scope.form.chk3,
+                t1comment: $scope.form.t1comment,
+                t2comment: $scope.form.t2comment,
+                t3comment: $scope.form.t3comment,
+                ecomment: $scope.form.ecomment,
+                wcomment: $scope.form.wcomment
             };
+
             if ($scope.form.enquiry_status_id)
                 form.enquiry_status_id = $scope.form.enquiry_status_id;
             if ($scope.form.book_property_id)
@@ -1008,7 +1027,7 @@ app.controller('CommentCTL', ['$scope', '$http', '$location', '$route', '$routeP
 {
     var propId = $routeParams.id;
     $http.get("../api/enquiry/" + $routeParams.id + "/comment").success(function(data)
-    {
+    { 
         $scope.comments = data.data;
     });
 
@@ -1024,9 +1043,3 @@ app.controller('CommentCTL', ['$scope', '$http', '$location', '$route', '$routeP
 
 }]);
 
-function setphonehop()
-{
-     $("input[name=cphone]").keyup(function() {
-        if( this.value.length >= 3 ) $(this).parent().next().find("input").focus();
-    });   
-}

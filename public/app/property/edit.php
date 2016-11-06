@@ -425,8 +425,9 @@
   </div>
   <div class="row">
     <div class="col-md-12 form-group">
-      <label>Comment/Remark</label>
-      <textarea class="form-control" ng-model="form.comment"></textarea>
+      <label>Comment/Remark</label>  
+      <textarea class="form-control" id="bt_comment" ng-model="form.comment"></textarea>
+      (<span id="cnt_comment">0</span>/400) 
     </div>
   </div>
   <div class="row">
