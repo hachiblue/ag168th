@@ -757,11 +757,8 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
                 chk1: $scope.form.chk1,
                 chk2: $scope.form.chk2,
                 chk3: $scope.form.chk3,
-                t1comment: $scope.form.t1comment,
-                t2comment: $scope.form.t2comment,
-                t3comment: $scope.form.t3comment,
-                ecomment: $scope.form.ecomment,
-                wcomment: $scope.form.wcomment
+                contact_method: $scope.form.contact_method,
+                website: $scope.form.website
             };
 
             if ($scope.form.enquiry_status_id)

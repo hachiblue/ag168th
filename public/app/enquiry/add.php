@@ -340,16 +340,16 @@
                     </select>
                 </div><!--col-md-12-->
                 
-                <div class="col-md-2 col-md-offset-1 contact-type">
-                    <br><label><input type="checkbox" id="chk1" ng-model="form.chk1"> Agent 168</label>
+               <div class="col-md-2 col-md-offset-1 contact-type">
+                    <br><label><input type="checkbox" id="chk1" ng-true-value="'Y'" ng-false-value="'N'" ng-model="form.chk1"> Agent 168</label>
                 </div><!--col-md-12-->
 
                 <div class="col-md-2 contact-type">
-                    <br><label><input type="checkbox" id="chk2" ng-model="form.chk2"> Hotstock</label>
+                    <br><label><input type="checkbox" id="chk2" ng-true-value="'Y'" ng-false-value="'N'" ng-model="form.chk2"> Hotstock</label>
                 </div><!--col-md-12-->
 
                 <div class="col-md-2 contact-type">
-                    <br><label><input type="checkbox" id="chk3" ng-model="form.chk3"> Individual</label>
+                    <br><label><input type="checkbox" id="chk3" ng-true-value="'Y'" ng-false-value="'N'" ng-model="form.chk3"> Individual</label>
                 </div><!--col-md-12-->
 
                 <div class="col-md-2 col-md-offset-1 contact-type">
@@ -363,27 +363,19 @@
 
                 <div style="clear:both;"></div>
 
-                <div class="col-sm-8 col-sm-offset-3">
-                    <div class="col-sm-4">
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control cbox" id="ctel_comment1" name="cphone_comment" ng-model="form.t1comment" maxlength="3">
-                        </div>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control cbox" id="ctel_comment2" name="cphone_comment" ng-model="form.t2comment" maxlength="3">
-                        </div>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control cbox" id="ctel_comment3" name="cphone_comment" ng-model="form.t3comment" maxlength="4">
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control cbox" id="cemail_comment" placeholder="email, line id" ng-model="form.ecomment">
-                    </div>
+                <div class="col-sm-3 col-sm-offset-3">
+                    <select class="form-control" ng-model="form.contact_method">
+                        <option value="" selected>-Please select-</option>
+                        <option value="Tel">Tel</option>
+                        <option value="Line">Line</option>
+                        <option value="Email">Email</option>
+                    </select>
                 </div>
 
                 <div style="clear:both;"></div>
 
                 <div class="col-sm-3 col-sm-offset-3">
-                    <input type="text" class="form-control cbox" id="cwebsite" name="cwebsite" ng-model="form.wcomment" placeholder="Website">
+                    <input type="text" class="form-control cbox" id="cwebsite" name="cwebsite" ng-model="form.website" placeholder="Website">
                 </div>
 
                 <div class="col-md-12 form-group">

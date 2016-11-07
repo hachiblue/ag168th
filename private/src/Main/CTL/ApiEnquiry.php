@@ -685,23 +685,32 @@ class ApiEnquiry extends BaseCTL {
           "desicion_maker", "bedroom", "is_studio", "size", "size_unit_id", "bts_id", "mrt_id",
           "airport_link_id", "enquiry_status_id", "ex_location", "ptime_to_pol", "sq_furnish",
           "sq_hospital", "sq_school", "sq_park", "sq_bts", "sq_shopmall", "sq_airport", "sq_mainroad",
-          "sq_other", "contact_type_id"
+          "sq_other", "contact_type_id", "chk1", "chk2", "chk3", "contact_method", "website"
         ], $params);
 
-        $insert = array_map(function($item) {
-          if(is_string($item)) {
+        $insert = array_map(function($item) 
+        {
+          if(is_string($item)) 
+          {
             $item = trim($item);
           }
           return $item;
         }, $insert);
 
-        if(empty($params['comment'])) {
+        if(empty($params['comment'])) 
+        {
           return ResposenHelper::error("require comment");
         }
         $now = date('Y-m-d H:i:s');;
         $insert['created_at'] = $now;
         $insert['updated_at'] = $now;
         $insert['enquiry_no'] = $this->_generateReferenceId($insert["enquiry_type_id"]);
+
+        $insert['chk1'] = ( isset($params["chk1"]) )? $params["chk1"] : 'N';
+        $insert['chk2'] = ( isset($params["chk2"]) )? $params["chk2"] : 'N';
+        $insert['chk3'] = ( isset($params["chk3"]) )? $params["chk3"] : 'N';
+        $insert['contact_method'] = ( ( isset($params["contact_method"]) ) ? $params["contact_method"] : '');
+        $insert['website'] = ( ( isset($params["website"]) ) ? $params["website"] : '');
 
         $db = MedooFactory::getInstance();
         $db->pdo->beginTransaction();
@@ -716,13 +725,7 @@ class ApiEnquiry extends BaseCTL {
           "comment"=> $params["comment"],
           "comment_by"=> $accId,
           "updated_at"=> $now,
-          "user_remind"=> ( ( isset($params["account"]) ) ? $params["account"] : ''),
-          "chk1" => ( ( isset($params["chk1"]) && $params["chk1"] == true ) ? 'Y' : 'N'),
-          "chk2" => ( ( isset($params["chk2"]) && $params["chk2"] == true ) ? 'Y' : 'N'),
-          "chk3" => ( ( isset($params["chk3"]) && $params["chk3"] == true ) ? 'Y' : 'N'),
-          "phone" => ( ( isset($params["t1comment"]) ) ? $params["t1comment"].$params["t2comment"].$params["t3comment"] : ''),
-          "email_line" => ( ( isset($params["ecomment"]) ) ? $params["ecomment"] : ''),
-          "website" => ( ( isset($params["wcomment"]) ) ? $params["wcomment"] : '')
+          "user_remind"=> ( ( isset($params["account"]) ) ? $params["account"] : '')          
         ];
 
         $db->insert("enquiry_comment", $commentInsert);
@@ -780,21 +783,30 @@ class ApiEnquiry extends BaseCTL {
         // $old = $db->get("request_contact", "*", ["id"=> $id]);
         $old = $db->get("enquiry", "*", ["id"=> $id]);
 
-        $fnIsChangeToBook = function() use ($set, $old){
+        $fnIsChangeToBook = function() use ($set, $old)
+        {
           return !empty($set['enquiry_status_id'])
             && $set['enquiry_status_id'] == 7
             && $old['enquiry_status_id'] != 7;
         };
 
-        if($_SESSION['login']['level_id'] == 4 && $fnIsChangeToBook()) {
+        if($_SESSION['login']['level_id'] == 4 && $fnIsChangeToBook()) 
+        {
           unset($set['enquiry_status_id']);
           $set['wait_book_approve'] = 1;
         }
 
-        if(!empty($set['enquiry_status_id']) && $set['enquiry_status_id'] != 7) {
+        if(!empty($set['enquiry_status_id']) && $set['enquiry_status_id'] != 7) 
+        {
           $set['wait_book_approve'] = 0;
           $set['book_property_id'] = NULL;
         }
+
+        $set['chk1'] = ( isset($params["chk1"]) )? $params["chk1"] : 'N';
+        $set['chk2'] = ( isset($params["chk2"]) )? $params["chk2"] : 'N';
+        $set['chk3'] = ( isset($params["chk3"]) )? $params["chk3"] : 'N';
+        $set['contact_method'] = ( ( isset($params["contact_method"]) ) ? $params["contact_method"] : '');
+        $set['website'] = ( ( isset($params["website"]) ) ? $params["website"] : '');
 
         $db->update($this->table, $set, ['id'=> $id]);
 
@@ -804,13 +816,7 @@ class ApiEnquiry extends BaseCTL {
           "comment"=> $params["comment"],
           "comment_by"=> $accId,
           "updated_at"=> $now,
-          "user_remind"=> ( ( isset($params["account"]) ) ? $params["account"] : ''),
-          "chk1" => ( ( isset($params["chk1"]) && $params["chk1"] == true ) ? 'Y' : 'N'),
-          "chk2" => ( ( isset($params["chk2"]) && $params["chk2"] == true ) ? 'Y' : 'N'),
-          "chk3" => ( ( isset($params["chk3"]) && $params["chk3"] == true ) ? 'Y' : 'N'),
-          "phone" => ( ( isset($params["t1comment"]) ) ? $params["t1comment"].$params["t2comment"].$params["t3comment"] : ''),
-          "email_line" => ( ( isset($params["ecomment"]) ) ? $params["ecomment"] : ''),
-          "website" => ( ( isset($params["wcomment"]) ) ? $params["wcomment"] : '')
+          "user_remind"=> ( ( isset($params["account"]) ) ? $params["account"] : '')
         ];
 
         $db->insert("enquiry_comment", $commentInsert);
