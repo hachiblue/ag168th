@@ -96,6 +96,11 @@ session_start();
   	margin: 50px auto;
   	border:1px solid #548DD4;
   }
+
+  .logo-img {
+  	float:right;height: 75px;margin-right: 50px;
+  }
+
 @media print {
 
 	body {
@@ -148,6 +153,12 @@ session_start();
 	.bang-table {
 		width: 90%;
 	}
+
+	.logo-img {
+		right: 10px;
+		top: 40px;
+		position: fixed;
+	}
 }
 
 
@@ -180,6 +191,10 @@ session_start();
 				</table>
 
 			</div>
+
+			<div class="col-xs-4 col-xs-offset-3 text-right">
+				<img class="logo-img" src="/public/images/Logo.png">
+			</div>
 		</div>
 
 		<div class="row">
@@ -204,6 +219,7 @@ session_start();
 								<td>Bedroom/Bathroom<br>ห้องนอน / ห้องน้ำ</td>
 								<td>Price/sqm. (Baht)<br>ราคาต่อตร.ม. (บาท)</td>
 								<td>Unit Price (Baht)<br>ราคาสุทธิ (บาท)</td>
+								<td>Rent Price (Baht)<br>ราคาสุทธิ (บาท)</td>
 							</tr>
 							<tr ng-repeat="i in qt.list">
 								<td>{{$index + 1}}</td>
@@ -214,6 +230,7 @@ session_start();
 								<td>{{i.bedrooms}} / {{i.bathrooms}}</td>
 								<td>{{i.sell_price / i.size | number:2}}</td>
 								<td>{{i.sell_price | number:2}}</td>
+								<td>{{i.rent_price | number:2}}</td>
 							</tr>
 						</table>
 					</td>

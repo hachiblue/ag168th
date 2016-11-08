@@ -1064,6 +1064,7 @@ MAILCONTENT;
         $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
         $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(20);
         $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(20);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(20);
 
         $objPHPExcel->getDefaultStyle()
             ->getAlignment()
@@ -1120,9 +1121,10 @@ MAILCONTENT;
             $sheet->setCellValue('G'.$i, 'Bedroom/Bathroom');
             $sheet->setCellValue('H'.$i, 'Price/sqm. (Baht)');
             $sheet->setCellValue('I'.$i, 'Unit Price (Baht)');
+            $sheet->setCellValue('J'.$i, 'Rent Price (Baht)');
 
-            $sheet->setSharedStyle(${$sty}, 'B'.$i.':I'.$i);
-            $sheet->getStyle('B'.$i.':I'.$i)->applyFromArray(${$hd1});
+            $sheet->setSharedStyle(${$sty}, 'B'.$i.':J'.$i);
+            $sheet->getStyle('B'.$i.':J'.$i)->applyFromArray(${$hd1});
 
             $i++;
 
@@ -1134,9 +1136,10 @@ MAILCONTENT;
             $sheet->setCellValue('G'.$i, 'ห้องนอน / ห้องน้ำ');
             $sheet->setCellValue('H'.$i, 'ราคาต่อตร.ม. (บาท)');
             $sheet->setCellValue('I'.$i, 'ราคาสุทธิ (บาท)');
+            $sheet->setCellValue('J'.$i, 'ราคาสุทธิ (บาท)');
 
-            $sheet->setSharedStyle(${$sty}, 'B'.$i.':I'.$i);
-            $sheet->getStyle('B'.$i.':I'.$i)->applyFromArray(${$hd2});
+            $sheet->setSharedStyle(${$sty}, 'B'.$i.':J'.$i);
+            $sheet->getStyle('B'.$i.':J'.$i)->applyFromArray(${$hd2});
 
             $seq = 1;
             foreach( $p["list"] as $j => $list )
@@ -1152,6 +1155,7 @@ MAILCONTENT;
                 $sheet->setCellValue('G'.$i, $list["bedrooms"] . ' / ' . $list["bathrooms"]);
                 $sheet->setCellValue('H'.$i, number_format($list["sell_price"] / $xsize, 2));
                 $sheet->setCellValue('I'.$i, number_format($list["sell_price"], 2));
+                $sheet->setCellValue('J'.$i, ( isset($list["rent_price"]) && !empty($list["rent_price"]) )? number_format($list["rent_price"], 2) : '-');
 
                 $seq++;
             }
@@ -1162,31 +1166,31 @@ MAILCONTENT;
         $i += 2;
 
         $sheet->setCellValue('H'.$i, 'Contact Person :');
-        $sheet->setCellValue('I'.$i, '');
+        $sheet->setCellValue('J'.$i, '');
 
         $sheet->getStyle('H'.$i)->applyFromArray($signstyle);
 
         $i++;
 
-        $sheet->setCellValue('I'.$i, 'Property Consultant - Sales');
+        $sheet->setCellValue('J'.$i, 'Property Consultant - Sales');
 
         $i++;
 
         $sheet->setCellValue('H'.$i, 'Mobile :');
-        $sheet->setCellValue('I'.$i, '');
+        $sheet->setCellValue('J'.$i, '');
 
         $sheet->getStyle('H'.$i)->applyFromArray($signstyle);
 
         $i++;
 
         $sheet->setCellValue('H'.$i, 'Email :');
-        $sheet->setCellValue('I'.$i, '');
+        $sheet->setCellValue('J'.$i, '');
 
         $sheet->getStyle('H'.$i)->applyFromArray($signstyle);
 
         $i += 3;
 
-        $sheet->getStyle('B'.$i.':I'.$i)->applyFromArray($bankstyle1);
+        $sheet->getStyle('B'.$i.':J'.$i)->applyFromArray($bankstyle1);
 
         $objDrawing = new \PHPExcel_Worksheet_Drawing();
         $objDrawing->setName('Logo2');
@@ -1201,16 +1205,16 @@ MAILCONTENT;
         $sheet->mergeCells('D'.$i.':E'.$i)->setCellValue('D'.$i, 'ชื่อบัญชี  Account Name');
         $sheet->mergeCells('F'.$i.':G'.$i)->setCellValue('F'.$i, 'เลขที่บัญชี  Account No.');
         $sheet->setCellValue('H'.$i, 'สาขา  Branch');
-        $sheet->setCellValue('I'.$i, 'ประเภทบัญชี');
+        $sheet->setCellValue('J'.$i, 'ประเภทบัญชี');
 
         $i++;
 
-        $sheet->getStyle('B'.$i.':I'.$i)->applyFromArray($bankstyle2);
+        $sheet->getStyle('B'.$i.':J'.$i)->applyFromArray($bankstyle2);
 
         $sheet->mergeCells('D'.$i.':E'.$i)->setCellValue('D'.$i, 'บริษัท เอเจ้นท์168');
         $sheet->mergeCells('F'.$i.':G'.$i)->setCellValue('F'.$i, '732-1-02459-3');
         $sheet->setCellValue('H'.$i, 'เดอะมอลล์บางกะปิ');
-        $sheet->setCellValue('I'.$i, 'กระแสรายวัน');
+        $sheet->setCellValue('J'.$i, 'กระแสรายวัน');
 
 
         $sheet->setSharedStyle($sharedStyle1, "B6:C6")->getStyle('B6:C6')->applyFromArray($styleBorder);
