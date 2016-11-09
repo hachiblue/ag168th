@@ -103,8 +103,11 @@
 						  <select class="form-control"
 							  ng-model="form.room_type_id">
 							  <option value="">All</option>
-							  <option value="1">Studio</option>
-							  <option value="2">Duplex</option>
+					          <option value="1">Studio</option>
+					          <option value="2">Duplex</option>
+					          <option value="3">Normal</option>
+					          <option value="4">Triplex</option>
+					          <option value="5">Pent House</option>
 						  </select>
 					  </div>
 
