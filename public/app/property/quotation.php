@@ -193,7 +193,7 @@ session_start();
 			</div>
 
 			<div class="col-xs-4 col-xs-offset-3 text-right">
-				<img class="logo-img" src="/public/images/Logo.png">
+				<img class="logo-img" src="/public/images/Logo_new.png">
 			</div>
 		</div>
 

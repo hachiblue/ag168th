@@ -1075,7 +1075,7 @@ MAILCONTENT;
         $objDrawing = new \PHPExcel_Worksheet_Drawing();
         $objDrawing->setName('Logo');
         $objDrawing->setDescription('Logo');
-        $logo = 'public/images/Logo.png'; // Provide path to your logo file
+        $logo = 'public/images/Logo_new.png'; // Provide path to your logo file
         $objDrawing->setPath($logo);
         $objDrawing->setOffsetX(6);    // setOffsetX works properly
         $objDrawing->setOffsetY(250);  //setOffsetY has no effect
