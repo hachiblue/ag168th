@@ -25,7 +25,7 @@
         <tbody>
         <tr ng-repeat="image in images">
             <td><input class="form-control" type="checkbox" value="{{$index}}" ng-model="image.selected"></td>
-            <td><img class="img-thumb" ng-src="{{image.url}}"></td>
+            <td><a href="{{image.url}}" target="_blank"><img class="img-thumb" ng-src="{{image.url}}"></a></td>
         </tr>
         </tbody>
     </table>
