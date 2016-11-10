@@ -246,6 +246,11 @@ class ApiProperty extends BaseCTL {
 			$where["AND"]['property.district_id'] = $params['district_id'];
         }
 
+        if(!empty($params['room_type_id'])) 
+        {
+            $where["AND"]['property.room_type_id'] = $params['room_type_id'];
+        }
+
         if(!empty($params['sub_district_id'])) 
 		{
 			$where["AND"]['property.sub_district_id'] = $params['sub_district_id'];

@@ -45,11 +45,14 @@ class ApiEnquiry extends BaseCTL {
         ];
         $where = ["AND"=> []];
 
-        if(@$_SESSION["login"]["level_id"] == 3) {
+        if(@$_SESSION["login"]["level_id"] == 3) 
+        {
           $where["AND"]["assign_manager_id"] = $_SESSION["login"]["id"];
         }
-        else if(@$_SESSION["login"]["level_id"] == 4) {
+        else if(@$_SESSION["login"]["level_id"] == 4) 
+        {
           $where["AND"]["assign_sale_id"] = $_SESSION["login"]["id"];
+          $where["AND"]["enquiry_status_id[!]"] = 12;
         }
 
         $params = $this->reqInfo->params();
