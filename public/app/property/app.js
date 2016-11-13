@@ -1600,3 +1600,20 @@ Number.prototype.format = function(n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
+
+app.filter('num', function() {
+    return function(input) {
+        if( undefined !== input )
+        {
+            input = +(( input+'' || '').replace(/,/g,''));
+        }
+        
+        return input;
+    };
+});
+
+app.filter('money', function() {
+    return function(input) {
+        return (input || 0).format(2);
+    };
+});

@@ -221,6 +221,9 @@ class ApiEnquiry extends BaseCTL {
             "enquiry.customer",
             "enquiry_comment.updated_at(comm_update)",
             "enquiry_comment.comment",
+            "enquiry.chk1",
+            "enquiry.chk2",
+            "enquiry.chk3",
             "comm.name(comment_name)"
         ];
 
@@ -396,8 +399,6 @@ class ApiEnquiry extends BaseCTL {
           $enq[$e['enquiry_no']][] = $e;
         }
 
-
-
         $objPHPExcel = new \PHPExcel();
 
         $objPHPExcel->getProperties()->setKeywords("office 2007 openxml php");
@@ -424,16 +425,37 @@ class ApiEnquiry extends BaseCTL {
           $sheet->setCellValue('A'.$i, 'Enquiry No');
           $sheet->getStyle('A'.$i)->getFont()->setBold(true);
           $sheet->setCellValue('B'.$i, $en[0]['enquiry_no']);
+
+          if( isset($en[0]['chk1']) && $en[0]['chk1'] == 'Y' )
+          {
+            $sheet->setCellValue('C'.$i, 'Agent 168');
+            $sheet->getStyle('C'.$i)->getFont()->setBold(true);  
+          }
+
           $i++;
 
           $sheet->setCellValue('A'.$i, 'Project');
           $sheet->getStyle('A'.$i)->getFont()->setBold(true);
           $sheet->setCellValue('B'.$i, $en[0]['project_name']);
+
+          if( isset($en[0]['chk2']) && $en[0]['chk2'] == 'Y' )
+          {
+            $sheet->setCellValue('C'.$i, 'Hot Stock');  
+            $sheet->getStyle('C'.$i)->getFont()->setBold(true);  
+          }
+
           $i++;
 
           $sheet->setCellValue('A'.$i, 'Customer');
           $sheet->getStyle('A'.$i)->getFont()->setBold(true);
           $sheet->setCellValue('B'.$i, $en[0]['customer']);
+
+          if( isset($en[0]['chk3']) && $en[0]['chk3'] == 'Y' )
+          {
+            $sheet->setCellValue('C'.$i, 'Individual');  
+            $sheet->getStyle('C'.$i)->getFont()->setBold(true);  
+          }
+
           $i++;
 
           $sheet->setCellValue('A'.$i, 'วันที่');

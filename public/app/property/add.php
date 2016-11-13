@@ -271,6 +271,11 @@ session_start();
         <input type="text" class="form-control" ng-model="form.sell_price" ng-blur="setmoneyformat()" id="input-sellingprice" disabled>
       </div>
 
+      <div class="col-md-3 form-group">
+        <label>Price/sqm.</label>
+        <input type="text" class="form-control" value="{{ ((form.sell_price | num) / form.size) | money }}" disabled >
+      </div>
+      
       <div style="clear: both;"></div>
 
       <div class="col-md-3 form-group">
