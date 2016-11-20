@@ -180,7 +180,7 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
                     	</i>
                     </div>
 
-                  	<div class="form-group">
+                  	<div class="form-group" style="display:none;">
                   		<i class="col-md-6 box-1"><label>Branch</label><strong>:</strong></i>
                   		<i class="col-md-5 box-2">
                         	<select class="form-control"
@@ -190,6 +190,7 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
                   			</select>
                     	</i>
                   	</div>
+
                     <div class="form-group">
                   		<i class="col-md-6 box-1"><label>Project</label><strong>:</strong></i>
                   		<i class="col-md-5 box-2">
@@ -228,7 +229,7 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
                          </select>
                     	</i>
 					          </div>
-                    <div class="form-group">
+                    <div class="form-group" style="display:none;">
             	        <i class="col-md-6 box-1"><strong>Enquiry is the decision maker:</strong></i>
            	            <select class="form-control" style="width: 100px;" ng-mode="form.decision_maker" ng-disabled="!editAllow">
            	              <option value="1">Yes</option>
@@ -236,7 +237,7 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
            	            </select>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="display:none;">
             	       <i class="col-md-6 box-1"><strong>Period time to purchasing or leasing: </strong></i>
                        <i class="col-md-5 box-2">
                          <select class="form-control" ng-model="form.ptime_to_pol" ng-disabled="!editAllow" required>
@@ -330,16 +331,19 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
 												<a ng-if="form.book_property_id" target="_blank" href="properties#/edit/{{form.book_property_id}}">view property</a>
 										 </i>
 									 </div>
-                    <div class="form-group">
+
+                    <div class="form-group" style="display:none;">
             	        <i class="col-md-3 box-1"><strong>Exact location required:</strong></i>
            	            <i class="col-md-8 box-2">
        	                	<textarea class="form-control" rows="2" id="comment" ng-model="form.ex_location" ng-disabled="!editAllow"></textarea>
                       	</i>
                     </div>
+
                 </div><!--col-md-6-->
                 <hr class="clear-fix">
         	</div><!--detail-type-->
-            <div class="row detail-type">
+
+            <div class="row detail-type" style="display:none;">
             	<div class="col-md-12 specific">
                 	<div class="col-md-2">
                     	<p><label>Specific requirement</label><strong>:</strong></p>
@@ -361,6 +365,7 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
                     </div>
                 </div>
             </div><!--detail-type-->
+
 					</fieldset>
       		<div class="row detail-type">
             	<!-- <div class="col-md-12">
@@ -413,8 +418,8 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
                 </div> -->
            
 
-
-                <div class="col-md-2 contact-type">
+                <div class="col-md-2"></div>
+                <div class="col-md-2 contact-type" style="display:none;">
                   <label>Contact Type</label><strong>:</strong>
                     <select class="form-control" ng-model="form.contact_type_id" ng-disabled="!editAllow">
                         <option value="">-Please select-</option>
@@ -488,6 +493,7 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
     <thead>
       <tr>
         <th>วันที่</th>
+        <th>status</th>
         <th>ข้อความ</th>
         <th>โดย</th>
       </tr>
@@ -495,6 +501,7 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
     <tbody>
       <tr ng-repeat="item in comments">
         <td>{{item.updated_at}}</td>
+        <td>{{item.status_name}}</td>
         <td>{{item.comment}}</td>
         <td>{{item.name}}</td>
         <td><a style="cursor:pointer;" ng-click="accept_comment(item.id)" ng-show=" item.btn_read != '' ">{{item.btn_read}}</a></td>

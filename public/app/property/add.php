@@ -141,6 +141,11 @@ session_start();
         <input type="text" class="form-control" ng-model="form.address_no">
       </div>
 
+      <div class="col-md-1 form-group">
+        <label>Building no</label>
+        <input type="text" class="form-control" ng-model="form.building_no">
+      </div>
+
       <div style="clear: both;"></div>
 
       <div class="col-md-3 form-group">

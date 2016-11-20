@@ -147,6 +147,13 @@
         <label>Address no</label> ( * ใส่แค่ตำแหน่งห้องหรือเลขห้องเท่านั้น )
         <input type="text" class="form-control" ng-model="form.address_no">
       </div>
+
+      <div class="col-md-1 form-group">
+        <label>Building no</label>
+        <input type="text" class="form-control" ng-model="form.building_no">
+      </div>
+
+
       <div class="col-md-2 form-group">
         <label>Floors</label>
         <input type="text" class="form-control" ng-model="form.floors">

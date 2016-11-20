@@ -224,7 +224,8 @@ class ApiEnquiry extends BaseCTL {
             "enquiry.chk1",
             "enquiry.chk2",
             "enquiry.chk3",
-            "comm.name(comment_name)"
+            "comm.name(comment_name)",
+            "com_status.name(status_name)"
         ];
 
         $join = [
@@ -236,6 +237,7 @@ class ApiEnquiry extends BaseCTL {
             "[>]account(sale)"=> ["assign_sale_id"=> "id"],
             "[>]account(manager)"=> ["assign_manager_id"=> "id"],
             "[>]enquiry_comment"=> ["id"=> "enquiry_id"],
+            "[>]enquiry_status(com_status)"=> ["enquiry_comment.enquiry_status_id"=>"id"],
             "[>]account(comm)"=> ["enquiry_comment.comment_by"=> "id"]
         ];
 
@@ -406,14 +408,15 @@ class ApiEnquiry extends BaseCTL {
         $objPHPExcel->setActiveSheetIndex(0);
 
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(30);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(50);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(50);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
         $sheet = $objPHPExcel->getActiveSheet();
 
-        $sheet->setCellValue('A1', '');
-        $sheet->setCellValue('B1', 'Date/Time');
-        $sheet->setCellValue('C1', 'Details');
-        $sheet->setCellValue('D1', 'Comment');
+        //$sheet->setCellValue('A1', '');
+        //$sheet->setCellValue('B1', 'Date/Time');
+        //$sheet->setCellValue('C1', 'Details');
+        //$sheet->setCellValue('D1', 'Comment');
 
         $i = 1;
         $lfcr = chr(10) . chr(13);
@@ -424,53 +427,56 @@ class ApiEnquiry extends BaseCTL {
 
           $sheet->setCellValue('A'.$i, 'Enquiry No');
           $sheet->getStyle('A'.$i)->getFont()->setBold(true);
-          $sheet->setCellValue('B'.$i, $en[0]['enquiry_no']);
+          $sheet->setCellValue('C'.$i, $en[0]['enquiry_no']);
 
           if( isset($en[0]['chk1']) && $en[0]['chk1'] == 'Y' )
           {
-            $sheet->setCellValue('C'.$i, 'Agent 168');
-            $sheet->getStyle('C'.$i)->getFont()->setBold(true);  
+            $sheet->setCellValue('D'.$i, 'Agent 168');
+            $sheet->getStyle('D'.$i)->getFont()->setBold(true);  
           }
 
           $i++;
 
           $sheet->setCellValue('A'.$i, 'Project');
           $sheet->getStyle('A'.$i)->getFont()->setBold(true);
-          $sheet->setCellValue('B'.$i, $en[0]['project_name']);
+          $sheet->setCellValue('C'.$i, $en[0]['project_name']);
 
           if( isset($en[0]['chk2']) && $en[0]['chk2'] == 'Y' )
           {
-            $sheet->setCellValue('C'.$i, 'Hot Stock');  
-            $sheet->getStyle('C'.$i)->getFont()->setBold(true);  
+            $sheet->setCellValue('D'.$i, 'Hot Stock');  
+            $sheet->getStyle('D'.$i)->getFont()->setBold(true);  
           }
 
           $i++;
 
           $sheet->setCellValue('A'.$i, 'Customer');
           $sheet->getStyle('A'.$i)->getFont()->setBold(true);
-          $sheet->setCellValue('B'.$i, $en[0]['customer']);
+          $sheet->setCellValue('C'.$i, $en[0]['customer']);
 
           if( isset($en[0]['chk3']) && $en[0]['chk3'] == 'Y' )
           {
-            $sheet->setCellValue('C'.$i, 'Individual');  
-            $sheet->getStyle('C'.$i)->getFont()->setBold(true);  
+            $sheet->setCellValue('D'.$i, 'Individual');  
+            $sheet->getStyle('D'.$i)->getFont()->setBold(true);  
           }
 
           $i++;
 
           $sheet->setCellValue('A'.$i, 'วันที่');
           $sheet->getStyle('A'.$i)->getFont()->setBold(true);
-          $sheet->setCellValue('B'.$i, 'ข้อความ');
+          $sheet->setCellValue('B'.$i, 'status');
           $sheet->getStyle('B'.$i)->getFont()->setBold(true);
-          $sheet->setCellValue('C'.$i, 'โดย');
+          $sheet->setCellValue('C'.$i, 'ข้อความ');
           $sheet->getStyle('C'.$i)->getFont()->setBold(true);
+          $sheet->setCellValue('D'.$i, 'โดย');
+          $sheet->getStyle('D'.$i)->getFont()->setBold(true);
           $i++;
 
           foreach( $en as $cm )
           {
             $sheet->setCellValue('A'.$i, $cm['comm_update']);
-            $sheet->setCellValue('B'.$i, $cm['comment']);
-            $sheet->setCellValue('C'.$i, $cm['comment_name']);
+            $sheet->setCellValue('B'.$i, $cm['status_name']);
+            $sheet->setCellValue('C'.$i, $cm['comment']);
+            $sheet->setCellValue('D'.$i, $cm['comment_name']);
             $i++;
           }
         }
@@ -481,7 +487,7 @@ class ApiEnquiry extends BaseCTL {
         header('Content-type: application/vnd.ms-excel');
 
         // It will be called file.xls
-        header('Content-Disposition: attachment; filename="enquiry_report.xls"');
+        header('Content-Disposition: attachment; filename="'.$_SESSION['login']['username'] . '_' . date('Y.m.d') .'.xls"');
         $objWriter->save('php://output');
     }
 
@@ -750,6 +756,7 @@ class ApiEnquiry extends BaseCTL {
           "comment"=> $params["comment"],
           "comment_by"=> $accId,
           "updated_at"=> $now,
+          "enquiry_status_id"=> $params["enquiry_status_id"],
           "user_remind"=> ( ( isset($params["account"]) ) ? $params["account"] : '')          
         ];
 
@@ -841,6 +848,7 @@ class ApiEnquiry extends BaseCTL {
           "comment"=> $params["comment"],
           "comment_by"=> $accId,
           "updated_at"=> $now,
+          "enquiry_status_id"=> $params["enquiry_status_id"],
           "user_remind"=> ( ( isset($params["account"]) ) ? $params["account"] : '')
         ];
 
@@ -1015,10 +1023,11 @@ MAILCONTENT;
       $id = $this->reqInfo->urlParam("id");
       $list = ListDAO::gets("enquiry_comment", [
           "field"=> [
-            "enquiry_comment.*", "account.id(account_id)", "account.name", "account.email",
+            "enquiry_comment.*", "account.id(account_id)", "account.name", "account.email", "enquiry_status.name(status_name)"
           ],
           "join"=> [
-            "[>]account"=> ["comment_by"=> "id"]
+            "[>]account"=> ["comment_by"=> "id"],
+            "[>]enquiry_status"=> ["enquiry_status_id"=> "id"]
           ],
           "limit"=> 100,
           "where"=> [

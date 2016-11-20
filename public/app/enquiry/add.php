@@ -116,7 +116,7 @@
                     	</i>
                     </div>
 
-                  	<div class="form-group">
+                  	<div class="form-group" style="display:none;">
                   		<i class="col-md-6 box-1"><label>Branch</label><strong>:</strong></i>
                   		<i class="col-md-5 box-2">
                         	<select class="form-control"
@@ -127,6 +127,7 @@
                   			</select>
                     	</i>
                   	</div>
+
                     <div class="form-group">
                   		<i class="col-md-6 box-1"><label>Project</label><strong>:</strong></i>
                   		<i class="col-md-5 box-2">
@@ -164,7 +165,8 @@
                          </select>
                     	</i>
 					          </div>
-                    <div class="form-group">
+
+                    <div class="form-group" style="display:none;">
             	        <i class="col-md-6 box-1"><strong>Enquiry is the decision maker:</strong></i>
            	            <select class="form-control" style="width: 100px;" ng-mode="form.decision_maker">
            	              <option value="1">Yes</option>
@@ -172,7 +174,7 @@
            	            </select>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="display:none;">
             	       <i class="col-md-6 box-1"><strong>Period time to purchasing or leasing: </strong></i>
                        <i class="col-md-5 box-2">
                          <select class="form-control" ng-model="form.ptime_to_pol" required>
@@ -182,6 +184,7 @@
                          </select>
                      	</i>
 					          </div>
+
                 </div><!--col-md-6-->
                 <div class="col-md-6">
                 	<div class="form-group">
@@ -194,15 +197,15 @@
                   <div class="clearfix"></div>
                 	<div class="form-group">
                  		<i class="col-md-3 box-1"><strong>Size: </strong></i>
-                    	<i class="col-md-8 box-2">
-                        	<input type="text" class="form-control" ng-model="form.size">
+                    <i class="col-md-8 box-2">
+                        <input type="text" class="form-control" ng-model="form.size">
                   			<select class="form-control size" ng-model="form.size_unit_id" required>
                     			<option value="1">Sq. m.</option>
                     			<option value="2">Sq. wa</option>
                     			<option value="3">Rai</option>
                   			</select>
-                    	</i>
-                  	</div>
+                    </i>
+                  </div>
                     <div class="form-group">
                  		<i class="col-md-3 box-1"><strong>Nearest BTS: </strong></i>
                   		<i class="col-md-8 box-2">
@@ -249,7 +252,7 @@
                          </select>
                      	</i>
 					          </div>
-                    <div class="form-group">
+                    <div class="form-group" style="display:none;">
             	        <i class="col-md-3 box-1"><strong>Exact location required:</strong></i>
            	            <i class="col-md-8 box-2">
        	                	<textarea class="form-control" rows="2" id="comment" ng-model="form.ex_location"></textarea>
@@ -258,7 +261,8 @@
                 </div><!--col-md-6-->
                 <hr class="clear-fix">
         	</div><!--detail-type-->
-            <div class="row detail-type">
+
+            <div class="row detail-type" style="display:none;">
             	<div class="col-md-12 specific">
                 	<div class="col-md-2">
                     	<p><label>Specific requirement</label><strong>:</strong></p>
@@ -280,6 +284,7 @@
                     </div>
                 </div>
             </div><!--detail-type-->
+
       		<div class="row detail-type">
             	<!-- <div class="col-md-12">
             	    <label>Source</label><strong>:</strong>
@@ -330,7 +335,8 @@
                     </select>
                 </div> -->
                 <!--col-md-12-->
-                <div class="col-md-2 contact-type">
+                <div class="col-md-2"></div>
+                <div class="col-md-2 contact-type" style="display:none;">
                 	<label>Contact Type</label><strong>:</strong>
                     <select class="form-control" ng-model="form.contact_type_id">
                         <option value="">-Please select-</option>
