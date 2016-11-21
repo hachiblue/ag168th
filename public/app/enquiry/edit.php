@@ -476,6 +476,17 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
                 	<textarea ng-model="form.comment" class="form-control" rows="2" id="bt_comment" style="min-height:80px; margin:10px 0 10px 10px; display: inline; vertical-align: middle;"></textarea>
                     &nbsp;&nbsp;(<span id="cnt_comment">0</span>/400) 
                 </div>
+
+                <div class="col-md-12 form-group">
+                  <label>
+                    <strong>Plan.</strong>
+                  </label>
+                  <small>(กรุณาใส่รายละเอียดให้ครบถ้วน)</small>
+                  <br>
+                  <textarea ng-model="form.plan" class="form-control" rows="2" id="bt_plan" style="min-height:80px; margin:10px 0 10px 10px; display: inline; vertical-align: middle;"></textarea>
+                  &nbsp;&nbsp;(<span id="cnt_plan">0</span>/400) 
+                </div>
+
             </div><!--detail-type-->
             <div class="col-md-12 comment text-center" style="margin:20px 0; text-align:center;">
             	<!-- <label>Comment/Remark</label><strong>:</strong>
@@ -502,7 +513,7 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
       <tr ng-repeat="item in comments">
         <td>{{item.updated_at}}</td>
         <td>{{item.status_name}}</td>
-        <td>{{item.comment}}</td>
+        <td>{{item.comment}}  <div ng-show=" item.plan != '' " style="color: #4caf50; padding: 5px 0px;">{{item.plan}}</div></td>
         <td>{{item.name}}</td>
         <td><a style="cursor:pointer;" ng-click="accept_comment(item.id)" ng-show=" item.btn_read != '' ">{{item.btn_read}}</a></td>
       </tr>

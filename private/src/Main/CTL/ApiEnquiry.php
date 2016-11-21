@@ -225,7 +225,8 @@ class ApiEnquiry extends BaseCTL {
             "enquiry.chk2",
             "enquiry.chk3",
             "comm.name(comment_name)",
-            "com_status.name(status_name)"
+            "com_status.name(status_name)",
+            "com_status.id(status_id)"
         ];
 
         $join = [
@@ -394,34 +395,50 @@ class ApiEnquiry extends BaseCTL {
             ]);
         }
 
+
+        $db = MedooFactory::getInstance();
+        $sql = "SELECT id, name FROM enquiry_status ";
+        $r = $db->query($sql);
+        $row = $r->fetchAll(\PDO::FETCH_ASSOC);
+
+
         $enq = array();
 
         foreach( $list['data'] as $e )
         {
-          $enq[$e['enquiry_no']][] = $e;
+          foreach( $row as $status )
+          {
+            if( $e['status_id'] == $status['id'] )
+            {
+              $enq[$status['name']][$e['enquiry_no']][] = $e;
+            }
+            
+          }
         }
-
+        
         $objPHPExcel = new \PHPExcel();
-
         $objPHPExcel->getProperties()->setKeywords("office 2007 openxml php");
 
-        $objPHPExcel->setActiveSheetIndex(0);
+        $sht = 0;
+        foreach( $enq as $sta => $dsta)
+        {
 
-        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(30);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(30);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(50);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
-        $sheet = $objPHPExcel->getActiveSheet();
+        $objWorkSheet = $objPHPExcel->createSheet($sht); //Setting index when creating
 
-        //$sheet->setCellValue('A1', '');
-        //$sheet->setCellValue('B1', 'Date/Time');
-        //$sheet->setCellValue('C1', 'Details');
-        //$sheet->setCellValue('D1', 'Comment');
+        $sheet = $objWorkSheet;
 
+        //$objPHPExcel->setActiveSheetIndex(0);
+        $sheet->getColumnDimension('A')->setWidth(30);
+        $sheet->getColumnDimension('B')->setWidth(30);
+        $sheet->getColumnDimension('C')->setWidth(50);
+        $sheet->getColumnDimension('D')->setWidth(30);
+        
+        $sheet->setTitle($sta);
+        
         $i = 1;
         $lfcr = chr(10) . chr(13);
 
-        foreach( $enq as $en )
+        foreach( $dsta as $en )
         {
           $i++;
 
@@ -479,6 +496,9 @@ class ApiEnquiry extends BaseCTL {
             $sheet->setCellValue('D'.$i, $cm['comment_name']);
             $i++;
           }
+        }
+
+          $sht++;
         }
 
         $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
@@ -757,6 +777,8 @@ class ApiEnquiry extends BaseCTL {
           "comment_by"=> $accId,
           "updated_at"=> $now,
           "enquiry_status_id"=> $params["enquiry_status_id"],
+          "enquiry_status_id"=> $params["enquiry_status_id"],
+          "plan"=> (isset($params["plan"]))? $params["plan"] : '',
           "user_remind"=> ( ( isset($params["account"]) ) ? $params["account"] : '')          
         ];
 
@@ -849,6 +871,7 @@ class ApiEnquiry extends BaseCTL {
           "comment_by"=> $accId,
           "updated_at"=> $now,
           "enquiry_status_id"=> $params["enquiry_status_id"],
+          "plan"=> (isset($params["plan"]))? $params["plan"] : '',
           "user_remind"=> ( ( isset($params["account"]) ) ? $params["account"] : '')
         ];
 

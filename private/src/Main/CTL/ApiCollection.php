@@ -112,7 +112,11 @@ class ApiCollection extends BaseCTL {
         ];
         $collection['account'] = $db->select("account", "*", $where);
 
-        $collection['enquiry_status'] = $db->select("enquiry_status", "*");
+
+         $where = [
+          "enquiry_status.id[!]" => array(2, 8, 11)
+        ];
+        $collection['enquiry_status'] = $db->select("enquiry_status", "*", $where);
 
         $collection['enquiry_budget_payment'] = ListDAO::gets("enquiry_budget_payment", [
             "limit"=> 100

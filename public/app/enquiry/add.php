@@ -393,6 +393,19 @@
                 	<textarea ng-model="form.comment" class="form-control" rows="2" id="bt_comment" style="min-height:80px; margin:10px 0 10px 10px; display: inline; vertical-align: middle;"></textarea>
                   &nbsp;&nbsp;(<span id="cnt_comment">0</span>/400) 
                 </div>
+
+
+                <div class="col-md-12 form-group">
+                  <label>
+                    <strong>Plan.</strong>
+                  </label>
+                  <small>(กรุณาใส่รายละเอียดความต้องการของลูกค้าให้ครบถ้วน)</small>
+                  <br>
+                  <textarea ng-model="form.plan" class="form-control" rows="2" id="bt_plan" style="min-height:80px; margin:10px 0 10px 10px; display: inline; vertical-align: middle;"></textarea>
+                  &nbsp;&nbsp;(<span id="cnt_plan">0</span>/400) 
+                </div>
+
+
             </div><!--detail-type-->
             <div class="col-md-12 comment text-center" style="margin:20px 0; text-align:center;">
             	<!-- <label>Comment/Remark</label><strong>:</strong>

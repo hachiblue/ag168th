@@ -343,6 +343,7 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
 
         setphonehop();
         set_cntcomment();
+        set_cntplan();
     });
 
     $scope.triggerChangeSource = function()
@@ -668,6 +669,7 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
 
             setphonehop();
             set_cntcomment();
+            set_cntplan();
         });
 
     (function()
