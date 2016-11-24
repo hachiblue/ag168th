@@ -180,7 +180,7 @@ ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2
                     	</i>
                     </div>
 
-                  	<div class="form-group" style="display:none;">
+                  	<div class="form-group">
                   		<i class="col-md-6 box-1"><label>Branch</label><strong>:</strong></i>
                   		<i class="col-md-5 box-2">
                         	<select class="form-control"

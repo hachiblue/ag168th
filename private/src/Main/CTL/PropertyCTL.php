@@ -30,8 +30,14 @@ class PropertyCTL extends BaseCTL {
     public function index () {
       $id = $this->reqInfo->urlParam("id");
       $db = MedooFactory::getInstance();
-      $item = $db->get("property", "*", ["id"=> $id]);
+      $item = $db->get("property", "*", ["AND" => ["id"=> $id, "property_status_id[!]"=> 2] ]);
+      if( !isset($item['id']) || empty($item['id']) )
+      {
+        header('Location: http://agent168th.com/');
+      }
+
       $this->_buildItem($item);
+
       return new HtmlView('/property', ['item'=> $item]);
     }
 
