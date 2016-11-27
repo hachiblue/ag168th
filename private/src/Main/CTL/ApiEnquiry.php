@@ -224,6 +224,7 @@ class ApiEnquiry extends BaseCTL {
             "enquiry.chk1",
             "enquiry.chk2",
             "enquiry.chk3",
+            "enquiry.enquiry_status_id",
             "comm.name(comment_name)",
             "com_status.name(status_name)",
             "com_status.id(status_id)"
@@ -398,6 +399,12 @@ class ApiEnquiry extends BaseCTL {
 
         $db = MedooFactory::getInstance();
         $sql = "SELECT id, name FROM enquiry_status ";
+
+        if( $_SESSION["login"]["level_id"] == 4 )
+        {
+          $sql .= ' WHERE id != 12 ';
+        }
+
         $r = $db->query($sql);
         $row = $r->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -408,7 +415,7 @@ class ApiEnquiry extends BaseCTL {
         {
           foreach( $row as $status )
           {
-            if( $e['status_id'] == $status['id'] )
+            if( $e['enquiry_status_id'] == $status['id'] )
             {
               $enq[$status['name']][$e['enquiry_no']][] = $e;
             }

@@ -113,10 +113,23 @@ class ApiCollection extends BaseCTL {
         $collection['account'] = $db->select("account", "*", $where);
 
 
-         $where = [
-          "enquiry_status.id[!]" => array(2, 8, 11)
-        ];
-        $collection['enquiry_status'] = $db->select("enquiry_status", "*", $where);
+        $db = MedooFactory::getInstance();
+        $sql = " SELECT * FROM enquiry_status WHERE id NOT IN(2, 8, 11) ORDER BY (CASE id
+              WHEN 1   THEN 1
+              WHEN 13    THEN 2
+              WHEN 3    THEN 3
+              WHEN 5 THEN 4
+              WHEN 14   THEN 5
+              WHEN 6   THEN 6
+              WHEN 4   THEN 7
+              WHEN 10   THEN 8
+              WHEN 9   THEN 9
+              ELSE 100 END) ASC ";
+        $r = $db->query($sql);
+        $row = $r->fetchAll(\PDO::FETCH_ASSOC);
+
+        $collection['enquiry_status'] = $row;
+
 
         $collection['enquiry_budget_payment'] = ListDAO::gets("enquiry_budget_payment", [
             "limit"=> 100
