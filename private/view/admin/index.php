@@ -124,41 +124,37 @@ $this->import("/admin/layout/header");
     <div class="container">
         <div id="sidebar">
             <ul>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/enquiries') ?>"><span
-                            class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries</a></li>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/properties') ?>"><i
-                            class="fa fa-building fa-2"></i> Properties</a></li>
+                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/enquiries') ?>"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries</a></li>
+                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/properties') ?>"><i class="fa fa-building fa-2"></i> Properties</a></li>
 
+                <?php if($_SESSION['login']['level_id'] != 4){?>
                 <li>
                     <a href="<?php echo \Main\Helper\URL::absolute('/admin/enquiries#/rentalexpire') ?>">Rental Expire (<?php echo (isset($params['exCount'])?$params['exCount']:0);?>)</a>
                 </li>
+                <?php }?>
 
+                <?php if($_SESSION['login']['level_id'] == 4){?>
+                <li>
+                    <a href="<?php echo \Main\Helper\URL::absolute('/admin/enquiries#/wishlist') ?>">Wish List</a>
+                </li>
+                <?php }?>
 
                 <?php if($_SESSION['login']['level_id'] == 1){?>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/manager') ?>"><i
-                            class="fa fa-user-secret fa-3"></i> Manager</a></li>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/admin') ?>"><i
-                            class="fa fa-user-secret fa-3"></i> Admin</a></li>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/sale') ?>"><i
-                            class="fa fa-user-secret fa-3"></i> Sale</a></li>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/layout') ?>"><i
-                            class="fa fa-user-secret fa-3"></i> Layout</a></li>
+                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/manager') ?>"><i class="fa fa-user-secret fa-3"></i> Manager</a></li>
+                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/admin') ?>"><i class="fa fa-user-secret fa-3"></i> Admin</a></li>
+                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/sale') ?>"><i class="fa fa-user-secret fa-3"></i> Sale</a></li>
+                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/layout') ?>"><i class="fa fa-user-secret fa-3"></i> Layout</a></li>
                 <?php }?>
                 <?php if($_SESSION['login']['level_id'] == 1 || $_SESSION['login']['level_id'] == 2){?>
                 <!-- <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/customer') ?>"><i
                             class="fa fa-user-secret fa-3"></i> Customer</a></li> -->
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/project') ?>"><i
-                            class="fa fa-user-secret fa-3"></i> Project</a></li>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/phonereq') ?>"><i
-                    class="fa fa-user-secret fa-3"></i> Phone Request (<?php echo $params['pqCount'];?>)</a></li>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/reportproperty') ?>"><i
-                            class="fa fa-user-secret fa-3"></i> Report Property</a></li>
+                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/project') ?>"><i class="fa fa-user-secret fa-3"></i> Project</a></li>
+                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/phonereq') ?>"><i class="fa fa-user-secret fa-3"></i> Phone Request (<?php echo $params['pqCount'];?>)</a></li>
+                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/reportproperty') ?>"><i class="fa fa-user-secret fa-3"></i> Report Property</a></li>
 
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/reportuser') ?>"><i
-                            class="fa fa-user-secret fa-3"></i> Report User</a></li>
+                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/reportuser') ?>"><i class="fa fa-user-secret fa-3"></i> Report User</a></li>
 
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/article') ?>"><i
-                            class="fa fa-user-secret fa-3"></i> Article</a></li>
+                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/article') ?>"><i class="fa fa-user-secret fa-3"></i> Article</a></li>
                 <?php }?>
                 <?php if($_SESSION['login']['level_id'] == 1 ||
                 $_SESSION['login']['level_id'] == 2 ||
@@ -167,8 +163,7 @@ $this->import("/admin/layout/header");
                               class="fa fa-user-secret fa-3"></i> Booking request</a></li>
                 <?php }?>
 
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/login') ?>"><i
-                            class="fa fa-sign-out fa-3"></i> Sign Out</a></li>
+                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/login') ?>"><i class="fa fa-sign-out fa-3"></i> Sign Out</a></li>
             </ul>
         </div>
         <div class="main-content">

@@ -31,6 +31,10 @@ app.config(['$routeProvider', 'cfpLoadingBarProvider',
         {
             templateUrl: '../public/app/enquiry/rentalexpire.php'
         }).
+        when('/wishlist',
+        {
+            templateUrl: '../public/app/enquiry/wishlist.php'
+        }).
         when('/edit/:id',
         {
             templateUrl: '../public/app/enquiry/edit.php'
@@ -531,7 +535,6 @@ app.controller('AddCTL', ['$scope', '$http', '$location', function($scope, $http
             $scope.form.mrt_id = project.mrt_id;
         }
     };
-
 }]);
 
 app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routeParams', function($scope, $http, $location, $route, $routeParams)
@@ -1038,6 +1041,111 @@ app.controller('CommentCTL', ['$scope', '$http', '$location', '$route', '$routeP
             window.location = '';
             
         }, "json");
+    };
+}]);
+
+app.controller('WishListCTL', ['$scope', '$http', '$location', '$route', function($scope, $http, $location, $route)
+{
+    $scope.items = [];
+    $scope.form = {};
+
+    $scope.form.page = 1;
+    $scope.form.limit = 15;
+
+    $http.get("../api/collection").success(function(data)
+    {
+        $scope.collection = data;
+        // $scope.form.project_id = data.project[0].id;
+        $scope.collection.project = data.project.sort(function(a, b)
+        {
+
+            if (a.id == 0 || b.id == 0) return -1;
+            if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+            if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+            return 0;
+        });
+
+        getItems();
+    });
+
+    function getItems(query)
+    {
+        var url = "../api/enquiry/wishlist";
+
+        if (query)
+        {
+            url += "?" + $.param($scope.form);
+        }
+
+        $http.get(url).success(function(data)
+        {
+            $scope.items = data;
+            if (data.total > 0)
+            {
+                $scope.pagination = [];
+                var numPage = Math.ceil(data.total / $scope.form.limit);
+                for (var i = 1; i <= numPage; i++)
+                {
+                    $scope.pagination.push(data.paging.page == i);
+                }
+            }
+            else
+            {
+                $scope.pagination = null;
+            }
+        });
+    }
+
+    $scope.delete_wishlist = function(id)
+    {
+        $.post("../api/enquiry/wishlist/"+id, $scope.form, function(data)
+        {
+            if (data.error)
+            {
+                alert(data.error.message);
+                return;
+            }
+
+            getItems();
+
+        }, 'json');
+    };
+
+    $scope.addSubmit = function()
+    {
+        var fd = new FormData();
+
+        angular.forEach($scope.form, function(value, key)
+        {
+            fd.append(key, value);
+        });
+
+        if( !$scope.form.project_id || $scope.form.project_id == '' )
+        {
+            alert('need project');
+            return false;
+        } 
+
+        $.post("../api/enquiry/wishlist", $scope.form, function(data)
+        {
+            if (data.error)
+            {
+                alert(data.error.message);
+                return;
+            }
+
+            getItems();
+
+        }, 'json');
+    };
+
+    $scope.setPage = function($index)
+    {
+        if ($index < 1 || $index > $scope.pagination.length)
+            return;
+
+        $scope.form.page = $index;
+        getItems($scope.form);
     };
 
 }]);
