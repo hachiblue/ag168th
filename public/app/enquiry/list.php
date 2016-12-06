@@ -441,7 +441,7 @@
     </div>
 
 
-
+  <?php if($_SESSION['login']['level_id'] != 4){?>
 	<!-- Modal -->
 	<div class="modal hide" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
 	  <div class="modal-dialog modal-lg" role="document" style="width: 90%;">
@@ -556,7 +556,7 @@
 		</div>
 	  </div>
 	</div>
-
+  <?php }?>
 
 </div>
 

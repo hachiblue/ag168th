@@ -20,7 +20,9 @@ use Main\Helper\LastAssignManagerHelper;
  * @uri /api/enquiry
  */
 class ApiEnquiry extends BaseCTL {
+
     private $table = "enquiry";
+
     /**
      * @GET
      */
@@ -206,6 +208,116 @@ class ApiEnquiry extends BaseCTL {
         return $list;
     }
 
+    /**
+     * @GET
+     * @uri /wishlist
+     */
+    public function wishlist () 
+    {
+        $field = [
+          "project.name(project_name)",
+          "size_unit.name(size_name)",
+          "wishlist.*"
+        ];
+        $join = [
+            "[>]size_unit"=> ["size_unit_id"=> "id"],
+            "[>]project"=> ["project_id"=> "id"]
+        ];
+        $where = ["AND"=> []];
+
+        $where["AND"]['project.id[!]'] = '9999';
+
+        $params = $this->reqInfo->params();
+
+        $orderType = !empty($params['orderType'])? $params['orderType']: "DESC";
+        $orderBy = !empty($params['orderBy'])? $params['orderBy']: "wishlist.updated_at";
+        $order = "{$orderBy} {$orderType}";
+
+        $limit = empty($_GET['limit'])? 15: $_GET['limit'];
+        $page = !empty($params['page'])? $params['page']: 1;
+
+        if(count($where["AND"]) > 0)
+        {
+            $where["ORDER"] = $order;
+            $list = ListDAO::gets('wishlist', [
+                "field"=> $field,
+                "join"=> $join,
+                "where"=> $where,
+                "page"=> $page,
+                "limit"=> $limit
+            ]);
+        }
+        else 
+        {
+            $list = ListDAO::gets('wishlist', [
+                "field"=> $field,
+                "join"=> $join,
+                'where'=> ["ORDER"=> $order],
+                "page"=> $page,
+                "limit"=> $limit
+            ]);
+        }
+
+        // print_r(\Main\DB\Medoo\MedooFactory::getInstance()->error()); exit();
+        return $list;
+    }
+
+    /**
+     * @POST
+     * @uri /wishlist
+     */
+    public function add_wishlist () 
+    {
+      $params = $this->reqInfo->params();
+      $insert = ArrayHelper::filterKey([
+        "project_id", "building", "floor_start", "floor_end", "sqm_start", "sqm_end", "selling_start", "selling_end", "rental_start", "rental_end", "zone_id", "size_unit_id", "bts_id", "mrt_id"
+      ], $params);
+
+      $insert = array_map(function($item) 
+      {
+        if(is_string($item)) 
+        {
+          $item = trim($item);
+        }
+        return $item;
+      }, $insert);
+
+      $now = date('Y-m-d H:i:s');
+      $insert['created_at'] = $now;
+      $insert['updated_at'] = $now;
+
+      $db = MedooFactory::getInstance();
+      $db->pdo->beginTransaction();
+      $id = $db->insert("wishlist", $insert);
+
+      if(!$id) 
+      {
+         return ResponseHelper::error("Error can't add wishlist.".$db->error()[2]);
+      }
+
+      $db->pdo->commit();
+
+      $item = $db->get("wishlist", "*", ["id"=> $id]);
+      return $item;
+    }
+
+    /**
+     * @POST
+     * @uri /wishlist/[i:id]
+     */
+    public function delete_wishlist () 
+    {
+      $id = $this->reqInfo->urlParam("id");
+
+      $db = MedooFactory::getInstance();
+      $id = $db->delete("wishlist", ["id"=> $id]);
+
+      if(!$id){
+          return ResponseHelper::error("Error can't remove wishlist.");
+      }
+
+      return ["success"=> true];
+    }
 
     /**
     * @GET
@@ -224,6 +336,7 @@ class ApiEnquiry extends BaseCTL {
             "enquiry.chk1",
             "enquiry.chk2",
             "enquiry.chk3",
+            "enquiry.enquiry_status_id",
             "comm.name(comment_name)",
             "com_status.name(status_name)",
             "com_status.id(status_id)"
@@ -398,6 +511,12 @@ class ApiEnquiry extends BaseCTL {
 
         $db = MedooFactory::getInstance();
         $sql = "SELECT id, name FROM enquiry_status ";
+
+        if( $_SESSION["login"]["level_id"] == 4 )
+        {
+          $sql .= ' WHERE id != 12 ';
+        }
+
         $r = $db->query($sql);
         $row = $r->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -408,7 +527,7 @@ class ApiEnquiry extends BaseCTL {
         {
           foreach( $row as $status )
           {
-            if( $e['status_id'] == $status['id'] )
+            if( $e['enquiry_status_id'] == $status['id'] )
             {
               $enq[$status['name']][$e['enquiry_no']][] = $e;
             }
@@ -1018,7 +1137,6 @@ MAILCONTENT;
     }
 
 
-
     /**
     * @GET
     * @uri /[i:id]/accept_comment
@@ -1035,7 +1153,6 @@ MAILCONTENT;
 
       echo json_encode(array('id'=>$id));
     }
-
 
     /**
     * @GET
@@ -1556,7 +1673,12 @@ MAILCONTENT;
       }
     }
 
-
+    public function _builds_2(&$items)
+    {
+      foreach($items as &$item) {
+        $this->_build($item);
+      }
+    }
 
     public function _generateReferenceId($propTypeId)
     {
