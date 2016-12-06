@@ -261,6 +261,7 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
             $scope.form.chkcontact2a = 2;
             $scope.form.chkcontact3a = 2;
             $scope.form.chkcontact4a = 2;
+            $scope.form.web_status = 0;
             clearInterval(itv);
         }
     }, 100);
