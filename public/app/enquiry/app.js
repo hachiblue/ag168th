@@ -758,6 +758,7 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
         {
             form = {
                 comment: $scope.form.comment,
+                plan: $scope.form.plan,
                 account: $scope.form.account,
                 chk1: $scope.form.chk1,
                 chk2: $scope.form.chk2,

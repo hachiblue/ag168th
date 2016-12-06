@@ -179,7 +179,10 @@
                 <td>{{item.sqm_start}} - {{item.sqm_end}}</td>
                 <td>{{item.selling_start}} - {{item.selling_end}}</td>
                 <td>{{item.rental_start}} - {{item.rental_end}}</td>
-                <td><a ng-click="delete_wishlist(item.id)"><button class="btn btn-warning">Del</button></a></td>
+                <td>
+                  <a ng-show="item.ismatch"><button class="btn btn-success">Property</button></a> 
+                  <a ng-click="delete_wishlist(item.id)"><button class="btn btn-warning">Del</button></a>
+                </td>
             </tr>
             </tbody>
         </table>

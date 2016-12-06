@@ -290,6 +290,7 @@ $this->import("/admin/layout/header");
         {
             $("#pending-model").removeClass('show').addClass('hide');
             $("#userremind-model").removeClass('show').addClass('hide');
+            $("#plan_model").removeClass('show').addClass('hide');
         };
 
         function openModel()
@@ -446,6 +447,61 @@ $this->import("/admin/layout/header");
     </div>
   </div>
 </div>
+
+
+<?php if($_SESSION['login']['level_id'] == 4){?>
+  <!-- Modal -->
+  <div class="modal show" id="plan_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
+    <div class="modal-dialog modal-lg" role="document" style="width: 90%;">
+    <div class="modal-content">
+      <div class="modal-header">
+      <button type="button" class="close" name="model-dismiss" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title" id="myModalLabel">Plan Alert</h4>
+      </div>
+      <div class="modal-body">
+      
+      <div style="overflow-x: auto;">
+        <table class="table table-striped table-hover ">
+          <thead>
+          <tr>
+            <th>no.</th>
+            <th>Plan</th>
+            <th>Status</th>
+            <th>Updated At</th>
+          </tr>
+          </thead>
+          <tbody>
+          <?php
+
+          $sql = "SELECT ec.*, e.enquiry_status_id, es.name as status_name FROM enquiry e, enquiry_comment ec, enquiry_status es WHERE e.id = ec.enquiry_id AND e.enquiry_status_id = es.id AND e.enquiry_status_id NOT IN('6','4', '10', '9') AND ec.comment_by = '".$_SESSION["login"]["id"]."' AND ec.plan != '' AND ec.updated_at >= DATE_ADD(CURDATE(), INTERVAL -5 DAY) limit 100";
+          $r = $db->query($sql);
+
+          $row = $r->fetchAll(\PDO::FETCH_ASSOC);
+
+          foreach( $row as $i => $rw )
+          {
+          ?>
+          <tr>
+            <td><?=($i+1);?></td>
+            <td><?=$rw['plan'];?></td>
+            <td><?=$rw['status_name'];?></td>
+            <td><?=$rw['updated_at'];?></td>
+          </tr>
+          <?php
+          }
+          ?>
+          </tbody>
+        </table>
+      </div>
+
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-default" name="model-dismiss" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    </div>
+  </div>
+<?php }?>
 
 <?php
 $this->import("/admin/layout/footer");

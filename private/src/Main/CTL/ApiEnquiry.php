@@ -35,7 +35,7 @@ class ApiEnquiry extends BaseCTL {
           "manager.name(manager_name)",
           "project.name(project_name)",
           "enquiry.*"
-      ];
+        ];
         $join = [
             "[>]requirement"=> ["requirement_id"=> "id"],
             "[>]size_unit"=> ["size_unit_id"=> "id"],
@@ -227,6 +227,8 @@ class ApiEnquiry extends BaseCTL {
 
         $where["AND"]['project.id[!]'] = '9999';
 
+        $where["AND"]['wishlist.created_by'] = $_SESSION["login"]["id"];
+
         $params = $this->reqInfo->params();
 
         $orderType = !empty($params['orderType'])? $params['orderType']: "DESC";
@@ -259,6 +261,10 @@ class ApiEnquiry extends BaseCTL {
         }
 
         // print_r(\Main\DB\Medoo\MedooFactory::getInstance()->error()); exit();
+
+        
+        $this->_builds_2($list["data"]);
+
         return $list;
     }
 
@@ -270,7 +276,7 @@ class ApiEnquiry extends BaseCTL {
     {
       $params = $this->reqInfo->params();
       $insert = ArrayHelper::filterKey([
-        "project_id", "building", "floor_start", "floor_end", "sqm_start", "sqm_end", "selling_start", "selling_end", "rental_start", "rental_end", "zone_id", "size_unit_id", "bts_id", "mrt_id"
+        "project_id", "building", "floor_start", "floor_end", "sqm_start", "sqm_end", "selling_start", "selling_end", "rental_start", "rental_end", "zone_id", "size_unit_id", "bts_id", "mrt_id", "created_by"
       ], $params);
 
       $insert = array_map(function($item) 
@@ -285,6 +291,7 @@ class ApiEnquiry extends BaseCTL {
       $now = date('Y-m-d H:i:s');
       $insert['created_at'] = $now;
       $insert['updated_at'] = $now;
+      $insert['created_by'] = $_SESSION["login"]["id"];
 
       $db = MedooFactory::getInstance();
       $db->pdo->beginTransaction();
@@ -1044,7 +1051,8 @@ MAILCONTENT;
      * @GET
      * @uri /[i:id]
      */
-    public function get() {
+    public function get() 
+    {
         $id = $this->reqInfo->urlParam("id");
         $db = MedooFactory::getInstance();
         $item = $db->get($this->table, "*", ["id"=> $id]);
@@ -1675,9 +1683,101 @@ MAILCONTENT;
 
     public function _builds_2(&$items)
     {
-      foreach($items as &$item) {
-        $this->_build($item);
+      foreach($items as &$item) 
+      {
+        $this->_build2($item);
       }
+    }
+
+    public function _build2(&$item)
+    {
+        $db = MedooFactory::getInstance();
+     
+        //$item["project_name"]
+
+        if( isset($item["project_name"]) && $item["project_name"] != '' )
+        {
+          $sql = "select count(p.id) as cnt 
+                  from property p, project pj 
+                  where p.project_id = pj.id 
+                  and pj.name = '".$item["project_name"]."' ";
+
+          if( isset($item["size_unit_id"]) && $item["size_unit_id"] != '' )
+          {   
+            $sql .= " and p.size_unit_id = '".$item["size_unit_id"]."' "; 
+          }
+
+          if( isset($item["building"]) && $item["building"] != '' )
+          {   
+            $sql .= " and p.building_no = '".$item["building"]."' "; 
+          }
+
+          if( isset($item["floor_start"]) && $item["floor_start"] != '' )
+          {   
+            $sql .= " and p.floors >= '".$item["floor_start"]."' "; 
+          }
+
+          if( isset($item["floor_end"]) && $item["floor_end"] != '' )
+          {   
+            $sql .= " and p.floors <= '".$item["floor_end"]."' "; 
+          }
+
+          if( isset($item["sqm_start"]) && $item["sqm_start"] != '' )
+          {   
+            $sql .= " and p.size >= '".$item["sqm_start"]."' "; 
+          }
+
+          if( isset($item["sqm_end"]) && $item["sqm_end"] != '' )
+          {   
+            $sql .= " and p.size <= '".$item["sqm_end"]."' "; 
+          }
+
+          if( isset($item["zone_id"]) && $item["zone_id"] != '' )
+          {   
+            $sql .= " and p.zone_id = '".$item["zone_id"]."' "; 
+          }
+
+          if( isset($item["bts_id"]) && $item["bts_id"] != '' )
+          {   
+            $sql .= " and p.bts_id = '".$item["bts_id"]."' "; 
+          }
+
+          if( isset($item["mrt_id"]) && $item["mrt_id"] != '' )
+          {   
+            $sql .= " and p.mrt_id = '".$item["mrt_id"]."' "; 
+          }
+
+          if( isset($item["selling_start"]) && $item["selling_start"] != '' )
+          {   
+            $sql .= " and p.sell_price >= '".$item["selling_start"]."' "; 
+          }
+
+          if( isset($item["selling_end"]) && $item["selling_end"] != '' )
+          {   
+            $sql .= " and p.sell_price <= '".$item["selling_end"]."' "; 
+          }
+
+          if( isset($item["rental_start"]) && $item["rental_start"] != '' )
+          {   
+            $sql .= " and p.rent_price >= '".$item["rental_start"]."' "; 
+          }
+
+          if( isset($item["rental_end"]) && $item["rental_end"] != '' )
+          {   
+            $sql .= " and p.rent_price <= '".$item["rental_end"]."' "; 
+          }
+
+          $r = $db->query($sql);
+          $row = $r->fetch(\PDO::FETCH_ASSOC);
+          if( $row['cnt'] > 0 )
+          {
+            $item["ismatch"] = true;
+          }
+          else
+          {
+            $item["ismatch"] = false; 
+          }
+        }
     }
 
     public function _generateReferenceId($propTypeId)
