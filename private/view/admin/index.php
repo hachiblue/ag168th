@@ -284,13 +284,16 @@ $this->import("/admin/layout/header");
             $("button[name=model-dismiss]").click(function() {
                 closeModel();
             });
+
+            $("button[name=model-dismiss-plan]").click(function() {
+                $("#plan_model").removeClass('show').addClass('hide');
+            });
         });
 
         function closeModel()
         {
             $("#pending-model").removeClass('show').addClass('hide');
             $("#userremind-model").removeClass('show').addClass('hide');
-            $("#plan_model").removeClass('show').addClass('hide');
         };
 
         function openModel()
@@ -455,7 +458,7 @@ $this->import("/admin/layout/header");
     <div class="modal-dialog modal-lg" role="document" style="width: 90%;">
     <div class="modal-content">
       <div class="modal-header">
-      <button type="button" class="close" name="model-dismiss" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <button type="button" class="close" name="model-dismiss-plan" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <h4 class="modal-title" id="myModalLabel">Plan Alert</h4>
       </div>
       <div class="modal-body">
@@ -496,7 +499,7 @@ $this->import("/admin/layout/header");
 
       </div>
       <div class="modal-footer">
-      <button type="button" class="btn btn-default" name="model-dismiss" data-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-default" name="model-dismiss-plan" data-dismiss="modal">Close</button>
       </div>
     </div>
     </div>

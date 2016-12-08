@@ -180,7 +180,7 @@
                 <td>{{item.selling_start}} - {{item.selling_end}}</td>
                 <td>{{item.rental_start}} - {{item.rental_end}}</td>
                 <td>
-                  <a ng-show="item.ismatch"><button class="btn btn-success">Property</button></a> 
+                  <a href="properties?project_id={{item.project_id}}&size_unit_id={{item.size_unit_id}}&building_no={{item.building}}&zone_id={{item.zone_id}}&size_start={{item.sqm_start}}&size_end={{item.sqm_end}}&sell_price_start={{item.selling_start}}&sell_price_end={{item.selling_end}}&rent_price_start={{item.rental_start}}&rent_price_end={{item.rental_end}}&mrt_id={{item.mrt_id}}&bts_id={{item.bts_id}}#/" ng-show="item.ismatch"><button class="btn btn-success">Property</button></a> 
                   <a ng-click="delete_wishlist(item.id)"><button class="btn btn-warning">Del</button></a>
                 </td>
             </tr>

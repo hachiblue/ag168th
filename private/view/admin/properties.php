@@ -16,3 +16,9 @@
 <script src="<?php echo \Main\Helper\URL::absolute("/public/bootstrap-datepicker/js/bootstrap-datepicker.min.js");?>"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/public/bootstrap-datepicker/js/bootstrap-datetimepicker.min.js");?>"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/public/js/angular-chosen.min.js")?>"></script>
+
+<script type="text/javascript">
+	
+	var g_item = <?=json_encode($_GET);?>; 
+
+</script>

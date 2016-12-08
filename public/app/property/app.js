@@ -96,6 +96,8 @@ app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function ($
     {
         var url = "../api/property", i;
 
+        $scope.form = $.extend({}, $scope.form, g_item);
+
         if (query)
         {
             url += "?" + $.param($scope.form);
