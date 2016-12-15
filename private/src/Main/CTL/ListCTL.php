@@ -86,19 +86,25 @@ class ListCTL extends BaseCTL {
           $excParams[":bathrooms"] = $params['bathrooms'];
         }
       }
+
+      $searchQuery .= " AND property.property_status_id != 2";
+
       // if(!empty($params['keyword'])) {
       //   $searchQuery .= " AND project.name LIKE :keyword";
       //   $excParams[":keyword"] = '%'.$params['keyword'].'%';
       // }
-      if(!empty($params['price-range']) && !empty($params['requirement_id'])) {
+      if(!empty($params['price-range']) && !empty($params['requirement_id'])) 
+      {
         $field1 = $params['requirement_id'] == 1? "sell_price": "rent_price";
         $priceRange = explode('-', $params['price-range']);
-        if(count($priceRange) == 0) {
+        if(count($priceRange) == 0) 
+        {
           $searchQuery .= " AND ({$field1} BETWEEN :price1 AND :price2 )";
           $excParams[":price1"] = $priceRange[0];
           $excParams[":price2"] = $priceRange[1];
         }
-        else {
+        else 
+        {
           $searchQuery .= " AND ({$field1} >= :price)";
           $excParams[":price"] = $priceRange[0];
         }
