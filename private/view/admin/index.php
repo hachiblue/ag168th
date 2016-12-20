@@ -469,6 +469,7 @@ $this->import("/admin/layout/header");
           <tr>
             <th>no.</th>
             <th>Enquiry no.</th>
+            <th>Name</th>
             <th>Plan</th>
             <th>Status</th>
             <th>Updated At</th>
@@ -477,7 +478,7 @@ $this->import("/admin/layout/header");
           <tbody>
           <?php
 
-          $sql = "SELECT ec.*, e.enquiry_no, e.enquiry_status_id, es.name as status_name FROM enquiry e, enquiry_comment ec, enquiry_status es WHERE e.id = ec.enquiry_id AND e.enquiry_status_id = es.id AND e.enquiry_status_id NOT IN('6','4', '10', '9') AND ec.comment_by = '".$_SESSION["login"]["id"]."' AND ec.plan != '' AND ec.updated_at >= DATE_ADD(CURDATE(), INTERVAL -5 DAY) limit 100";
+          $sql = "SELECT ec.*, e.enquiry_no, e.enquiry_status_id, es.name as status_name, e.customer as customer FROM enquiry e, enquiry_comment ec, enquiry_status es WHERE e.id = ec.enquiry_id AND e.enquiry_status_id = es.id AND e.enquiry_status_id NOT IN('6','4', '10', '9') AND ec.comment_by = '".$_SESSION["login"]["id"]."' AND ec.plan != '' AND ec.updated_at >= DATE_ADD(CURDATE(), INTERVAL -5 DAY) limit 100";
           $r = $db->query($sql);
 
           $row = $r->fetchAll(\PDO::FETCH_ASSOC);
@@ -488,6 +489,7 @@ $this->import("/admin/layout/header");
           <tr>
             <td><?=($i+1);?></td>
             <td><?=$rw['enquiry_no'];?></td>
+            <td><?=$rw['customer'];?></td>
             <td><?=$rw['plan'];?></td>
             <td><?=$rw['status_name'];?></td>
             <td><?=$rw['updated_at'];?></td>
