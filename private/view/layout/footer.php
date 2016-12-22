@@ -1,6 +1,8 @@
 <?php
 use Main\Helper;
 ?>
+
+<?php /*
 <div class="footer">
     <div class="container">
         <div class="row">
@@ -60,5 +62,9 @@ use Main\Helper;
         </div>
     </div>
 </div>
+*/
+?>
+
+
 </body>
 </html>

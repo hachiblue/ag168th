@@ -1118,9 +1118,13 @@ The Seed Atom,
 </div>
 <nav class="navbar navbar-default">
     <div class="container">
+        <?php
+        /*
         <div class="navbar-header">
             <a href="<?php echo \Main\Helper\URL::absolute("/home")?>"><img src="<?php echo \Main\Helper\URL::absolute("/public/images/Logo.png")?>" /></a>
         </div>
+
+        
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
             	<li>
@@ -1150,6 +1154,9 @@ The Seed Atom,
                 <li><a href="<?php echo \Main\Helper\URL::absolute("/contact")?>">CONTACT US</a></li>
             </ul>
         </div>
+        */
+        ?>
+
     </div>
 </nav>
 <div class="modal fade" id="login">

@@ -32,6 +32,12 @@ class HomeCTL extends BaseCTL {
     public function index ()
     {
       $params = $this->reqInfo->params();
+
+      // undermaintain
+      return new HtmlView('/blackout', []);
+
+
+
       $db = MedooFactory::getInstance();
       $query = "SELECT * FROM property
         WHERE web_status=1
