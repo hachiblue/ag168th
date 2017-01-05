@@ -163,7 +163,7 @@ $province = $db->select("province", "*");
 	<div class="form-group row">
 	  <label for="data-requirement" class="col-xs-1 col-form-label">Requirement</label>
 	  <div class="col-xs-3">
-	    <select class="form-control" id="data-requirement" name="Requirement" required>
+	    <select class="form-control" id="data-requirement" name="Requirement">
 			<option value=''> -- select -- </option>
 			<?php foreach($requirement as $pt) {?>
 			<option><?php echo $pt["name"];?></option>
@@ -173,7 +173,7 @@ $province = $db->select("province", "*");
 
 	  <label for="data-property_type" class="col-xs-1 col-form-label">Property Type</label>
 	  <div class="col-xs-3">
-	    <select class="form-control" id="data-property_type" name="Property Type" required>
+	    <select class="form-control" id="data-property_type" name="Property Type">
 	    	<option value=''> -- select -- </option>
 			<?php foreach($proptypes as $pt) {?>
 			<option><?php echo $pt["name"];?></option>
@@ -207,12 +207,12 @@ $province = $db->select("province", "*");
 
 		<label for="data-zone" class="col-xs-1 col-form-label">Zone</label>
 		<div class="col-xs-3">
-			<input class="form-control" type="text" value="" id="data-zone" name="Zone" required>
+			<input class="form-control" type="text" value="" id="data-zone" name="Zone">
 		</div>
 
 		<label for="data-province" class="col-xs-1 col-form-label">Province</label>
 		<div class="col-xs-3">
-			<input class="form-control" type="text" value="" id="data-province" name="Province" required>
+			<input class="form-control" type="text" value="" id="data-province" name="Province">
 		</div>
 
 	</div>
@@ -221,7 +221,7 @@ $province = $db->select("province", "*");
 
 		<label for="data-size" class="col-xs-1 col-form-label">Size</label>
 		<div class="col-xs-1">
-			<input class="form-control" type="number" value="" id="data-size" name="Size" required>
+			<input class="form-control" type="number" value="" id="data-size" name="Size">
 		</div>
 		<div class="col-xs-2">
 			<select class="form-control size" id="data-size_unit" name="Size Unit" required>
@@ -233,12 +233,12 @@ $province = $db->select("province", "*");
 
 		<label for="data-address" class="col-xs-1 col-form-label">Address No</label>
 		<div class="col-xs-3">
-			<input class="form-control" type="text" value="" id="data-address" name="Address" required>
+			<input class="form-control" type="text" value="" id="data-address" name="Address">
 		</div>
 
 		<label for="data-unit" class="col-xs-1 col-form-label">Unit No</label>
 		<div class="col-xs-3">
-			<input class="form-control" type="text" value="" id="data-unit" name="Unit No" required>
+			<input class="form-control" type="text" value="" id="data-unit" name="Unit No">
 		</div>
 
 	</div>
@@ -248,13 +248,13 @@ $province = $db->select("province", "*");
 		<label for="data-floor" class="col-xs-1 col-form-label">Floor</label>
 		<div class="col-xs-3">
 
-			<input class="form-control" type="number" name="Floor" class="form-control" id="data-floor" required>
+			<input class="form-control" type="number" name="Floor" class="form-control" id="data-floor">
 
 		</div>
 
 		<label for="data-direction" class="col-xs-1 col-form-label">Direction</label>
 		<div class="col-xs-3">
-			<input class="form-control" type="text" value="" id="data-direction" name="Direction" required>
+			<input class="form-control" type="text" value="" id="data-direction" name="Direction">
 		</div>
 
 	</div>
@@ -263,7 +263,7 @@ $province = $db->select("province", "*");
 
 		<label for="data-contract" class="col-xs-1 col-form-label">Contract Price</label>
 		<div class="col-xs-3">
-			<input class="form-control" type="number" value="" id="data-contract" name="Contract Price" required>
+			<input class="form-control" type="number" value="" id="data-contract" name="Contract Price">
 		</div>
 
 		<label for="data-net" class="col-xs-1 col-form-label">Net Price</label>
