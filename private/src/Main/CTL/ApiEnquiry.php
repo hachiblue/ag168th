@@ -1499,7 +1499,7 @@ MAILCONTENT;
             "[>]project"=> ["project_id"=> "id"]
         ];
 
-        $limit = empty($_GET['limit'])? 15: $_GET['limit'];
+        $limit = empty($_GET['limit'])? 100: $_GET['limit'];
         $where = ["AND"=> ["property.match_enquiry_id"=> $id]];
 
         $page = !empty($params['page'])? $params['page']: 1;
@@ -1562,7 +1562,8 @@ MAILCONTENT;
           ]
         ]);
 
-      if($cCommented > 0) {
+      if($cCommented > 0) 
+      {
         return ResponseHelper::error("You need to comment previous enquiry you request before request more contact");
       }
 

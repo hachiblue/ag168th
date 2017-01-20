@@ -51,7 +51,7 @@
 	<div id="moreowner" ng-bind-html="moreowner"></div>
 
   <div class="row">
-    <fieldset ng-disabled="!editAllow">
+    <fieldset>
 
 		<div class="col-md-3 form-group">
 		  <label>Status</label>
@@ -59,12 +59,12 @@
 		  ng-model="form.property_status_id"
 		  ng-change="formPropertyStatusIdChange()"
 		  ng-options="item.id as item.name for item in collection.property_status"
-		  ng-disabled="!editAllow"
 		  required>
 			  <option value="">Please select</option>
 		  </select>
 		</div>
-
+    </fieldset>
+    <fieldset ng-disabled="!editAllow">
     <div class="col-md-3 col-md-offset-1 form-group">
       <label>{{form.owner}}</label>
     </div>
@@ -137,7 +137,7 @@
         <label>requirement</label>
         <select class="form-control"
         ng-model="form.requirement_id"
-		ng-change="formRequirementChange()"
+		    ng-change="formRequirementChange()"
         ng-options="item.id as item.name for item in collection.requirement"
         required>
             <option value="">Please select</option>
@@ -158,7 +158,7 @@
         <label>Floors</label>
         <input type="text" class="form-control" ng-model="form.floors">
       </div>
-	  <div class="col-md-3 form-group">
+	    <div class="col-md-3 form-group">
         <label>Room type</label>
         <select class="form-control"
         ng-model="form.room_type_id">
@@ -434,6 +434,8 @@
         ng-model="form.web_url_search"></textarea>
       </div>
     </fieldset>
+
+
   </div>
   <div class="row">
     <div class="col-md-12 form-group">
