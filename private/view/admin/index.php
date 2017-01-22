@@ -217,8 +217,29 @@ $this->import("/admin/layout/header");
             ?>
             <div class="navbar">
               <ul class="nav navbar-nav navbar-right">
-
                 <?php
+                   $sql = "SELECT 
+                              count(e.id) as total
+                            FROM
+                              enquiry e,
+                              ( SELECT enquiry_id, MAX(updated_at) AS mx  FROM enquiry_comment  GROUP BY enquiry_id ORDER BY  mx DESC ) em 
+                            WHERE e.id = em.enquiry_id 
+                              AND DATEDIFF(NOW(), em.mx) > 5 
+                              AND e.enquiry_status_id NOT IN (4, 10, 9, 12) "; 
+                    $r = $db->query($sql);
+                    $cnt = $r->fetch(\PDO::FETCH_ASSOC);
+
+                if( $_SESSION['login']["level"]["id"] == 1 || $_SESSION['login']["level"]["id"] == 4 )
+                {
+                ?>
+                <li>
+                    
+                    <a class="bell-alert" id="open-warning" data-toggle="modal" data-target="#warning-model" style="cursor:pointer; font-size:20px;"><span class="glyphicon glyphicon-calendar"></span><span>[<?=$cnt['total'];?>]</span></a>
+                </li>
+                <?php
+                }
+
+
                 $dsp_iremind = 'hide';
                 if( $iremind["cnt"] > 0 )
                 {
@@ -250,6 +271,9 @@ $this->import("/admin/layout/header");
                     <li><a href="#">Separated link</a></li>
                   </ul>
                 </li> -->
+
+                
+
               </ul>
             </div>
             <div class="content">
@@ -281,6 +305,10 @@ $this->import("/admin/layout/header");
                 $("#userremind-model").toggleClass('show');
             });
 
+            $("#open-warning").click(function() {
+                $("#warning-model").toggleClass('show');
+            });
+
             $("button[name=model-dismiss]").click(function() {
                 closeModel();
             });
@@ -294,6 +322,7 @@ $this->import("/admin/layout/header");
         {
             $("#pending-model").removeClass('show').addClass('hide');
             $("#userremind-model").removeClass('show').addClass('hide');
+            $("#warning-model").removeClass('show').addClass('hide');
         };
 
         function openModel()
@@ -450,6 +479,74 @@ $this->import("/admin/layout/header");
     </div>
   </div>
 </div>
+
+
+<?php
+ if( $_SESSION['login']["level"]["id"] == 1 || $_SESSION['login']["level"]["id"] == 4 )
+{
+    ?>
+<div class="modal hide" id="warning-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" name="model-dismiss" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Warning #</h4>
+      </div>
+      <div class="modal-body">
+        
+        <?php
+
+        $sql = "SELECT 
+                  e.* 
+                FROM
+                  enquiry e,
+                  ( SELECT enquiry_id, MAX(updated_at) AS mx  FROM enquiry_comment  GROUP BY enquiry_id ORDER BY  mx DESC ) em 
+                WHERE e.id = em.enquiry_id 
+                  AND DATEDIFF(NOW(), em.mx) > 5 
+                  AND e.enquiry_status_id NOT IN (4, 10, 9, 12) 
+                ORDER BY em.mx ASC LIMIT 500 ";   
+           
+        $r = $db->query($sql);
+        $items = $r->fetchAll(\PDO::FETCH_ASSOC);
+
+        //print_r($items);
+
+        ?>
+        <table class="table table-striped table-hover ">
+            <thead>
+            <tr>
+                <th>Enquiry Id</th>
+                <th>Last Update</th>
+                <th>LINK</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach( $items as $item )
+            {
+            ?>
+            <tr>
+                <td><?=$item["id"];?></td>
+                <td><?=$item["updated_at"];?></td>
+                <td><a class="btn btn-info" href="enquiries#/edit/<?=$item["id"];?>" target="_blank">View</a></td>
+            </tr>
+            <?php
+            }
+
+            ?>
+            </tbody>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" name="model-dismiss" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <?php
+}
+?>
 
 
 <?php if($_SESSION['login']['level_id'] == 4){?>

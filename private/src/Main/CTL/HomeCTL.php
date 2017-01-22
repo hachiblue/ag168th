@@ -34,7 +34,7 @@ class HomeCTL extends BaseCTL {
       $params = $this->reqInfo->params();
 
       // undermaintain
-      return new HtmlView('/blackout', []);
+      //return new HtmlView('/blackout', []);
 
 
 
