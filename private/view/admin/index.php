@@ -218,7 +218,9 @@ $this->import("/admin/layout/header");
             <div class="navbar">
               <ul class="nav navbar-nav navbar-right">
                 <?php
-                   $sql = "SELECT 
+                //if( $_SESSION['login']["level"]["id"] == 1 || $_SESSION['login']["level"]["id"] == 4 )
+                //{
+                    $sql = "SELECT 
                               count(e.id) as total
                             FROM
                               enquiry e,
@@ -228,16 +230,13 @@ $this->import("/admin/layout/header");
                               AND e.enquiry_status_id NOT IN (4, 10, 9, 12) "; 
                     $r = $db->query($sql);
                     $cnt = $r->fetch(\PDO::FETCH_ASSOC);
-
-                if( $_SESSION['login']["level"]["id"] == 1 || $_SESSION['login']["level"]["id"] == 4 )
-                {
                 ?>
                 <li>
                     
                     <a class="bell-alert" id="open-warning" data-toggle="modal" data-target="#warning-model" style="cursor:pointer; font-size:20px;"><span class="glyphicon glyphicon-calendar"></span><span>[<?=$cnt['total'];?>]</span></a>
                 </li>
                 <?php
-                }
+                //}
 
 
                 $dsp_iremind = 'hide';
@@ -482,15 +481,15 @@ $this->import("/admin/layout/header");
 
 
 <?php
- if( $_SESSION['login']["level"]["id"] == 1 || $_SESSION['login']["level"]["id"] == 4 )
-{
+ //if( $_SESSION['login']["level"]["id"] == 1 || $_SESSION['login']["level"]["id"] == 4 )
+ //{
     ?>
 <div class="modal hide" id="warning-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" name="model-dismiss" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Warning #</h4>
+        <h4 class="modal-title" id="myModalLabel">Last update over 5 days #</h4>
       </div>
       <div class="modal-body">
         
@@ -545,7 +544,7 @@ $this->import("/admin/layout/header");
   </div>
 </div>
     <?php
-}
+//}
 ?>
 
 
