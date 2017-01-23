@@ -1152,7 +1152,8 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
             alert("please comment when edit");
             return;
         }
-        var form;
+
+        var form = {};
         if ($scope.editAllow)
         {
             form = $scope.form;
@@ -1163,6 +1164,9 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
                 comment: $scope.form.comment
             };
         }
+
+        form.property_status_id = $scope.form.property_status_id;
+        form.id = $scope.form.id;
 
         if (form.room_type_id == 1 && ( form.bedrooms == '' || (form.bathrooms == '' || form.bathrooms == 0)))
         {

@@ -411,7 +411,9 @@ MAILCONTENT;
           }
           return $item;
         }, $set);
+
         $set['updated_at'] = date('Y-m-d H:i:s');
+
         if(isset($set['contract_expire']) && trim($set['contract_expire']) == "") $set['contract_expire'] = null;
         if(isset($set['contract_expire']) && trim($set['rented_expire']) == "") $set['rented_expire'] = null;
 
@@ -423,16 +425,19 @@ MAILCONTENT;
 
         $db = MedooFactory::getInstance();
 
-        if(!(@$_SESSION['login']['level_id'] <= 2 && @$_SESSION['login']['level_id'] > 0)) {
+        if(!(@$_SESSION['login']['level_id'] <= 2 && @$_SESSION['login']['level_id'] > 0)) 
+        {
           $set = [
-            'updated_at'=> date('Y-m-d H:i:s')
+            'updated_at'=> date('Y-m-d H:i:s'),
+            'property_status_id' => $set['property_status_id']
           ];
         }
 
         $old = $db->get($this->table, "*", $where);
         $updated = $db->update($this->table, $set, $where);
 
-        if(!$updated){
+        if(!$updated)
+        {
             return ResponseHelper::error("Error can't update property.");
         }
 
@@ -465,7 +470,7 @@ MAILCONTENT;
             ]
           ]);
 
-        return ["success"=> true];
+        return ["success"=> true, "query"=>$db->log()];
     }
 
     /**
