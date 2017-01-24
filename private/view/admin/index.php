@@ -218,16 +218,26 @@ $this->import("/admin/layout/header");
             <div class="navbar">
               <ul class="nav navbar-nav navbar-right">
                 <?php
-                //if( $_SESSION['login']["level"]["id"] == 1 || $_SESSION['login']["level"]["id"] == 4 )
-                //{
+                if( $_SESSION['login']["level"]["id"] == 2 || $_SESSION['login']["level"]["id"] == 4 )
+                {
+                    $date_expire_mx = 7;
+                    $sql_sale = '';
+
+                    if( $_SESSION['login']["level"]["id"] == 4 )
+                    {
+                        $date_expire_mx = 5;
+                        $sql_sale = " WHERE comment_by = " . $_SESSION['login']["id"];
+                    }
+                    
                     $sql = "SELECT 
                               count(e.id) as total
                             FROM
                               enquiry e,
-                              ( SELECT enquiry_id, MAX(updated_at) AS mx  FROM enquiry_comment  GROUP BY enquiry_id ORDER BY  mx DESC ) em 
+                              ( SELECT enquiry_id, MAX(updated_at) AS mx  FROM enquiry_comment  ".$sql_sale." GROUP BY enquiry_id ORDER BY  mx DESC ) em 
                             WHERE e.id = em.enquiry_id 
-                              AND DATEDIFF(NOW(), em.mx) > 5 
+                              AND DATEDIFF(NOW(), em.mx) > ".$date_expire_mx." 
                               AND e.enquiry_status_id NOT IN (4, 10, 9, 12) "; 
+
                     $r = $db->query($sql);
                     $cnt = $r->fetch(\PDO::FETCH_ASSOC);
                 ?>
@@ -236,7 +246,7 @@ $this->import("/admin/layout/header");
                     <a class="bell-alert" id="open-warning" data-toggle="modal" data-target="#warning-model" style="cursor:pointer; font-size:20px;"><span class="glyphicon glyphicon-calendar"></span><span>[<?=$cnt['total'];?>]</span></a>
                 </li>
                 <?php
-                //}
+                }
 
 
                 $dsp_iremind = 'hide';
@@ -259,7 +269,21 @@ $this->import("/admin/layout/header");
                 <?php
                 }
                 ?>
-                <li><a href=""><?php echo $_SESSION['login']['email'];?> [<?php echo $_SESSION['login']['level']['name'];?>]</a></li>
+
+                <?php
+                
+                $sess_login_name = $_SESSION['login']['level']['name'];
+
+                if( isset($_SESSION['login']['id']) && $_SESSION['login']['id'] == 71 )
+                {
+                    $sess_login_name = 'Manager';
+                }
+                ?>
+                <li>
+                    <a href=""><?php echo $_SESSION['login']['email'];?> [<?php echo $sess_login_name;?>]</a>
+                </li>
+
+
                 <!-- <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                   <ul class="dropdown-menu">
@@ -330,6 +354,7 @@ $this->import("/admin/layout/header");
         };
 
     </script>
+
 
 <!-- Modal -->
 <div class="modal hide" id="pending-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
@@ -481,15 +506,15 @@ $this->import("/admin/layout/header");
 
 
 <?php
- //if( $_SESSION['login']["level"]["id"] == 1 || $_SESSION['login']["level"]["id"] == 4 )
- //{
+ if( $_SESSION['login']["level"]["id"] == 2 || $_SESSION['login']["level"]["id"] == 4 )
+ {
     ?>
 <div class="modal hide" id="warning-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" name="model-dismiss" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Last update over 5 days #</h4>
+        <h4 class="modal-title" id="myModalLabel">Last update over <?=$date_expire_mx;?> days #</h4>
       </div>
       <div class="modal-body">
         
@@ -499,9 +524,9 @@ $this->import("/admin/layout/header");
                   e.* 
                 FROM
                   enquiry e,
-                  ( SELECT enquiry_id, MAX(updated_at) AS mx  FROM enquiry_comment  GROUP BY enquiry_id ORDER BY  mx DESC ) em 
+                  ( SELECT enquiry_id, MAX(updated_at) AS mx  FROM enquiry_comment ".$sql_sale."   GROUP BY enquiry_id ORDER BY  mx DESC ) em 
                 WHERE e.id = em.enquiry_id 
-                  AND DATEDIFF(NOW(), em.mx) > 5 
+                  AND DATEDIFF(NOW(), em.mx) > ".$date_expire_mx." 
                   AND e.enquiry_status_id NOT IN (4, 10, 9, 12) 
                 ORDER BY em.mx ASC LIMIT 500 ";   
            
@@ -544,7 +569,7 @@ $this->import("/admin/layout/header");
   </div>
 </div>
     <?php
-//}
+}
 ?>
 
 
