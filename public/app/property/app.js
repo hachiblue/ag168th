@@ -1166,6 +1166,8 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
         }
 
         form.property_status_id = $scope.form.property_status_id;
+        form.rented_expire = $scope.form.rented_expire;
+        
         form.id = $scope.form.id;
 
         if (form.room_type_id == 1 && ( form.bedrooms == '' || (form.bathrooms == '' || form.bathrooms == 0)))

@@ -51,8 +51,8 @@
 	<div id="moreowner" ng-bind-html="moreowner"></div>
 
   <div class="row">
-    <fieldset>
 
+  <fieldset>
 		<div class="col-md-3 form-group">
 		  <label>Status</label>
 		  <select class="form-control"
@@ -63,8 +63,9 @@
 			  <option value="">Please select</option>
 		  </select>
 		</div>
-    </fieldset>
-    <fieldset ng-disabled="!editAllow">
+  </fieldset>
+
+  <fieldset ng-disabled="!editAllow">
     <div class="col-md-3 col-md-offset-1 form-group">
       <label>{{form.owner}}</label>
     </div>
@@ -98,113 +99,110 @@
 
     <div style="clear:both;"></div>
 
-      <div class="col-md-3 form-group">
-        <label>Property Type</label>
-        <select class="form-control"
-        ng-model="form.property_type_id"
-		    ng-change="formPropertyTypeChange()"
-        ng-options="item.id as item.name for item in collection.property_type"
-        required>
+    <div class="col-md-3 form-group">
+      <label>Property Type</label>
+      <select class="form-control"
+      ng-model="form.property_type_id"
+	    ng-change="formPropertyTypeChange()"
+      ng-options="item.id as item.name for item in collection.property_type"
+      required>
+          <option value="">Please select</option>
+      </select>
+    </div>
+    <div class="col-md-3 form-group">
+      <label>Project</label>
+      <select  chosen id="project_id" class="form-control"
+      ng-model="form.project_id"
+	    ng-change="formProjectIdChange()"
+      ng-options="item.id as item.name for item in collection.project"
+      >
+          <option value="">Please select</option>
+      </select>
+    </div>
+    <div class="col-md-3 form-group">
+      <label>Size</label>
+      <div class="row">
+        <div class="col-md-6">
+          <input ng-model="form.size" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <select ng-model="form.size_unit_id" class="form-control"
+          ng-options="item.id as item.name for item in collection.size_unit"
+          required>
             <option value="">Please select</option>
-        </select>
-      </div>
-      <div class="col-md-3 form-group">
-        <label>Project</label>
-        <select  chosen id="project_id" class="form-control"
-        ng-model="form.project_id"
-		    ng-change="formProjectIdChange()"
-        ng-options="item.id as item.name for item in collection.project"
-        >
-            <option value="">Please select</option>
-        </select>
-      </div>
-      <div class="col-md-3 form-group">
-        <label>Size</label>
-        <div class="row">
-          <div class="col-md-6">
-            <input ng-model="form.size" class="form-control">
-          </div>
-          <div class="col-md-6">
-            <select ng-model="form.size_unit_id" class="form-control"
-            ng-options="item.id as item.name for item in collection.size_unit"
-            required>
-              <option value="">Please select</option>
-            </select>
-          </div>
+          </select>
         </div>
       </div>
-      <div class="col-md-3 form-group">
-        <label>requirement</label>
-        <select class="form-control"
-        ng-model="form.requirement_id"
-		    ng-change="formRequirementChange()"
-        ng-options="item.id as item.name for item in collection.requirement"
-        required>
-            <option value="">Please select</option>
-        </select>
-      </div>
-      <div class="col-md-4 form-group">
-        <label>Address no</label> ( * ใส่แค่ตำแหน่งห้องหรือเลขห้องเท่านั้น )
-        <input type="text" class="form-control" ng-model="form.address_no">
-      </div>
-
-      <div class="col-md-1 form-group">
-        <label>Building no</label>
-        <input type="text" class="form-control" ng-model="form.building_no">
-      </div>
-
-
-      <div class="col-md-2 form-group">
-        <label>Floors</label>
-        <input type="text" class="form-control" ng-model="form.floors">
-      </div>
-	    <div class="col-md-3 form-group">
-        <label>Room type</label>
-        <select class="form-control"
-        ng-model="form.room_type_id">
-            <option value="">Please select</option>
-            <option value="1">Studio</option>
-            <option value="2">Duplex</option>
-            <option value="3">Normal</option>
-            <option value="4">Triplex</option>
-            <option value="5">Pent House</option>
-        </select>
-      </div>
-      
-      <div class="col-md-1 form-group">
-        <label>bedrooms</label>
-        <select class="form-control" ng-model="form.bedrooms">
+    </div>
+    <div class="col-md-3 form-group">
+      <label>requirement</label>
+      <select class="form-control"
+      ng-model="form.requirement_id"
+	    ng-change="formRequirementChange()"
+      ng-options="item.id as item.name for item in collection.requirement"
+      required>
           <option value="">Please select</option>
-          <option value="0">0</option>
-    			<option value="1">1</option>
-    			<option value="2">2</option>
-    			<option value="3">3</option>
-    			<option value="4">4</option>
-    			<option value="5">5</option>
-    			<option value="6">6</option>
-    			<option value="7">7</option>
-    			<option value="8">8</option>
-    			<option value="9">9</option>
-    			<option value="10">10</option>	
-        </select>
-      </div>
-      <div class="col-md-1 form-group">
-        <label>bathrooms</label>
-        <select class="form-control" ng-model="form.bathrooms">
+      </select>
+    </div>
+    <div class="col-md-4 form-group">
+      <label>Address no</label> ( * ใส่แค่ตำแหน่งห้องหรือเลขห้องเท่านั้น )
+      <input type="text" class="form-control" ng-model="form.address_no">
+    </div>
+    <div class="col-md-1 form-group">
+      <label>Building no</label>
+      <input type="text" class="form-control" ng-model="form.building_no">
+    </div>
+    <div class="col-md-2 form-group">
+      <label>Floors</label>
+      <input type="text" class="form-control" ng-model="form.floors">
+    </div>
+    <div class="col-md-3 form-group">
+      <label>Room type</label>
+      <select class="form-control"
+      ng-model="form.room_type_id">
           <option value="">Please select</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>	
-        </select>
-      </div>
-      <div style="clear: both;"></div>
+          <option value="1">Studio</option>
+          <option value="2">Duplex</option>
+          <option value="3">Normal</option>
+          <option value="4">Triplex</option>
+          <option value="5">Pent House</option>
+      </select>
+    </div>
+    <div class="col-md-1 form-group">
+      <label>bedrooms</label>
+      <select class="form-control" ng-model="form.bedrooms">
+        <option value="">Please select</option>
+        <option value="0">0</option>
+  			<option value="1">1</option>
+  			<option value="2">2</option>
+  			<option value="3">3</option>
+  			<option value="4">4</option>
+  			<option value="5">5</option>
+  			<option value="6">6</option>
+  			<option value="7">7</option>
+  			<option value="8">8</option>
+  			<option value="9">9</option>
+  			<option value="10">10</option>	
+      </select>
+    </div>
+    <div class="col-md-1 form-group">
+      <label>bathrooms</label>
+      <select class="form-control" ng-model="form.bathrooms">
+        <option value="">Please select</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>	
+      </select>
+    </div>
+
+    <div style="clear: both;"></div>
 		
 		<div class="col-md-12 form-group">
 
@@ -266,50 +264,56 @@
 
 		</div>
 
-	   <div style="clear: both;"></div>
-      <div class="col-md-3 form-group">
-        <label>Contract price</label>
-        <input type="text" class="form-control" ng-model="form.contract_price" ng-blur="setmoneyformat()">
-      </div>
-      <div class="col-md-3 form-group">
-        <label>Net price</label>
-        <input type="text" class="form-control" ng-model="form.net_sell_price" id="input-net_sell_price" ng-blur="setmoneyformat()" ng-change="formChkContractUpChange()">
-      </div>
-      <div class="col-md-3 form-group">
-        <label>Selling price</label>
-        <input type="text" class="form-control" ng-model="form.sell_price" id="input-sellingprice" ng-blur="setmoneyformat()" disabled>
-      </div>
+    <div style="clear: both;"></div>
 
-      <div class="col-md-3 form-group">
-        <label>Price/sqm.</label>
-        <input type="text" class="form-control" value="{{ ((form.sell_price | num) / form.size) | money }}" disabled >
-      </div>
+    <div class="col-md-3 form-group">
+      <label>Contract price</label>
+      <input type="text" class="form-control" ng-model="form.contract_price" ng-blur="setmoneyformat()">
+    </div>
+    <div class="col-md-3 form-group">
+      <label>Net price</label>
+      <input type="text" class="form-control" ng-model="form.net_sell_price" id="input-net_sell_price" ng-blur="setmoneyformat()" ng-change="formChkContractUpChange()">
+    </div>
+    <div class="col-md-3 form-group">
+      <label>Selling price</label>
+      <input type="text" class="form-control" ng-model="form.sell_price" id="input-sellingprice" ng-blur="setmoneyformat()" disabled>
+    </div>
+    <div class="col-md-3 form-group">
+      <label>Price/sqm.</label>
+      <input type="text" class="form-control" value="{{ ((form.sell_price | num) / form.size) | money }}" disabled >
+    </div>
 
-      <div style="clear: both;"></div>
+    <div style="clear: both;"></div>
 
-      <div class="col-md-3 form-group">
-        <label>Rental price</label>
-        <input type="text" class="form-control" ng-model="form.rent_price" id="input-rentprice" ng-blur="setmoneyformat()" disabled>
+    <div class="col-md-3 form-group">
+      <label>Rental price</label>
+      <input type="text" class="form-control" ng-model="form.rent_price" id="input-rentprice" ng-blur="setmoneyformat()" disabled>
+    </div>
+    <div class="col-md-3 form-group" style="display:none;">
+      <label>Contract expire</label>
+      <div class="input-group">
+        <input class="form-control datepicker" datepicker ng-model="form.contract_expire" placeholder="-">
+        <div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
       </div>
+    </div>
+  
+  </fieldset>
 
-      <div class="col-md-3 form-group" style="display:none;">
-        <label>Contract expire</label>
-        <div class="input-group">
-          <input class="form-control datepicker" datepicker ng-model="form.contract_expire" placeholder="-">
-          <div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
-        </div>
+  <fieldset>
+
+    <div class="col-md-3 form-group">
+      <label>Rented expire</label>
+      <div class="input-group">
+        <input class="form-control datepicker" datepicker ng-model="form.rented_expire" id="input-rented_exp" placeholder="-">
+        <div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
       </div>
-      <div class="col-md-3 form-group">
-        <label>Rented expire</label>
-        <div class="input-group">
-          <input class="form-control datepicker" datepicker ng-model="form.rented_expire" id="input-rented_exp" placeholder="-">
-          <div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
-        </div>
-      </div>
-      <hr style="clear: both;
-    background-color: black;
-    height: 2px;
-    margin: 30px 10px;">
+    </div>
+    
+  </fieldset>
+
+  <fieldset ng-disabled="!editAllow">
+
+    <hr style="clear: both; background-color: black; height: 2px; margin: 30px 10px;">
 
       <div class="col-md-3 form-group">
         <label>key location</label>
