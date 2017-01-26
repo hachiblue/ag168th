@@ -415,7 +415,7 @@ MAILCONTENT;
         $set['updated_at'] = date('Y-m-d H:i:s');
 
         if(isset($set['contract_expire']) && trim($set['contract_expire']) == "") $set['contract_expire'] = null;
-      //  if(isset($set['contract_expire']) && trim($set['rented_expire']) == "") $set['rented_expire'] = null;
+        if(isset($set['contract_expire']) && trim($set['rented_expire']) == "") $set['rented_expire'] = null;
 
         if(isset($set['comment'])) {
           unset($set['comment']);
@@ -429,7 +429,8 @@ MAILCONTENT;
         {
           $set = [
             'updated_at'=> date('Y-m-d H:i:s'),
-            'property_status_id' => $set['property_status_id']
+            'property_status_id' => $set['property_status_id'],
+            'rented_expire' => $set['rented_expire']
           ];
         }
 
