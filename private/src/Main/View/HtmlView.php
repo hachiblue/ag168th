@@ -15,13 +15,19 @@ class HtmlView extends BaseView {
     public function import($view)
     {
         $params = $this->params;
+
+		extract($params);
+
         include($this->viewPath.$view.'.php');
     }
 
-    public function render()
-    {
-        $params = $this->params;
-        include($this->viewPath.$this->view.'.php');
-    }
+	public function render()
+	{
+		$params = $this->params;
+
+		extract($params);
+
+		include($this->viewPath.$this->view.'.php');
+	}
 
 }

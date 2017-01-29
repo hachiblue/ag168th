@@ -26,93 +26,123 @@ class HomeCTL extends BaseCTL {
 
     private $projects = [];
 
-    /**
-     * @GET
-     */
-    public function index ()
-    {
-      $params = $this->reqInfo->params();
-
-      // undermaintain
-      //return new HtmlView('/blackout', []);
-
-
-
-      $db = MedooFactory::getInstance();
-      $query = "SELECT * FROM property
-        WHERE web_status=1
-        AND (property_highlight_id IS NOT NULL AND property_highlight_id != 0)
-        ORDER BY RAND()
-        LIMIT 3";
-
-      $stmt = $db->pdo->prepare($query);
-      $stmt->execute();
-      $items = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-      $this->_buildItems($items);
-
+	/**
+	 * @GET
+	 */
+	public function index ()
+	{
+		$params = $this->reqInfo->params();
+		$db = MedooFactory::getInstance();
 		
-	  $query = "SELECT * FROM property
-        WHERE web_status=1
-        AND (feature_unit_id = 1)
-        ORDER BY RAND()
-        LIMIT 3";
+		$pItems = array('page' => 'home', 'act1' => 'act');
 
-      $stmt = $db->pdo->prepare($query);
-      $stmt->execute();
-      $items2 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-      $this->_buildItems($items2);
+		$query = "SELECT p.*, IF(p.sell_price=0, p.rent_price, p.sell_price) AS price
+					FROM
+					  property p
+					WHERE  p.web_status = 1 
+					  AND (
+						p.property_highlight_id IS NOT NULL 
+						AND p.property_highlight_id != 0
+					  ) 
+					ORDER BY RAND() 
+					LIMIT 6 ";
 
+		$stmt = $db->pdo->prepare($query);
+		$stmt->execute();
+		$items = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		$this->_buildItems($items);
 
-	  $query = "SELECT * FROM property
-        WHERE web_status=1
-        AND (feature_unit_id = 2)
-        ORDER BY RAND()
-        LIMIT 3";
-
-      $stmt = $db->pdo->prepare($query);
-      $stmt->execute();
-      $items3 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-      $this->_buildItems($items3);
+		$pItems['highlight'] = $items;
 
 
-	  $query = "SELECT * FROM property
-        WHERE web_status=1
-        AND (feature_unit_id = 3)
-        ORDER BY RAND()
-        LIMIT 3";
+		$feature_unit_id = array(
+			'Best Buy', 'Hot Price', 'Discount', 'New', 'HIGHLIGHT OF THE MONTH', 'AROUND XXX M.', 'A BEAUTY OF RIVER', 'IN THE MIDDLE OF EVERYWHERE'
+		);
+			
+		$pItems['feature_unit'] = array();
+		
+		unset($items);
 
-      $stmt = $db->pdo->prepare($query);
-      $stmt->execute();
-      $items4 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-      $this->_buildItems($items4);
+		foreach( $feature_unit_id as $i => $topic )
+		{
+			$query = "SELECT p.*, IF(p.sell_price=0, p.rent_price, p.sell_price) AS price FROM property p WHERE  p.web_status = 1 AND ( p.property_highlight_id IS NOT NULL AND p.feature_unit_id = '".$i."' ) ORDER BY RAND() LIMIT 6 ";
+
+			$stmt = $db->pdo->prepare($query);
+			$stmt->execute();
+			$items = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+			$this->_buildItems($items);
+
+			$pItems['feature_unit'][$topic] = $items;
+
+			unset($items);
+
+			if( $i == 3 ) break;
+		}
+
+		/*
+		$query = "SELECT p.*, v.name as province_name, j.name as project_name FROM property p, province v, project j
+		WHERE p.province_id = v.id AND p.project_id = j.id AND p.web_status=1
+		AND p.feature_unit_id = 1
+		ORDER BY RAND()
+		LIMIT 6";
+
+		$stmt = $db->pdo->prepare($query);
+		$stmt->execute();
+		$items2 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		$this->_buildItems($items2);
 
 
-	  $query = "SELECT * FROM property
-        WHERE web_status=1
-        AND (feature_unit_id = 4)
-        ORDER BY RAND()
-        LIMIT 3";
+		$query = "SELECT p.*, v.name as province_name, j.name as project_name FROM property p, province v, project j
+		WHERE p.province_id = v.id AND p.project_id = j.id AND p.web_status=1
+		AND p.feature_unit_id = 2
+		ORDER BY RAND()
+		LIMIT 6";
 
-      $stmt = $db->pdo->prepare($query);
-      $stmt->execute();
-      $items5 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-      $this->_buildItems($items5);
+		$stmt = $db->pdo->prepare($query);
+		$stmt->execute();
+		$items3 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		$this->_buildItems($items3);
 
 
-      $slide_1 = ApiLayout::_get("slide_1");
-      $slide_1 = json_decode($slide_1);
+		$query = "SELECT p.*, v.name as province_name, j.name as project_name FROM property p, province v, project j
+		WHERE p.province_id = v.id AND p.project_id = j.id AND p.web_status=1
+		AND p.feature_unit_id = 3
+		ORDER BY RAND()
+		LIMIT 6";
 
-      return new HtmlView('/home', ['highlight'=> $items, 'bestbuy' => $items2, 'hotrental' => $items3, 'withtenant' => $items4, 'newcoming' => $items5, 'slide_1'=> $slide_1]);
-    }
+		$stmt = $db->pdo->prepare($query);
+		$stmt->execute();
+		$items4 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		$this->_buildItems($items4);
+
+
+		$query = "SELECT p.*, v.name as province_name, j.name as project_name FROM property p, province v, project j
+		WHERE p.province_id = v.id AND p.project_id = j.id AND p.web_status=1
+		AND p.feature_unit_id = 4
+		ORDER BY RAND()
+		LIMIT 6";
+
+		$stmt = $db->pdo->prepare($query);
+		$stmt->execute();
+		$items5 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		$this->_buildItems($items5);*/
+
+
+		//$slide_1 = ApiLayout::_get("slide_1");
+		//$slide_1 = json_decode($slide_1);
+
+		return new HtmlView('/template/layout', $pItems);
+	}
 
     public function _buildItems(&$items)
     {
-      foreach($items as &$item) {
-        $item['project'] = $this->getProject($item['project_id']);
-        $this->_buildThumb($item);
-        $this->_buildSizeUnit($item);
-        $this->_buildRequirement($item);
-      }
+		foreach($items as &$item) 
+		{
+			$item['project'] = $this->getProject($item['project_id']);
+			$this->_buildThumb($item);
+			$this->_buildSizeUnit($item);
+			$this->_buildRequirement($item);
+		}
     }
 
     public function _buildThumb(&$item)
@@ -123,25 +153,27 @@ class HomeCTL extends BaseCTL {
 		if(!$pic)
 		{
 			$pic = [];
-			$path = 'private/src/Main/ThirdParty/uploads/'.$item['project']['image_path'];
-			if(is_file($path)) 
+			//$path = 'private/src/Main/ThirdParty/uploads/'.$item['project']['image_path'];
+			$path = '/public/project_pic/'.$item['project']['image_path'];
+			//if(is_file($path)) 
+			if( $this->is_file_exists( $path ) ) 
 			{
 				$pic['url'] = URL::absolute("/".$path);
 			}
 			else 
 			{
-				$pic['url'] = URL::absolute("/public/images/default-project.png");
+				$pic['url'] = URL::absolute("/public/assets/default-project.jpg");
 			}
 		}
 		else 
 		{
-			if(is_file("/public/prop_pic/".$pic['name'])) 
+			if( $this->is_file_exists( "public/prop_pic/".$pic['name'] ) ) 
 			{
 				$pic['url'] = URL::absolute("/public/prop_pic/".$pic['name']);
 			}
 			else 
 			{
-				$pic['url'] = URL::absolute("/public/images/default-project.png");
+				$pic['url'] = URL::absolute("/public/assets/default-project.jpg");
 			}
 		}
 
@@ -150,26 +182,35 @@ class HomeCTL extends BaseCTL {
 
     public function _buildSizeUnit(&$item)
     {
-      $db = MedooFactory::getInstance();
-      $item['size_unit'] = $db->get("size_unit", "*", ["id"=> $item['size_unit_id']]);
+		$db = MedooFactory::getInstance();
+		$item['size_unit'] = $db->get("size_unit", "*", ["id"=> $item['size_unit_id']]);
     }
 
     public function _buildRequirement(&$item)
     {
-      $db = MedooFactory::getInstance();
-      $item['requirement'] = $db->get("requirement", "*", ["id"=> $item['requirement_id']]);
+		$db = MedooFactory::getInstance();
+		$item['requirement'] = $db->get("requirement", "*", ["id"=> $item['requirement_id']]);
     }
 
     public function getProject($id)
     {
-      foreach($this->projects as $item) {
-        if($item['id'] == $id) return $item;
-      }
+		foreach($this->projects as $item) 
+		{
+			if($item['id'] == $id) return $item;
+		}
 
-      $db = MedooFactory::getInstance();
-      $project = $db->get("project", "*", ["id"=> $id]);
-      if($project) $this->projects[] = $project;
+		$db = MedooFactory::getInstance();
+		$project = $db->get("project", "*", ["id"=> $id]);
+		if($project) $this->projects[] = $project;
 
-      return $project;
+		return $project;
     }
+
+	function is_file_exists($filePath)
+	{ 
+		$root = realpath($_SERVER["DOCUMENT_ROOT"]) . '/';
+
+		return is_file($root.$filePath) && file_exists($root.$filePath);
+	}
+
 }

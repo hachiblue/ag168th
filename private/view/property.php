@@ -1,402 +1,526 @@
-<?php $this->import("/layout/headProperty"); ?>
 
-<!-- Important stylesheet -->
-<link rel="stylesheet" href="<?php echo \Main\Helper\URL::absolute("");?>/public/css/owl.carousel.css">
-<link rel="stylesheet" href="<?php echo \Main\Helper\URL::absolute("");?>/public/css/owl.theme.css">
+<?php $this->import('/template/top-navbar'); ?>
 
-<!-- Include js plugin -->
-<script src="<?php echo \Main\Helper\URL::absolute("");?>/public/js/custom.js"></script>
-<script src="<?php echo \Main\Helper\URL::absolute("");?>/public/js/owl.carousel.min.js"></script>
+<section id="propContainer" class="a_container">
 
-<!-- script slide -->
-<script>
-$(document).ready(function() {
+<div class="container">
 
-  $("#owl-demo").owlCarousel({
+	<div id="searchArea" class="collapse search_bar pds  pos_relative no_padd">
+	
+		<div class="col-md-12 no_padd">
+			<form action="/list" class="search_prod_form form-inline">
 
-      navigation : false, // Show next and prev buttons
-      slideSpeed : 300,
-      paginationSpeed : 400,
-      singleItem:true,
-	  autoPlay : 3000,
+				<div class="form-group col-xs-12 col-sm-12 col-md-3 padd_form">
+					<div class="inp_contain shc">
+						<span class="icon"></span>
+						<input type="search" name="searchBy" id="auto-searchby" class="form-control search-prod opabx" autocomplete="off" placeholder="Search for ..." value="<?=(isset($_GET["searchBy"]))? $_GET["searchBy"] : '';?>">
+						<input type="hidden" name="project_id" value="<?=(isset($_GET["project_id"]))? $_GET["project_id"] : '';?>">
+					</div>	
+				</div>
+				
+				<div class="col-md-4 no_padd">
 
-      // "singleItem:true" is a shortcut for:
-      // items : 1,
-      // itemsDesktop : false,
-      // itemsDesktopSmall : false,
-      // itemsTablet: false,
-      // itemsMobile : false
+					<div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
+						<div class="inp_contain">
+							<div class="btn-group search-prod">
+								<?php
+								$req = array( '1' => 'For Buy', '2' => 'For Rent' );
+								?>
+								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+									<span data-bind="label" id="searchLabel" class="dsp_drop_txt"><?=(isset($_GET["requirement_id"]) && !empty($_GET["requirement_id"]))? $req[$_GET["requirement_id"]]: 'Sell/Rent';?></span>  
+									<span class="caret"></span>
+								</button>
+								<input type="hidden" id="requirement_id" name="requirement_id" value="<?=(isset($_GET["requirement_id"]))?$_GET["requirement_id"]:1;?>" class="btn_value">
+								<ul class="dropdown-menu" role="menu">
+									<li><a value="1">For Buy</a></li>
+									<li><a value="2">For Rent</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+			
+					<div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
+						<div class="inp_contain">
+							<div class="btn-group search-prod">
+								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+									<span data-bind="label" id="btn_beds" class="dsp_drop_txt"><?=(isset($_GET["bedrooms"]) && !empty($_GET["bedrooms"]))? $_GET["bedrooms"] : 'All Beds';?></span>
+									<span class="caret"></span>
+								</button>
+								<input type="hidden" id="bedrooms" name="bedrooms" value="<?=(isset($_GET["bedrooms"]))? $_GET["bedrooms"] : '';?>" class="btn_value">
+								<ul class="dropdown-menu" role="menu">
+									<li><a name="bedrooms" value="1">1</a></li>
+									<li><a name="bedrooms" value="2">2</a></li>
+									<li><a name="bedrooms" value="3">3</a></li>
+									<li><a name="bedrooms" value="4+">4+</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
 
-  });
-});
-</script>
+					<div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
+						<div class="inp_contain">
+							<div class="btn-group search-prod">
+								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+									<span data-bind="label" id="searchLabel" class="dsp_drop_txt"><?=(isset($_GET["bathrooms"]) && !empty($_GET["bathrooms"]))? $_GET["bathrooms"] : 'All Baths';?></span>  
+									<span class="caret"></span>
+								</button>
+								<input type="hidden" id="bathrooms" name="bathrooms" value="<?=(isset($_GET["bathrooms"]))? $_GET["bathrooms"] : '';?>" class="btn_value">
+								<ul class="dropdown-menu" role="menu">
+									<li><a name="bathrooms" value="1">1</a></li>
+									<li><a name="bathrooms" value="2">2</a></li>
+									<li><a name="bathrooms" value="3">3</a></li>
+									<li><a name="bathrooms" value="4+">4+</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
 
-<style>
-	.property{
-		padding:40px 0;
-    background: #eeeeee;
-	}
-  .property > .container {
-    background: white;
-    -moz-box-shadow: 0 0 5px #888;
-    -webkit-box-shadow: 0 0 5px#888;
-    box-shadow: 0 0 5px #888;
-	}
-	.property-slide .item img{
-		width:100%;
-	}
-	.property-slide .owl-theme .owl-controls {
-    margin-top: -30px;
-	}
-	.remarkimg{
-		margin:10px 0;
-	}
-	.property-slide h3{
-	    color: #555555;
-	}
-	.property-slide h3 span{
-		margin-right:15px;
-	}
-	.overview h3,
-	.property-box h3{
-		color: #555555;
-		border-bottom: 2px solid #DDDDDD;
-		padding-bottom:10px;
-	}
-	.property_options .bottom-border {
-    	border-bottom: 1px solid #DDDDDD;
-    	padding: 5px 5px;
-		margin-bottom:5px;
-	}
-	.property_options .bottom-border span{
-    	float: right;
-	}
-	.property_options .bottom-border p{
-		margin-bottom:5px;
-	}
-	.property_options .bottom-border span.label{
-		padding:5px 15px;
-	}
-	.bottom-border strong{
-		margin: 0 10px 10px 0;
-	}
-	.red{color:red;}
-	.property_options .bottom-border p a{ text-decoration:none;}
-	.amenities {
-		margin-bottom:20px;
-		float:left;
-		width:100%;
-	}
-	.amenities ul{
-		list-style:none;
-		display: block;
-		padding:0;
-	}
-	.amenities ul li{
-		margin-right:15px;
-		float:left;
-		width:180px;
-		text-align:left;
-	}
-	.amenities ul li span{
-		margin-right:5px;
-	}
-	.box-right {
-		background-color: gainsboro;
-		color: #000;
-		padding: 20px;
-		font-size: 16px;
-		margin: 10px 0 40px 0;
-		border: 1px solid whitesmoke;
-	}
-	p.head-form {
-		text-align: center;
-		font-size: 17px;
-		margin: 0 0 10px 0;
-	}
-	.cf:before, .cf:after {
-		content: " ";
-		display: table;
-	}
-	.item-form p {
-		margin: 10px 0;
-		font-size: 13px;
-	}
-	.item-form>p:after {
-		content: '*';
-		font-size: 10px;
-		color: red;
-		top: -5px;
-		left: 2px;
-		position: relative;
-	}
-	.item-form>div>input[type=radio] {
-		margin-right: 12px;
-		padding-top: 3px;
-	}
-	.item-form>div {
-		width: 100%;
-		height: 30px;
-		font-size: 13px;
-	}
-	.item-form div input[type=text] {
-		width: 100%;
-		height: 28px;
-		font-size: 18px;
-		color: #000;
-		padding: 0 0 0 10px;
-		border: 1px solid whitesmoke;
-	}
-	.btn-search {
-		width: 190px;
-		height: 30px;
-		display: block;
-		margin: 20px auto 0 auto;
-		color: #fff;
-		background-color: #1957a4;
-		border: 1px solid #1957a4;
-		text-align: center;
-		line-height: 30px;
-		text-decoration: none;
-	}
-</style>
+				</div>
+			
+				<div class="col-md-4 no_padd">
+					
+					<div class="form-group col-xs-6 col-sm-6 col-md-7 padd_form">
+						<div class="inp_contain">
+							<div class="btn-group search-prod dropdown keep-open">
+								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+									<span data-bind="label" id="price-range-dsp">All Price</span>  
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu multi-column columns-2x right_column">
+									<div id="row-pricemn">
+										<div class="col-md-6 drop-input_length pdr5">
+											<input type="text" id="price-min" name="price-range-min" class="form-control" placeholder="No Min">
+										</div>	
+										<div class="col-md-6 drop-input_length pdl5">
+											<input type="text" id="price-max" name="price-range-max" class="form-control" placeholder="No Max">
+										</div>	
+										<div class="row price-list">
+											<div class="col-xs-6 col-sm-6 lft">
+												<ul id="list-price-min" class="multi-column-dropdown price-selector">
+													<li data-price="1000000">฿ 1,000,000</li>
+													<li data-price="2000000">฿ 2,000,000</li>
+													<li data-price="3000000">฿ 3,000,000</li>
+													<li data-price="4000000">฿ 4,000,000</li>
+												</ul>
+											</div>
+											<div class="col-xs-6 col-sm-6 rit">
+												<ul id="list-price-max" class="multi-column-dropdown price-selector">
+													<li data-price="1000000">฿ 1,000,000</li>
+													<li data-price="2000000">฿ 2,000,000</li>
+													<li data-price="3000000">฿ 3,000,000</li>
+													<li data-price="4000000">฿ 4,000,000</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
 
-<div class="corner-ribbon top-right sticky orange">system maintenance</div>
+					<div class="form-group col-xs-6 col-sm-6 col-md-5 padd_form">
+						<div class="inp_contain">
+							<div class="btn-group search-prod dropdown keep-open">
+								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+									<span data-bind="label" id="searchLabel">More Filters</span>  
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu multi-column columns-2">
+									<div class="col-xs-12 drop-title">Facilities</div>	
+									<div class="row row-facility">
+										<div class="col-sm-6">
+											<ul class="multi-column-dropdown">
+												<li>
+													<div class="checkbox">
+														<input id="chk-swimming_pool" name="swimming_pool" type="checkbox">
+														<label for="chk-swimming_pool">
+															<span class="chk-list">&nbsp;Swimming Pool</span>
+														</label>
+													</div>
+												</li>
+												<li>
+													<div class="checkbox">
+														<input id="chk-garden" name="garden" type="checkbox">
+														<label for="chk-garden">
+															<span class="chk-list">&nbsp;Garden</span>
+														</label>
+													</div>
+												</li>
+												<li>
+													<div class="checkbox">
+														<input id="chk-suana" name="suana" type="checkbox">
+														<label for="chk-suana">
+															<span class="chk-list">&nbsp;Suana</span>
+														</label>
+													</div>
+												</li>
+												<li>
+													<div class="checkbox">
+														<input id="chk-gym" name="gym" type="checkbox">
+														<label for="chk-gym">
+															<span class="chk-list">&nbsp;Fitness</span>
+														</label>
+													</div>
+												</li>
+												<li>
+													<div class="checkbox">
+														<input id="chk-private_parking" name="private_parking" type="checkbox">
+														<label for="chk-private_parking">
+															<span class="chk-list">&nbsp;Parking Lot</span>
+														</label>
+													</div>
+												</li>
+												<li>
+													<div class="checkbox">
+														<input id="chk-laundry_service" name="laundry_service" type="checkbox">
+														<label for="chk-laundry_service">
+															<span class="chk-list">&nbsp;Laundry</span>
+														</label>
+													</div>
+												</li>
+											</ul>
+										</div>
+										<div class="col-sm-6">
+											<ul class="multi-column-dropdown">
+												<li>
+													<div class="checkbox">
+														<input id="chk-library" name="library" type="checkbox">
+														<label for="chk-library">
+															<span class="chk-list">&nbsp;Library</span>
+														</label>
+													</div>
+												</li>
+												<li>
+													<div class="checkbox">
+														<input id="chk-conf" name="meeting_room" type="checkbox">
+														<label for="chk-conf">
+															<span class="chk-list">&nbsp;Conference room</span>
+														</label>
+													</div>
+												</li>
+												<li>
+													<div class="checkbox">
+														<input id="chk-kid" name="kid_club" type="checkbox">
+														<label for="chk-kid">
+															<span class="chk-list">&nbsp;Kid's club</span>
+														</label>
+													</div>
+												</li>
+												<li>
+													<div class="checkbox">
+														<input id="chk-pet" name="pet" type="checkbox">
+														<label for="chk-pet">
+															<span class="chk-list">&nbsp;Pet friendly</span>
+														</label>
+													</div>
+												</li>
+												<li>
+													<div class="checkbox">
+														<input id="chk-golf" name="golf" type="checkbox">
+														<label for="chk-golf">
+															<span class="chk-list">&nbsp;Golf</span>
+														</label>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
 
-<div class="hidden">
-  <?php print_r($params["item"]);?>
-</div>
-	<div class="property">
-		<div class="container">
-        	<div class="col-md-9">
-        		<div class="property-slide">
-                	<h3><span class="glyphicon glyphicon-home"></span>
-                    <?php echo $params["item"]['property_type']['name'];?>
-                    <?php echo $params["item"]['requirement']['name'];?>
-                    <?php echo $params["item"]['project']['name'];?>
-                    <?php echo $params["item"]['road'];?>
-                    Bangkok
-                  </h3>
-          			<div id="owl-demo" class="owl-carousel owl-theme">
-                  <?php
-                  $imgs = count($params["item"]["images"]) > 0? $params["item"]["images"]: $params["item"]['project']["images"];
-                  if(count($imgs) == 0)
-                    $imgs = [$params["item"]["picture"]];
-                  ?>
-                  <?php foreach($imgs as $img) {?>
-                  <div class="item"><img src="<?php echo $img["url"];?>" alt=""></div>
-                  <?php }?>
-                	</div>
-					<p class="remarkimg">
-                    * ภาพที่แสดงอาจไม่เหมือนสภาพจริง และห้อง/ บ้านที่จำหน่าย ไม่รวมการตกแต่งใดๆ ทั้งสิ้น ทั้งนี้เป็นไปตามเงื่อนไขบริษัทฯ</p>
-				</div><!--content-->
-           </div>
+				</div>
+			
+				<div class="col-xs-12 col-sm-12 col-md-1 no_padd">
+					<div class="inp_contain">
+						<button type="submit" class="btn btn-grn">Search</button>
+					</div>
+				</div>
 
-           <div class="col-md-3">
-           		<div class="overview">
-                	<h3>Overview</h3>
-                    <div class="property_options">
-                    	<div class="bottom-border"><p><strong>ชื่อโครงการ</strong>
-                        <?php echo $params["item"]['property_type']['name'];?>
-                        <?php echo $params["item"]['requirement']['name'];?>
-                        <?php echo $params["item"]['project']['name'];?>
-                        <?php echo $params["item"]['road'];?>
-                        Bangkok</p>
-                      </div>
-                      <div class="bottom-border"><p><strong>Purpose :</strong><span class="label btn-danger"><?php echo $params["item"]["requirement"]["name"];?></span></p></div>
-                      <div class="bottom-border"><p><strong>ประเภทอสังหาฯ :</strong><span><a href=""><?php echo $params["item"]["property_type"]["name_th"];?></a></span></p></div>
-                      <div class="bottom-border"><p><strong>รหัสอสังหาฯ : </strong><span> <?php echo $params["item"]["reference_id"];?></span></p></div>
-		                   <div class="bottom-border"><p><strong>ราคาขาย : </strong><span class="red"><?php echo number_format($params["item"]["sell_price"]);?> บาท </span></p></div>
- 		                   <div class="bottom-border"><p><strong>ราคาเช่า : </strong><span class="red"><?php echo number_format($params["item"]["rent_price"]);?> บาท </span></p></div>
-                      <div class="bottom-border"><p><strong>ทำเล :</strong><a><?php echo @$params["item"]["zone"]["name"];?></a></p></div>
-                    	<div class="bottom-border"><p><strong>ขนาด :</strong><span> <?php echo $params["item"]["size"];?> ตร.ว.</span></p></div>
-                    	<div class="bottom-border"><p><strong>Bathrooms:</strong><span> <?php echo $params["item"]["bathrooms"];?> </span></p></div>
-                   		<div class="bottom-border"><p><strong>Bedrooms:</strong><span> <?php echo $params["item"]["bedrooms"];?> </span></p></div>
-                    	<div class="bottom-border"><p><strong>Floor:</strong><span> <?php echo $params["item"]["floors"];?> </span></p></div>
-                  	</div>
-            	</div>
-           </div>
+			</form>
+		</div>
+		
+		<div class="clearfix"></div>
+	</div>
 
+	<div class="mgt40 hidden-xs hidden-sm">
+		<ol class="breadcrumb pd0">
+			<li><a href="/home">Home</a></li>
+			<li><a href="/list"><?php echo ((isset($item["requirement_id"]) && $item["requirement_id"] == 1) ? 'Buy' : 'Rent');?></a></li>
+			<li class="active"><?=$item['project']['name'];?></li>
+		</ol>
+	</div>
 
-     		<div class="col-md-9">
-        		<div class="property-box">
-                	<!-- <div class="descrip">
-           				     <h3>Description</h3>
-                    	<p>......................</p>
-                  </div> -->
+	<div class="row">
+		
+		<div class="pp-top col-md-8">
+			<?php
+			$price = 'N/A';
+			$req = isset($item["requirement_id"]) ? $item["requirement_id"] : '';
+			if( $item["sell_price"] > 0 && $req == 1 )
+			{
+				$price = number_format($item["sell_price"]);
+			}
+			elseif( $item["rent_price"] > 0 && $req == 2 )
+			{	
+				$price = number_format($item["rent_price"]);
+			}
+			elseif( $req == '' )
+			{	
+				$price = isset($item["sell_price"]) ? number_format($item["sell_price"]) : 'N/A';
+			}
 
-                    <div class="amenities">
-                    	<h3>Indoor amenities</h3>
-                        <ul>
-                      		<?php if(@$params['item']['project']['has_onsen']){?><li><span class="glyphicon glyphicon-ok"></span>Onsen</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_bowling']){?><li><span class="glyphicon glyphicon-ok"></span>Bowling</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_pool_room']){?><li><span class="glyphicon glyphicon-ok"></span>Pool Room</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_game_room']){?><li><span class="glyphicon glyphicon-ok"></span>Game Room</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_meeting_room']){?><li><span class="glyphicon glyphicon-ok"></span>Meeting Room</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_private_butler']){?><li><span class="glyphicon glyphicon-ok"></span>Private Butler</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_minimart_supermarket']){?><li><span class="glyphicon glyphicon-ok"></span>Minimart Supermarket</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_restaurant']){?><li><span class="glyphicon glyphicon-ok"></span>Restaurant</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_laundry_service']){?><li><span class="glyphicon glyphicon-ok"></span>Laundry Servic</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_bathtub_inside_unit']){?><li><span class="glyphicon glyphicon-ok"></span>Bathtub Inside Unit</li><?php }?>
-                        </ul>
-                    </div>
-                    <div class="amenities">
-                    	<h3>Outdoor amenities</h3>
-                        <ul>
-                      		<?php if(@$params['item']['project']['has_swimming_pool']){?><li><span class="glyphicon glyphicon-ok"></span>Swimming Pool</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_gym']){?><li><span class="glyphicon glyphicon-ok"></span>Gym</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_garden']){?><li><span class="glyphicon glyphicon-ok"></span>Garden</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_futsal']){?><li><span class="glyphicon glyphicon-ok"></span>Futsal</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_badminton']){?><li><span class="glyphicon glyphicon-ok"></span>Badminton</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_basketball']){?><li><span class="glyphicon glyphicon-ok"></span>Basketball</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_tennis']){?><li><span class="glyphicon glyphicon-ok"></span>Tennis</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_playground']){?><li><span class="glyphicon glyphicon-ok"></span>Playground</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_shuttle_bus']){?><li><span class="glyphicon glyphicon-ok"></span>Shuttle Bus</li><?php }?>
-                      		<?php if(@$params['item']['project']['has_private_parking']){?><li><span class="glyphicon glyphicon-ok"></span>Private Parking</li><?php }?>
-                        </ul>
-                    </div>
-        		</div>
-     		</div>
-
-            <div class="col-md-3">
-            	<div class="box-right">
-    			<form id="frmQuickSendEnquiry">
-                    <p class="head-form">กรอกข้อมูลเพื่อเยี่ยมชมยูนิตนี้</p>
-                    <div class="item-form cf">
-                    <p>ฉันต้องการ</p>
-                        <div>
-                        <input type="radio" name="requirement" value="Buy" checked=""><span>ซื้อ</span>
-                        <input type="radio" name="requirement" value="Rent"><span>เช่า</span>
-                        <input type="radio" name="requirement" value="Buy/Rent"><span>ซื้อ / เช่า</span>
-                        </div>
-                    </div>
-                    <div class="item-form cf">
-                        <p>ชื่อ</p>
-                        <div><input name="first_name" type="text"></div>
-                    </div>
-                    <div class="item-form cf">
-                        <p>นามสกุล</p>
-                        <div><input name="last_name" type="text"></div>
-                    </div>
-                    <div class="item-form cf">
-                        <p>มือถือ</p>
-                        <div><input name="phone" type="text" class="number-only"></div>
-                    </div>
-                    <div class="item-form cf">
-                        <p>อีเมล</p>
-                        <div><input name="email" type="text"></div>
-                    </div>
-                    <div class="box-btn-toggle">
-                        <button type="submit" style="display:none;" class="btn-search transit btnSubmit">Send</button>
-                        <button class="btn-search transit btnSubmit">SEND</button>
-                    </div>
-                    <input type="hidden" name="reference_id" value="<?php echo $params['item']['reference_id'];?>">
-                    <input type="hidden" name="id" value="<?php echo $params['item']['id'];?>">
-     			</form>
-				<div id="message-success" style="display:none; text-align:center; line-height:30px;">Success send form</div>
-    		</div>
-
-            </div>
-     	</div>
-     </div>
-
-
-        <!-- Project Details -->
-		<!--<div class="box-text-main">
-			<p class="title-text">ข้อมูลอสังหาฯ</p>
-			<div class="text cf">
-        <p><span>ประเภทอสังหาฯ</span> :
-          <a href="" target="_blank">
-            <?php echo $params['item']['property_type']['name_th'];?>
-          </a>
-        </p>
-        <?php if($params['item']['property_type_id']==1){?>
-        <p><span>ชื่อโครงการ</span> : <?php echo $params['item']['project']['name'];?></p>
-        <?php }?>
-				<p><span>รหัสอสังหาฯ</span> : <?php echo $params['item']['reference_id'];?></p>
-				<p><span>ขนาด</span> : <?php echo $params['item']['size'];?> ตร.ว.</p>
-				<p><span>ห้องนอน</span> : <?php echo $params['item']['bedrooms'];?></p>
-				<p><span>ห้องน้ำ</span> : <?php echo $params['item']['bathrooms'];?></p>
+			$req_txt = strtoupper($item['requirement']['name']);
+			?>
+			<div class="hidden-xs hidden-sm">
+				<div class="heading">Room <?=$item['address_no'];?>, <?=$item['project']['name'];?> </div>
+				<div class="sub-heading mgt3"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/pin_icon.png")?>" alt=""> <?=$item['sub_district']['name'];?>, <?=$item['province']['name'];?></div>
 			</div>
-			<p class="bor"><span>ทำเล</span> : <a href="" target="_blank"><?php echo $params['item']['zone']['name'];?></a></p>
-			<p class="title-text">สิ่งอำนวยความสะดวก</p>
-			<div class="text2 cf">
-    		<?php if(@$params['item']['project']['has_swimming_pool']){?><p>Swimming Pool</p><?php }?>
-    		<?php if(@$params['item']['project']['has_onsen']){?><p>Onsen</p><?php }?>
-    		<?php if(@$params['item']['project']['has_gym']){?><p>Gym</p><?php }?>
-    		<?php if(@$params['item']['project']['has_garden']){?><p>Garden</p><?php }?>
-    		<?php if(@$params['item']['project']['has_futsal']){?><p>Futsal</p><?php }?>
-    		<?php if(@$params['item']['project']['has_badminton']){?><p>Badminton</p><?php }?>
-    		<?php if(@$params['item']['project']['has_basketball']){?><p>Basketball</p><?php }?>
-    		<?php if(@$params['item']['project']['has_tennis']){?><p>Tennis</p><?php }?>
-    		<?php if(@$params['item']['project']['has_bowling']){?><p>Bowling</p><?php }?>
-    		<?php if(@$params['item']['project']['has_pool_room']){?><p>Pool Room</p><?php }?>
-    		<?php if(@$params['item']['project']['has_game_room']){?><p>Game Room</p><?php }?>
-    		<?php if(@$params['item']['project']['has_playground']){?><p>Playground</p><?php }?>
-    		<?php if(@$params['item']['project']['has_meeting_room']){?><p>Meeting Room</p><?php }?>
-    		<?php if(@$params['item']['project']['has_private_butler']){?><p>Private Butler</p><?php }?>
-    		<?php if(@$params['item']['project']['has_shuttle_bus']){?><p>Shuttle Bus</p><?php }?>
-    		<?php if(@$params['item']['project']['has_minimart_supermarket']){?><p>Minimart Supermarket</p><?php }?>
-    		<?php if(@$params['item']['project']['has_restaurant']){?><p>Restaurant</p><?php }?>
-    		<?php if(@$params['item']['project']['has_laundry_service']){?><p>Laundry Servic</p><?php }?>
-    		<?php if(@$params['item']['project']['has_private_parking']){?><p>Private Parking</p><?php }?>
-    		<?php if(@$params['item']['project']['has_bathtub_inside_unit']){?><p>Bathtub Inside Unit</p><?php }?>
-     	</div>-->
 
-<script>
-  $(function(){
-    var form = $('#frmQuickSendEnquiry');
-    var messageSuccess = $('#message-success');
-    form.submit(function(e){
-      e.preventDefault();
+			<div class="pic_map mgt20">
+				<div class="gall" style="background: #fff url(<?=$item['picture']['url'];?>) no-repeat center;background-size:cover;">
+					<div class="pp-map-butt hidden-md hidden-lg"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/map_butt.png")?>" alt=""></div>
+					<div class="pp-bar hidden-md hidden-lg">
+						<div class="pp-price">
+							<div class="price"><span class="font-green">฿</span> <?=$price;?></div>
+							<div class="tag"><?=$req_txt;?></div>
+						</div>
+						<div class="pp-fact text-center">
+							<div class="col-xs-3 col-md-3 pp-bed no_padd no_margin"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/bed_icon_act.png")?>" alt=""><span><b><?=$item['bedrooms'];?></b> Bed</span></div>
+							<div class="col-xs-3 col-md-3 pp-bath no_padd"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/bath_icon_act.png")?>" alt="" class="img-sp"><span><b><?=$item['bathrooms'];?></b> Bath</span></div>
+							<div class="col-xs-2 col-md-3 pp-floor no_padd"><b><?=$item['floors'];?></b> fl.</div>
+							<div class="col-xs-3 col-md-3 pp-size no_padd"><b><?=$item['size'];?></b> Sq.M.</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+				<div class="mapp" style="display:none;"></div>
+				<div class="pp-gview hidden-xs hidden-sm">
+					<div class="pp-tab rht col-md-6 text-center active">
+						<i class="fa fa-picture-o" aria-hidden="true"></i> Photos
+					</div>
+					<div class="pp-tab col-md-6 text-center">
+						<i class="fa fa-map-marker" aria-hidden="true"></i> Map
+					</div>
+				</div>
+			</div>
 
-      var data = form.serialize();
-      form.find(':input').prop("disabled", true);
+			<div class="pp-tabopt col-md-12 hidden-md hidden-lg text-center">
+					<div class="left fst col-xs-6 add_to_fav"><div class="ico opt-fav"></div>Add to Favorite</div>
+					<div class="right col-xs-6 add_to_compare"><div class="ico opt-plus"></div>Compare</div>
+					<div class="clearfix"></div>
+			</div>
+			
+			<div class="colrl-15  hidden-md hidden-lg">
+				<div class="heading-m mgt15">
+					Room <?=$item['address_no'];?>, <?=$item['project']['name'];?>
+				</div>
+				<div class="sub-pjheading-m mgt10">
+					<div class="col-xs-7 no_padd bd-right">
+						<img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/pin_icon.png")?>" alt=""> <?=$item['sub_district']['name'];?>, <?=$item['province']['name'];?>
+					</div>
+					<div class="col-xs-4 no_padd mgl10">Ref Code: <?=$item['reference_id'];?></div>
+				</div>
 
-      $.ajax("", {
-        type: "post",
-        dataType: "json",
-        data: data,
-        success: function(data){
-          messageSuccess.show();
-          form.hide();
-        },
-        error: function(){
-          form.find(':input').prop("disabled", false);
-        }
-      });
-    });
-  });
-</script>
-<script type="text/javascript">
-$(document).ready(function(){
-    $("#slideshow_thumbs .thumbs").each(function(e) {
-        if (e >= 4)
-            $(this).hide();
-    });
+				<div class="clearfix"></div>
+			</div>
 
-    $("#thumbs_block .next").click(function(){
-        if ($("#slideshow_thumbs .thumbs:visible:last").next().length != 0)
-            $("#slideshow_thumbs .thumbs:visible:last").nextAll(":lt(4)").show().prevAll(":lt(4)").hide();
-        else {
-            $("#slideshow_thumbs .thumbs:visible").hide();
-            $("#slideshow_thumbs .thumbs:lt(4)").show();
-        }
-        return false;
-    });
+			<div class="pp-detail mgt25">
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates error illo ab tenetur rem dignissimos tempore necessitatibus modi aperiam officiis cumque deleniti neque placeat nisi dolorum saepe ipsa suscipit tempora maxime id. Amet dolorum illo impedit qui velit in neque dolores et officia repellendus atque consequuntur perferendis accusantium ipsa eos fugit error quidem odit nisi iste aspernatur perspiciatis sit quasi. Excepturi aut similique nam sint doloremque aliquam minus deserunt in repudiandae nulla voluptatibus accusamus vel tempore officiis labore dignissimos doloribus. Corporis quasi doloremque voluptatibus molestiae. Necessitatibus optio quam error cupiditate tenetur dolorum laudantium possimus quos itaque soluta illum ducimus beatae.			
+				</p>
+			</div>
 
-    $("#thumbs_block .prev").click(function(){
-        if ($("#slideshow_thumbs .thumbs:visible:first").prev().length != 0)
-            $("#slideshow_thumbs .thumbs:visible:first").prevAll(":lt(4)").show().first().nextAll(":lt(4)").hide();
-        else {
-            $("#slideshow_thumbs .thumbs:visible").hide();
-            var mod = $("#slideshow_thumbs").length%4;
-            if(mod==0) mod = 4;
-            mod++;
-            $("#slideshow_thumbs .thumbs:gt(-"+mod+")").show();
-        }
-        return false;
-    });
-});
-</script>
-<?php $this->import("/layout/footer"); ?>
+			<div class="pp-facilities mgt25">
+
+				<div class="heading2">Facilities</div>
+
+				<div class="hidden-xs hidden-sm">
+					<div class="pp-faci-list col-md-4 mgt10 no_padd">
+						<ul>
+							<li class="ico_swim">Swimming Pool</li>
+							<li class="ico_garden">Garden</li>
+							<li class="ico_sauna">Sauna</li>
+							<li class="ico_fitness">Fitness</li>
+						</ul>
+					</div>
+					<div class="pp-faci-list col-md-4 mgt10 no_padd">
+						<ul>
+							<li class="ico_parking">Parking Lot</li>
+							<li class="ico_laundry">Laundry</li>
+							<li class="ico_lib">Library</li>
+							<li class="ico_conroom">Conference room</li>
+						</ul>
+					</div>
+					<div class="pp-faci-list col-md-4 mgt10 no_padd">
+						<ul>
+							<li class="ico_kid">Kid's club</li>
+							<li class="ico_pet">Pet friendly</li>
+							<li class="ico_golf">Golf</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="hidden-md hidden-lg">
+					<div class="pp-faci-list  mgt10 no_padd">
+						<ul class="list-group row pdl15">
+							<li class="ico_swim col-xs-6">Swimming Pool</li>
+							<li class="ico_lib col-xs-6">Library</li>
+							<li class="ico_garden col-xs-6">Garden</li>
+							<li class="ico_conroom col-xs-6">Conference room</li>
+							<li class="ico_sauna col-xs-6">Sauna</li>
+							<li class="ico_kid col-xs-6">Kid's club</li>
+							<li class="ico_fitness col-xs-6">Fitness</li>
+							<li class="ico_pet col-xs-6">Pet friendly</li>
+							<li class="ico_parking col-xs-6">Parking Lot</li>
+							<li class="ico_golf col-xs-6">Golf</li>
+							<li class="ico_laundry col-xs-6">Laundry</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="col-md-4 enq">
+
+			<div class="row_enq pp-propinfo hidden-xs hidden-sm">
+				<div class="col-md-8 pp-price">
+					<div class="price"><span class="font-green">฿</span> <?=$price;?></div>
+					<div class="tag"><?=$req_txt;?></div>
+				</div>
+				<div class="col-md-4 pp-code">
+					<div class="ref">Ref Code:</div>
+					<div class="rcode"><?=$item['reference_id'];?></div>
+				</div>
+				<div class="clearfix"></div>
+				<div class="col-md-12 no_padd">
+					<div class="pp-fact text-center">
+						<div class="col-xs-3 col-md-3 pp-bed no_padd"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/bed_icon_act.png")?>" alt=""><span><b><?=$item['bedrooms'];?></b> Bed</span></div>
+						<div class="col-xs-3 col-md-3 pp-bath no_padd"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/bath_icon_act.png")?>" alt="" class="img-sp"><span><b><?=$item['bathrooms'];?></b> Bath</span></div>
+						<div class="col-xs-2 col-md-2 pp-floor no_padd"><b><?=$item['floors'];?></b> fl.</div>
+						<div class="col-xs-3 col-md-3 pp-size no_padd"><b><?=$item['size'];?></b> <?=$item['size_unit']['name'];?></div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>	
+	
+			<div class="row_enq pp-enquiry mgt5">
+					
+					<div class="pp-tabopt col-md-12  text-center no_padd  hidden-xs hidden-sm">
+							<div class="left fst col-xs-6 add_to_fav"><div class="ico opt-fav"></div>Add to Favorite</div>
+							<div class="right col-xs-6 add_to_compare"><div class="ico opt-plus"></div>Compare</div>
+							<div class="clearfix"></div>
+					</div>
+
+					<div class="clearfix"></div>
+
+					<div class="col-md-12 form-enq pdt10 pdb20">
+						
+						<form id="form_enq" action="" name="enquiry">
+
+							<div class="form-group">
+								<label for="exampleInputEmail1">Enquiry this to this unit</label>
+								<div class="dropdown">
+									<select class="form-control" id="enq_to">
+										<option value="">Buy</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group pdt10">
+								<label for="exampleInputEmail1">Want to see this unit</label>
+								<input type="text" class="form-control" id="enq_date" placeholder="Select Date">
+							</div>
+							<div class="form-group">
+								<input type="txt" class="form-control" id="enq_phone" placeholder="Phone number">
+							</div>
+							<div class="form-group">
+								<input type="email" class="form-control" id="enq_email" placeholder="Your Email">
+							</div>
+
+							<button class="btn btn-searchred col-md-12">Send Request</button>
+						
+						</form>
+
+					</div>	
+					
+					<div class="clearfix"></div>
+			</div>			
+
+			<div class="row_enq pp-projectinfo pdt10 mgt25 pdb25 hidden-xs hidden-sm">
+				<div class="col-md-12 pp-pjheadline mgt5">Project Info</div>
+				<div class="col-md-12 pp-pjtag mgt15">
+					<div class="col-md-3 no_padd">
+						<a href="project.php"><img src="<?=$item['project']['pic'];?>" alt="" class="img-circle"></a>
+					</div>
+					<div class="top-txt col-md-9 no_padd">
+						<div><a href="project.php"><?=$item['project']['name'];?> </a></div>
+						<div class="sub-pjheading mgt3"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/pin_icon.png")?>" alt=""> <?=$item['sub_district']['name'];?>, <?=$item['province']['name'];?></div>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+				<div class="pp-pjinfo mgt15 text-center">
+					<div class="col-md-3 no_padd"><div class="bigtxt">2016</div><div class="subtxt">Year Built</div></div>
+					<div class="col-md-3"><div class="bigtxt"><?=$item['project']['number_buildings'];?></div><div class="subtxt">Towers</div></div>
+					<div class="col-md-2 text-center pdl6"><div class="bigtxt"><?=$item['project']['number_floors'];?></div><div class="subtxt">Floors</div></div>
+					<div class="col-md-4 no_padd"><div class="bigtxt txt-orange"><?=$item['project']['number_units'];?></div><div class="subtxt">Available Units</div></div>
+				</div>
+				<div class="clearfix"></div>
+			</div>			
+		</div>
+
+	</div>
+
+	<div class="row mgt25">
+		<div class="pp-similar col-md-12 no_padd ">
+			<div class="heading3 text-center mgb25">Similar Listings</div>
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					<?php
+					$i = 0;
+					$pd = 7;
+					while( $i < $pd )
+					{
+					?>
+					<div class="property_list col-md-3 bx-m mgb20 swiper-slide">
+						<div class="pd-top"  data-prop="9999">
+							<div class="img-pd" style="background: url(http://agent168th.com/public/prop_pic/GM1lV5F3nbYsmtdH89W2fiEzCyxNZuBD.jpg);"></div>
+							<div class="info-pd">
+								<div class="ppt-name">
+									WaterMark Chaophraya
+								</div>
+								<div class="ptt-location mgt10"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/pin_icon.png")?>" alt="">Phra Kanong, Bangkok</div>
+								<div class="ptt-fact mgt25">
+									<div class="fact-bed col-xs-2 col-md-2 ">1</div>
+									<div class="fact-bath col-xs-2 col-md-2 ">1</div>
+									<div class="fact-size col-xs-4 col-md-4 pull-right  text-right no_padd">93 Sq.M.</div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+						</div>
+						<div class="pd-bottom">
+							<div class="pd-price col-xs-6">฿ 12,000</div>
+							<div class="pd-opt col-xs-6 text-right">
+								<div class="opt-plus pull-right"></div>
+								<div class="opt-fav pull-right mrgrl10"></div>
+							</div>
+						</div>
+					</div>
+					<?php
+						$i++;
+					}
+					?>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+</section>
+
+
+<?php $this->import('/template/footer'); ?>

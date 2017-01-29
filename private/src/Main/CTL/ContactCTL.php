@@ -25,7 +25,7 @@ class ContactCTL extends BaseCTL {
      * @GET
      */
     public function index () {
-        return new HtmlView('/contact');
+        return new HtmlView('/template/layout', ['page' => 'contact', 'act7' => 'act']);
     }
 
 

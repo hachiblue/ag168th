@@ -27,18 +27,19 @@ class PropertyCTL extends BaseCTL {
     * @GET
     * @uri /[:id]
     */
-    public function index () {
-      $id = $this->reqInfo->urlParam("id");
-      $db = MedooFactory::getInstance();
-      $item = $db->get("property", "*", ["AND" => ["id"=> $id, "property_status_id[!]"=> 2] ]);
-      if( !isset($item['id']) || empty($item['id']) )
-      {
-        header('Location: http://agent168th.com/');
-      }
+    public function index () 
+	{
+		$id = $this->reqInfo->urlParam("id");
+		$db = MedooFactory::getInstance();
+		$item = $db->get("property", "*", ["id"=> $id]);
+		$this->_buildItem($item);
+		
+		$item['province'] = $db->get("province", "*", ["id"=> $item['province_id']]);
+		$item['sub_district'] = $db->get("sub_district", "*", ["id"=> $item['sub_district_id']]);
 
-      $this->_buildItem($item);
+		$pItems = array('page' => 'property', 'item'=> $item);
 
-      return new HtmlView('/property', ['item'=> $item]);
+		return new HtmlView('/template/layout', $pItems);
     }
 
     /**
@@ -55,6 +56,7 @@ class PropertyCTL extends BaseCTL {
       Email: {$_POST["email"]}<br />
       First name: {$_POST["first_name"]}<br />
       Last name: {$_POST["last_name"]}<br />
+      Date Request: {$_POST["daterequest"]}<br />
       Phone: {$_POST["phone"]}<br />
 MAILCONTENT;
 
@@ -69,7 +71,23 @@ MAILCONTENT;
     public function _buildItem(&$item)
     {
       // foreach($items as &$item) {
+		
+
         $item['project'] = $this->getProject($item['project_id']);
+
+		$path = 'public/project_pic/'.$item['project']['image_path'];
+
+		if( $this->is_file_exists( $path ) ) 
+		{
+			$proj_pic = URL::absolute("/".$path);
+		}
+		else 
+		{
+			$proj_pic = URL::absolute("/public/assets/default-project.jpg");
+		}
+
+		$item['project']['pic'] = $proj_pic;
+
         $this->_buildThumb($item);
         $this->_buildSizeUnit($item);
         $this->_buildRequirement($item);
@@ -91,25 +109,31 @@ MAILCONTENT;
       $item['property_type'] = $db->get("property_type", "*", ["id"=> $item['property_type_id']]);
     }
 
-    public function _buildThumb(&$item)
-    {
-      $db = MedooFactory::getInstance();
-      $pic = $db->get("property_image", "*", ["property_id"=> $item['id']]);
-      if(!$pic){
-        $pic = [];
-        $path = 'public/prop_pic/'.$item['project']['image_path'];
-        if(is_file($path)) {
-          $pic['url'] = URL::absolute("/".$path);
-        }
-        else {
-          $pic['url'] = URL::absolute("/public/images/default-project.png");
-        }
-      }
-      else {
-        $pic['url'] = URL::absolute("/public/prop_pic/".$pic['name']);
-      }
-      $item['picture'] = $pic;
-    }
+	public function _buildThumb(&$item)
+	{
+		$db = MedooFactory::getInstance();
+		$pic = $db->get("property_image", "*", ["property_id"=> $item['id']]);
+		if(!$pic)
+		{
+			$pic = [];
+			$path = 'public/project_pic/'.$item['project']['image_path'];
+
+			if( $this->is_file_exists( $path ) ) 
+			{
+				$pic['url'] = URL::absolute("/".$path);
+			}
+			else 
+			{
+				$pic['url'] = URL::absolute("/public/assets/default-project.jpg");
+			}
+		}
+		else 
+		{
+			$pic['url'] = URL::absolute("/public/prop_pic/".$pic['name']);
+		}
+
+		$item['picture'] = $pic;
+	}
 
     public function _buildSizeUnit(&$item)
     {
@@ -151,5 +175,12 @@ MAILCONTENT;
 
       return $project;
     }
+
+	function is_file_exists($filePath)
+	{ 
+		$root = realpath($_SERVER["DOCUMENT_ROOT"]) . '/';
+
+		return is_file($root.$filePath) && file_exists($root.$filePath);
+	}
 
 }
