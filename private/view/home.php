@@ -1,643 +1,210 @@
-<?php
-use Main\Helper;
 
-$this->import('/layout/header');
-$db = \Main\DB\Medoo\MedooFactory::getInstance();
-$news = $db->get("article", "*", ["topic_id"=> 1, "ORDER"=> "created_at DESC"]);
-$tip = $db->get("article", "*", ["topic_id"=> 2, "ORDER"=> "created_at DESC"]);
-$review = $db->get("article", "*", ["topic_id"=> 3, "ORDER"=> "created_at DESC"]);
+<?php $this->import('/template/top-navbar'); ?>
 
-$zones = $db->select("zone", "*");
-$zonegroups = $db->select("zone_group", "*");
-foreach($zonegroups as &$zonegroup) {
-  $zonegroup["zones"] = array_filter($zones, function($zone) use($zonegroup) {
-    return $zonegroup["id"] == $zone["zone_group_id"];
-  });
-}
+<section id="homepageContainer" class="a_container">
 
-$projects = $db->select("project", ["id", "name"], ["ORDER"=> "name ASC"]);
+	<div id="heroContainer"  class="col-md-6 left fixed">
 
-$btss = $db->select("bts", "*");
-$mrts = $db->select("mrt", "*");
-$requirement = $db->select("requirement", "*");
-$property_types = $db->select("property_type", "*");
+		<div id="searchOverlay">
+			<div class="heroImage" style="background-image: url(<?php echo \Main\Helper\URL::absolute("/public/assets/img/bg3.jpg")?>);"></div>
+	
+			<div class="banner">
+				<div class="col-md-12 box-holder text-center">
+					<div class="logo_s">
+						<img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/AGENT168_1.png")?>" alt="" class="img-responsive">
+					</div>
+					<div class="txt-headline mgt30">Find Property with Profressional Agency</div>
 
-?>
-<style>
-.slide .carousel-indicators
-{
-  height: 17px;
-}
+				
+					<div class="form_s col-xs-12 col-sm-12 col-md-10 col-md-offset-1 mrt15">
+						<form action="list" class="">
+							<div class="form-group col-md-10 pdr5">
+								<div class="input-group">
+									<div class="input-group-btn">
+										<div class="btn-group search-bar">
+											<button class="btn btn-default dropdown-toggle"  type="button" data-toggle="dropdown">
+												<span data-bind="label" class="dsp_drop_txt"><span class="hidden-xs hidden-sm">For</span> Buy</span>  
+												<span class="caret"></span>
+											</button>
+											<input type="hidden" id="requirement_id" name="requirement_id" value="1" class="btn_value">
+											<ul class="dropdown-menu" role="menu">
+												<li><a name="sel_requirement" value="1">For Buy</a></li>
+												<li><a name="sel_requirement" value="2">For Rent</a></li>
+											</ul>
+										</div>
+									</div>
 
-html, body {
-  height: 100%;
-  width: 100%;
-}
-</style>
-<div class="slide">
-    <div class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-            <?php foreach($params['slide_1'] as $key=> $val) {?>
-            <div class="item <?php if($key==0) echo "active";?>"><img width="100%" height="710" src="<?php echo \Main\Helper\URL::absolute("/public/slide_1/").$val;?>" /></div>
-            <?php }?>
-            <div class="item"><a href="http://sevenseas.agent168th.com/"><img src="<?php echo \Main\Helper\URL::absolute("/public/images/slide/slide03.png")?>" /></a></div>
-        </div>
-        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-</div>
-<div class="container" style="position: relative;">
-    <div class="findprops">
-        <img style="opacity: 0.8;" src="<?php echo \Main\Helper\URL::absolute("/public/images/maps.jpg")?>" />
-        <div class="searchbox">
-            <div class="row">
-                <div class="col-lg-9">
-                    <p>Find your place</p>
-                    <div class="pic" style="margin-left: 290px;">
-                        <img src="<?php echo \Main\Helper\URL::absolute("/public/images/linetable.jpg")?>" /> <span class="glyphicon glyphicon-search"></span> <img src="<?php echo \Main\Helper\URL::absolute("/public/images/linetable.jpg")?>" />
-                    </div>
-                    <form class="searchopt" action="list">
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <label>Location:</label><br/>
-                                <select class="form-control" name="zone_id">
-                                    <option value="">Any Location</option>
-                                    <?php foreach($zonegroups as $zonegroup) {?>
-                                      <optgroup label="<?php echo $zonegroup["name"];?>">
-                                      <?php foreach($zonegroup["zones"] as $zone) {?>
-                                        <option value="<?php echo $zone["id"];?>" <?php if(@$_GET['zone_id']==$zone["id"]) echo "selected";?>><?php echo $zone["name"];?></option>
-                                      <?php }?>
-                                      </optgroup>
-                                    <?php }?>
-                                </select>
-                                <label>Near MRT:</label><br/>
-                                <select class="form-control" name="mrt_id">
-                                    <option value="">Any Feature</option>
-                                    <?php foreach($mrts as $mrt) {?>
-                                      <option value="<?php echo $mrt["id"];?>" <?php if(@$_GET['mrt_id']==$mrt["id"]) echo "selected";?>><?php echo $mrt["name"];?></option>
-                                    <?php }?>
-                                </select>
-
-								<label>Requirement:</label><br/>
-                                <select class="form-control" name="requirement_id">
-                                    <option value="">Any Feature</option>
-                                    <?php foreach($requirement as $req) {?>
-                                      <option value="<?php echo $req["id"];?>" <?php if(@$_GET['requirement_id']==$req["id"]) echo "selected";?>><?php echo $req["name"];?></option>
-                                    <?php }?>
-                                </select>
-
-                            </div>
-
-                            <div class="col-lg-4">
-                                <label>Property Type:</label><br/>
-                                <select class="form-control" name="property_type_id">
-                                    <option value="">Any Type</option>
-                                    <?php foreach($property_types as $property_type) {?>
-                                      <option value="<?php echo $property_type["id"];?>" <?php if(@$_GET['property_type_id']==$property_type["id"]) echo "selected";?>><?php echo $property_type["name"];?></option>
-                                    <?php }?>
-                                </select>
-
-                                <label>Near BTS:</label><br/>
-                                <select class="form-control" name="bts_id">
-                                    <option value="">Any Feature</option>
-                                    <?php foreach($btss as $bts) {?>
-                                      <option value="<?php echo $bts["id"];?>" <?php if(@$_GET['bts_id']==$bts["id"]) echo "selected";?>><?php echo $bts["name"];?></option>
-                                    <?php }?>
-                                </select>
 								
-								<label>&nbsp;</label><br/>
-                                <button class="btn btn-primary">Search</button>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <label>Bathrooms:</label><br/>
-                                        <select class="form-control" name="bathrooms">
-                                            <option value="">Any</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4+">4+</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label>Bedrooms:</label><br/>
-                                        <select class="form-control" name="bedrooms">
-                                            <option value="">Any</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4+">4+</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                  <label>Project:</label><br/>
-                                  <select class="form-control" name="project_id" id="project_id">
-                                      <option value="">Any</option>
-                                      <?php foreach($projects as $project){?>
-                                      <option value="<?php echo $project["id"];?>" <?php if(@$_GET['project_id']==$project["id"]) echo "selected";?>><?php echo $project["name"];?></option>
-                                      <?php }?>
-                                  </select>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="underslide">
-    <div class="container">
-        <p>Bangkok Condo, Apartments & Houses for Sale & Rent</p>
-    </div>
-</div>
-
-<div class="highlightslide">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-2"></div>
-            <div class="col-xs-3"><p>Highlight Properties</p></div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-sm-2"></div>
-                <?php foreach($params['highlight'] as $item){?>
-                <div class="col-sm-3 highlight">
-                    <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
-                      <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
-                    </a>
-                    <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
-                    <!-- <p class="add">Annapolls</p> -->
-                    <div class="hr"></div>
-                    <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
-                      <span class="price">
-                      <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
-                      </span>
-                    </p>
-                    <div class="detail" style="font-size: 11px;">
-                        <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
-                        <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
-                        <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
-                    </div>
-                </div>
-                <?php }?>
-            </div>
-        </div>
-        <!-- <div class="highlight">
-            <a class="images-home" href=""><img src="<?php echo \Main\Helper\URL::absolute("/public/images/house.jpg")?>"  /></a>
-            <a class="name" href="">678 Bay Hills Lane</a>
-            <p class="add">Annapolls</p>
-            <div class="hr"></div>
-            <p class="sale"><a href="">For Sale</a><span class="price">$240,000</span></p>
-            <div class="detail">
-                <span class="ft">1025 sq ft</span>
-                <span class="bed">4 Beds</span>
-                <span class="bath">2 Baths</span>
-            </div>
-        </div>
-        <div class="highlight">
-            <a class="images-home" href=""><img src="<?php echo \Main\Helper\URL::absolute("/public/images/house.jpg")?>"  /></a>
-            <a class="name" href="">678 Bay Hills Lane</a>
-            <p class="add">Annapolls</p>
-            <div class="hr"></div>
-            <p class="sale"><a href="">For Sale</a><span class="price">$240,000</span></p>
-            <div class="detail">
-                <span class="ft">1025 sq ft</span>
-                <span class="bed">4 Beds</span>
-                <span class="bath">2 Baths</span>
-            </div>
-        </div>
-        <div class="highlight">
-            <a class="images-home" href=""><img src="<?php echo \Main\Helper\URL::absolute("/public/images/house.jpg")?>"  /></a>
-            <a class="name" href="">678 Bay Hills Lane</a>
-            <p class="add">Annapolls</p>
-            <div class="hr"></div>
-            <p class="sale"><a href="">For Sale</a><span class="price">$240,000</span></p>
-            <div class="detail">
-                <span class="ft">1025 sq ft</span>
-                <span class="bed">4 Beds</span>
-                <span class="bath">2 Baths</span>
-            </div>
-        </div> -->
-    </div>
-</div>
-
-<div class="highlightslide">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-2"></div>
-            <div class="col-xs-3"><p>Best Buy</p></div>
-            <div class="col-xs-3"></div>
-            <div class="col-xs-3 pull-right see-more"><a href="<?php echo \Main\Helper\URL::absolute('/list?feature_unit_id=1');?>">ดูเพิ่มเติม</a></div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-sm-2"></div>
-            <?php foreach($params['bestbuy'] as $item){?>
-                <div class="col-sm-3 highlight">
-        			<div class="ribbon-wrapper"><div class="ribbon r-green">Best Buy</div></div>
-                    <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
-                      <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
-                    </a>
-                    <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
-                    <!-- <p class="add">Annapolls</p> -->
-                    <div class="hr"></div>
-                    <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
-                      <span class="price">
-                      <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
-                      </span>
-                    </p>
-                    <div class="detail" style="font-size: 11px;">
-                        <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
-                        <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
-                        <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
-                    </div>
-                </div>
-            <?php }?>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="highlightslide">
-    <div class="container">
-        
-        <div class="row">
-            <div class="col-xs-2"></div>
-            <div class="col-xs-3"><p>Hot Price</p></div>
-            <div class="col-xs-3"></div>
-            <div class="col-xs-3 pull-right see-more"><a href="<?php echo \Main\Helper\URL::absolute('/list?feature_unit_id=2');?>">ดูเพิ่มเติม</a></div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-sm-2"></div>
-                <?php foreach($params['hotrental'] as $item){?>
-                <div class="col-sm-3 highlight">
-        			<div class="ribbon-wrapper"><div class="ribbon r-orange">Hot Price</div></div>
-                    <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
-                      <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
-                    </a>
-                    <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
-                    <!-- <p class="add">Annapolls</p> -->
-                    <div class="hr"></div>
-                    <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
-                      <span class="price">
-                      <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
-                      </span>
-                    </p>
-                    <div class="detail" style="font-size: 11px;">
-                        <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
-                        <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
-                        <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
-                    </div>
-                </div>
-                <?php }?>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="highlightslide">
-    <div class="container">
-        
-        <div class="row">
-            <div class="col-xs-2"></div>
-            <div class="col-xs-3"><p>Discount</p></div>
-            <div class="col-xs-3"></div>
-            <div class="col-xs-3 pull-right see-more"><a href="<?php echo \Main\Helper\URL::absolute('/list?feature_unit_id=3');?>">ดูเพิ่มเติม</a></div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-sm-2"></div>
-                <?php foreach($params['withtenant'] as $item){?>
-                <div class="col-sm-3 highlight">
-
-        			<div class="ribbon-wrapper"><div class="ribbon r-red">Discount</div></div>
-
-                    <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
-                      <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
-                    </a>
-                    <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
-                    <!-- <p class="add">Annapolls</p> -->
-                    <div class="hr"></div>
-                    <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
-                      <span class="price">
-                      <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
-                      </span>
-                    </p>
-                    <div class="detail" style="font-size: 11px;">
-                        <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
-                        <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
-                        <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
-                    </div>
-                </div>
-                <?php }?>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="highlightslide">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-2"></div>
-            <div class="col-xs-3"><p>New</p></div>
-            <div class="col-xs-3"></div>
-            <div class="col-xs-3 pull-right see-more"><a href="<?php echo \Main\Helper\URL::absolute('/list?feature_unit_id=4');?>">ดูเพิ่มเติม</a></div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-sm-2"></div>
-                <?php foreach($params['newcoming'] as $item){?>
-                <div class="col-sm-3 highlight">
-        			<div class="ribbon-wrapper"><div class="ribbon r-blue">New</div></div>
-                    <a class="images-home" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>">
-                      <img src="<?php echo $item['picture']['url'];?>" width="262" height="196" />
-                    </a>
-                    <a class="name" href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['project']['name'];?></a>
-                    <!-- <p class="add">Annapolls</p> -->
-                    <div class="hr"></div>
-                    <p class="sale"><a href="<?php echo \Main\Helper\URL::absolute('/property/'.$item['id']);?>"><?php echo $item['requirement']['name'];?></a>
-                      <span class="price">
-                      <?php echo number_format($item['requirement_id']==1? $item['sell_price']: $item['rent_price'], 0)." บาท";?>
-                      </span>
-                    </p>
-                    <div class="detail" style="font-size: 11px;">
-                        <span class="ft"><?php echo $item['size']." ".$item['size_unit']['name'];?></span>
-                        <span class="bed"><?php echo $item['bedrooms'];?> Beds</span>
-                        <span class="bath"><?php echo $item['bathrooms'];?> Baths</span>
-                    </div>
-                </div>
-                <?php }?>
-            </div>
-        </div>
-
-    </div>
-</div>
+									<input type="search" name="searchBy" id="auto-searchby" class="form-control search-bar opabx" autocomplete="off" placeholder="Where do you like to live" value="<?=(isset($_GET["searchBy"]))? $_GET["searchBy"] : '';?>">
+									<input type="hidden" name="project_id" value="<?=(isset($_GET["project_id"]))? $_GET["project_id"] : '';?>">
 
 
-<div class="newsletter skrollable skrollable-between">
-    <div class="container" id="subscribe">
-        <div class="row">
-            <div style="display: inline-block;" id="letter">
-                Newsletter Sign up
-            </div>
-            <div style="margin-top: 10px; margin-left: 20px; display: inline-block; width: 262px;">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Your Email address" style="font-size: 22px;"/>
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button">OK</button>
-                    </span>
-                </div>
-            </div>
-        </div>
-        <p id="comment">Stay updated with all our latest news enter your e-mail address here</p>
-    </div>
-</div>
-<div class="newsandtips">
-    <div class="newsandtipsheader">
-        <div class="container"><p>NEWS & TIPS</p></div>
-    </div>
-    <div class="container">
-        <div class="newsandtipsarrow">
-            <img style="margin-left: 50%;" src="<?php echo \Main\Helper\URL::absolute("/public/images/newstipsarrow.png")?>"  />
-        </div>
-    </div>
-    <div class="newsandtipscontent start">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <?php if($news){?>
-                        <div class="col-lg-3" id="box1" style="border: solid 2px;">
-                            <div class="row">
-                                <div class="col-lg-12" id="banner"><p>NEWS:Propety News</p></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12" id="contentpic">
-                                    <img src="<?php echo \Main\Helper\URL::absolute("/public/article_pic/".$news["image_path"]);?>"  style="margin: 0 auto; max-width: 100%;" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12" id="contentdes">
-                                    <p id="headline"><?php echo $news["name"];?></p>
-                                    <p><?php echo $news["description"];?></p>
+								</div>
+								
+								<div class="nopadd">
+									<div class="input-group" id="search_autoc">
+										<div class="input-group-btn" style="width:20%"></div>
+									<div class="autocomplete-suggestions " style="display: none; top: 1500px; left: 199.906px; width: 322px;"></div></div>
+								</div>
 
-                                    <a class="btn btn-primary" href="<?php echo \Main\Helper\URL::absolute("/campaign/".$news["id"])?>">View All</a>
-                                </div>
-                            </div>
-                        </div>
-                        <?php }else{?><div class="col-lg-3" id="box1"></div><?php }?>
-                        <?php if($tip){?>
-                        <div class="col-lg-3" id="box2" style="margin: 0 50px 0 50px; border: solid 2px;">
-                            <div class="row">
-                                <div class="col-lg-12" id="banner"><p>Tips:Propety Tips</p></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12" id="contentpic">
-                                    <img src="<?php echo \Main\Helper\URL::absolute("/public/article_pic/".$tip["image_path"]);?>"  style="max-width: 100%;"  />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12" id="contentdes">
-                                    <p id="headline"><?php echo $tip["name"];?></p>
-                                    <p><?php echo $tip["description"];?></p>
-                                    <a class="btn btn-primary" href="<?php echo \Main\Helper\URL::absolute("/campaign/".$tip["id"])?>">View All</a>
-                                </div>
-                            </div>
-                        </div>
-                        <?php }else{?><div class="col-lg-3" id="box2"></div><?php }?>
-                        <?php if($review){?>
-                        <div class="col-lg-3" id="box3" style="border: solid 2px;">
-                            <div class="row">
-                                <div class="col-lg-12" id="banner"><p>Project Review</p></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12" id="contentpic">
-                                    <img src="<?php echo \Main\Helper\URL::absolute("/public/article_pic/".$review["image_path"]);?>" style="max-width: 100%;" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12" id="contentdes">
-                                    <p id="headline"><?php echo $review["name"];?></p>
-                                    <p><?php echo $review["description"];?></p>
-                                    <a class="btn btn-primary" href="<?php echo \Main\Helper\URL::absolute("/campaign/".$review["id"]);?>">View All</a>
-                                </div>
-                            </div>
-                        </div>
-                        <?php }else{?><div class="col-lg-3" id="box3"></div><?php }?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="split">
-    <hr/>
-</div>
-<div class="feedback start">
-    <div class="container">
-        <div class="row" style="margin-left: 100px;">
-            <div class="col-lg-4" id="recommend" style="margin-right: 70px;">
-                <p id="subject">TESTIMONIAL</p>
-                <p style="font-style: italic;">"I found my current apartment on Agent168 with extraordinary
-                    help from them and totally satisfied with the choice I made.
-                    All I had to do was to tell what I was looking for and
-                    I got back property suggestions nearly exact to my imagination.
-                    Among those, I finally chose mine now then completed procedure
-                    at ease. Highly recommend Agent168  for your home search."</p>
-                <div class="row">
-                    <div class="col-lg-2"><img src="<?php echo \Main\Helper\URL::absolute("/public/images/Mugshot.png")?>" /></div>
-                    <div class="col-lg-4" style="margin-left: 20px;">
-                        <p style="font-weight: bold;">Niran Yodying</p>
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6" id="company">
-                <img src="<?php echo \Main\Helper\URL::absolute("/public/images/showcase.png")?>" />
-                <div class="row">
-                    <div class="col-lg-8">
-                        <p id="aboutbrand" style="font-family: 'cocogoose', 'Arial', sans-serif; font-size: 1.5em;">AGENT168 Co.,Ltd.</p>
-                        <p id="aboutbrand" style="margin-top: -15px;">PROFESSIONAL PROPERTY AGENT</p><br/>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <p>Agent168 is a well established full-service property brokerage agency
-                                    providing services ranging from buying, renting and selling consultations.
-                                    With over 10 years of experience in the business and a crew of properties
-                                    but also professional real estate related advice. By letting us take care of
-                                    your every real estate need, you are sure to find the result to be no less
-                                    than spectacular.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-    $(function(){
-      var ua = navigator.userAgent;
+							</div>
+							<button type="submit" class="btn btn-searchred col-md-2">Search</button>
+						</form>
+					</div>
+				</div>
+			</div>
 
-      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile/i.test(ua)){}
-      else if (/Chrome/i.test(ua))
-      {
-        var $el = $('.newsletter');
-        var wH = $(window).height();
-        var top = $el.offset().top - wH;
-        var bottom = top + wH + ($el.height()*2);
+		</div>
 
-        var topAttr = 'data-'+parseInt(top);
-        var bottomAttr = 'data-'+parseInt(bottom);
-        $el.attr(topAttr, "background-position:0% 30%;");
-        $el.attr(bottomAttr, "background-position:0% 100%;");
+	</div>
 
-        // setTimeout(function(){
-        //     skrollr.init({
-        //         smoothScrolling: false,
-        //         mobileDeceleration: 0.004
-        //     });
-        // },1000);
-      }
-    });
-</script>
-<script>
-    $(function(){
-        $(document).ready(function() {
-            var ua = navigator.userAgent;
+	<div class="hpRtContain">
+		
+		<div class="col-md-12 rightContain">
+			
+			<?php
+			$topic = array('HIGHLIGHT PROPERTIES', 'HIGHLIGHT OF THE MONTH', 'NEW COMING', 'AROUND XXX M.', 'A BEAUTY OF RIVER', 'IN THE MIDDLE OF EVERYWHERE');
 
-            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile/i.test(ua)){}
-            else if (/Chrome/i.test(ua))
-            {
-                // var $html = $("html");
-                // $html.niceScroll({
-                //     spacebarenabled: false
-                // });
-                //
-                // $html.css("overflow", "auto");
-                // $(".nicescroll-rails").hide();
-            }
-        });
+			$box_content = array_merge( array( 'HighLight Properties' => $highlight ), $feature_unit );
+			$i = 0;
+			foreach( $box_content as $name => $tp )
+			{
+				$mgt = $i != 0 ? 'mgt30' : 'mgt25';
+			?>
 
-        var $window = $(window);
-        $window.scroll(function(){
-            $('.animation-once').each(function(index, el){
-                var $el = $(el);
-                var hT = $el.offset().top,
-                    hH = $el.outerHeight(),
-                    wH = $window.height(),
-                    wS = $window.scrollTop();
-                var pos = (hT+parseInt(hH/3)-wH);
-                if (wS > pos){
-                    $el.removeClass('animation-once');
-                }
-                // console.log(wS , (hT+hH-wH));
-            });
-        });
-    });
-</script>
-<!--<script>-->
-<!--    $(function(){-->
-<!--        setTimeout(function(){-->
-<!--            $('.newsletter').scrollTop(0);-->
-<!--        }, 1000);-->
-<!--    });-->
-<!--</script>-->
-<script>
-    function isElementInViewport(elem) {
-        var $elem = $(elem);
+			<div class="box <?=$mgt;?>">
+				<div class="headline">
+					<div class="mt20"><?=$name;?>
+						<!-- <div class="mt-5"><small>Lorem ipsum dolor sit amet, consectetur adipisicing.</small></div> -->
+					</div>
+				</div>
+				<div class="prop_list">
+				
+					<div class="hidden-xs">
+						<?php if( isset($tp[0]) ) { ?>
+						<div class="col-xs-12 col-sm-4 col-md-4 pd0">
+							<div class="">
+								<div class="prop_banner" style="background-image: url('<?=$tp[0]['picture']['url'];?>');"></div>
+								<span class="overlayPhoto overlayFull mg0" data-href="/property/<?=$tp[0]['id'];?>"></span>
+								<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable">
+									<ul class="mbm property-card-details">
+										<li class="man pdb3">
+											<div class="man property-title"><?=$tp[0]['project']['name'];?></div>
+										</li>
+										<li class="man">
+											<span class="property-price  mvn">฿ &nbsp;<?=number_format($tp[0]['price']);?></span>
+											<span class="property-size man noWrap pull-right"> <?=$tp[0]['size'];?> <?=$tp[0]['size_unit']['name'];?> </span>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<?php } ?>
+						
+						<?php if( isset($tp[1]) ) { ?>
+						<div class="col-xs-12 col-sm-4 col-md-4 pd0">
+							<div class="ml3">
+								<div class="prop_banner" style="background-image: url('<?=$tp[1]['picture']['url'];?>');"></div>
+								<span class="overlayPhoto overlayFull ml3" data-href="/property/<?=$tp[1]['id'];?>"></span>
+								<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable">
+									<ul class="mbm property-card-details">
+										<li class="man pdb3">
+											<div class="man property-title"><?=$tp[1]['project']['name'];?></div>
+										</li>
+										<li class="man">
+											<span class="property-price  mvn">฿ &nbsp;<?=number_format($tp[1]['price']);?></span>
+											<span class="property-size man noWrap pull-right"> <?=$tp[1]['size'];?> <?=$tp[1]['size_unit']['name'];?> </span>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<?php } ?>
+						
+						<?php if( isset($tp[2]) ) { ?>
+						<div class="col-xs-12 col-sm-4 col-md-4 pd0">
+							<div class="ml3">
+								<div class="prop_banner" style="background-image: url('<?=$tp[2]['picture']['url'];?>');"></div>
+								<span class="overlayPhoto overlayFull ml3" data-href="/property/<?=$tp[2]['id'];?>"></span>
+								<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable">
+									<ul class="mbm property-card-details">
+										<li class="man pdb3">
+											<div class="man property-title"><?=$tp[2]['project']['name'];?></div>
+										</li>
+										<li class="man">
+											<span class="property-price  mvn">฿ &nbsp;<?=number_format($tp[2]['price']);?></span>
+											<span class="property-size man noWrap pull-right"> <?=$tp[2]['size'];?> <?=$tp[2]['size_unit']['name'];?> </span>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<?php } ?>
+					
+					</div>
 
-        // Get the scroll position of the page.
-        var scrollElem = ((navigator.userAgent.toLowerCase().indexOf('webkit') != -1) ? 'body' : 'html');
-        var viewportTop = $(scrollElem).scrollTop();
-        var viewportBottom = viewportTop + $(window).height();
+					<div class="clearfix"></div>
+					
+					<?php if( isset($tp[3]) ) { ?>
+					<div class="col-xs-12 col-sm-6 col-md-6 pd0">
+						<div class="mgt3">
+							<div class="prop_banner_big" style="background-image: url('<?=$tp[3]['picture']['url'];?>');"></div>
+							<span class="overlayPhoto overlayFull mgt3" data-href="/property/<?=$tp[3]['id'];?>"></span>
+							<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable text-center b5p">
+								<ul class="mbm property-card-details">
+									<li class="pdb3">
+										<div class="property-title2"><?=$tp[3]['project']['name'];?></div>
+									</li>
+									<li class="">
+										<span class="property-price2 ">฿ &nbsp;<?=number_format($tp[3]['price']);?></span>
+									</li>
+									<li class="">
+										<span class="property-size2  noWrap"><?=$tp[3]['size'];?> <?=$tp[3]['size_unit']['name'];?> </span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<?php } ?>	
 
-        // Get the position of the element on the page.
-        var elemTop = Math.round( $elem.offset().top );
-        var elemBottom = elemTop + $elem.height();
+					<?php if( isset($tp[4]) ) { ?>
+					<div class="col-xs-12 col-sm-6 col-md-6 pd0">
+						<div class="ml3 mgt3">
+							<div class="prop_banner_big" style="background-image: url('<?=$tp[4]['picture']['url'];?>');"></div>
+							<span class="overlayPhoto overlayFull ml3 mgt3" data-href="/property/<?=$tp[4]['id'];?>"></span>
+							<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable text-center b5p">
+								<ul class="mbm property-card-details">
+									<li class="pdb3">
+										<div class="property-title2"><?=$tp[4]['project']['name'];?></div>
+									</li>
+									<li class="">
+										<span class="property-price2 ">฿ &nbsp;<?=number_format($tp[4]['price']);?></span>
+									</li>
+									<li class="">
+										<span class="property-size2  noWrap"><?=$tp[4]['size'];?> <?=$tp[4]['size_unit']['name'];?> </span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<?php } ?>	
 
-        //console.log(elemTop, viewportTop);
+				</div>
+			</div>
+		
+			<div class="clearfix"></div>
+			
+			<?php
 
-        return ((elemTop < viewportBottom) && (elemBottom > viewportTop));
-    }
-    $(function(){
-        $(window).scroll(function(){
-            var el = $('#box1');
-            if(isElementInViewport(el)){
-                $('.newsandtipscontent').removeClass('start');
-            }
-        });
-    });
+				$i++;
+			}
+			?>
 
-</script>
+		</div>
 
-<script>
-    $(function(){
+	</div>	
 
-		$("#project_id").chosen({disable_search_threshold: 10});
-
-        $(window).scroll(function(){
-            var el = $('#recommend');
-            if(isElementInViewport(el)){
-                $('.feedback').removeClass('start');
-            }
-        });
-    });
-</script>
-<?php
-$this->import('/layout/footer');
-?>
+</section>
+	
+<?php $this->import('/template/footer'); ?>
