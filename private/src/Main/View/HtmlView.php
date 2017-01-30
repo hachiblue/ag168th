@@ -16,7 +16,7 @@ class HtmlView extends BaseView {
     {
         $params = $this->params;
 
-		extract($params);
+		//extract($params);
 
         include($this->viewPath.$view.'.php');
     }
@@ -25,7 +25,7 @@ class HtmlView extends BaseView {
 	{
 		$params = $this->params;
 
-		extract($params);
+		//extract($params);
 
 		include($this->viewPath.$this->view.'.php');
 	}

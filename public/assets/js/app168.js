@@ -422,14 +422,14 @@ $(document).on("ready", function () {
 		selector: '#auto-searchby',
 		minChars: 2,
 		source: function(term, response) {
-			$.getJSON('list', { q: term }, function(data) { response(data); });
+			$.getJSON('/list', { q: term }, function(data) { response(data); });
 		},
 		renderItem: function (item, search) {
 			search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 			var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
 			return '<div class="autocomplete-suggestion" data-project_id="'+item[1]+'" data-val="'+item[0]+'">'+item[0].replace(re, "<b>$1</b>")+'</div>';
 		},
-		onSelect: function(e, term, item){
+		onSelect: function(e, term, item) {
 			$('input[name=project_id]').val( $(item).data('project_id') );
 		}
 	});
@@ -548,10 +548,46 @@ $(document).on("ready", function () {
 		window.open($this.data('href'), '_self');
 	});
 	
+	if( $('div[name=tab-project]').length )
+	{
+		$('div[name=tab-project]').click(function () {
+			var 
+				$this = $(this),
+				target = $this.data('tab');
+			
+			$('div[name=tab-project]').removeClass('active');
+			$this.addClass('active');
+			$('.gall, .map').hide();
+			if( target == 'map' )
+			{
+				$('#area-gall').hide();
+				$('#area-map').show();
+				initMap();
+			}
+			else
+			{
+				$('#area-map').hide();
+				$('#area-gall').show();
+			}
+		});
+	}
 
 	if( $('#map').length && ! isMobile )
 	{
 		initialize();
+	}
+		
+	if( $('.swiper-prop-container').length )
+	{
+		var swiper = new Swiper('.swiper-prop-container', {
+			pagination: '.swiper-pagination',
+			slidesPerView: 1,
+			paginationClickable: true,
+			spaceBetween: 0,
+			freeMode: false,
+			nextButton: '.swiper-button-next',
+			prevButton: '.swiper-button-prev',
+		});
 	}
 
 	if( isMobile ) 

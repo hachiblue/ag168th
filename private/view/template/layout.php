@@ -1,4 +1,6 @@
 
+<?php extract($params); ?>
+
 <!doctype html>
 <html lang="en">
 <head>

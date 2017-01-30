@@ -13,7 +13,7 @@ $configs = array(
         "version" => "1.0",
         "base_url" => "http://localhost:81",
         "site_url" => "http://localhost:81",
-        "share_url" => "",
+        "share_url" => "http://agent168th.com",
         "directory" => dirname(__FILE__),
         "view" => "default"
     ),

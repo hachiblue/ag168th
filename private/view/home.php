@@ -1,5 +1,8 @@
 
-<?php $this->import('/template/top-navbar'); ?>
+<?php 
+extract($params);
+$this->import('/template/top-navbar'); 
+?>
 
 <section id="homepageContainer" class="a_container">
 

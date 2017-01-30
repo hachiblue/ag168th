@@ -1,5 +1,11 @@
 
-<?php $this->import('/template/top-navbar'); ?>
+<?php 
+extract($params);
+$this->import('/template/top-navbar'); 
+
+$req_txt = strtoupper($item['requirement']['name']);
+
+?>
 
 <section id="propContainer" class="a_container">
 
@@ -270,16 +276,40 @@
 			{	
 				$price = isset($item["sell_price"]) ? number_format($item["sell_price"]) : 'N/A';
 			}
-
-			$req_txt = strtoupper($item['requirement']['name']);
 			?>
 			<div class="hidden-xs hidden-sm">
-				<div class="heading">Room <?=$item['address_no'];?>, <?=$item['project']['name'];?> </div>
+				<div class="heading"><?=$item['project']['name'];?></div>
 				<div class="sub-heading mgt3"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/pin_icon.png")?>" alt=""> <?=$item['sub_district']['name'];?>, <?=$item['province']['name'];?></div>
 			</div>
 
 			<div class="pic_map mgt20">
-				<div class="gall" style="background: #fff url(<?=$item['picture']['url'];?>) no-repeat center;background-size:cover;">
+
+				<div id="area-gall" class="gall" style="background: #fff;">
+				
+					<div class="swiper-prop-container">
+						<div class="swiper-wrapper">
+							<?php
+							$merge_image = array_merge($item['images'], $item['project']['images']);
+							
+							foreach( $merge_image as $img )
+							{
+								?>
+								<div class="swiper-slide">
+									<img src="<?=$img['url'];?>" class="img-responsive" alt="">
+								</div>
+								<?php
+							}
+							?>
+						</div>
+						<!-- Add Pagination -->
+						<div class="swiper-pagination"></div>
+						<!-- Add Arrows -->
+						<div class="swiper-button-next swiper-button-black"></div>
+						<div class="swiper-button-prev swiper-button-black"></div>
+					</div>
+
+
+
 					<div class="pp-map-butt hidden-md hidden-lg"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/map_butt.png")?>" alt=""></div>
 					<div class="pp-bar hidden-md hidden-lg">
 						<div class="pp-price">
@@ -295,12 +325,14 @@
 						</div>
 					</div>
 				</div>
-				<div class="mapp" style="display:none;"></div>
+
+				<div id="area-map" class="mapp" style="display:none;"></div>
+
 				<div class="pp-gview hidden-xs hidden-sm">
-					<div class="pp-tab rht col-md-6 text-center active">
+					<div name="tab-project" class="pp-tab rht col-md-6 text-center active" data-tab="gall">
 						<i class="fa fa-picture-o" aria-hidden="true"></i> Photos
 					</div>
-					<div class="pp-tab col-md-6 text-center">
+					<div name="tab-project" class="pp-tab col-md-6 text-center" data-tab="map">
 						<i class="fa fa-map-marker" aria-hidden="true"></i> Map
 					</div>
 				</div>
@@ -314,7 +346,7 @@
 			
 			<div class="colrl-15  hidden-md hidden-lg">
 				<div class="heading-m mgt15">
-					Room <?=$item['address_no'];?>, <?=$item['project']['name'];?>
+					<?=$item['project']['name'];?>
 				</div>
 				<div class="sub-pjheading-m mgt10">
 					<div class="col-xs-7 no_padd bd-right">
@@ -410,9 +442,13 @@
 			<div class="row_enq pp-enquiry mgt5">
 					
 					<div class="pp-tabopt col-md-12  text-center no_padd  hidden-xs hidden-sm">
-							<div class="left fst col-xs-6 add_to_fav"><div class="ico opt-fav"></div>Add to Favorite</div>
-							<div class="right col-xs-6 add_to_compare"><div class="ico opt-plus"></div>Compare</div>
-							<div class="clearfix"></div>
+						<div class="left fst col-xs-6 add_to_fav">
+							<div class="ico opt-fav"></div>Add to Favorite
+						</div>
+						<div class="right col-xs-6 add_to_compare">
+							<div class="ico opt-plus"></div>Compare
+						</div>
+						<div class="clearfix"></div>
 					</div>
 
 					<div class="clearfix"></div>
@@ -519,6 +555,46 @@
 	</div>
 
 </div>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_mlBrkkojSUJnMjYKf00nhno1nlO9CCI"></script>
+<script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/richmarker.js")?>"></script>
+
+<script>
+
+// single marker
+function initMap() 
+{
+	var uluru = {lat: 13.749500, lng: 100.557849};
+	var map = new google.maps.Map(document.getElementById('area-map'), {
+	  zoom: 16,
+	  center: uluru
+	});
+
+	var geocoder = new google.maps.Geocoder();
+	
+	geocoder.geocode(
+		{'address': "<?=$item['project']['address'];?>"}, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) 
+			{
+				var marker = new RichMarker({
+					position: results[0].geometry.location,
+					map: map,
+					address: "<?=$item['project']['address'];?>",
+					animation: google.maps.Animation.DROP,
+					title: "<?=$item['project']['name'];?>",
+					content: '<a href="#" class=""><div class="gmap-marker-project"><?=$item['project']['name'];?></div></a>',
+					zIndex: 1,
+					shadow: 'none'
+				});	
+			
+				var latlng = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+				map.setCenter(latlng);
+			}
+		}
+	);
+}
+
+</script>
 
 </section>
 

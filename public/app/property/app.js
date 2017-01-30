@@ -1568,26 +1568,6 @@ function setphonehop()
     });   
 }
 
-var quotationItem = [];
-var setQuotationItem = function(elem)
-{
-    var 
-        $this = $(elem),
-        id = elem.id.replace("chk_", ""), index;
-
-    if( $this.prop("checked") )
-    {
-        quotationItem.push(id);    
-    }
-    else
-    {
-        index = quotationItem.indexOf(id);
-        quotationItem.splice(index, 1);
-    }
-
-    $("#cnt-quotation").html(quotationItem.length);
-};
-
 Array.prototype.indexOf || (Array.prototype.indexOf = function(d, e) {
     var a;
     if (null == this) throw new TypeError('"this" is null or not defined');

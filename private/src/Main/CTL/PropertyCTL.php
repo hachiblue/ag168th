@@ -48,24 +48,24 @@ class PropertyCTL extends BaseCTL {
     **/
     public function sendForm()
     {
-      $id = $this->reqInfo->urlParam("id");
-      $url = URL::absolute("/admin/properties#/edit/".$id);
-      $mailContent = <<<MAILCONTENT
-      Request enquiry from page property: <a href="{$url}">{$_POST["reference_id"]}</a><br />
-      Requirement type: {$_POST["requirement"]}<br />
-      Email: {$_POST["email"]}<br />
-      First name: {$_POST["first_name"]}<br />
-      Last name: {$_POST["last_name"]}<br />
-      Date Request: {$_POST["daterequest"]}<br />
-      Phone: {$_POST["phone"]}<br />
+		$id = $this->reqInfo->urlParam("id");
+		$url = URL::absolute("/admin/properties#/edit/".$id);
+		$mailContent = <<<MAILCONTENT
+		Request enquiry from page property: <a href="{$url}">{$_POST["reference_id"]}</a><br />
+		Requirement type: {$_POST["requirement"]}<br />
+		Email: {$_POST["email"]}<br />
+		First name: {$_POST["first_name"]}<br />
+		Last name: {$_POST["last_name"]}<br />
+		Date Request: {$_POST["daterequest"]}<br />
+		Phone: {$_POST["phone"]}<br />
 MAILCONTENT;
 
-      $mailHeader = "From: system@agent168th.com\r\n";
-      $mailHeader = "To: admin@agent168th.com\r\n";
-      $mailHeader .= "Content-type: text/html; charset=utf-8\r\n";
-      @mail("admin@agent168th.com", "Request enquiry From property page: ".$_POST["reference_id"], $mailContent, $mailHeader);
+		$mailHeader = "From: system@agent168th.com\r\n";
+		$mailHeader = "To: admin@agent168th.com\r\n";
+		$mailHeader .= "Content-type: text/html; charset=utf-8\r\n";
+		@mail("admin@agent168th.com", "Request enquiry From property page: ".$_POST["reference_id"], $mailContent, $mailHeader);
 
-      return ['success'=> true];
+		return ['success'=> true];
     }
 
     public function _buildItem(&$item)
@@ -94,19 +94,19 @@ MAILCONTENT;
         $this->_buildImages($item);
         $this->_buildPropType($item);
         $this->_buildZone($item);
-      // }
+	// }
     }
 
     public function _buildZone(&$item)
     {
-      $db = MedooFactory::getInstance();
-      $item['zone'] = $db->get("zone", "*", ["id"=> $item['zone_id']]);
+		$db = MedooFactory::getInstance();
+		$item['zone'] = $db->get("zone", "*", ["id"=> $item['zone_id']]);
     }
 
     public function _buildPropType(&$item)
     {
-      $db = MedooFactory::getInstance();
-      $item['property_type'] = $db->get("property_type", "*", ["id"=> $item['property_type_id']]);
+		$db = MedooFactory::getInstance();
+		$item['property_type'] = $db->get("property_type", "*", ["id"=> $item['property_type_id']]);
     }
 
 	public function _buildThumb(&$item)
@@ -137,43 +137,48 @@ MAILCONTENT;
 
     public function _buildSizeUnit(&$item)
     {
-      $db = MedooFactory::getInstance();
-      $item['size_unit'] = $db->get("size_unit", "*", ["id"=> $item['size_unit_id']]);
+		$db = MedooFactory::getInstance();
+		$item['size_unit'] = $db->get("size_unit", "*", ["id"=> $item['size_unit_id']]);
     }
 
     public function _buildRequirement(&$item)
     {
-      $db = MedooFactory::getInstance();
-      $item['requirement'] = $db->get("requirement", "*", ["id"=> $item['requirement_id']]);
+		$db = MedooFactory::getInstance();
+		$item['requirement'] = $db->get("requirement", "*", ["id"=> $item['requirement_id']]);
     }
 
     public function _buildImages(&$item)
     {
-      $db = MedooFactory::getInstance();
-      $item['images'] = $db->select("property_image", "*", ["property_id"=> $item['id']]);
-      foreach ($item['images'] as &$img) {
-        $img['url'] = URL::absolute("/public/prop_pic/".$img['name']);
-      }
+		$db = MedooFactory::getInstance();
+		$item['images'] = $db->select("property_image", "*", ["property_id"=> $item['id']]);
+		foreach ($item['images'] as &$img) 
+		{
+			$img['url'] = URL::absolute("/public/prop_pic/".$img['name']);
+		}
     }
 
     private $projects = [];
     public function getProject($id)
     {
-      foreach($this->projects as $item) {
-        if($item['id'] == $id) return $item;
-      }
+		foreach($this->projects as $item) 
+		{
+			if($item['id'] == $id) return $item;
+		}
 
-      $db = MedooFactory::getInstance();
-      $project = $db->get("project", "*", ["id"=> $id]);
-      if($project) {
-        $project["images"] = $db->select("project_image", "*", ["project_id"=> $id]);
-        foreach($project["images"] as &$img) {
-          $img["url"] = URL::absolute("/public/project_pics/".$img['image_path']);
-        }
-        $this->projects[] = $project;
-      }
+		$db = MedooFactory::getInstance();
+		$project = $db->get("project", "*", ["id"=> $id]);
+		if($project) 
+		{
+			$project["images"] = $db->select("project_image", "*", ["project_id"=> $id]);
+			foreach($project["images"] as &$img) 
+			{
+				$img["url"] = URL::absolute("/public/project_pics/".$img['image_path']);
+			}
 
-      return $project;
+			$this->projects[] = $project;
+		}
+
+		return $project;
     }
 
 	function is_file_exists($filePath)
@@ -182,5 +187,4 @@ MAILCONTENT;
 
 		return is_file($root.$filePath) && file_exists($root.$filePath);
 	}
-
 }
