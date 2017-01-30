@@ -41,6 +41,18 @@ a:hover {
 	height: 100%;
 }
 
+.site-brand {
+	display: inline-block;
+	padding-left: 5px;
+}
+
+.navbar-default .navbar-brand {
+	color: #085156;
+	font-size: 16px;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: bold;
+}
+
 .gmap-marker {
 	width: 40px;
 	height: 40px;
@@ -1476,12 +1488,24 @@ input.search-bar:-moz-placeholder { /* Firefox 18- */
 }
 
 .info-pd .ppt-name {
-	font-size: 16px;
-	font-size: 16px;
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	font-size: 18px;
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-family: bebasneue;
+	font-weight: lighter;
+}
+
+.cont-headline {
+	font-size: 18px;
+	color: #a08a67;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.ct-desc p {
+	color: #0a5157;
 }
 
 .fact-bed {
@@ -1744,7 +1768,7 @@ ul.lst li.vw_all a {
 }
 
 .ct-desc {
-	margin-top: 147px;
+	margin-top: 50px;
 	color: #35393b;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 14px;
@@ -1900,7 +1924,7 @@ a.side-list-group-item, button.side-list-group-item {
 
 .txt-headline {
 	font-size: 25px;
-	color: #085156;	
+	color: #fff;	
 }
 
 .logo_s {
@@ -2082,6 +2106,7 @@ a.side-list-group-item, button.side-list-group-item {
 	height: 120px;
 	width: 100%;
 	bottom: 0px;
+	z-index: 3;
 	background-image: url(../img/bg_tran_m.png);
 }
 
@@ -2351,6 +2376,7 @@ a.side-list-group-item, button.side-list-group-item {
 	position: absolute;
 	top: 10px;
 	right: 10px;
+	z-index: 1;
 }
 
 .pic_map .pp-gview {
@@ -3140,7 +3166,8 @@ and (min-width : 321px) {
 	}
 
 	.navbar-header img.img_logo {
-		width: 140px;
+		width: 40px;
+		display: inline-block;
 	}
 
 	.navbar-default .navbar-brand {
@@ -3816,5 +3843,19 @@ only screen and (min-device-pixel-ratio : 1.5) {
 	font-family: montserrat_li;
 	src: url(../fonts/Montserrat-Light.ttf) format('truetype');
 	font-weight: 400;
+	font-style: normal
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src: url(../fonts/OpenSans-Regular.ttf) format('truetype');
+	font-weight: 400;
+	font-style: normal
+}
+
+@font-face {
+	font-family: 'Open Sans_smb';
+	src: url(../fonts/OpenSans-Semibold.ttf) format('truetype');
+	font-weight: 600;
 	font-style: normal
 }

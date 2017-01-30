@@ -29,9 +29,9 @@ $this->import('/template/top-navbar');
 					</div>	
 				</div>
 				
-				<div class="col-md-4 no_padd">
+				<div class="col-md-3 no_padd">
 
-					<div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
+					<div class="form-group col-xs-6 col-sm-6 col-md-6 padd_form">
 						<div class="inp_contain">
 							<div class="btn-group search-prod">
 								<?php
@@ -50,7 +50,7 @@ $this->import('/template/top-navbar');
 						</div>
 					</div>
 			
-					<div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
+					<div class="form-group col-xs-6 col-sm-6 col-md-6 padd_form">
 						<div class="inp_contain">
 							<div class="btn-group search-prod">
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
@@ -68,7 +68,7 @@ $this->import('/template/top-navbar');
 						</div>
 					</div>
 
-					<div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
+					<!-- <div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
 						<div class="inp_contain">
 							<div class="btn-group search-prod">
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
@@ -84,13 +84,13 @@ $this->import('/template/top-navbar');
 								</ul>
 							</div>
 						</div>
-					</div>
+					</div> -->
 
 				</div>
 			
-				<div class="col-md-3 no_padd">
+				<div class="col-md-2 no_padd">
 					
-					<div class="form-group col-xs-6 col-sm-6 col-md-7 padd_form">
+					<div class="form-group col-xs-12 col-sm-12 col-md-12 padd_form">
 						<div class="inp_contain">
 							<div class="btn-group search-prod dropdown keep-open">
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
@@ -112,6 +112,10 @@ $this->import('/template/top-navbar');
 													<li data-price="2000000">฿ 2,000,000</li>
 													<li data-price="3000000">฿ 3,000,000</li>
 													<li data-price="4000000">฿ 4,000,000</li>
+													<li data-price="5000000">฿ 5,000,000</li>
+													<li data-price="7000000">฿ 7,000,000</li>
+													<li data-price="10000000">฿ 10,000,000</li>
+													<li data-price="30000000">฿ 30,000,000</li>
 												</ul>
 											</div>
 											<div class="col-xs-6 col-sm-6 rit">
@@ -120,6 +124,10 @@ $this->import('/template/top-navbar');
 													<li data-price="2000000">฿ 2,000,000</li>
 													<li data-price="3000000">฿ 3,000,000</li>
 													<li data-price="4000000">฿ 4,000,000</li>
+													<li data-price="5000000">฿ 5,000,000</li>
+													<li data-price="7000000">฿ 7,000,000</li>
+													<li data-price="10000000">฿ 10,000,000</li>
+													<li data-price="30000000">฿ 30,000,000</li>
 												</ul>
 											</div>
 										</div>
@@ -129,7 +137,7 @@ $this->import('/template/top-navbar');
 						</div>
 					</div>
 
-					<div class="form-group col-xs-6 col-sm-6 col-md-5 padd_form">
+					<!-- <div class="form-group col-xs-6 col-sm-6 col-md-5 padd_form">
 						<div class="inp_contain">
 							<div class="btn-group search-prod dropdown keep-open">
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
@@ -239,7 +247,7 @@ $this->import('/template/top-navbar');
 								</ul>
 							</div>
 						</div>
-					</div>
+					</div> -->
 
 				</div>
 			

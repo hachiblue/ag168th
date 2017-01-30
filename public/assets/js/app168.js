@@ -244,13 +244,16 @@ function price_toshort( price )
 }
 
 
+
 var map, geocoder, marker;
 var markers = []; // Create a marker array to hold your markers
 function initialize() 
 {
+	var center = getMapCenter();
+
 	var mapOptions = {
-		zoom: 12,
-		center: new google.maps.LatLng(13.781556, 100.541233)
+		zoom: 15,
+		center: new google.maps.LatLng(center[0], center[1])
 	};
 	
 	map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -358,6 +361,27 @@ function geoCallback(prop)
 	};
 
 	return geoCB;
+}
+
+function getMapCenter()
+{
+	if( 'undefined' !== typeof params.items[0] )
+	{
+		switch( params.items[0].requirement_id )
+		{
+			case 1 :	// bts Ekkamai
+				return [ 13.719436, 100.585280 ];
+				break;
+			case 2 :	// bts Asoke
+				return [ 13.736955, 100.560339 ];
+				break;
+			default : return [ 13.781556, 100.541233 ];
+		}
+	}
+	else
+	{
+		return [ 13.781556, 100.541233 ];
+	}
 }
 
 var infowindow = null;

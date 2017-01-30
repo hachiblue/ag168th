@@ -1,4 +1,5 @@
 
+<?php extract($params); ?>
 
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
@@ -7,7 +8,8 @@
 			<div class="row-offcanvas row-offcanvas-right">
 
 				<a class="navbar-brand" href="/home">
-					<img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/logo.png")?>" class="img_logo img-responsive" alt="">
+					<img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/mark.png")?>" class="img_logo img-responsive" alt="">
+					<div class="site-brand">AGENT168</div>
 				</a>
 				<button type="button" class="navbar-toggle collapsed" data-toggle="offcanvas" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 					<span class="sr-only">Toggle navigation</span>
@@ -41,13 +43,13 @@
         <div id="navbar" class="navbar-collapse collapse">
            
             <ul class="nav navbar-nav navbar-right">
-                <li class="<?=$act1;?>"><a href="/home">Home</a></li>
-                <li class="<?=$act2;?>"><a href="/list?requirement_id=1">Buy</a></li>
-                <li class="<?=$act3;?>"><a href="/list?requirement_id=2">Rent</a></li>
-                <li class="<?=$act4;?>"><a href="/list_project">Project Search</a></li>
-                <li class="<?=$act5;?>"><a href="/list_your_property">List Your Property</a></li>
-                <li class="<?=$act6;?>"><a href="/board">Board</a></li>
-                <li class="<?=$act7;?>"><a href="/contact">Contact</a></li>
+                <li class="<?=(isset($act1)) ? $act1 : '';?>"><a href="/home">Home</a></li>
+                <li class="<?=(isset($act2)) ? $act2 : '';?>"><a href="/list?requirement_id=1">Buy</a></li>
+                <li class="<?=(isset($act3)) ? $act3 : '';?>"><a href="/list?requirement_id=2">Rent</a></li>
+                <li class="<?=(isset($act4)) ? $act4 : '';?>"><a href="/list_project">Project Search</a></li>
+                <li class="<?=(isset($act5)) ? $act5 : '';?>"><a href="/regisprops">List Your Property</a></li>
+                <li class="<?=(isset($act6)) ? $act6 : '';?>"><a href="/board">Board</a></li>
+                <li class="<?=(isset($act7)) ? $act7 : '';?>"><a href="/contact">Contact</a></li>
                 <li class="active_red"><a href="/investment">Investment  <img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/invest_icon.png")?>" alt=""><span class="sr-only">(current)</span></a></li>
 				<li><a href="" class="f_gray"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/fav_icon.png")?>" alt=""></a></li>
 				<li><a href="" class="f_gray lst"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/comp_icon.png")?>" alt=""></a></li>

@@ -35,14 +35,14 @@ class HomeCTL extends BaseCTL {
 		$db = MedooFactory::getInstance();
 		
 		$pItems = array('page' => 'home', 'act1' => 'act');
-
+		
 		$query = "SELECT p.*, IF(p.sell_price=0, p.rent_price, p.sell_price) AS price
 					FROM
 					  property p
 					WHERE  p.web_status = 1 
 					  AND (
 						p.property_highlight_id IS NOT NULL 
-						AND p.property_highlight_id != 0
+						AND p.property_highlight_id = '".rand(1, 4)."'
 					  ) 
 					ORDER BY RAND() 
 					LIMIT 6 ";
@@ -51,9 +51,16 @@ class HomeCTL extends BaseCTL {
 		$stmt->execute();
 		$items = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 		$this->_buildItems($items);
-
-		$pItems['highlight'] = $items;
-
+		
+		$highlight_prop = array( '1' => 'Sale at Lost and Plus', '2' => 'Sale at Cost', '3' => 'Sale under Market Price', '4' => 'Made Over already');
+		
+		$pItems['highlight'] = array();
+		if( isset($items[0]) )
+		{
+			$pItems['highlight'] = array(
+				$highlight_prop[$items[0]['property_highlight_id']] => $items
+			);
+		}
 
 		$feature_unit_id = array(
 			'Best Buy', 'Hot Price', 'Discount', 'New', 'HIGHLIGHT OF THE MONTH', 'AROUND XXX M.', 'A BEAUTY OF RIVER', 'IN THE MIDDLE OF EVERYWHERE'

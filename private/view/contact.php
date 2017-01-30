@@ -21,7 +21,17 @@ $this->import('/template/top-navbar');
 		</div>
 	</div>
 	<div class="col-md-8 ct-desc">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos totam alias commodi accusantium deserunt corrupti eius omnis assumenda optio minima nobis maxime quidem dolore perferendis blanditiis cum natus odio ducimus ad eligendi iste porro ipsa itaque enim reprehenderit molestiae quos veritatis esse dolorum repudiandae! Voluptate autem omnis natus labore necessitatibus cum expedita perferendis inventore eum laboriosam animi ratione id porro temporibus reiciendis debitis dolorem odio ducimus quibusdam voluptatum minus cumque recusandae non iusto officia qui maiores mollitia exercitationem ipsum amet perspiciatis vel nam fuga quidem ea itaque obcaecati voluptatibus nihil sint ex. Unde non totam illum excepturi odit amet quia.</p>
+
+		<div class="cont-headline">COMPANY PROFILE</div>	
+
+		<p>&nbsp;&nbsp;&nbsp;Agent168 founded in 2015. We are Bangkok base Real Estate agency. Providing services ex: buy, sell, rent including investment plan. With 10 year experiences in this industry, we thrive as we also gain more in market share.</p>
+		
+		<div class="cont-headline mgt10">PREMIUM EXPERIENCE</div>	
+		<p>&nbsp;&nbsp;&nbsp;We know, buy a house, is a big decision. Our well trained Property Consultant are ready to provide you with their experience. You are our premium client from the moment that our Property Consultant take your case. You will meet the new premium experience in your life.</p>
+		
+		<div class="cont-headline mgt10">WHY CHOOSE US?</div>	
+		<p>&nbsp;&nbsp;&nbsp;With over 40,000 units in our stock. We have various units for you to choose. From low rise in the hearth of the center to a room with a breathtaking river view. Combine with our exceptional Property Consultant who will assist you from the beginning until you get the right one. We’re ready if you’re ready! Contact us now : 087-760- 5555</p>
+
 	</div>
 
 	<div class="clearfix"></div>
@@ -58,6 +68,7 @@ $this->import('/template/top-navbar');
 	});
 	var marker = new google.maps.Marker({
 	  position: uluru,
+	  animation: google.maps.Animation.DROP,
 	  map: map
 	});
   }

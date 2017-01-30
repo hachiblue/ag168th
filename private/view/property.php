@@ -16,7 +16,7 @@ $req_txt = strtoupper($item['requirement']['name']);
 		<div class="col-md-12 no_padd">
 			<form action="/list" class="search_prod_form form-inline">
 
-				<div class="form-group col-xs-12 col-sm-12 col-md-3 padd_form">
+				<div class="form-group col-xs-12 col-sm-12 col-md-4 padd_form">
 					<div class="inp_contain shc">
 						<span class="icon"></span>
 						<input type="search" name="searchBy" id="auto-searchby" class="form-control search-prod opabx" autocomplete="off" placeholder="Search for ..." value="<?=(isset($_GET["searchBy"]))? $_GET["searchBy"] : '';?>">
@@ -24,9 +24,9 @@ $req_txt = strtoupper($item['requirement']['name']);
 					</div>	
 				</div>
 				
-				<div class="col-md-4 no_padd">
+				<div class="col-md-3 no_padd">
 
-					<div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
+					<div class="form-group col-xs-6 col-sm-6 col-md-6 padd_form">
 						<div class="inp_contain">
 							<div class="btn-group search-prod">
 								<?php
@@ -45,7 +45,7 @@ $req_txt = strtoupper($item['requirement']['name']);
 						</div>
 					</div>
 			
-					<div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
+					<div class="form-group col-xs-6 col-sm-6 col-md-6 padd_form">
 						<div class="inp_contain">
 							<div class="btn-group search-prod">
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
@@ -63,7 +63,7 @@ $req_txt = strtoupper($item['requirement']['name']);
 						</div>
 					</div>
 
-					<div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
+					<!-- <div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
 						<div class="inp_contain">
 							<div class="btn-group search-prod">
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
@@ -79,13 +79,13 @@ $req_txt = strtoupper($item['requirement']['name']);
 								</ul>
 							</div>
 						</div>
-					</div>
+					</div> -->
 
 				</div>
 			
-				<div class="col-md-4 no_padd">
+				<div class="col-md-3 no_padd">
 					
-					<div class="form-group col-xs-6 col-sm-6 col-md-7 padd_form">
+					<div class="form-group col-xs-12 col-sm-12 col-md-12 padd_form">
 						<div class="inp_contain">
 							<div class="btn-group search-prod dropdown keep-open">
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
@@ -107,6 +107,10 @@ $req_txt = strtoupper($item['requirement']['name']);
 													<li data-price="2000000">฿ 2,000,000</li>
 													<li data-price="3000000">฿ 3,000,000</li>
 													<li data-price="4000000">฿ 4,000,000</li>
+													<li data-price="5000000">฿ 5,000,000</li>
+													<li data-price="7000000">฿ 7,000,000</li>
+													<li data-price="10000000">฿ 10,000,000</li>
+													<li data-price="30000000">฿ 30,000,000</li>
 												</ul>
 											</div>
 											<div class="col-xs-6 col-sm-6 rit">
@@ -115,6 +119,10 @@ $req_txt = strtoupper($item['requirement']['name']);
 													<li data-price="2000000">฿ 2,000,000</li>
 													<li data-price="3000000">฿ 3,000,000</li>
 													<li data-price="4000000">฿ 4,000,000</li>
+													<li data-price="5000000">฿ 5,000,000</li>
+													<li data-price="7000000">฿ 7,000,000</li>
+													<li data-price="10000000">฿ 10,000,000</li>
+													<li data-price="30000000">฿ 30,000,000</li>
 												</ul>
 											</div>
 										</div>
@@ -124,7 +132,7 @@ $req_txt = strtoupper($item['requirement']['name']);
 						</div>
 					</div>
 
-					<div class="form-group col-xs-6 col-sm-6 col-md-5 padd_form">
+					<!-- <div class="form-group col-xs-6 col-sm-6 col-md-5 padd_form">
 						<div class="inp_contain">
 							<div class="btn-group search-prod dropdown keep-open">
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
@@ -234,7 +242,7 @@ $req_txt = strtoupper($item['requirement']['name']);
 								</ul>
 							</div>
 						</div>
-					</div>
+					</div> -->
 
 				</div>
 			
@@ -253,7 +261,7 @@ $req_txt = strtoupper($item['requirement']['name']);
 	<div class="mgt40 hidden-xs hidden-sm">
 		<ol class="breadcrumb pd0">
 			<li><a href="/home">Home</a></li>
-			<li><a href="/list"><?php echo ((isset($item["requirement_id"]) && $item["requirement_id"] == 1) ? 'Buy' : 'Rent');?></a></li>
+			<li><a href="/list?requirement_id=<?=$item["requirement_id"];?>"><?php echo ((isset($item["requirement_id"]) && $item["requirement_id"] == 1) ? 'Buy' : 'Rent');?></a></li>
 			<li class="active"><?=$item['project']['name'];?></li>
 		</ol>
 	</div>

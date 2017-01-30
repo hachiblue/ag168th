@@ -1,14 +1,15 @@
 
+<?php extract($params); ?>
 
 	<div class="col-xs-6 col-sm-3  sidebar-offcanvas hidden-md hidden-lg" id="sidebar">
 	  <div class="list-group side-list-group fixright">
-		<a href="/home" class="list-group-item side-list-group-item active">Home</a>
-		<a href="/list" class="list-group-item side-list-group-item">Buy</a>
-		<a href="/list" class="list-group-item side-list-group-item">Rent</a>
-		<a href="/list_project" class="list-group-item side-list-group-item">Project Search</a>
-		<a href="/list_your_property" class="list-group-item side-list-group-item">List Your Property</a>
-		<a href="/board" class="list-group-item side-list-group-item">Board</a>
-		<a href="/contact" class="list-group-item side-list-group-item">Contact</a>
+		<a href="/home" class="list-group-item side-list-group-item <?=(isset($act1)) ? $act1 : '';?>">Home</a>
+		<a href="/list?requirement_id=1" class="list-group-item side-list-group-item <?=(isset($act2)) ? $act2 : '';?>">Buy</a>
+		<a href="/list?requirement_id=2" class="list-group-item side-list-group-item <?=(isset($act3)) ? $act3 : '';?>">Rent</a>
+		<a href="/list_project" class="list-group-item side-list-group-item <?=(isset($act4)) ? $act4 : '';?>">Project Search</a>
+		<a href="/regisprops" class="list-group-item side-list-group-item <?=(isset($act5)) ? $act5 : '';?>">List Your Property</a>
+		<a href="/board" class="list-group-item side-list-group-item <?=(isset($act6)) ? $act6 : '';?>">Board</a>
+		<a href="/contact" class="list-group-item side-list-group-item <?=(isset($act7)) ? $act7 : '';?>">Contact</a>
 	  </div>
 	</div><!--/.sidebar-offcanvas-->
 

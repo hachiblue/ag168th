@@ -69,7 +69,7 @@ $this->import('/template/top-navbar');
 			<?php
 			$topic = array('HIGHLIGHT PROPERTIES', 'HIGHLIGHT OF THE MONTH', 'NEW COMING', 'AROUND XXX M.', 'A BEAUTY OF RIVER', 'IN THE MIDDLE OF EVERYWHERE');
 
-			$box_content = array_merge( array( 'HighLight Properties' => $highlight ), $feature_unit );
+			$box_content = array_merge( $highlight, $feature_unit );
 			$i = 0;
 			foreach( $box_content as $name => $tp )
 			{

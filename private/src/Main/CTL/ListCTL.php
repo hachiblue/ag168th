@@ -173,15 +173,21 @@ class ListCTL extends BaseCTL {
 
 		$query = "SELECT property.*, project.name, pv.name as province_name, sd.name as district_name FROM property
 		JOIN project ON property.project_id = project.id, province pv, sub_district sd
-		WHERE property.web_status=1 AND property.province_id = pv.id AND property.sub_district_id = sd.id
+		WHERE property.web_status=1 AND property.province_id = pv.id AND property.sub_district_id = sd.id AND property.web_status = 1
 		AND ({$searchQuery}) AND project.name != 'Unspecified'
-		ORDER BY created_at DESC
+		ORDER BY IF(property.requirement_id='".$params['requirement_id']."', (CASE property.bts_id
+           WHEN 15 THEN 1
+           WHEN 12 THEN 0
+         END), (CASE property.bts_id
+           WHEN 15 THEN 0
+           WHEN 12 THEN 1
+         END)) DESC, RAND(), created_at DESC
 		LIMIT :start,:limit";
 
 		$queryCount = "SELECT COUNT(property.id) as c FROM property
 		JOIN project ON property.project_id = project.id, province pv, sub_district sd
-		WHERE property.web_status=1 AND property.province_id = pv.id AND property.sub_district_id = sd.id
-		AND ({$searchQuery})";
+		WHERE property.web_status=1 AND property.province_id = pv.id AND property.sub_district_id = sd.id AND property.web_status = 1
+		AND ({$searchQuery}) AND project.name != 'Unspecified' ";
 
 		$stmt = $db->pdo->prepare($query);
 		$stmtCount = $db->pdo->prepare($queryCount);
