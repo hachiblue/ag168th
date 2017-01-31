@@ -15,6 +15,21 @@
 
 </div>
 
+<?php
+
+use Main\DB\Medoo\MedooFactory;
+
+$db = MedooFactory::getInstance();
+
+$stmt = $db->pdo->prepare(' select id, name from project where is_recent = 1 limit 5');
+$stmt->execute();
+$recent = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+$stmt = $db->pdo->prepare(' select id, name from project where is_popular = 1 limit 5');
+$stmt->execute();
+$popular = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+?>
 
 <footer class="pg-footer pan">
 	<div class="backgroundLowlight content contentResponsive">
@@ -33,7 +48,14 @@
 					<div class="list-sitemap">
 						<div class="stitle">Popular Project</div>
 						<ul class="lst mgt10">
-
+							<?php
+							foreach( $popular as $pop )
+							{
+								?>
+								<li><a href="/project/<?=$pop['id'];?>"><?=$pop['name'];?></a></li>
+								<?php
+							}
+							?>
 							<li class="vw_all"><a href="">View All <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
@@ -43,8 +65,15 @@
 					<div class="list-sitemap">
 						<div class="stitle">Recent Project</div>
 						<ul class="lst mgt10">
-
-							<li class="vw_all"><a href="">View All <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></li>
+							<?php
+							foreach( $recent as $rec )
+							{
+								?>
+								<li><a href="/project/<?=$rec['id'];?>"><?=$rec['name'];?></a></li>
+								<?php
+							}
+							?>
+							<li class="vw_all"><a href="/list_project">View All <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
 				</div>

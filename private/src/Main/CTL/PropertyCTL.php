@@ -36,8 +36,22 @@ class PropertyCTL extends BaseCTL {
 		
 		$item['province'] = $db->get("province", "*", ["id"=> $item['province_id']]);
 		$item['sub_district'] = $db->get("sub_district", "*", ["id"=> $item['sub_district_id']]);
+			
+		$act = 'act';
+		if( $item['requirement_id'] == 1 ) $act = 'act2';
+		if( $item['requirement_id'] == 2 ) $act = 'act3';
+		
 
-		$pItems = array('page' => 'property', 'item'=> $item);
+		$stmt = $db->pdo->prepare(' select * from property where project_id = :project_id order by rand() limit 6');
+		$stmt->execute(array(':project_id' => $item['project_id']));
+		$similar = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		foreach( $similar as $i => $sim )
+		{
+			$this->_buildItem($similar[$i]);
+		}
+
+
+		$pItems = array('page' => 'property', 'item'=> $item, $act => 'act', 'similar' => $similar);
 
 		return new HtmlView('/template/layout', $pItems);
     }

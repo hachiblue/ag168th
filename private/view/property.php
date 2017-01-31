@@ -319,7 +319,8 @@ $req_txt = strtoupper($item['requirement']['name']);
 
 
 
-					<div class="pp-map-butt hidden-md hidden-lg"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/map_butt.png")?>" alt=""></div>
+					<!-- <div class="pp-map-butt hidden-md hidden-lg"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/map_butt.png")?>" alt=""></div> -->
+
 					<div class="pp-bar hidden-md hidden-lg">
 						<div class="pp-price">
 							<div class="price"><span class="font-green">฿</span> <?=$price;?></div>
@@ -338,12 +339,12 @@ $req_txt = strtoupper($item['requirement']['name']);
 				<div id="area-map" class="mapp" style="display:none;"></div>
 
 				<div class="pp-gview hidden-xs hidden-sm">
-					<div name="tab-project" class="pp-tab rht col-md-6 text-center active" data-tab="gall">
+					<div name="tab-project" class="pp-tab rht col-md-12 text-center active" data-tab="gall">
 						<i class="fa fa-picture-o" aria-hidden="true"></i> Photos
 					</div>
-					<div name="tab-project" class="pp-tab col-md-6 text-center" data-tab="map">
+					<!-- <div name="tab-project" class="pp-tab col-md-6 text-center" data-tab="map">
 						<i class="fa fa-map-marker" aria-hidden="true"></i> Map
-					</div>
+					</div> -->
 				</div>
 			</div>
 
@@ -369,36 +370,32 @@ $req_txt = strtoupper($item['requirement']['name']);
 
 			<div class="pp-detail mgt25">
 				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates error illo ab tenetur rem dignissimos tempore necessitatibus modi aperiam officiis cumque deleniti neque placeat nisi dolorum saepe ipsa suscipit tempora maxime id. Amet dolorum illo impedit qui velit in neque dolores et officia repellendus atque consequuntur perferendis accusantium ipsa eos fugit error quidem odit nisi iste aspernatur perspiciatis sit quasi. Excepturi aut similique nam sint doloremque aliquam minus deserunt in repudiandae nulla voluptatibus accusamus vel tempore officiis labore dignissimos doloribus. Corporis quasi doloremque voluptatibus molestiae. Necessitatibus optio quam error cupiditate tenetur dolorum laudantium possimus quos itaque soluta illum ducimus beatae.			
+					<?=(isset($item['project']['project_desc']))? $item['project']['project_desc'] : '';?>		
 				</p>
 			</div>
 
 			<div class="pp-facilities mgt25">
 
 				<div class="heading2">Facilities</div>
+				<?php
+				
+				//$arrkey = preg_grep( '/^(has_).+$/', array_keys( $item['project'] ) );
 
+				?>
 				<div class="hidden-xs hidden-sm">
-					<div class="pp-faci-list col-md-4 mgt10 no_padd">
-						<ul>
-							<li class="ico_swim">Swimming Pool</li>
-							<li class="ico_garden">Garden</li>
-							<li class="ico_sauna">Sauna</li>
-							<li class="ico_fitness">Fitness</li>
-						</ul>
-					</div>
-					<div class="pp-faci-list col-md-4 mgt10 no_padd">
-						<ul>
-							<li class="ico_parking">Parking Lot</li>
-							<li class="ico_laundry">Laundry</li>
-							<li class="ico_lib">Library</li>
-							<li class="ico_conroom">Conference room</li>
-						</ul>
-					</div>
-					<div class="pp-faci-list col-md-4 mgt10 no_padd">
-						<ul>
-							<li class="ico_kid">Kid's club</li>
-							<li class="ico_pet">Pet friendly</li>
-							<li class="ico_golf">Golf</li>
+					<div class="pp-faci-list  mgt10 no_padd">
+						<ul class="list-group row pdl15">
+							<?php if($item['project']['has_swimming_pool'] == 1 ){ ?> <li class="ico_swim col-md-4">Swimming Pool</li> <?php } ?>
+							<?php if($item['project']['has_library'] == 1 ){ ?> <li class="ico_lib col-md-4">Library</li> <?php } ?>
+							<?php if($item['project']['has_garden'] == 1 ){ ?> <li class="ico_garden col-md-4">Garden</li> <?php } ?>
+							<?php if($item['project']['has_conference_room'] == 1 ){ ?> <li class="ico_conroom col-md-4">Conference room</li> <?php } ?>
+							<?php if($item['project']['has_sauna'] == 1 ){ ?> <li class="ico_sauna col-md-4">Sauna</li> <?php } ?>
+							<?php if($item['project']['has_kid_club'] == 1 ){ ?> <li class="ico_kid col-md-4">Kid's club</li> <?php } ?>
+							<?php if($item['project']['has_gym'] == 1 ){ ?> <li class="ico_fitness col-md-4">Fitness</li> <?php } ?>
+							<?php if($item['project']['has_pet'] == 1 ){ ?> <li class="ico_pet col-md-4">Pet friendly</li> <?php } ?>
+							<?php if($item['project']['has_parking_lot'] == 1 ){ ?> <li class="ico_parking col-md-4">Parking Lot</li> <?php } ?>
+							<?php if($item['project']['has_golf'] == 1 ){ ?> <li class="ico_golf col-md-4">Golf</li> <?php } ?>
+							<?php if($item['project']['has_laundry_service'] == 1 ){ ?> <li class="ico_laundry col-md-4">Laundry</li> <?php } ?>
 						</ul>
 					</div>
 				</div>
@@ -406,17 +403,19 @@ $req_txt = strtoupper($item['requirement']['name']);
 				<div class="hidden-md hidden-lg">
 					<div class="pp-faci-list  mgt10 no_padd">
 						<ul class="list-group row pdl15">
-							<li class="ico_swim col-xs-6">Swimming Pool</li>
-							<li class="ico_lib col-xs-6">Library</li>
-							<li class="ico_garden col-xs-6">Garden</li>
-							<li class="ico_conroom col-xs-6">Conference room</li>
-							<li class="ico_sauna col-xs-6">Sauna</li>
-							<li class="ico_kid col-xs-6">Kid's club</li>
-							<li class="ico_fitness col-xs-6">Fitness</li>
-							<li class="ico_pet col-xs-6">Pet friendly</li>
-							<li class="ico_parking col-xs-6">Parking Lot</li>
-							<li class="ico_golf col-xs-6">Golf</li>
-							<li class="ico_laundry col-xs-6">Laundry</li>
+
+							<?php if($item['project']['has_swimming_pool'] == 1 ){ ?> <li class="ico_swim col-xs-6">Swimming Pool</li> <?php } ?>
+							<?php if($item['project']['has_library'] == 1 ){ ?> <li class="ico_lib col-xs-6">Library</li> <?php } ?>
+							<?php if($item['project']['has_garden'] == 1 ){ ?> <li class="ico_garden col-xs-6">Garden</li> <?php } ?>
+							<?php if($item['project']['has_conference_room'] == 1 ){ ?> <li class="ico_conroom col-xs-6">Conference room</li> <?php } ?>
+							<?php if($item['project']['has_sauna'] == 1 ){ ?> <li class="ico_sauna col-xs-6">Sauna</li> <?php } ?>
+							<?php if($item['project']['has_kid_club'] == 1 ){ ?> <li class="ico_kid col-xs-6">Kid's club</li> <?php } ?>
+							<?php if($item['project']['has_gym'] == 1 ){ ?> <li class="ico_fitness col-xs-6">Fitness</li> <?php } ?>
+							<?php if($item['project']['has_pet'] == 1 ){ ?> <li class="ico_pet col-xs-6">Pet friendly</li> <?php } ?>
+							<?php if($item['project']['has_parking_lot'] == 1 ){ ?> <li class="ico_parking col-xs-6">Parking Lot</li> <?php } ?>
+							<?php if($item['project']['has_golf'] == 1 ){ ?> <li class="ico_golf col-xs-6">Golf</li> <?php } ?>
+							<?php if($item['project']['has_laundry_service'] == 1 ){ ?> <li class="ico_laundry col-xs-6">Laundry</li> <?php } ?>
+							
 						</ul>
 					</div>
 				</div>
@@ -493,6 +492,22 @@ $req_txt = strtoupper($item['requirement']['name']);
 					
 					<div class="clearfix"></div>
 			</div>			
+			
+			
+			<div class="row_enq pp-projectinfo pdt10 mgt25">
+				<div class="box-map">
+					<img src="https://maps.googleapis.com/maps/api/staticmap?center=<?=$item['project']['address'];?>&markers=color:blue|<?=$item['project']['address'];?>&zoom=16&size=400x200&key=AIzaSyB_mlBrkkojSUJnMjYKf00nhno1nlO9CCI" class="img-responsive" alt="">
+
+					<div name="tab-project" class="pp-tab col-md-12 text-center">
+						<i class="fa fa-map-marker" aria-hidden="true"></i> Map
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+
+			<div class="clearfix"></div>
+			
+
 
 			<div class="row_enq pp-projectinfo pdt10 mgt25 pdb25 hidden-xs hidden-sm">
 				<div class="col-md-12 pp-pjheadline mgt5">Project Info</div>
@@ -507,7 +522,7 @@ $req_txt = strtoupper($item['requirement']['name']);
 				</div>
 				<div class="clearfix"></div>
 				<div class="pp-pjinfo mgt15 text-center">
-					<div class="col-md-3 no_padd"><div class="bigtxt">2016</div><div class="subtxt">Year Built</div></div>
+					<div class="col-md-3 no_padd"><div class="bigtxt"><?=$item['project']['year_built'];?></div><div class="subtxt">Year Built</div></div>
 					<div class="col-md-3"><div class="bigtxt"><?=$item['project']['number_buildings'];?></div><div class="subtxt">Towers</div></div>
 					<div class="col-md-2 text-center pdl6"><div class="bigtxt"><?=$item['project']['number_floors'];?></div><div class="subtxt">Floors</div></div>
 					<div class="col-md-4 no_padd"><div class="bigtxt txt-orange"><?=$item['project']['number_units'];?></div><div class="subtxt">Available Units</div></div>
@@ -517,6 +532,8 @@ $req_txt = strtoupper($item['requirement']['name']);
 		</div>
 
 	</div>
+	
+	<div class="clearfix"></div>
 
 	<div class="row mgt25">
 		<div class="pp-similar col-md-12 no_padd ">
@@ -526,27 +543,41 @@ $req_txt = strtoupper($item['requirement']['name']);
 					<?php
 					$i = 0;
 					$pd = 7;
-					while( $i < $pd )
+					foreach( $similar as $simi )
 					{
+						$price = 'N/A';
+						$req = isset($simi["requirement_id"]) ? $simi["requirement_id"] : '';
+						if( $simi["sell_price"] > 0 && $req == 1 )
+						{
+							$price = number_format($simi["sell_price"]);
+						}
+						elseif( $simi["rent_price"] > 0 && $req == 2 )
+						{	
+							$price = number_format($simi["rent_price"]);
+						}
+						elseif( $req == '' )
+						{	
+							$price = isset($simi["sell_price"]) ? number_format($simi["sell_price"]) : 'N/A';
+						}
 					?>
 					<div class="property_list col-md-3 bx-m mgb20 swiper-slide">
-						<div class="pd-top"  data-prop="9999">
-							<div class="img-pd" style="background: url(http://agent168th.com/public/prop_pic/GM1lV5F3nbYsmtdH89W2fiEzCyxNZuBD.jpg);"></div>
+						<div class="pd-top" data-prop="<?php echo $simi["id"];?>">
+							<div class="img-pd" style="background: url(<?=$simi['picture']['url'];?>);"></div>
 							<div class="info-pd">
 								<div class="ppt-name">
-									WaterMark Chaophraya
+									<?=$simi['project']['name'];?>
 								</div>
-								<div class="ptt-location mgt10"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/pin_icon.png")?>" alt="">Phra Kanong, Bangkok</div>
+								<div class="ptt-location mgt10"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/pin_icon.png")?>" alt=""><?php echo $item['sub_district']['name'];?>, <?php echo $item['province']['name'];?></div>
 								<div class="ptt-fact mgt25">
-									<div class="fact-bed col-xs-2 col-md-2 ">1</div>
-									<div class="fact-bath col-xs-2 col-md-2 ">1</div>
-									<div class="fact-size col-xs-4 col-md-4 pull-right  text-right no_padd">93 Sq.M.</div>
+									<div class="fact-bed col-xs-2 col-md-2 "><?=$simi['bedrooms'];?></div>
+									<div class="fact-bath col-xs-2 col-md-2 "><?=$simi['bathrooms'];?></div>
+									<div class="fact-size col-xs-4 col-md-4 pull-right  text-right no_padd"><?=$simi['size'];?> <?=$simi['size_unit']['name'];?></div>
 									<div class="clearfix"></div>
 								</div>
 							</div>
 						</div>
 						<div class="pd-bottom">
-							<div class="pd-price col-xs-6">฿ 12,000</div>
+							<div class="pd-price col-xs-6">฿ <?=$price;?></div>
 							<div class="pd-opt col-xs-6 text-right">
 								<div class="opt-plus pull-right"></div>
 								<div class="opt-fav pull-right mrgrl10"></div>
@@ -565,8 +596,8 @@ $req_txt = strtoupper($item['requirement']['name']);
 
 </div>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_mlBrkkojSUJnMjYKf00nhno1nlO9CCI"></script>
-<script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/richmarker.js")?>"></script>
+<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_mlBrkkojSUJnMjYKf00nhno1nlO9CCI"></script>
+<script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/richmarker.js")?>"></script> -->
 
 <script>
 

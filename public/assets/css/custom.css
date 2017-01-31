@@ -726,6 +726,10 @@ input.search-bar:-moz-placeholder { /* Firefox 18- */
 	right: 0;
 }
 
+.left0 {
+	left: 0;
+}
+
 .box {
 	display: block;
 	clear: both;
@@ -864,6 +868,10 @@ input.search-bar:-moz-placeholder { /* Firefox 18- */
 	padding: 15px 30px;
 }
 
+.pdr {
+	padding: 15px 15px;
+}
+
 .pdt30 {
 	padding-top: 30px;
 }
@@ -894,6 +902,10 @@ input.search-bar:-moz-placeholder { /* Firefox 18- */
 
 .mgb5 {
 	margin-bottom: 5px;
+}
+
+.mgb30 {
+	margin-bottom: 30px;
 }
 
 .mgt40 {
@@ -1000,6 +1012,10 @@ input.search-bar:-moz-placeholder { /* Firefox 18- */
 
 .flol {
 	float: left;
+}
+
+.flor {
+	float: right !important;
 }
 
 .fixed {
@@ -2402,7 +2418,15 @@ a.side-list-group-item, button.side-list-group-item {
 	font-size: 14px;
 	padding-top: 20px;
 	padding-bottom: 20px;
-	cursor: pointer;
+}
+
+.box-map .pp-tab {
+    color: #333e48;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    padding-top: 15px;
+    padding-bottom: 10px;
 }
 
 .pic_map .pp-gview .pp-tab i {
@@ -3375,12 +3399,12 @@ and (max-width : 320px) {
 	}
 	
 	.multi-column.right_column {
-		left: -70px;
+		left: 0px;
 		right: 0;
 	}
 
 	.dropdown-menu.multi-column {
-		width: 260px;	
+		
 	}
 	
 	.ct_contain {
@@ -3585,6 +3609,10 @@ and (max-width : 320px) {
 
 	.swiper-slide.mgt3 {
 		margin-top: 0px;
+	}
+
+	.right.pull-right {
+		float: none !important;
 	}
 }
 

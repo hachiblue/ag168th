@@ -541,12 +541,12 @@ $(document).on("ready", function () {
 
 	$('.pd-top').click(function () {
 		var $this = $(this);
-		window.open('property/'+$this.data('prop'), '_self');
+		window.open('/property/'+$this.data('prop'), '_self');
 	});
 
 	$('.pj-top').click(function () {
 		var $this = $(this);
-		window.open('project/'+$this.data('prop'), '_self');
+		window.open('/project/'+$this.data('prop'), '_self');
 	});
 	
 	$('#list-price-min li').click(function () {
@@ -586,7 +586,7 @@ $(document).on("ready", function () {
 			{
 				$('#area-gall').hide();
 				$('#area-map').show();
-				initMap();
+				//initMap();
 			}
 			else
 			{

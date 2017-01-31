@@ -90,7 +90,7 @@ $this->import('/template/top-navbar');
 							<div class="">
 								<div class="prop_banner" style="background-image: url('<?=$tp[0]['picture']['url'];?>');"></div>
 								<span class="overlayPhoto overlayFull mg0" data-href="/property/<?=$tp[0]['id'];?>"></span>
-								<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable">
+								<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable" data-href="/property/<?=$tp[0]['id'];?>">
 									<ul class="mbm property-card-details">
 										<li class="man pdb3">
 											<div class="man property-title"><?=$tp[0]['project']['name'];?></div>
@@ -110,7 +110,7 @@ $this->import('/template/top-navbar');
 							<div class="ml3">
 								<div class="prop_banner" style="background-image: url('<?=$tp[1]['picture']['url'];?>');"></div>
 								<span class="overlayPhoto overlayFull ml3" data-href="/property/<?=$tp[1]['id'];?>"></span>
-								<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable">
+								<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable" data-href="/property/<?=$tp[1]['id'];?>">
 									<ul class="mbm property-card-details">
 										<li class="man pdb3">
 											<div class="man property-title"><?=$tp[1]['project']['name'];?></div>
@@ -130,7 +130,7 @@ $this->import('/template/top-navbar');
 							<div class="ml3">
 								<div class="prop_banner" style="background-image: url('<?=$tp[2]['picture']['url'];?>');"></div>
 								<span class="overlayPhoto overlayFull ml3" data-href="/property/<?=$tp[2]['id'];?>"></span>
-								<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable">
+								<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable" data-href="/property/<?=$tp[2]['id'];?>">
 									<ul class="mbm property-card-details">
 										<li class="man pdb3">
 											<div class="man property-title"><?=$tp[2]['project']['name'];?></div>
@@ -154,7 +154,7 @@ $this->import('/template/top-navbar');
 						<div class="mgt3">
 							<div class="prop_banner_big" style="background-image: url('<?=$tp[3]['picture']['url'];?>');"></div>
 							<span class="overlayPhoto overlayFull mgt3" data-href="/property/<?=$tp[3]['id'];?>"></span>
-							<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable text-center b5p">
+							<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable text-center b5p" data-href="/property/<?=$tp[3]['id'];?>">
 								<ul class="mbm property-card-details">
 									<li class="pdb3">
 										<div class="property-title2"><?=$tp[3]['project']['name'];?></div>
@@ -176,7 +176,7 @@ $this->import('/template/top-navbar');
 						<div class="ml3 mgt3">
 							<div class="prop_banner_big" style="background-image: url('<?=$tp[4]['picture']['url'];?>');"></div>
 							<span class="overlayPhoto overlayFull ml3 mgt3" data-href="/property/<?=$tp[4]['id'];?>"></span>
-							<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable text-center b5p">
+							<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable text-center b5p" data-href="/property/<?=$tp[4]['id'];?>">
 								<ul class="mbm property-card-details">
 									<li class="pdb3">
 										<div class="property-title2"><?=$tp[4]['project']['name'];?></div>

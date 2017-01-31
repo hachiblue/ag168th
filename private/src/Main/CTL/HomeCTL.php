@@ -15,6 +15,7 @@ use Main\View\JsonView;
 use Main\ThirdParty\Xcrud\Xcrud;
 use Main\DB\Medoo\MedooFactory;
 use Main\Helper\URL;
+use Main\Service\FeatureUnitService;
 
 use Main\CTL\ApiLayout;
 
@@ -62,9 +63,7 @@ class HomeCTL extends BaseCTL {
 			);
 		}
 
-		$feature_unit_id = array(
-			'Best Buy', 'Hot Price', 'Discount', 'New', 'HIGHLIGHT OF THE MONTH', 'AROUND XXX M.', 'A BEAUTY OF RIVER', 'IN THE MIDDLE OF EVERYWHERE'
-		);
+		$feature_unit_id = FeatureUnitService::getItems();
 			
 		$pItems['feature_unit'] = array();
 		
@@ -72,14 +71,16 @@ class HomeCTL extends BaseCTL {
 
 		foreach( $feature_unit_id as $i => $topic )
 		{
-			$query = "SELECT p.*, IF(p.sell_price=0, p.rent_price, p.sell_price) AS price FROM property p WHERE  p.web_status = 1 AND ( p.property_highlight_id IS NOT NULL AND p.feature_unit_id = '".$i."' ) ORDER BY RAND() LIMIT 6 ";
+			if( $i < 4 ) continue;
+
+			$query = "SELECT p.*, IF(p.sell_price=0, p.rent_price, p.sell_price) AS price FROM property p WHERE  p.web_status = 1 AND ( p.property_highlight_id IS NOT NULL AND p.feature_unit_id = '".$topic['id']."' ) ORDER BY RAND() LIMIT 6 ";
 
 			$stmt = $db->pdo->prepare($query);
 			$stmt->execute();
 			$items = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 			$this->_buildItems($items);
 
-			$pItems['feature_unit'][$topic] = $items;
+			$pItems['feature_unit'][$topic['name']] = $items;
 
 			unset($items);
 

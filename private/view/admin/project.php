@@ -32,7 +32,7 @@ $xcrud->fields([
   'has_game_room', 'has_playground', 'has_meeting_room', 'has_private_butler', 'has_shuttle_bus', 'has_minimart_supermarket', 'has_restaurant',
   'has_laundry_service', 'has_private_parking', 'has_bathtub_inside_unit', 'has_sauna', 'has_parking_lot', 'has_library', 'has_kid_club', 'has_golf', 'has_conference_room', 'has_pet', 'has_rooftop', 'builder_by',
   'address', 'province_id', 'district_id', 'sub_district_id', 'bts_id', 'mrt_id', 'airport_link_id',
-  'location_lat', 'location_lng', 'zone_id', 'project_desc'
+  'location_lat', 'location_lng', 'zone_id', 'year_built', 'is_popular', 'is_recent', 'project_desc'
   ]);
 
 $xcrud->relation('province_id', 'province', 'id', 'name', '');
@@ -72,6 +72,8 @@ $xcrud->change_type('has_golf', 'bool');
 $xcrud->change_type('has_conference_room', 'bool');
 $xcrud->change_type('has_pet', 'bool');
 $xcrud->change_type('has_rooftop', 'bool');
+$xcrud->change_type('is_popular', 'bool');
+$xcrud->change_type('is_recent', 'bool');
 
 $xcrud->label([
   'has_swimming_pool'=> 'Swimming Pool',
@@ -101,7 +103,9 @@ $xcrud->label([
   'has_golf'=> 'Golf',
   'has_conference_room'=> 'Conference room',
   'has_pet'=> 'Pet friendly',
-  'has_rooftop'=> 'Rooftop'
+  'has_rooftop'=> 'Rooftop',
+  'is_popular'=> 'Popular Project',
+  'is_recent'=> 'Recent Project'
 ]);
 
 $xcrud->button('project/{id}/images','Images','glyphicon glyphicon-picture','',array('target'=>'_blank'));
