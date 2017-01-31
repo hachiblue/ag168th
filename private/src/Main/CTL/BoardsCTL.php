@@ -19,9 +19,9 @@ use Main\Helper\URL;
 
 /**
  * @Restful
- * @uri /board
+ * @uri /boards
  */
-class BoardCTL extends BaseCTL {
+class BoardsCTL extends BaseCTL {
 
     private $projects = [];
 

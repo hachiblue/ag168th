@@ -15,7 +15,7 @@ $this->import('/template/top-navbar');
 			<div class="ct-title">Our Head Office</div>
 			<div class="ct-address">A6,B 25th Fl., Thanapoom Tower <br> 1550 New Petchburi Rd., <br>	Makkasan, Ratthawi, <br>	Bangkok 10400</div>
 			<div class="ct-social">
-				<div class="facebook_icon flol"></div><div class="ct-sweb flol">facebook.com/agent168th</div>
+				<div class="facebook_icon flol"></div><div class="ct-sweb flol"><a href="http://www.facebook.com/agent168th/" target="_blank">facebook.com/agent168th</a></div>
 			</div>
 			<div class="clearfix"></div>
 		</div>

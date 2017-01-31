@@ -1801,6 +1801,13 @@ a.side-list-group-item, button.side-list-group-item {
 	font-weight: bold;
 }
 
+.side-list-group-item.act, .side-list-group-item.act:focus, .side-list-group-item.act:hover {
+	color: #fb634a;
+    background-color: #fff;
+	border-bottom: 1px solid #ddd;
+	font-weight: bold;
+}
+
 .f_detail .ftext {
 	color: #aaa;	
 	margin-top: 15px;

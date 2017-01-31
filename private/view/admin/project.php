@@ -30,9 +30,9 @@ $xcrud->fields([
   'name', 'image_path', 'tel_company', 'number_buildings', 'number_units', 'number_floors', 'common_area_floor',
   'has_swimming_pool', 'has_onsen', 'has_gym', 'has_garden', 'has_futsal', 'has_badminton', 'has_basketball', 'has_tennis', 'has_bowling', 'has_pool_room',
   'has_game_room', 'has_playground', 'has_meeting_room', 'has_private_butler', 'has_shuttle_bus', 'has_minimart_supermarket', 'has_restaurant',
-  'has_laundry_service', 'has_private_parking', 'has_bathtub_inside_unit', 'builder_by',
+  'has_laundry_service', 'has_private_parking', 'has_bathtub_inside_unit', 'has_sauna', 'has_parking_lot', 'has_library', 'has_kid_club', 'has_golf', 'has_conference_room', 'has_pet', 'has_rooftop', 'builder_by',
   'address', 'province_id', 'district_id', 'sub_district_id', 'bts_id', 'mrt_id', 'airport_link_id',
-  'location_lat', 'location_lng', 'zone_id'
+  'location_lat', 'location_lng', 'zone_id', 'project_desc'
   ]);
 
 $xcrud->relation('province_id', 'province', 'id', 'name', '');
@@ -64,6 +64,14 @@ $xcrud->change_type('has_restaurant', 'bool');
 $xcrud->change_type('has_laundry_service', 'bool');
 $xcrud->change_type('has_private_parking', 'bool');
 $xcrud->change_type('has_bathtub_inside_unit', 'bool');
+$xcrud->change_type('has_sauna', 'bool');
+$xcrud->change_type('has_parking_lot', 'bool');
+$xcrud->change_type('has_library', 'bool');
+$xcrud->change_type('has_kid_club', 'bool');
+$xcrud->change_type('has_golf', 'bool');
+$xcrud->change_type('has_conference_room', 'bool');
+$xcrud->change_type('has_pet', 'bool');
+$xcrud->change_type('has_rooftop', 'bool');
 
 $xcrud->label([
   'has_swimming_pool'=> 'Swimming Pool',
@@ -85,8 +93,16 @@ $xcrud->label([
   'has_restaurant'=> 'Restaurant',
   'has_laundry_service'=> 'Laundry Service',
   'has_private_parking'=> 'Private Parking',
-  'has_bathtub_inside_unit'=> 'Bathtub Inside Unit'
-  ]);
+  'has_bathtub_inside_unit'=> 'Bathtub Inside Unit',
+  'has_sauna'=> 'Sauna',
+  'has_parking_lot'=> 'Parking lot',
+  'has_library'=> 'Library',
+  'has_kid_club'=> 'Kid’s Club',
+  'has_golf'=> 'Golf',
+  'has_conference_room'=> 'Conference room',
+  'has_pet'=> 'Pet friendly',
+  'has_rooftop'=> 'Rooftop'
+]);
 
 $xcrud->button('project/{id}/images','Images','glyphicon glyphicon-picture','',array('target'=>'_blank'));
 
@@ -115,7 +131,15 @@ echo $xcrud->render();
   .form-horizontal div.form-group:nth-child(24),
   .form-horizontal div.form-group:nth-child(25),
   .form-horizontal div.form-group:nth-child(26),
-  .form-horizontal div.form-group:nth-child(27) {
+  .form-horizontal div.form-group:nth-child(27),
+  .form-horizontal div.form-group:nth-child(28),
+  .form-horizontal div.form-group:nth-child(29),
+  .form-horizontal div.form-group:nth-child(30),
+  .form-horizontal div.form-group:nth-child(31),
+  .form-horizontal div.form-group:nth-child(32),
+  .form-horizontal div.form-group:nth-child(33),
+  .form-horizontal div.form-group:nth-child(34),
+  .form-horizontal div.form-group:nth-child(35) {
     width: 30%;
     display: inline-block;
     margin-left: 3%;
@@ -139,7 +163,15 @@ echo $xcrud->render();
   .form-horizontal div.form-group:nth-child(24) .col-sm-9,
   .form-horizontal div.form-group:nth-child(25) .col-sm-9,
   .form-horizontal div.form-group:nth-child(26) .col-sm-9,
-  .form-horizontal div.form-group:nth-child(27) .col-sm-9 {
+  .form-horizontal div.form-group:nth-child(27) .col-sm-9,
+  .form-horizontal div.form-group:nth-child(28) .col-sm-9,
+  .form-horizontal div.form-group:nth-child(29) .col-sm-9,
+  .form-horizontal div.form-group:nth-child(30) .col-sm-9,
+  .form-horizontal div.form-group:nth-child(31) .col-sm-9,
+  .form-horizontal div.form-group:nth-child(32) .col-sm-9,
+  .form-horizontal div.form-group:nth-child(33) .col-sm-9,
+  .form-horizontal div.form-group:nth-child(34) .col-sm-9,
+  .form-horizontal div.form-group:nth-child(35) .col-sm-9 {
     width: 30%;
   }
   .form-horizontal div.form-group:nth-child(8) .col-sm-3,
@@ -161,15 +193,23 @@ echo $xcrud->render();
   .form-horizontal div.form-group:nth-child(24) .col-sm-3,
   .form-horizontal div.form-group:nth-child(25) .col-sm-3,
   .form-horizontal div.form-group:nth-child(26) .col-sm-3,
-  .form-horizontal div.form-group:nth-child(27) .col-sm-3 {
+  .form-horizontal div.form-group:nth-child(27) .col-sm-3,
+  .form-horizontal div.form-group:nth-child(28) .col-sm-3,
+  .form-horizontal div.form-group:nth-child(29) .col-sm-3,
+  .form-horizontal div.form-group:nth-child(30) .col-sm-3,
+  .form-horizontal div.form-group:nth-child(31) .col-sm-3,
+  .form-horizontal div.form-group:nth-child(32) .col-sm-3,
+  .form-horizontal div.form-group:nth-child(33) .col-sm-3,
+  .form-horizontal div.form-group:nth-child(34) .col-sm-3,
+  .form-horizontal div.form-group:nth-child(35) .col-sm-3 {
     width: 70%;
   }
 
-  .form-horizontal div.form-group:nth-child(36) {
+  .form-horizontal div.form-group:nth-child(44) {
     margin-left: 14%;
   }
-  .form-horizontal div.form-group:nth-child(36),
-  .form-horizontal div.form-group:nth-child(37) {
+  .form-horizontal div.form-group:nth-child(44),
+  .form-horizontal div.form-group:nth-child(45) {
     width: 40%;
     display: inline-block;
   }

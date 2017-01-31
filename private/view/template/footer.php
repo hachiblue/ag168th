@@ -8,7 +8,7 @@
 		<a href="/list?requirement_id=2" class="list-group-item side-list-group-item <?=(isset($act3)) ? $act3 : '';?>">Rent</a>
 		<a href="/list_project" class="list-group-item side-list-group-item <?=(isset($act4)) ? $act4 : '';?>">Project Search</a>
 		<a href="/regisprops" class="list-group-item side-list-group-item <?=(isset($act5)) ? $act5 : '';?>">List Your Property</a>
-		<a href="/board" class="list-group-item side-list-group-item <?=(isset($act6)) ? $act6 : '';?>">Board</a>
+		<a href="/boards" class="list-group-item side-list-group-item <?=(isset($act6)) ? $act6 : '';?>">Board</a>
 		<a href="/contact" class="list-group-item side-list-group-item <?=(isset($act7)) ? $act7 : '';?>">Contact</a>
 	  </div>
 	</div><!--/.sidebar-offcanvas-->
@@ -115,7 +115,7 @@
 		<div class="social_bar hidden-sm hidden-md hidden-lg mgt20">
 			<div class="col-xs-12"><a href="mailto:info@agent168th.com"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/email.png")?>" alt=""></a></div>
 			<div class="col-xs-12"><a href="http://line.me/ti/p/@agent168" target="_blank"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/line.png")?>" alt=""></a></div>
-			<div class="col-xs-12 lst"><a href="www.facebook.com/agent168th/" target="_blank"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/facebook.png")?>" alt=""></a></div>
+			<div class="col-xs-12 lst"><a href="http://www.facebook.com/agent168th/" target="_blank"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/facebook.png")?>" alt=""></a></div>
 		</div>
 
 		<div class="foot_end  mgt20 pd0">
@@ -124,7 +124,7 @@
 				<div class="col-xs-12 col-sm-6 col-md-6 hidden-xs">
 					<div class="col-md-4"><a href="mailto:info@agent168th.com"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/email.png")?>" alt=""></a></div>
 					<div class="col-md-4"><a href="http://line.me/ti/p/@agent168" target="_blank"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/line.png")?>" alt=""></a></div>
-					<div class="col-md-4"><a href="www.facebook.com/agent168th/" target="_blank"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/facebook.png")?>" alt=""></a></div>
+					<div class="col-md-4"><a href="http://www.facebook.com/agent168th/" target="_blank"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/facebook.png")?>" alt=""></a></div>
 				</div>
 			</div>
 		</div>

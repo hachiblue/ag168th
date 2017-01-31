@@ -303,7 +303,8 @@ $req_txt = strtoupper($item['requirement']['name']);
 							{
 								?>
 								<div class="swiper-slide">
-									<img src="<?=$img['url'];?>" class="img-responsive" alt="">
+									<!-- <img src="<?=$img['url'];?>" class="img-responsive" alt=""> -->
+									<div class="swiper-bg-image" style="background: #fff url(<?=$img['url'];?>) center center;height: 100%;width: 100%;background-size: cover;background-repeat: no-repeat;"></div>
 								</div>
 								<?php
 							}
