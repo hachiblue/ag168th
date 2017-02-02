@@ -463,28 +463,30 @@ $req_txt = strtoupper($item['requirement']['name']);
 
 					<div class="col-md-12 form-enq pdt10 pdb20">
 						
-						<form id="form_enq" action="" name="enquiry">
+						<form id="form_enq" name="enquiry" method="post">
 
 							<div class="form-group">
 								<label for="exampleInputEmail1">Enquiry this to this unit</label>
 								<div class="dropdown">
-									<select class="form-control" id="enq_to">
-										<option value="">Buy</option>
+									<select class="form-control" name="requirement" id="enq_to">
+										<option value="Buy">Buy</option>
+										<option value="Rent">Rent</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group pdt10">
 								<label for="exampleInputEmail1">Want to see this unit</label>
-								<input type="text" class="form-control" id="enq_date" placeholder="Select Date">
+								<input type="text" class="form-control is_datepicker" id="enq_date" name="daterequest" placeholder="Select Date" required>
 							</div>
 							<div class="form-group">
-								<input type="txt" class="form-control" id="enq_phone" placeholder="Phone number">
+								<input type="txt" class="form-control" id="enq_phone" name="phone" placeholder="Phone number" required>
 							</div>
 							<div class="form-group">
-								<input type="email" class="form-control" id="enq_email" placeholder="Your Email">
+								<input type="email" class="form-control" id="enq_email" name="email" placeholder="Your Email" required>
+								<input type="hidden" class="form-control" id="reference_id" name="reference_id" value="<?=$item['reference_id'];?>">
 							</div>
 
-							<button class="btn btn-searchred col-md-12">Send Request</button>
+							<button type="submit" class="btn btn-searchred col-md-12">Send Request</button>
 						
 						</form>
 

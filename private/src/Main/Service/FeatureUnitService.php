@@ -26,7 +26,7 @@ class FeatureUnitService extends ItemsService
     ],
     [
       'id'=> 6,
-      'name'=> 'Around XXX M.'
+      'name'=> 'Around 5 M.'
     ],
     [
       'id'=> 7,

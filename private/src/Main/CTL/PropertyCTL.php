@@ -68,16 +68,16 @@ class PropertyCTL extends BaseCTL {
 		Request enquiry from page property: <a href="{$url}">{$_POST["reference_id"]}</a><br />
 		Requirement type: {$_POST["requirement"]}<br />
 		Email: {$_POST["email"]}<br />
-		First name: {$_POST["first_name"]}<br />
-		Last name: {$_POST["last_name"]}<br />
 		Date Request: {$_POST["daterequest"]}<br />
 		Phone: {$_POST["phone"]}<br />
 MAILCONTENT;
-
+	
 		$mailHeader = "From: system@agent168th.com\r\n";
 		$mailHeader = "To: admin@agent168th.com\r\n";
 		$mailHeader .= "Content-type: text/html; charset=utf-8\r\n";
 		@mail("admin@agent168th.com", "Request enquiry From property page: ".$_POST["reference_id"], $mailContent, $mailHeader);
+		
+		header('location: /property/'.$id);
 
 		return ['success'=> true];
     }
@@ -186,7 +186,19 @@ MAILCONTENT;
 			$project["images"] = $db->select("project_image", "*", ["project_id"=> $id]);
 			foreach($project["images"] as &$img) 
 			{
-				$img["url"] = URL::absolute("/public/project_pics/".$img['image_path']);
+				if( $this->is_file_exists( "/public/project_pics/".$img['image_path'] ) ) 
+				{
+					$img["url"] = URL::absolute("/public/project_pics/".$img['image_path']);
+				}
+				else 
+				{
+					$img["url"] = URL::absolute("/public/assets/default-project.jpg");
+				}
+			}
+
+			if( count($project["images"]) == 0 )
+			{
+				$project["images"][0]["url"] = URL::absolute("/public/assets/default-project.jpg");
 			}
 
 			$this->projects[] = $project;

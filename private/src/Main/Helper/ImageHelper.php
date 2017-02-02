@@ -64,13 +64,13 @@ class ImageHelper
 
   static public function createResource($path, $ext)
   {
-    if(in_array($ext, ['jpg', 'jpeg'])) {
+    if(in_array($ext, ['jpg', 'jpeg', 'JPG', 'JPEG'])) {
       return imagecreatefromjpeg($path);
     }
-    else if($ext == "png") {
+    else if($ext == "png" || $ext == "PNG") {
       return imagecreatefrompng($path);
     }
-    else if($ext == "gif") {
+    else if($ext == "gif" || $ext == "GIF") {
       return imagecreatefromgif($path);
     }
     else {
@@ -85,13 +85,13 @@ class ImageHelper
 
   static public function save($image, $path, $ext)
   {
-    if(in_array($ext, ['jpg', 'jpeg'])) {
+    if(in_array($ext, ['jpg', 'jpeg', 'JPG', 'JPEG'])) {
       return imagejpeg($image, $path);
     }
-    else if($ext == "png") {
+    else if($ext == "png" || $ext == "PNG") {
       return imagepng($image, $path);
     }
-    else if($ext == "gif") {
+    else if($ext == "gif" || $ext == "GIF") {
       return imagegif($image, $path);
     }
     else {

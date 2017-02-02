@@ -68,6 +68,21 @@ a:hover {
 	border-radius: 50%;
 }
 
+.gmap-marker2 {
+	width: 40px;
+	height: 40px;
+	background: #fb634a;
+	text-align: center;
+	color: #fff;
+	padding-top: 12px;
+	font-size: 12px;
+	font-weight: 600;
+	font-family: 'Open Sans', sans-serif;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+}
+
 .gmap-marker-project {
 	background: #00907d;
 	text-align: center;
@@ -76,6 +91,32 @@ a:hover {
 	font-size: 12px;
 	font-weight: 600;
 	font-family: 'Open Sans', sans-serif;
+}
+
+.gmap-infobox2 {
+	background: #fff;
+	width: 200px;
+	padding: 10px;
+	font-size: 12px;
+	font-weight: 600;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.gmap-infobox2 .col-xs-3 {
+	padding-top: 2px;
+}
+
+.gmap-infobox2 .col-xs-9 {
+	padding: 10px 15px;
+}
+
+.gmap-infobox2 img {
+	width: 50px;
+	height: 50px;
+	margin-right: 10px;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
 }
 
 .gmap-infobox {
@@ -1027,7 +1068,7 @@ input.search-bar:-moz-placeholder { /* Firefox 18- */
 }
 
 .nav>li>a {
-    padding: 22px 20px;
+	padding: 22px 18px;
 }
 
 .navbar {
@@ -1648,7 +1689,7 @@ input.search-bar:-moz-placeholder { /* Firefox 18- */
 }
 
 .pd-bottom .pd-price {
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: bold;
 	margin: 10px 0;
 }
@@ -1752,7 +1793,7 @@ ul.lst li.vw_all a {
 }
 
 .contact_banner .box_banner {
-	margin-top: 50px;
+	margin-top: 70px;
 }
 
 .contact_banner .box_banner > div {
@@ -1808,6 +1849,7 @@ ul.lst li.vw_all a {
 
 a.side-list-group-item, button.side-list-group-item {
     color: #085156;
+	font-family: 'Open Sans', sans-serif;
 }
 
 .side-list-group-item.active, .side-list-group-item.active:focus, .side-list-group-item.active:hover {
@@ -1831,6 +1873,23 @@ a.side-list-group-item, button.side-list-group-item {
 	font-weight: 300;
 	font-size: 12px;
 	line-height: 19px;
+}
+
+.page-next .pagination>li>a,.page-next .pagination>li>span {
+	color: #487e81;
+}
+
+.page-next .pagination>li.active>a,.page-next .pagination>li.active>span {
+	color: #fff;
+}
+
+.page-next .pagination>.active>a,.page-next .pagination>.active>a:focus,.page-next .pagination>.active>a:hover,.page-next .pagination>.active>span, 
+.page-next .pagination>.active>span:focus,.page-next .pagination>.active>span:hover {
+    z-index: 1;
+    color: #fff;
+    cursor: default;
+    background-color: #487e81;
+    border-color: #487e81;
 }
 
 .foot_banner {
@@ -1862,7 +1921,8 @@ a.side-list-group-item, button.side-list-group-item {
 }
 
 #navbar ul li a {
-	color: #085156;	
+	color: #085156;
+	font-family: 'Open Sans', sans-serif;
 	font-weight: 600;
 }
 
@@ -2280,6 +2340,7 @@ a.side-list-group-item, button.side-list-group-item {
     height: 142px;
     width: 100%;
     bottom: 0px;
+	z-index: 1;
     background-image: url(../img/bg_tran_m.png);
 }
 
@@ -3266,7 +3327,7 @@ and (max-width : 320px) {
 
 	.txt-headline {
 		font-size: 22px;
-		color: #085156;
+		color: #fff;
 		font-weight: bold;
 	}
 
@@ -3523,7 +3584,7 @@ and (max-width : 320px) {
 	.pp-facilities.bg-white {
 		padding-left: 0px !important;
 		padding-right: 0px !important;	
-		background-color: #f5f5f5;
+		background-color: #f5f5f5 !important;	
 	}
 
 	.pp-facilities.bg-white>div {

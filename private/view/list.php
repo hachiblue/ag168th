@@ -385,6 +385,7 @@ $this->import('/template/top-navbar');
 						$stop = $i + 8;
 
 						?>
+						<div class="clearfix"></div>
 						<div class="page-next text-center">
 							<nav>
 							  <ul class="pagination">

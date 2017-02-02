@@ -276,7 +276,7 @@ function setMarkers(locations)
 		prop.seq = i;
 
 		geocoder.geocode({
-			'address': prop.project.address
+			'address': ('undefined' != typeof prop.project) ? prop.project.address : prop.address
 		}, 
 		geoCallback(prop) );
 	}
@@ -308,16 +308,25 @@ function geoCallback(prop)
 		{
 			price = prop.rent_price;
 		}
+		
+		if( 'undefined' != typeof prop.project )
+		{
+			var content = '<a href="#" class=""><div class="gmap-marker" data-marker="'+prop.seq+'">'+ (price_toshort(price) != 0 ? price_toshort(price) : 'n/a')+'</div></a>';
+		}
+		else
+		{
+			var content = '<a href="#" class=""><div class="gmap-marker2 map_project" data-marker="'+prop.seq+'">'+ prop.number_units+'</div></a>';
+		}
 
 		if (status == google.maps.GeocoderStatus.OK) 
 		{
 			marker = new RichMarker({
 				position: results[0].geometry.location,
 				map: map,
-				address: prop.project.address,
+				address: ('undefined' != typeof prop.project) ? prop.project.address : prop.address,
 				animation: google.maps.Animation.DROP,
 				title: prop.name,
-				content: '<a href="#" class=""><div class="gmap-marker" data-marker="'+prop.seq+'">'+ (price_toshort(price) != 0 ? price_toshort(price) : 'n/a')+'</div></a>',
+				content: content,
 				zIndex: 1,
 				shadow: 'none'
 			});
@@ -333,7 +342,7 @@ function geoCallback(prop)
 				map: map,
 				animation: google.maps.Animation.DROP,
 				title: prop.name,
-				content: '<a href="#" class=""><div class="gmap-marker" data-marker="'+prop.seq+'">'+ price_toshort(price) || 'n/a'+'</div></a>',
+				content: content,
 				zIndex: 1,
 				shadow: 'none'
 			});
@@ -406,8 +415,17 @@ function when_hover(e)
 		//$this = $('.cardContainer[data-seq='+$this.data('marker')+']');
 	}
 
+	if( $this.hasClass('map_project') )
+	{
+		var content =  '<div class="gmap-infobox2" style="1px solid #bbb"><div class="col-xs-3 no_padd"><img src="'+$this.data('pic')+'" class="img-responsive"></div><div class="col-xs-9">'+$this.data('name')+'</div><div class="clearfix"></div></div>';
+	}
+	else
+	{
+		var content =  '<div class="gmap-infobox" style="1px solid #bbb">' + $this.html().replace('pd-bottom', 'pd-bottom hidden') + '</div>';
+	}
+
 	var myOptions = {
-		content: '<div class="gmap-infobox" style="1px solid #bbb">' + $this.html().replace('pd-bottom', 'pd-bottom hidden') + '</div>'
+		content: content
 		,maxWidth: 0
 		,pixelOffset: new google.maps.Size(-140, 0)
 		,zIndex: null

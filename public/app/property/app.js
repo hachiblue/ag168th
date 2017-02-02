@@ -1167,6 +1167,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
         form.property_status_id = $scope.form.property_status_id;
         form.rented_expire = $scope.form.rented_expire;
+        form.web_status = $scope.form.web_status;
         
         form.id = $scope.form.id;
 

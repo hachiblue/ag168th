@@ -232,9 +232,16 @@ $this->import("/admin/layout/header");
                     $sql = "SELECT 
                               count(e.id) as total
                             FROM
-                              enquiry e,
+                              enquiry e, enquiry_type et, enquiry_status es, size_unit su, requirement rq, account a1, account a2, project pj,
                               ( SELECT enquiry_id, MAX(updated_at) AS mx  FROM enquiry_comment  ".$sql_sale." GROUP BY enquiry_id ORDER BY  mx DESC ) em 
                             WHERE e.id = em.enquiry_id 
+							  AND e.enquiry_type_id = et.id
+							  AND e.enquiry_status_id = es.id
+							  AND e.size_unit_id = su.id
+							  AND e.requirement_id = rq.id
+							  AND e.assign_sale_id = a1.id
+							  AND e.assign_manager_id = a2.id
+							  AND e.project_id = pj.id
                               AND DATEDIFF(NOW(), em.mx) > ".$date_expire_mx." 
                               AND e.enquiry_status_id NOT IN (4, 10, 9, 12) "; 
 
@@ -510,7 +517,7 @@ $this->import("/admin/layout/header");
  {
     ?>
 <div class="modal hide" id="warning-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-lg" role="document" style="width: 90%;">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" name="model-dismiss" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -521,11 +528,18 @@ $this->import("/admin/layout/header");
         <?php
 
         $sql = "SELECT 
-                  e.* 
+                  e.*, a1.name as sale_name, a2.name as manager_name, pj.name as project_name, et.name as enquiry_type_name, es.name as enquiry_status_name, rq.name_for_enquiry
                 FROM
-                  enquiry e,
+                  enquiry e, enquiry_type et, enquiry_status es, size_unit su, requirement rq, account a1, account a2, project pj,
                   ( SELECT enquiry_id, MAX(updated_at) AS mx  FROM enquiry_comment ".$sql_sale."   GROUP BY enquiry_id ORDER BY  mx DESC ) em 
                 WHERE e.id = em.enquiry_id 
+				  AND e.enquiry_type_id = et.id
+				  AND e.enquiry_status_id = es.id
+				  AND e.size_unit_id = su.id
+				  AND e.requirement_id = rq.id
+				  AND e.assign_sale_id = a1.id
+				  AND e.assign_manager_id = a2.id
+				  AND e.project_id = pj.id
                   AND DATEDIFF(NOW(), em.mx) > ".$date_expire_mx." 
                   AND e.enquiry_status_id NOT IN (4, 10, 9, 12) 
                 ORDER BY em.mx ASC LIMIT 500 ";   
@@ -539,8 +553,17 @@ $this->import("/admin/layout/header");
         <table class="table table-striped table-hover ">
             <thead>
             <tr>
-                <th>Enquiry Id</th>
-                <th>Last Update</th>
+                <th>Enquiry no</th>
+                <th>Created</th>
+				<th>Assign to</th>
+				<th>Customer</th>
+				<th>Project</th>
+				<th>Requirement</th>
+				<th>Enquiry Type</th>
+				<th>Buying Budget</th>
+				<th>Rental Budget</th>
+				<th>Status</th>
+				<th>Updated</th>
                 <th>LINK</th>
             </tr>
             </thead>
@@ -551,6 +574,18 @@ $this->import("/admin/layout/header");
             ?>
             <tr>
                 <td><?=$item["id"];?></td>
+                <td><?=$item["created_at"];?></td>
+                <td><?php if(@$_SESSION['login']['level_id'] <= 2){ ?>
+				<strong>Manager</strong>: <?=$item["manager_name"];?>
+				<?php } ?>
+				<strong>Sale</strong>: <?=$item["sale_name"];?></td>
+                <td><?=$item["customer"];?></td>
+                <td><?=$item["project_name"];?></td>
+                <td><?=$item["name_for_enquiry"];?></td>
+                <td><?=$item["enquiry_type_name"];?></td>
+                <td>฿<?=$item["buy_budget_start"];?> - <?=$item["buy_budget_end"];?></td>
+                <td>฿<?=$item["rent_budget_start"];?> - <?=$item["rent_budget_end"];?></td>
+                <td><?=$item["enquiry_status_name"];?></td>
                 <td><?=$item["updated_at"];?></td>
                 <td><a class="btn btn-info" href="enquiries#/edit/<?=$item["id"];?>" target="_blank">View</a></td>
             </tr>

@@ -15,4 +15,6 @@
 <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 <link href="<?php echo \Main\Helper\URL::absolute("/public/assets/font-awesome-4.7.0/css/font-awesome.css")?>" rel="stylesheet">
 <link href="<?php echo \Main\Helper\URL::absolute("/public/assets/css/auto-complete.css")?>" rel="stylesheet">
-<link href="<?php echo \Main\Helper\URL::absolute("/public/assets/css/custom.css")?>" rel="stylesheet">
+<link href="<?php echo \Main\Helper\URL::absolute("/public/assets/css/bootstrap.datepicker.css")?>" rel="stylesheet">
+<link href="<?php echo \Main\Helper\URL::absolute("/public/assets/css/jquery-ui-datepicker.css")?>" rel="stylesheet">
+<link href="<?php echo \Main\Helper\URL::absolute("/public/assets/css/custom.css")?>?<?=date('dmyhis');?>" rel="stylesheet">

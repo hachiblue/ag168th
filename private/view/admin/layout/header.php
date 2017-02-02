@@ -1,5 +1,8 @@
 <?php
 use Main\Helper;
+
+header('Cache-Control: private, max-age=3600');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

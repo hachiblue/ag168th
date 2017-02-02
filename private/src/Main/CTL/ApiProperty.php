@@ -431,7 +431,8 @@ MAILCONTENT;
           $set = [
             'updated_at'=> date('Y-m-d H:i:s'),
             'property_status_id' => $set['property_status_id'],
-            'rented_expire' => $set['rented_expire']
+            'rented_expire' => $set['rented_expire'],
+            'web_status' => $set['web_status']
           ];
         }
 

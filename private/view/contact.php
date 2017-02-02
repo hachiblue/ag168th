@@ -42,17 +42,17 @@ $this->import('/template/top-navbar');
 		<div class="col-md-4 box_banner">
 			<div class="phone_icon_orange"></div>
 			<div class="ct-phone">087-7605555</div>
-			<div class="ct-dsub">Lorem ipsum dolor sit amet, consectetur</div>
+			<!-- <div class="ct-dsub">Lorem ipsum dolor sit amet, consectetur</div> -->
 		</div>
 		<div class="col-md-4 box_banner">
 			<div class="fax_icon_orange"></div>
 			<div class="ct-fax">02-652-7982</div>
-			<div class="ct-dsub">Lorem ipsum dolor sit amet, consectetur</div>
+			<!-- <div class="ct-dsub">Lorem ipsum dolor sit amet, consectetur</div> -->
 		</div>
 		<div class="col-md-4 box_banner">
 			<div class="mail_icon_orange"></div>
 			<div class="ct-mail">info@agent168th.com</div>
-			<div class="ct-dsub mgt3">Lorem ipsum dolor sit amet, consectetur</div>
+			<!-- <div class="ct-dsub mgt3">Lorem ipsum dolor sit amet, consectetur</div> -->
 		</div>
 
 		<div class="clearfix"></div>

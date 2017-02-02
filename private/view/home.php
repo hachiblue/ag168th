@@ -64,7 +64,7 @@ $this->import('/template/top-navbar');
 
 	<div class="hpRtContain">
 		
-		<div class="col-md-12 rightContain">
+		<div class="col-md-12 rightContain pdl5">
 			
 			<?php
 			$topic = array('HIGHLIGHT PROPERTIES', 'HIGHLIGHT OF THE MONTH', 'NEW COMING', 'AROUND XXX M.', 'A BEAUTY OF RIVER', 'IN THE MIDDLE OF EVERYWHERE');
