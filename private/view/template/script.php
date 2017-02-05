@@ -18,6 +18,7 @@ var page = '<?=$params["page"];?>';
 <script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/jquery.mobile.custom.min.js")?>"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/jquery-ui-datepicker.js")?>"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/bootstrap-datepicker-init.js")?>"></script>
+<script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/fileinput.min.js")?>"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/app168.js")?>"></script>
 
 <!-- Latest compiled and minified JavaScript -->

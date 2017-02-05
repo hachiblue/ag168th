@@ -5,6 +5,10 @@
 	padding: 10px;
 }
 
+.inp-topic {
+	width: 100%;
+}
+
 .mgtb7 {
 	margin: 7px 0px;
 }
@@ -12,6 +16,10 @@
 .no-gutter {
 	padding-right:0;
 	padding-left:0;
+}
+
+.no-gutter a {
+	width: 100%;
 }
 
 .tb-header {
@@ -51,15 +59,6 @@
 	border-left: 0;
 }
 
-.btn-save {
-	background: #eee;
-	height: 28px;
-	font-size: 12px;
-	color: #009688;
-	cursor: pointer;
-	border: 1px solid #c3c3c3 !important;
-	border-left: 0;
-}
 
 </style>
 
@@ -69,33 +68,29 @@
 		
 		<div class="tb-header">
 			<div class="row">
-				<div class="col-md-3"><h4>Topic</h4></div>
+				<div class="col-md-4"><h4>Topic</h4></div>
 				<div class="col-md-1"></div>
-				<div class="col-md-8"><h4>Room</h4></div>
+				<div class="col-md-7"><h4>Room</h4></div>
 			</div>
 		</div>
 
 		<div id="wmContain" class="tb-body">
 			<div class="row wm-bd-row">
-				<div class="col-md-3 mgtb7">
-					<div class="btn-deltopic col-md-2">
+				<div class="topicContain col-md-4 mgtb7">
+					<div class="btn-deltopic col-md-2" data-wmid="new">
 						<span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
 					</div>
 					<div class="col-md-10">
-						<div class="input-group">
-							<input type="text" class="inp-topic form-control" data-wmid="new" value="" placeholder="Topic Name.">
-							<span class="btn-save input-group-addon">
-								<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
-							</span>
-						</div>
+						<input type="text" class="inp-topic form-control" data-wmid="new" value="" placeholder="Topic Name.">
 					</div>
 				</div>
 				<div class="col-md-1 no-gutter">
+					<a class="btn-save btn btn-danger btn-xs">Save Change</a>
 					<a class="btn-addprop btn btn-primary btn-xs">Add Props</a>
 				</div>
-				<div class="propContain col-md-8 mgtb7">
+				<div class="propContain col-md-7 mgtb7">
 
-					<div class="wm-bx-prop input-group col-md-2">
+					<div class="wm-bx-prop input-group col-md-3">
 					  <input type="text" class="inp-props form-control" data-wmid="new" value="" placeholder="REF." aria-describedby="addon1">
 					  <span class="btn-delprop input-group-addon" id="addon1"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
 					</div>
@@ -118,7 +113,8 @@ var wm = {
 	
 	constant : {
 		LOADING_CIRCLE : '<i class="fa fa-refresh fa-spin"></i>',
-		SAVE_ICON : '<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>'
+		SAVE_ICON : '<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>',
+		URL : "../api/webmanage"
 	},
 
 	init : function () {
@@ -136,7 +132,7 @@ var wm = {
 
 		self.handleEvent();
 
-		self.loadWM();
+		self.loadWM(self);
 	},
 
 	handleEvent : function () {
@@ -148,7 +144,7 @@ var wm = {
 
 		// binding del button
 		self.$btn_deltopic.on('click', function () {
-			self.delTP.call(this);
+			self.delTP.call(this, self);
 		});
 
 		// binding del button
@@ -171,7 +167,7 @@ var wm = {
 		// binding del button
 		self.$btn_deltopic = $('.btn-deltopic');
 		self.$btn_deltopic.unbind().on('click', function () {
-			self.delTP.call(this);
+			self.delTP.call(this, self);
 		});
 
 		self.$btn_addprop = $('.btn-addprop');
@@ -195,8 +191,12 @@ var wm = {
 		_self.re_btnEvent();
 	},
 
-	delTP : function () {
-		$(this).parents('.wm-bd-row').remove();
+	delTP : function (_self) {
+		var $this = $(this);
+
+		$.post(_self.constant.URL + '/delete', { id: $this.data('wmid') }, function(msg) {
+			$this.parents('.wm-bd-row').remove();
+		});
 	},
 
 	addProp : function (_self) {
@@ -230,48 +230,68 @@ var wm = {
 			'props_id' : props_id,
 		};
 
-		var url = "../api/webmanage";
-
-		$.post(url, param, function(msg) {
+		$.post(_self.constant.URL, param, function(msg) {
 			
 			setTimeout(function() {
-				$this_btn.html(_self.constant.SAVE_ICON);
+				//$this_btn.html(_self.constant.SAVE_ICON);
+				$this_btn.html('SAVE CHANGE');
 			}, 100);
 		});
 		
 	},
 
-	loadWM : function () {
-		var self = this;
+	loadWM : function (_self) {
 		var url = "../api/webmanage";
 
-		$.getJSON(url, {}, function(msg) {
+		$.getJSON(_self.constant.URL, {}, function(msg) {
 			
-			self.setformWM(msg);
+			_self.setformWM(msg);
 		});
 
 	},
 
 	setformWM : function (ob) {
 		var self = this;
-		var ref, ref_id;
+		var ref, ref_id, topichtml, propshtml, $topicContain, $propContain, $props, $tmpl, tmp;
 		$(ob).each(function(i, o) {
 
-			if( i == 0 )
+			if( i == 0 && o.id != null )
 			{
 				$('.wm-bd-row').first().remove();
 			}
 			
 			if( o.id != null )
 			{
-				self.$wmContain.append( self.$tmpl_bdrow.replace('"new"', '"'+o.id+'"').replace('value=""', 'value="'+o.name+'"') );
-
+				$tmpl = $(self.$tmpl_bdrow);
+				$topicContain = $tmpl.find('.topicContain');
+				$propContain = $tmpl.find('.propContain');
+			
+				// topic spliter
+				topichtml = $topicContain[0].outerHTML.replace(/\"new\"/ig, '"'+o.id+'"').replace('value=""', 'value="'+o.name+'"');
+				$topicContain.remove();
+				$tmpl.prepend(topichtml);
+				
+				// property spliter
 				ref = (o.ref || '').split(',');
 				ref_id = (o.ref_id || '').split(',');
+			
+				tmp = $propContain.find('.wm-bx-prop:first()');
+				tmp = tmp[0].outerHTML;
 
-				$(ref).each(function(j, p) {
-					console.log(p);
-				});
+				$propContain.empty();	// clear property div
+
+				if( ref.length > 0 && ref[0] != '' )
+				{
+					$(ref).each(function(j, p) {
+						$propContain.append( tmp.replace('"new"', '"'+ref_id[j]+'"').replace('value=""', 'value="'+p+'"') );
+					});
+				}
+				else
+				{
+					$propContain.append( tmp );	// non of property
+				}
+
+				self.$wmContain.append( $tmpl[0].outerHTML );
 			}
 
 		});

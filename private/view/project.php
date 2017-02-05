@@ -447,7 +447,7 @@ $this->import('/template/top-navbar');
 									</td>
 									<td class="col-md-1 text-center">
 										<div class="mg-auto">
-											<div class="opt-fav col-md-6 mgt20"></div>
+											<div class="opt-fav col-md-6 mgt20" data-prop="<?=$unit['id'];?>"></div>
 											<div class="opt-plus col-md-6 mgt20"></div>
 										</div>
 									</td>
@@ -537,7 +537,7 @@ $this->import('/template/top-navbar');
 									</td>
 									<td class="col-md-1 text-center">
 										<div class="mg-auto">
-											<div class="opt-fav col-md-6 mgt20"></div>
+											<div class="opt-fav col-md-6 mgt20" data-prop="<?=$unit['id'];?>"></div>
 											<div class="opt-plus col-md-6 mgt20"></div>
 										</div>
 									</td>

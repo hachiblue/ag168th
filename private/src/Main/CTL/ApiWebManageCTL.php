@@ -22,7 +22,7 @@ class ApiWebManageCTL extends BaseCTL {
 		$db = MedooFactory::getInstance();
 
 		$item = array();
-		$sth = $db->pdo->prepare('select w.*, GROUP_CONCAT(wp.property_reference_id) as ref, GROUP_CONCAT(wp.id) as ref_id from wm_topic w left join wm_property wp on w.id = wp.wm_topic_id');
+		$sth = $db->pdo->prepare('select w.*, GROUP_CONCAT(wp.property_reference_id) as ref, GROUP_CONCAT(wp.id) as ref_id from wm_topic w left join wm_property wp on w.id = wp.wm_topic_id GROUP BY w.id');
 		$sth->execute(); 
 
 		$item = $sth->fetchAll(\PDO::FETCH_ASSOC);
@@ -70,11 +70,20 @@ class ApiWebManageCTL extends BaseCTL {
 			 
 			$sth->bindParam(':name', $params['topic'], \PDO::PARAM_STR);
 			$sth->bindParam(':id', $params['topic_id'], \PDO::PARAM_INT);
-			//$sth->bindParam(':name', $id, \PDO::PARAM_INT);
-			//$sth->bindParam(':id', $colour, PDO::PARAM_STR, 12);
 			 
 			if( $sth->execute() )
 			{
+				$db->delete("wm_property", [ "wm_topic_id" => $params['topic_id'] ]);
+
+				$pp = explode('#|#', $props);
+				foreach( $pp as $ref )
+				{
+					$db->insert("wm_property", [
+						"wm_topic_id" => $params['topic_id'],
+						"property_reference_id" => $ref
+					]);
+				}
+
 				$item['success'] = true;
 			}
 		}
@@ -83,5 +92,21 @@ class ApiWebManageCTL extends BaseCTL {
 
 		echo json_encode($item);
     }
+
+
+	/**
+     * @POST
+     * @uri /delete
+     */
+	public function delete () 
+	{
+		$params = $this->reqInfo->params();
+		$db = MedooFactory::getInstance();	
+
+		$db->delete("wm_topic", [ "id" => $params['id'] ]);
+		$db->delete("wm_property", [ "wm_topic_id" => $params['id'] ]);
+
+		print_r($params);
+	}
 
 }

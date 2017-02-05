@@ -65,39 +65,34 @@ $this->import('/template/top-navbar');
 	<div class="hpRtContain">
 		
 		<div class="col-md-12 rightContain pdl5">
-			
 			<?php
-			$topic = array('HIGHLIGHT PROPERTIES', 'HIGHLIGHT OF THE MONTH', 'NEW COMING', 'AROUND XXX M.', 'A BEAUTY OF RIVER', 'IN THE MIDDLE OF EVERYWHERE');
-
-			$box_content = array_merge( $highlight, $feature_unit );
-			$i = 0;
-			foreach( $box_content as $name => $tp )
+			foreach( $topics as $i => $tp )
 			{
 				$mgt = $i != 0 ? 'mgt30' : 'mgt25';
 			?>
 
 			<div class="box <?=$mgt;?>">
 				<div class="headline">
-					<div class="mt20"><?=$name;?>
+					<div class="mt20"><?=$tp['name'];?>
 						<!-- <div class="mt-5"><small>Lorem ipsum dolor sit amet, consectetur adipisicing.</small></div> -->
 					</div>
 				</div>
 				<div class="prop_list">
 				
 					<div class="hidden-xs">
-						<?php if( isset($tp[0]) ) { ?>
+						<?php if( isset($tp['property'][0]) ) { ?>
 						<div class="col-xs-12 col-sm-4 col-md-4 pd0">
-							<div class="">
-								<div class="prop_banner" style="background-image: url('<?=$tp[0]['picture']['url'];?>');"></div>
-								<span class="overlayPhoto overlayFull mg0" data-href="/property/<?=$tp[0]['id'];?>"></span>
-								<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable" data-href="/property/<?=$tp[0]['id'];?>">
+							<div class="" data-refid="<?=$tp['property'][0]['reference_id'];?>">
+								<div class="prop_banner" style="background-image: url('<?=$tp['property'][0]['picture']['url'];?>');"></div>
+								<span class="overlayPhoto overlayFull mg0" data-href="/property/<?=$tp['property'][0]['id'];?>"></span>
+								<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable" data-href="/property/<?=$tp['property'][0]['id'];?>">
 									<ul class="mbm property-card-details">
 										<li class="man pdb3">
-											<div class="man property-title"><?=$tp[0]['project']['name'];?></div>
+											<div class="man property-title"><?=$tp['property'][0]['project']['name'];?></div>
 										</li>
 										<li class="man">
-											<span class="property-price  mvn">฿ &nbsp;<?=number_format($tp[0]['price']);?></span>
-											<span class="property-size man noWrap pull-right"> <?=$tp[0]['size'];?> <?=$tp[0]['size_unit']['name'];?> </span>
+											<span class="property-price  mvn">฿ &nbsp;<?=number_format($tp['property'][0]['price']);?></span>
+											<span class="property-size man noWrap pull-right"> <?=$tp['property'][0]['size'];?> <?=$tp['property'][0]['size_unit']['name'];?> </span>
 										</li>
 									</ul>
 								</div>
@@ -105,19 +100,19 @@ $this->import('/template/top-navbar');
 						</div>
 						<?php } ?>
 						
-						<?php if( isset($tp[1]) ) { ?>
+						<?php if( isset($tp['property'][1]) ) { ?>
 						<div class="col-xs-12 col-sm-4 col-md-4 pd0">
-							<div class="ml3">
-								<div class="prop_banner" style="background-image: url('<?=$tp[1]['picture']['url'];?>');"></div>
-								<span class="overlayPhoto overlayFull ml3" data-href="/property/<?=$tp[1]['id'];?>"></span>
-								<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable" data-href="/property/<?=$tp[1]['id'];?>">
+							<div class="ml3" data-refid="<?=$tp['property'][1]['reference_id'];?>">
+								<div class="prop_banner" style="background-image: url('<?=$tp['property'][1]['picture']['url'];?>');"></div>
+								<span class="overlayPhoto overlayFull ml3" data-href="/property/<?=$tp['property'][1]['id'];?>"></span>
+								<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable" data-href="/property/<?=$tp['property'][1]['id'];?>">
 									<ul class="mbm property-card-details">
 										<li class="man pdb3">
-											<div class="man property-title"><?=$tp[1]['project']['name'];?></div>
+											<div class="man property-title"><?=$tp['property'][1]['project']['name'];?></div>
 										</li>
 										<li class="man">
-											<span class="property-price  mvn">฿ &nbsp;<?=number_format($tp[1]['price']);?></span>
-											<span class="property-size man noWrap pull-right"> <?=$tp[1]['size'];?> <?=$tp[1]['size_unit']['name'];?> </span>
+											<span class="property-price  mvn">฿ &nbsp;<?=number_format($tp['property'][1]['price']);?></span>
+											<span class="property-size man noWrap pull-right"> <?=$tp['property'][1]['size'];?> <?=$tp['property'][1]['size_unit']['name'];?> </span>
 										</li>
 									</ul>
 								</div>
@@ -125,19 +120,19 @@ $this->import('/template/top-navbar');
 						</div>
 						<?php } ?>
 						
-						<?php if( isset($tp[2]) ) { ?>
+						<?php if( isset($tp['property'][2]) ) { ?>
 						<div class="col-xs-12 col-sm-4 col-md-4 pd0">
-							<div class="ml3">
-								<div class="prop_banner" style="background-image: url('<?=$tp[2]['picture']['url'];?>');"></div>
-								<span class="overlayPhoto overlayFull ml3" data-href="/property/<?=$tp[2]['id'];?>"></span>
-								<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable" data-href="/property/<?=$tp[2]['id'];?>">
+							<div class="ml3" data-refid="<?=$tp['property'][2]['reference_id'];?>">
+								<div class="prop_banner" style="background-image: url('<?=$tp['property'][2]['picture']['url'];?>');"></div>
+								<span class="overlayPhoto overlayFull ml3" data-href="/property/<?=$tp['property'][2]['id'];?>"></span>
+								<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable" data-href="/property/<?=$tp['property'][2]['id'];?>">
 									<ul class="mbm property-card-details">
 										<li class="man pdb3">
-											<div class="man property-title"><?=$tp[2]['project']['name'];?></div>
+											<div class="man property-title"><?=$tp['property'][2]['project']['name'];?></div>
 										</li>
 										<li class="man">
-											<span class="property-price  mvn">฿ &nbsp;<?=number_format($tp[2]['price']);?></span>
-											<span class="property-size man noWrap pull-right"> <?=$tp[2]['size'];?> <?=$tp[2]['size_unit']['name'];?> </span>
+											<span class="property-price  mvn">฿ &nbsp;<?=number_format($tp['property'][2]['price']);?></span>
+											<span class="property-size man noWrap pull-right"> <?=$tp['property'][2]['size'];?> <?=$tp['property'][2]['size_unit']['name'];?> </span>
 										</li>
 									</ul>
 								</div>
@@ -149,21 +144,21 @@ $this->import('/template/top-navbar');
 
 					<div class="clearfix"></div>
 					
-					<?php if( isset($tp[3]) ) { ?>
+					<?php if( isset($tp['property'][3]) ) { ?>
 					<div class="col-xs-12 col-sm-6 col-md-6 pd0">
-						<div class="mgt3">
-							<div class="prop_banner_big" style="background-image: url('<?=$tp[3]['picture']['url'];?>');"></div>
-							<span class="overlayPhoto overlayFull mgt3" data-href="/property/<?=$tp[3]['id'];?>"></span>
-							<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable text-center b5p" data-href="/property/<?=$tp[3]['id'];?>">
+						<div class="mgt3" data-refid="<?=$tp['property'][3]['reference_id'];?>">
+							<div class="prop_banner_big" style="background-image: url('<?=$tp['property'][3]['picture']['url'];?>');"></div>
+							<span class="overlayPhoto overlayFull mgt3" data-href="/property/<?=$tp['property'][3]['id'];?>"></span>
+							<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable text-center b5p" data-href="/property/<?=$tp['property'][3]['id'];?>">
 								<ul class="mbm property-card-details">
 									<li class="pdb3">
-										<div class="property-title2"><?=$tp[3]['project']['name'];?></div>
+										<div class="property-title2"><?=$tp['property'][3]['project']['name'];?></div>
 									</li>
 									<li class="">
-										<span class="property-price2 ">฿ &nbsp;<?=number_format($tp[3]['price']);?></span>
+										<span class="property-price2 ">฿ &nbsp;<?=number_format($tp['property'][3]['price']);?></span>
 									</li>
 									<li class="">
-										<span class="property-size2  noWrap"><?=$tp[3]['size'];?> <?=$tp[3]['size_unit']['name'];?> </span>
+										<span class="property-size2  noWrap"><?=$tp['property'][3]['size'];?> <?=$tp['property'][3]['size_unit']['name'];?> </span>
 									</li>
 								</ul>
 							</div>
@@ -171,21 +166,21 @@ $this->import('/template/top-navbar');
 					</div>
 					<?php } ?>	
 
-					<?php if( isset($tp[4]) ) { ?>
+					<?php if( isset($tp['property'][4]) ) { ?>
 					<div class="col-xs-12 col-sm-6 col-md-6 pd0">
-						<div class="ml3 mgt3">
-							<div class="prop_banner_big" style="background-image: url('<?=$tp[4]['picture']['url'];?>');"></div>
-							<span class="overlayPhoto overlayFull ml3 mgt3" data-href="/property/<?=$tp[4]['id'];?>"></span>
-							<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable text-center b5p" data-href="/property/<?=$tp[4]['id'];?>">
+						<div class="ml3 mgt3" data-refid="<?=$tp['property'][4]['reference_id'];?>">
+							<div class="prop_banner_big" style="background-image: url('<?=$tp['property'][4]['picture']['url'];?>');"></div>
+							<span class="overlayPhoto overlayFull ml3 mgt3" data-href="/property/<?=$tp['property'][4]['id'];?>"></span>
+							<div class="overlayTransparent overlayBottom typeReversed hpCardText clickable text-center b5p" data-href="/property/<?=$tp['property'][4]['id'];?>">
 								<ul class="mbm property-card-details">
 									<li class="pdb3">
-										<div class="property-title2"><?=$tp[4]['project']['name'];?></div>
+										<div class="property-title2"><?=$tp['property'][4]['project']['name'];?></div>
 									</li>
 									<li class="">
-										<span class="property-price2 ">฿ &nbsp;<?=number_format($tp[4]['price']);?></span>
+										<span class="property-price2 ">฿ &nbsp;<?=number_format($tp['property'][4]['price']);?></span>
 									</li>
 									<li class="">
-										<span class="property-size2  noWrap"><?=$tp[4]['size'];?> <?=$tp[4]['size_unit']['name'];?> </span>
+										<span class="property-size2  noWrap"><?=$tp['property'][4]['size'];?> <?=$tp['property'][4]['size_unit']['name'];?> </span>
 									</li>
 								</ul>
 							</div>
@@ -199,8 +194,6 @@ $this->import('/template/top-navbar');
 			<div class="clearfix"></div>
 			
 			<?php
-
-				$i++;
 			}
 			?>
 

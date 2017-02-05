@@ -330,7 +330,7 @@ $this->import('/template/top-navbar');
 												<?php echo $props['project']['name'];?>
 												<div class="pull-right text-right mgt5 hidden-sm hidden-md hidden-lg">
 													<div class="opt-plus pull-right"></div>
-													<div class="opt-fav pull-right mrgrl10"></div>
+													<div class="opt-fav pull-right mrgrl10"  data-prop="<?=$props['id'];?>"></div>
 												</div>
 											</div>
 											<?php
@@ -364,7 +364,7 @@ $this->import('/template/top-navbar');
 										<div class="pd-price col-xs-6">฿ <?php echo $price;?></div>
 										<div class="pd-opt col-xs-6 text-right">
 											<div class="opt-plus pull-right"></div>
-											<div class="opt-fav pull-right mrgrl10"></div>
+											<div class="opt-fav pull-right mrgrl10" data-prop="<?=$props['id'];?>"></div>
 										</div>
 									</div>
 								</div>

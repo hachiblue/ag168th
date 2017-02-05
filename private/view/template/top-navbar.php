@@ -29,7 +29,7 @@
 						<ul class="nav navbar-nav navbar-right side_bar_list mg0">
 							<li class="mgt3 active_red"><a href="/investment">Investment  <img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/invest_icon.png")?>" alt=""><span class="sr-only">(current)</span></a>
 							</li>
-							<li class="mg7_3"><a href="" class="f_gray"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/fav_icon.png")?>" alt=""></a>
+							<li class="mg7_3"><a href="#" class="f_gray fav_list"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/fav_icon.png")?>" alt=""></a>
 							</li>
 							<li class="mg7_0"><a href="" class="f_gray"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/comp_icon.png")?>" alt=""></a>
 							</li>
@@ -51,7 +51,31 @@
                 <li class="<?=(isset($act6)) ? $act6 : '';?>"><a href="/boards">Board</a></li>
                 <li class="<?=(isset($act7)) ? $act7 : '';?>"><a href="/contact">Contact</a></li>
                 <li class="active_red"><a href="/investment">Investment  <img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/invest_icon.png")?>" alt=""><span class="sr-only">(current)</span></a></li>
-				<li><a href="" class="f_gray"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/fav_icon.png")?>" alt=""></a></li>
+				
+				<?php
+				if( isset($_SESSION['member']) && !empty($_SESSION['member']) )
+				{
+					$txtWelcome = !empty($_SESSION['member']['name'])? $_SESSION['member']['name'] : $_SESSION['member']['email'];
+				?>
+                <li class="">
+					<a href="#" class="dropdown-toggle mem-barwelcome" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome, <?=$txtWelcome;?> <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">Profile</a></li>
+						<li><a href="#">Enquiry</a></li>
+						<li><a href="#">Property</a></li>
+						<li><a href="/member/logout">Log Out</a></li>
+					</ul>
+					<script type="text/javascript">
+					<!--
+						var _fav = <?=json_encode(explode(',', $_SESSION['member']['fav_property']));?>;
+					//-->
+					</script>
+				</li>
+				<?php
+				}
+				?>
+
+				<li><a href="#" class="f_gray fav_list"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/fav_icon.png")?>" alt=""></a></li>
 				<li><a href="" class="f_gray lst"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/comp_icon.png")?>" alt=""></a></li>
             </ul>
         </div>

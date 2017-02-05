@@ -143,6 +143,7 @@ $this->import("/admin/layout/header");
                 <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/manager') ?>"><i class="fa fa-user-secret fa-3"></i> Manager</a></li>
                 <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/admin') ?>"><i class="fa fa-user-secret fa-3"></i> Admin</a></li>
                 <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/sale') ?>"><i class="fa fa-user-secret fa-3"></i> Sale</a></li>
+                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/webmanage') ?>"><i class="fa fa-user-secret fa-3"></i> Web Manage</a></li>
                 <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/layout') ?>"><i class="fa fa-user-secret fa-3"></i> Layout</a></li>
                 <?php }?>
                 <?php if($_SESSION['login']['level_id'] == 1 || $_SESSION['login']['level_id'] == 2){?>

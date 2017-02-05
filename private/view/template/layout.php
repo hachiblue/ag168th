@@ -38,7 +38,27 @@
 
 <?php $this->import('/'.$page); ?>
 
+
 <?php $this->import('/template/script'); ?>
+
+<!-- Modal -->
+<div class="modal fade" id="fav_list_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Favorite list</h4>
+      </div>
+      <div class="modal-body">
+		<div id="fv_list">
+			
+		</div>
+
+		<div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

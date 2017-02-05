@@ -199,7 +199,9 @@ if(  isMobile ) l.removeClass("fixed");
 u.removeClass("fixed"),
 $(window).scroll(_.throttle(function() {
 
-	if( page != 'contact' && page != 'board' && page != 'property' && page != 'project'  && page != 'list_your_property' && page != 'investment_property'  && page != 'investment_project'  && page != 'investment' )
+	if( page != 'contact' && page != 'board' && page != 'property' && page != 'project'  
+		&& page != 'list_your_property' && page != 'investment_property'  
+		&& page != 'investment_project'  && page != 'investment' && page != 'registeryourproperty' && page != 'member' )
 	{
 		if( ! isMobile ) x() && g(l) ? m() : !x() && v() && S();
 	}
@@ -457,6 +459,50 @@ function when_offhover()
 	}
 }	
 
+function chkfav()
+{
+	var $self = $(this);
+
+	$.post('/member/chk', { prop : $self.data('prop'), status : ! $self.hasClass('on')}, function(msg) {
+		if( msg == '1' )
+		{
+			$self.toggleClass('on');
+		}
+		else
+		{
+			if( confirm('Please login first') )
+			{
+				window.location = '/member';
+			}
+		}
+	});
+}
+
+function chkfav_list()
+{
+	var $self = $(this);
+
+	$.post('/member/chklist', { }, function(msg) {
+		if( msg.length )
+		{
+			var shtml = '';
+			$(msg).each(function(i, ob) {
+				shtml += '<div class="fv-item col-xs-12"><div class="col-md-6">'+ob.reference_id+'</div><div class="col-md-3"><a href="/property/'+ob.id+'">link</a></div></div>';
+			});
+
+			$('#fv_list').html(shtml);
+
+			$('#fav_list_model').modal('show');
+		}
+		else
+		{
+			if( confirm('Please login first') )
+			{
+				window.location = '/member';
+			}
+		}
+	}, 'json');
+}
 
 $(document).on("ready", function () {
 	
@@ -469,16 +515,19 @@ $(document).on("ready", function () {
 		renderItem: function (item, search) {
 			search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 			var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
-			return '<div class="autocomplete-suggestion" data-project_id="'+item[1]+'" data-val="'+item[0]+'">'+item[0].replace(re, "<b>$1</b>")+'</div>';
+			return '<div class="autocomplete-suggestion" data-project_id="'+item[1]+'" data-val="'+item[0]+'" data-province="'+item[2]+'" data-zone="'+item[3]+'">'+item[0].replace(re, "<b>$1</b>")+'</div>';
 		},
 		onSelect: function(e, term, item) {
-			$('input[name=project_id]').val( $(item).data('project_id') );
+			$('input[name=project_id]').length && $('input[name=project_id]').val( $(item).data('project_id') );
+			$('input[name=projectname]').length && $('input[name=projectname]').val( $(item).data('val') );
+			$('select[name=province]').length && $('select[name=province]').val( $(item).data('province') );
+			$('input[name=zone]').length && $('input[name=zone]').val( $(item).data('zone') );
 		}
 	});
 
 	// to clear search value
 	$('#auto-searchby').keyup(function() {
-		$('input[name=project_id]').val('');
+		$('input[name=project_id]').length && $('input[name=project_id]').val('');
 	});
 
 	$('.cardContainer').hover(
@@ -488,7 +537,6 @@ $(document).on("ready", function () {
 		// when mouse out
 		when_offhover
 	);
-
 
 	$(".dropdown-menu").on('click', 'li a', function () {
 		var 
@@ -527,11 +575,31 @@ $(document).on("ready", function () {
 	);
 
 	$('.opt-fav').click(function () {
-		$(this).toggleClass('on');
+	
+		chkfav.call(this);	
+		
 	});
 
+	$('.fav_list').click(function () {
+	
+		chkfav_list.call(this);	
+		
+	});
+
+	if( typeof _fav != 'undefined' )
+	{
+		$('.opt-fav').each(function(i, el) {
+			if( typeof $(el).data('prop') != 'undefined' && _fav.indexOf( ''+$(el).data('prop') ) != -1 )
+			{
+				$(el).addClass('on');
+			}
+		});
+	}
+
 	$('.add_to_fav').click(function () {
-		$(this).find('.opt-fav').toggleClass('on');
+
+		chkfav.call( $(this).find('.opt-fav')[0] );
+		//$(this).find('.opt-fav').toggleClass('on');
 	});
 
 	$('.dropdown.keep-open').on( {
@@ -590,6 +658,50 @@ $(document).on("ready", function () {
 		window.open($this.data('href'), '_self');
 	});
 	
+	if( $('#form-regis').length )
+	{
+		$( "#form-regis" ).on( "submit", function( e ) {
+
+			e.preventDefault();
+
+			$.post('member/register', $( this ).serialize(), function( msg ) {
+				
+				if( msg.success )
+				{
+					window.location = '/home';
+				}
+				else
+				{
+					alert(msg.error);
+				}
+
+			}, 'json');
+
+		});
+	}
+
+	if( $('#form-login').length )
+	{
+		$( "#form-login" ).on( "submit", function( e ) {
+
+			e.preventDefault();
+
+			$.post('member/login', $( this ).serialize(), function( msg ) {
+				
+				if( msg.success )
+				{
+					window.location = '/home';
+				}
+				else
+				{
+					alert(msg.error);
+				}
+
+			}, 'json');
+
+		});
+	}
+
 	if( $('div[name=tab-project]').length )
 	{
 		$('div[name=tab-project]').click(function () {
@@ -611,6 +723,23 @@ $(document).on("ready", function () {
 				$('#area-map').hide();
 				$('#area-gall').show();
 			}
+		});
+	}
+	
+	if( $('#image_file').length )
+	{
+		$("#image_file").fileinput({
+			uploadUrl: "/file-upload-batch/2",
+			showUpload: false,
+			allowedFileExtensions: ["jpg", "png", "gif"],
+			browseOnZoneClick : true,
+			showBrowse: false,
+			maxFileSize: 1000,
+			fileActionSettings : { showUpload: false },
+			dropZoneClickTitle : '',
+			showCaption : false,
+			showRemove: false,
+			dropZoneTitle : '<div class="lyp-upload-pic mgt30"><i class="fa fa-picture-o" aria-hidden="true"></i></div><div class="lyp-upload-txt">Upload Photo</div><div class="lyp-upload-ext mgt5">Allow .jpg .gif .png and Max file size per image is  not 1mb</div><div class="lyp-upload-btn mgt20"><i class="fa fa-upload" aria-hidden="true"></i> Add Files</div>'
 		});
 	}
 

@@ -37,107 +37,18 @@ class HomeCTL extends BaseCTL {
 		
 		$pItems = array('page' => 'home', 'act1' => 'act');
 		
-		$query = "SELECT p.*, IF(p.sell_price=0, p.rent_price, p.sell_price) AS price
-					FROM
-					  property p
-					WHERE  p.web_status = 1 
-					  AND (
-						p.property_highlight_id IS NOT NULL 
-						AND p.property_highlight_id = '".rand(1, 4)."'
-					  ) 
-					ORDER BY RAND() 
-					LIMIT 6 ";
-
-		$stmt = $db->pdo->prepare($query);
+		$sql = " select id, name from wm_topic limit 20";
+		$stmt = $db->pdo->prepare($sql);
 		$stmt->execute();
 		$items = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		$this->_buildItems($items);
-		
-		$highlight_prop = array( '1' => 'Sale at Lost and Plus', '2' => 'Sale at Cost', '3' => 'Sale under Market Price', '4' => 'Made Over already');
-		
-		$pItems['highlight'] = array();
-		if( isset($items[0]) )
+		foreach( $items as &$prop )
 		{
-			$pItems['highlight'] = array(
-				$highlight_prop[$items[0]['property_highlight_id']] => $items
-			);
+			$this->_buildTopic($prop);
 		}
 
-		$feature_unit_id = FeatureUnitService::getItems();
-			
-		$pItems['feature_unit'] = array();
-		
+		$pItems['topics'] = $items;
+
 		unset($items);
-
-		foreach( $feature_unit_id as $i => $topic )
-		{
-			if( $i < 4 ) continue;
-
-			$query = "SELECT p.*, IF(p.sell_price=0, p.rent_price, p.sell_price) AS price FROM property p WHERE  p.web_status = 1 AND ( p.property_highlight_id IS NOT NULL AND p.feature_unit_id = '".$topic['id']."' ) ORDER BY RAND() LIMIT 6 ";
-
-			$stmt = $db->pdo->prepare($query);
-			$stmt->execute();
-			$items = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-			$this->_buildItems($items);
-
-			$pItems['feature_unit'][$topic['name']] = $items;
-
-			unset($items);
-
-			if( $i == 3 ) break;
-		}
-
-		/*
-		$query = "SELECT p.*, v.name as province_name, j.name as project_name FROM property p, province v, project j
-		WHERE p.province_id = v.id AND p.project_id = j.id AND p.web_status=1
-		AND p.feature_unit_id = 1
-		ORDER BY RAND()
-		LIMIT 6";
-
-		$stmt = $db->pdo->prepare($query);
-		$stmt->execute();
-		$items2 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		$this->_buildItems($items2);
-
-
-		$query = "SELECT p.*, v.name as province_name, j.name as project_name FROM property p, province v, project j
-		WHERE p.province_id = v.id AND p.project_id = j.id AND p.web_status=1
-		AND p.feature_unit_id = 2
-		ORDER BY RAND()
-		LIMIT 6";
-
-		$stmt = $db->pdo->prepare($query);
-		$stmt->execute();
-		$items3 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		$this->_buildItems($items3);
-
-
-		$query = "SELECT p.*, v.name as province_name, j.name as project_name FROM property p, province v, project j
-		WHERE p.province_id = v.id AND p.project_id = j.id AND p.web_status=1
-		AND p.feature_unit_id = 3
-		ORDER BY RAND()
-		LIMIT 6";
-
-		$stmt = $db->pdo->prepare($query);
-		$stmt->execute();
-		$items4 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		$this->_buildItems($items4);
-
-
-		$query = "SELECT p.*, v.name as province_name, j.name as project_name FROM property p, province v, project j
-		WHERE p.province_id = v.id AND p.project_id = j.id AND p.web_status=1
-		AND p.feature_unit_id = 4
-		ORDER BY RAND()
-		LIMIT 6";
-
-		$stmt = $db->pdo->prepare($query);
-		$stmt->execute();
-		$items5 = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		$this->_buildItems($items5);*/
-
-
-		//$slide_1 = ApiLayout::_get("slide_1");
-		//$slide_1 = json_decode($slide_1);
 
 		return new HtmlView('/template/layout', $pItems);
 	}
@@ -152,6 +63,23 @@ class HomeCTL extends BaseCTL {
 			$this->_buildRequirement($item);
 		}
     }
+
+	public function _buildTopic(&$item)
+	{
+		$db = MedooFactory::getInstance();
+
+		$sql = " select p.*, IF(p.sell_price=0, p.rent_price, p.sell_price) AS price from wm_property wm, property p where p.reference_id = wm.property_reference_id AND p.web_status = 1 order by rand() limit 5";
+		$stmt = $db->pdo->prepare($sql);
+		$stmt->execute();
+		$item['property'] = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		foreach( $item['property'] as &$prop )
+		{
+			$prop['project'] = $this->getProject($prop['project_id']);
+			$this->_buildThumb($prop);
+			$this->_buildSizeUnit($prop);
+			$this->_buildRequirement($prop);
+		}
+	}
 
     public function _buildThumb(&$item)
     {

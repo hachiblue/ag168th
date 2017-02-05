@@ -10,6 +10,23 @@
 		<a href="/regisprops" class="list-group-item side-list-group-item <?=(isset($act5)) ? $act5 : '';?>">List Your Property</a>
 		<a href="/boards" class="list-group-item side-list-group-item <?=(isset($act6)) ? $act6 : '';?>">Board</a>
 		<a href="/contact" class="list-group-item side-list-group-item <?=(isset($act7)) ? $act7 : '';?>">Contact</a>
+
+		<?php
+		if( isset($_SESSION['member']) && !empty($_SESSION['member']) )
+		{
+			$txtWelcome = !empty($_SESSION['member']['name'])? $_SESSION['member']['name'] : $_SESSION['member']['email'];
+		?>
+			<a href="#" class="list-group-item side-list-group-item dropdown-toggle mem-barwelcome" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome, <?=$txtWelcome;?> <span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<li><a href="#">Profile</a></li>
+				<li><a href="#">Enquiry</a></li>
+				<li><a href="#">Property</a></li>
+				<li><a href="member/logout">Log Out</a></li>
+			</ul>
+		<?php
+		}
+		?>
+
 	  </div>
 	</div><!--/.sidebar-offcanvas-->
 

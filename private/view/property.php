@@ -349,7 +349,7 @@ $req_txt = strtoupper($item['requirement']['name']);
 			</div>
 
 			<div class="pp-tabopt col-md-12 hidden-md hidden-lg text-center">
-					<div class="left fst col-xs-6 add_to_fav"><div class="ico opt-fav"></div>Add to Favorite</div>
+					<div class="left fst col-xs-6 add_to_fav" data-prop="<?=$item['id'];?>"><div class="ico opt-fav" data-prop="<?=$item['id'];?>"></div>Add to Favorite</div>
 					<div class="right col-xs-6 add_to_compare"><div class="ico opt-plus"></div>Compare</div>
 					<div class="clearfix"></div>
 			</div>
@@ -450,8 +450,8 @@ $req_txt = strtoupper($item['requirement']['name']);
 			<div class="row_enq pp-enquiry mgt5">
 					
 					<div class="pp-tabopt col-md-12  text-center no_padd  hidden-xs hidden-sm">
-						<div class="left fst col-xs-6 add_to_fav">
-							<div class="ico opt-fav"></div>Add to Favorite
+						<div class="left fst col-xs-6 add_to_fav" data-prop="<?=$item['id'];?>">
+							<div class="ico opt-fav" data-prop="<?=$item['id'];?>"></div>Add to Favorite
 						</div>
 						<div class="right col-xs-6 add_to_compare">
 							<div class="ico opt-plus"></div>Compare
@@ -582,7 +582,7 @@ $req_txt = strtoupper($item['requirement']['name']);
 							<div class="pd-price col-xs-6">฿ <?=$price;?></div>
 							<div class="pd-opt col-xs-6 text-right">
 								<div class="opt-plus pull-right"></div>
-								<div class="opt-fav pull-right mrgrl10"></div>
+								<div class="opt-fav pull-right mrgrl10" data-prop="<?=$simi['id'];?>"></div>
 							</div>
 						</div>
 					</div>
