@@ -13,6 +13,7 @@ use Main\Context\Context;
 use Main\Http\RequestInfo;
 use Main\View\HtmlView;
 use Main\View\JsonView;
+use Main\Helper\ArrayHelper;
 use Main\ThirdParty\Xcrud\Xcrud;
 use Main\DB\Medoo\MedooFactory;
 use Main\Helper\ResponseHelper;
@@ -22,6 +23,8 @@ use Main\Helper\ResponseHelper;
  * @uri /member
  */
 class memberCTL extends BaseCTL {
+	
+	private static $table = "member";
 
     /**
      * @GET
@@ -31,7 +34,7 @@ class memberCTL extends BaseCTL {
         $params = $this->reqInfo->params();
 		$db = MedooFactory::getInstance();
 		
-		$pItems = array('page' => 'member', 'act5' => 'act');
+		$pItems = array('page' => 'member', 'act8' => 'act');
 
         return new HtmlView('/template/layout', $pItems);
     }
@@ -176,7 +179,7 @@ class memberCTL extends BaseCTL {
 		{
 			$fav = explode(',', $_SESSION['member']['fav_property']);
 
-			$property = $db->select('property', '*', ['id'=>$fav]);
+			$property = $db->select('property', [ "[><]project" => ["project_id" => "id"] ], ['property.id', 'project.name(project_name)'], ['property.id'=>$fav]);
 
 			echo json_encode($property);
 		}
@@ -184,6 +187,198 @@ class memberCTL extends BaseCTL {
 		{
 			echo json_encode(array());
 		}
+	}
+
+	/**
+     * @GET
+	 * @uri /profile
+     */
+	public function profile ()
+	{
+		$params = $this->reqInfo->params();
+		$db = MedooFactory::getInstance();
+		
+		$pf = $db->get('member', '*', ['id'=>$_SESSION['member']['id']]);
+
+		$pItems = array('page' => 'profile', 'profile' => $pf);
+
+        return new HtmlView('/template/layout', $pItems);
+	}
+
+	/**
+     * @POST
+	 * @uri /update_profile
+     */
+	public function update_profile ()
+	{
+		$params = $this->reqInfo->params();
+		$db = MedooFactory::getInstance();
+		
+		$res = array();
+		$res['success'] = false;
+
+		foreach( $params as &$va )
+		{
+			$va = filter_var($va, FILTER_SANITIZE_STRING);
+		}
+
+		if (!filter_var($params['email'], FILTER_VALIDATE_EMAIL) === false) 
+		{
+			$res['success'] = true; 
+		} 
+		
+		$update = ArrayHelper::filterKey([
+			'name', 'surname', 'email', 'line', 'phone', 'address'
+		], $params);
+
+		$update = array_map(function($item) 
+		{
+			if(is_string($item)) 
+			{
+				$item = trim($item);
+			}
+			return $item;
+		}, $update);
+
+		if( $db->update('member', $update, ['id'=>$_SESSION['member']['id']]) )
+		{
+			$res['success'] = true; 
+		}
+		else
+		{
+			$res['success'] = false; 
+			$res['error'] = 'cannot update';
+			$res['log'] = $db->log();
+		}
+
+        echo json_encode($res);
+	}
+
+	/** 
+	 * @POST
+	 * @uri /change_password
+	 */
+	public function change_password ()
+	{
+		$params = $this->reqInfo->params();
+		$db = MedooFactory::getInstance();
+		
+		$res = array();
+		$res['success'] = true;
+
+		foreach( $params as &$va )
+		{
+			$va = filter_var($va, FILTER_SANITIZE_STRING);
+		}
+		
+		$old_pass = $db->get('member', 'password', ['id'=>$_SESSION['member']['id']]);
+
+		if( $old_pass != $params['old_password'] )
+		{
+			$res['error'] = 'Wrong Password'; 
+			$res['success'] = false; 
+		}
+
+		if( strlen($params['new_password']) < 5 )
+		{
+			$res['error'] = 'Password required minimum 5 characters'; 
+			$res['success'] = false; 
+		}
+
+		if( $params['new_password'] !== $params['re_password'] )
+		{
+			$res['error'] = 're-password incorrect'; 
+			$res['success'] = false; 
+		}
+
+		if( $res['success'] === true )
+		{
+			$db->update('member', ['password'=>$params['re_password']], ['id'=>$_SESSION['member']['id']]);
+		}
+
+		echo json_encode($res);
+	}
+
+	/**
+     * @POST
+	 * @uri /upload_picture
+     */
+	public function save_picture ()
+	{
+		$validator = new \FileUpload\Validator\Simple(1024 * 1024 * 4, ['image/png', 'image/jpg', 'image/jpeg']);
+		$pathresolver = new \FileUpload\PathResolver\Simple('public/member_pics');
+		$filesystem = new \FileUpload\FileSystem\Simple();
+		$filenamegenerator = new \FileUpload\FileNameGenerator\Random();
+
+		$fileupload = new \FileUpload\FileUpload($_FILES['pf-picture'], $_SERVER);
+		$fileupload->setPathResolver($pathresolver);
+		$fileupload->setFileSystem($filesystem);
+		$fileupload->addValidator($validator);
+
+		$fileupload->setFileNameGenerator($filenamegenerator);
+
+		list($files, $headers) = $fileupload->processAll();
+
+		$slides = self::_get("picture");
+		$slides = json_decode($slides);
+
+		$db = MedooFactory::getInstance();
+		foreach($files as $file)
+		{
+			if($file->completed)
+			{
+				$pic = $db->get("member", "picture", ["id"=> $_SESSION['member']['id']]);
+
+				if( isset($pic) && !empty($pic) )
+				{
+					if( is_file( 'public/member_pics/' . $pic ) )
+					{
+						unlink( 'public/member_pics/' . $pic );
+					}
+				}
+
+				$db->update("member", ["picture"=> $file->name], ["id"=> $_SESSION['member']['id']]);
+
+				$_SESSION['member']['picture'] = $file->name;
+				// $ffff[] = $file;
+				//$slides[] = $file->name;
+				// ImageHelper::makeResizeWatermark($file->path);
+			}
+		}
+
+		header("Location: /member/profile");
+	}
+
+	/**
+     * @GET
+	 * @uri /enquiry
+     */
+	public function enquiry ()
+	{
+		$params = $this->reqInfo->params();
+		$db = MedooFactory::getInstance();
+		
+		$pf = $db->get('member', '*', ['id'=>$_SESSION['member']['id']]);
+
+		$pItems = array('page' => 'post_enquiry', 'profile' => $pf);
+
+        return new HtmlView('/template/layout', $pItems);
+	}
+
+	/**
+     * @GET
+	 * @uri /property
+     */
+	public function property ()
+	{
+		$params = $this->reqInfo->params();
+		$db = MedooFactory::getInstance();
+		
+		$pf = $db->get('member', '*', ['id'=>$_SESSION['member']['id']]);
+
+		$pItems = array('page' => 'post_property', 'profile' => $pf);
+
+        return new HtmlView('/template/layout', $pItems);
 	}
 
 	public function update_fav ( $params )
@@ -219,4 +414,30 @@ class memberCTL extends BaseCTL {
 		$db->update('member', ['fav_property'=>$new_fav], ['id'=>$member_id]);
 		$_SESSION['member']['fav_property'] = $new_fav;
 	}
+
+
+
+	public static function _set($key, $val)
+	{
+		$db = MedooFactory::getInstance();
+		if($db->count(self::$table, ['key'=> $key]) > 0) 
+		{
+			$db->update(self::$table, ['val'=> $val], ['key'=> $key]);
+		}
+		else 
+		{
+			$db->insert(self::$table, ['key'=> $key, 'val'=> $val]);
+		}
+
+		return ['success'=> true];
+	}
+
+	public static function _get($key)
+	{
+		$db = MedooFactory::getInstance();
+		$item = $db->get(self::$table, "*", ['key'=> $key]);
+
+		return isset($item['val'])? $item['val']: "";
+	}
+
 }

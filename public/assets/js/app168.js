@@ -201,7 +201,8 @@ $(window).scroll(_.throttle(function() {
 
 	if( page != 'contact' && page != 'board' && page != 'property' && page != 'project'  
 		&& page != 'list_your_property' && page != 'investment_property'  
-		&& page != 'investment_project'  && page != 'investment' && page != 'registeryourproperty' && page != 'member' )
+		&& page != 'investment_project'  && page != 'investment' && page != 'registeryourproperty' 
+		&& page != 'member' && page != 'profile' && page != 'post_enquiry' && page != 'post_property' )
 	{
 		if( ! isMobile ) x() && g(l) ? m() : !x() && v() && S();
 	}
@@ -487,10 +488,26 @@ function chkfav_list()
 		{
 			var shtml = '';
 			$(msg).each(function(i, ob) {
-				shtml += '<div class="fv-item col-xs-12"><div class="col-md-6">'+ob.reference_id+'</div><div class="col-md-3"><a href="/property/'+ob.id+'">link</a></div></div>';
+				shtml += '<div class="fv-item col-xs-12"><div class="col-md-6">'+ob.project_name+'</div><div class="opt-fav col-md-6" data-prop="'+ob.id+'"></div><div class="col-md-3"><a href="/property/'+ob.id+'">link</a></div></div>';
 			});
 
 			$('#fv_list').html(shtml);
+			
+			if( typeof _fav != 'undefined' )
+			{
+				$('.opt-fav').each(function(i, el) {
+					if( typeof $(el).data('prop') != 'undefined' && _fav.indexOf( ''+$(el).data('prop') ) != -1 )
+					{
+						$(el).addClass('on');
+					}
+				});
+
+				$('.opt-fav').unbind().click(function () {
+	
+					chkfav.call(this);	
+					
+				});
+			}
 
 			$('#fav_list_model').modal('show');
 		}
@@ -702,6 +719,50 @@ $(document).on("ready", function () {
 		});
 	}
 
+	if( $('#form-profile').length )
+	{
+		$( "#form-profile" ).on( "submit", function( e ) {
+
+			e.preventDefault();
+
+			$.post('/member/update_profile', $( this ).serialize(), function( msg ) {
+				
+				if( msg.success )
+				{
+					window.location = '/member/profile';
+				}
+				else
+				{
+					alert(msg.error);
+				}
+
+			}, 'json');
+
+		});
+	}
+
+	if( $('#form-chg_password').length )
+	{
+		$( "#form-chg_password" ).on( "submit", function( e ) {
+
+			e.preventDefault();
+
+			$.post('/member/change_password', $( this ).serialize(), function( msg ) {
+				
+				if( msg.success )
+				{
+					window.location = '/member/profile';
+				}
+				else
+				{
+					alert(msg.error);
+				}
+
+			}, 'json');
+
+		});
+	}
+
 	if( $('div[name=tab-project]').length )
 	{
 		$('div[name=tab-project]').click(function () {
@@ -758,6 +819,33 @@ $(document).on("ready", function () {
 			freeMode: false,
 			nextButton: '.swiper-button-next',
 			prevButton: '.swiper-button-prev',
+		});
+	}
+
+	if( $('#pf-picture').length )
+	{
+		var btnCust = '<button type="button" class="btn btn-default" title="Add picture tags" ' + 
+			'onclick="alert(\'Call your custom code here.\')">' +
+			'<i class="glyphicon glyphicon-tag"></i>' +
+			'</button>'; 
+
+		var mPicture = profile_picture != '' ? '/public/member_pics/' + profile_picture : '/public/assets/img/default_avatar_male.jpg';
+
+		$('#pf-picture').fileinput({
+			overwriteInitial: true,
+			maxFileSize: 1500,
+			showClose: false,
+			showCaption: false,
+			browseLabel: '',
+			removeLabel: '',
+			browseIcon: '<i class="glyphicon glyphicon-folder-open"></i>',
+			removeIcon: '<i class="glyphicon glyphicon-remove"></i>',
+			removeTitle: 'Cancel or reset changes',
+			elErrorContainer: '#kv-avatar-errors-1',
+			msgErrorClass: 'alert alert-block alert-danger',
+			defaultPreviewContent: '<img src="'+mPicture+'" alt="Your Picture" style="width:160px">',
+			//layoutTemplates: {main2: '{preview} ' +  btnCust + ' {remove} {browse}'},
+			allowedFileExtensions: ["jpg", "png", "gif"]
 		});
 	}
 

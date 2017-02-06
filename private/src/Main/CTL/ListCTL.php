@@ -175,13 +175,13 @@ class ListCTL extends BaseCTL {
 		JOIN project ON property.project_id = project.id, province pv, sub_district sd
 		WHERE property.web_status=1 AND property.province_id = pv.id AND property.sub_district_id = sd.id AND property.web_status = 1
 		AND ({$searchQuery}) AND project.name != 'Unspecified'
-		ORDER BY IF(property.requirement_id='".$params['requirement_id']."', (CASE property.bts_id
+		ORDER BY created_at DESC, IF(property.requirement_id='".$params['requirement_id']."', (CASE property.bts_id
            WHEN 15 THEN 1
            WHEN 12 THEN 0
          END), (CASE property.bts_id
            WHEN 15 THEN 0
            WHEN 12 THEN 1
-         END)) DESC, RAND(), created_at DESC
+         END)) DESC, RAND()
 		LIMIT :start,:limit";
 
 		$queryCount = "SELECT COUNT(property.id) as c FROM property

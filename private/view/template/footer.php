@@ -8,7 +8,7 @@
 		<a href="/list?requirement_id=2" class="list-group-item side-list-group-item <?=(isset($act3)) ? $act3 : '';?>">Rent</a>
 		<a href="/list_project" class="list-group-item side-list-group-item <?=(isset($act4)) ? $act4 : '';?>">Project Search</a>
 		<a href="/regisprops" class="list-group-item side-list-group-item <?=(isset($act5)) ? $act5 : '';?>">List Your Property</a>
-		<a href="/boards" class="list-group-item side-list-group-item <?=(isset($act6)) ? $act6 : '';?>">Board</a>
+		<a href="/boards" class="list-group-item side-list-group-item <?=(isset($act6)) ? $act6 : '';?>">Editorial</a>
 		<a href="/contact" class="list-group-item side-list-group-item <?=(isset($act7)) ? $act7 : '';?>">Contact</a>
 
 		<?php

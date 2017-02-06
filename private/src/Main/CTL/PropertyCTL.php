@@ -67,9 +67,7 @@ class PropertyCTL extends BaseCTL {
 		$mailContent = <<<MAILCONTENT
 		Request enquiry from page property: <a href="{$url}">{$_POST["reference_id"]}</a><br />
 		Requirement type: {$_POST["requirement"]}<br />
-		Email: {$_POST["email"]}<br />
 		Date Request: {$_POST["daterequest"]}<br />
-		Phone: {$_POST["phone"]}<br />
 MAILCONTENT;
 	
 		$mailHeader = "From: system@agent168th.com\r\n";

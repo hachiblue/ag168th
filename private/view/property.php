@@ -477,14 +477,14 @@ $req_txt = strtoupper($item['requirement']['name']);
 							<div class="form-group pdt10">
 								<label for="exampleInputEmail1">Want to see this unit</label>
 								<input type="text" class="form-control is_datepicker" id="enq_date" name="daterequest" placeholder="Select Date" required>
+								<input type="hidden" class="form-control" id="reference_id" name="reference_id" value="<?=$item['reference_id'];?>">
 							</div>
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<input type="txt" class="form-control" id="enq_phone" name="phone" placeholder="Phone number" required>
 							</div>
 							<div class="form-group">
 								<input type="email" class="form-control" id="enq_email" name="email" placeholder="Your Email" required>
-								<input type="hidden" class="form-control" id="reference_id" name="reference_id" value="<?=$item['reference_id'];?>">
-							</div>
+							</div> -->
 
 							<button type="submit" class="btn btn-searchred col-md-12">Send Request</button>
 						

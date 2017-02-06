@@ -1,93 +1,133 @@
-<?php
-$this->import('/layout/header');
+<?php 
+extract($params);
+$this->import('/template/top-navbar'); 
+
 ?>
 
-    <style>
-        .divRight{
-            float: right;
-        }
+<section id="profileContainer" class="a_container">
 
-        .labelText{
-            margin-left: 50px;
-            font-family: 'thk2d', 'Arial', sans-serif;
-            color: #1957a4;
-            font-size: 24px;
-        }
+<div class="container">
 
-        .text1{
-            font-size: 36px;
-            margin-top: 50px;
-        }
+	<div class="mgt25 hidden-xs hidden-sm">
+		<ol class="breadcrumb pd0 bg-white">
+			<li><a href="/home">Home</a></li>
+			<li class="active">Profile</li>
+		</ol>
+	</div>
+	
+	<div class="lyp-form mgt30 mgb30">
 
-        .text2{
-            font-size: 24px;
-            padding-right: 100px;
-            display: inline-block;
-        }
-        hr{
-            border: 1px solid #1957a4;
-            width: 100%;
-            margin-top: 20px;
-            float: left;
-            margin-bottom: 0;
-        }
+		<div class="col-md-3">
+			<div id="kv-avatar-errors-1" class="center-block" style="display:none"></div>
+			<form class="text-center" action="/member/upload_picture" method="post" enctype="multipart/form-data">
+				<div class="kv-avatar center-block" style="width:200px">
+					<input id="pf-picture" name="pf-picture" type="file" class="file-loading">
+				</div>
+				<input type="hidden" name="pf-id" value="">
+				<!-- include other inputs if needed and include a form submit (save) button -->
+			</form>
+		</div>
+		<div class="col-md-9">
 
-        .divTop{
-            margin-top: 20px;
-        }
+			<div class="lyp-form-header tab_profile">
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+					<li role="presentation"><a href="#change_password" aria-controls="change_password" role="tab" data-toggle="tab">Change Password</a></li>
+				</ul>
+			</div>
 
-        .divImg{
-            width: 300px;
-            margin-top: 50px;
-            margin-left: 100px;
-        }
-        .divCenter{
-            text-align: center;
-        }
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="profile">
+					<form class="" id="form-profile" action="/member/update_profile" method="post">
+						<div class="mgt30">
+							<div class="form-group col-md-6">
+								<label for="pf-name">Name * </label>
+								<input type="text" class="form-control" id="pf-name" name="name" value="<?=$profile['name'];?>" placeholder="Name" required>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="pf-surname">Surname * </label>
+								<input type="text" class="form-control" id="pf-surname" name="surname" value="<?=$profile['surname'];?>" placeholder="Surname" required>
+							</div>
 
-        .formRight{
-            display: inline-block;
-            float: right;
-        }
-        .line{
-            background-image: url(<?php echo \Main\Helper\URL::absolute("/public/images/linetable.jpg")?>);
-            margin-top: 20px;
-            width: 91%;
-            margin-left: 100px;
-        }
+							<div class="form-group col-md-6">
+								<label for="pf-email">Email * </label>
+								<input type="email" class="form-control" id="pf-email" name="email" value="<?=$profile['email'];?>" placeholder="Email" required>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="pf-line">Line</label>
+								<input type="text" class="form-control" id="pf-line" name="line" value="<?=$profile['line'];?>" placeholder="Line">
+							</div>
 
-    </style>
+							<div class="form-group col-md-6">
+								<label for="pf-phone">Mobile Phone * </label>
+								<input type="text" class="form-control" id="pf-phone" name="phone" value="<?=$profile['phone'];?>" placeholder="Mobile Phone" required>
+							</div>
 
-    <div class="container">
-        <div class="divRight divTop"><a href="<?php echo \Main\Helper\URL::absolute("/editprofile")?>" class="btn btn-primary">Edit Profile</a></div>
-        <div class="col-md-12 line"></div>
-        <div class="col-md-6">
-            <div class="divCenter"><img src="<?php echo \Main\Helper\URL::absolute("/public/images/mugshot.png")?>" class="divImg"></div>
-        </div>
-        <div class="col-md-6">
-            <div class="labelText text1">K.Gasemsit</div>
-            <div class="labelText">
-                <div class="text2">Birthday :</div>
-                <div class="formRight text2">1983/07/22</div>
-            </div>
-            <div class="labelText">
-                <div class="text2">Gender :</div>
-                <div class="formRight text2">M</div>
-            </div>
-            <div class="labelText">
-                <div class="text2">Interested In :</div>
-                <div class="formRight text2">Not Specified</div>
-            </div>
-            <div class="labelText">
-                <div class="text2">Identifies As :</div>
-                <div class="formRight text2">Not Specified</div>
-            </div>
-            <div class="labelText text2">Has been a member since 2/8/2015</div>
-            <div class="labelText text2">Activities :</div>
-            <div class="labelText">Interested :</div>
-        </div>
-    </div>
-    <br><br>
-<?php
-$this->import('/layout/footer');
-?>
+							<div class="clearfix"></div>
+
+							<div class="form-group col-md-12">
+								<label for="pf-phone">Address</label>
+								<textarea class="form-control" id="pf-address" name="address" placeholder="Address"><?=$profile['address'];?></textarea>
+							</div>
+							
+							<div class="clearfix"></div>
+
+							<div class="lyp-button mgt10 text-center">
+								<button type="submit" class="btn btn-searchred">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div role="tabpanel" class="tab-pane" id="change_password">
+					<form class="" id="form-chg_password" action="/member/change_password" method="post">
+						<div class="mgt30">
+							<div class="form-group col-md-6">
+								<label for="pf-oldpassword">Old Password * </label>
+								<input type="password" class="form-control" id="pf-oldpassword" name="old_password" placeholder="Old Password" required>
+							</div>
+							<div class="clearfix"></div>
+							<div class="form-group col-md-6">
+								<label for="pf-newpassword">New Password * </label>
+								<input type="password" class="form-control" id="pf-newpassword" name="new_password" placeholder="New Password" required>
+							</div>
+							<div class="clearfix"></div>
+							<div class="form-group col-md-6">
+								<label for="pf-repassword">Re-Password * </label>
+								<input type="password" class="form-control" id="pf-repassword" name="re_password" placeholder="Re-Password" required>
+							</div>
+
+							<div class="clearfix"></div>
+
+							<div class="lyp-button mgt10 text-center">
+								<button class="btn btn-searchred">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="clearfix"></div>
+		
+			
+
+		</div>
+
+		<div class="clearfix"></div>
+		
+	</div>
+
+
+</div>
+
+</section>
+
+<script type="text/javascript">
+<!--
+	
+var profile_picture = '<?=$_SESSION["member"]["picture"];?>';
+
+//-->
+</script>
+
+<?php $this->import('/template/footer'); ?>
