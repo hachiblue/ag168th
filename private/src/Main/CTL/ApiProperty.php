@@ -516,7 +516,8 @@ MAILCONTENT;
      * @POST
      * @uri /[i:id]/gallery
      */
-    public function postGallery(){
+    public function postGallery()
+	{
         $id = $this->reqInfo->urlParam("id");
 
         $validator = new \FileUpload\Validator\Simple(1024 * 1024 * 4, ['image/png', 'image/jpg', 'image/jpeg']);
@@ -535,13 +536,24 @@ MAILCONTENT;
 
         $db = MedooFactory::getInstance();
         // $ffff = [];
-        foreach($files as $file){
-            if($file->error == 0){
+        foreach($files as $file)
+		{
+            if($file->error == 0)
+			{
                 $db->insert("property_image", ["property_id"=> $id, "name"=> $file->name]);
                 // $ffff[] = $file;
                 ImageHelper::makeResizeWatermark($file->path);
             }
         }
+
+		$accId = $_SESSION['login']['id'];
+        $db->insert("property_comment",
+          [
+            "property_id"=> $id,
+            "comment"=> ' POST IMAGES ALERT',
+            "comment_by"=> $accId,
+            "updated_at"=> date('Y-m-d H:i:s')
+            ]);
 
         return ["success"=> true];
     }

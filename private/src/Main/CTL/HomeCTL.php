@@ -68,7 +68,7 @@ class HomeCTL extends BaseCTL {
 	{
 		$db = MedooFactory::getInstance();
 
-		$sql = " select p.*, IF(p.sell_price=0, p.rent_price, p.sell_price) AS price from wm_property wm, property p where p.reference_id = wm.property_reference_id AND p.web_status = 1 order by rand() limit 5";
+		$sql = " select p.*, IF(p.sell_price=0, p.rent_price, p.sell_price) AS price from wm_property wm, property p where p.reference_id = wm.property_reference_id AND p.web_status = 1 AND wm.wm_topic_id = '".$item['id']."' order by rand() limit 5";
 		$stmt = $db->pdo->prepare($sql);
 		$stmt->execute();
 		$item['property'] = $stmt->fetchAll(\PDO::FETCH_ASSOC);

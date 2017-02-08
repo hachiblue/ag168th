@@ -48,7 +48,7 @@
                 <li class="<?=(isset($act3)) ? $act3 : '';?>"><a href="/list?requirement_id=2">Rent</a></li>
                 <li class="<?=(isset($act4)) ? $act4 : '';?>"><a href="/list_project">Project Search</a></li>
                 <li class="<?=(isset($act5)) ? $act5 : '';?>"><a href="/regisprops">List Your Property</a></li>
-                <li class="<?=(isset($act6)) ? $act6 : '';?>"><a href="/boards">Editorial</a></li>
+                <li class="<?=(isset($act6)) ? $act6 : '';?>"><a href="/editorial">Editorial</a></li>
                 <li class="<?=(isset($act7)) ? $act7 : '';?>"><a href="/contact">Contact</a></li>
                 <li class="active_red"><a href="/investment">Investment  <img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/invest_icon.png")?>" alt=""><span class="sr-only">(current)</span></a></li>
 				

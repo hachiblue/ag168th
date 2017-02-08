@@ -179,6 +179,9 @@ MAILCONTENT;
 
 		$db = MedooFactory::getInstance();
 		$project = $db->get("project", "*", ["id"=> $id]);
+
+		$project['av_unit'] = $db->count('property', ['and' => ['web_status'=>'1', 'project_id'=>$project['id']]]);
+
 		if($project) 
 		{
 			$project["images"] = $db->select("project_image", "*", ["project_id"=> $id]);

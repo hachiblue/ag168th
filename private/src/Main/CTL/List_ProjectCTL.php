@@ -47,13 +47,13 @@ class List_ProjectCTL extends BaseCTL {
 		$page = !empty($params['page'])? $params['page']: 1;
 		$start = ($page-1)*$limit;
 
-		$query = "SELECT pj.*, pv.name as province_name, sd.name as district_name FROM project pj, province pv, sub_district sd
+		$query = "SELECT pj.*, pv.name as province_name, sd.name as district_name, (select count(*) as avail_unit from property where web_status=1 and project_id=pj.id) as av_unit FROM project pj, province pv, sub_district sd
 		WHERE pj.province_id = pv.id AND pj.sub_district_id = sd.id
 		AND ({$searchQuery}) AND pj.name != 'Unspecified'
-		ORDER BY (CASE pj.bts_id
+		ORDER BY created_at DESC, (CASE pj.bts_id
            WHEN 15 THEN 1
            WHEN 12 THEN 0
-         END) DESC, created_at DESC
+         END) DESC
 		LIMIT :start,:limit";
 
 		$queryCount = "SELECT COUNT(pj.id) as c FROM project pj, province pv, sub_district sd

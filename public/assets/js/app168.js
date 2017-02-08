@@ -202,7 +202,7 @@ $(window).scroll(_.throttle(function() {
 	if( page != 'contact' && page != 'board' && page != 'property' && page != 'project'  
 		&& page != 'list_your_property' && page != 'investment_property'  
 		&& page != 'investment_project'  && page != 'investment' && page != 'registeryourproperty' 
-		&& page != 'member' && page != 'profile' && page != 'post_enquiry' && page != 'post_property' )
+		&& page != 'member' && page != 'profile' && page != 'post_enquiry' && page != 'post_property' && page != 'editorial' )
 	{
 		if( ! isMobile ) x() && g(l) ? m() : !x() && v() && S();
 	}
@@ -303,7 +303,7 @@ function geoCallback(prop)
 	var price = 0;
 	var geoCB = function(results, status) {
 		
-		if( null !== prop.sell_price && prop.requirement_id == 1 )
+		if( null !== prop.sell_price )
 		{
 			price = prop.sell_price;
 		}
@@ -318,7 +318,7 @@ function geoCallback(prop)
 		}
 		else
 		{
-			var content = '<a href="#" class=""><div class="gmap-marker2 map_project" data-marker="'+prop.seq+'">'+ prop.number_units+'</div></a>';
+			var content = '<a href="#" class=""><div class="gmap-marker2 map_project" data-marker="'+prop.seq+'">'+ prop.av_unit+'</div></a>';
 		}
 
 		if (status == google.maps.GeocoderStatus.OK) 
@@ -488,7 +488,7 @@ function chkfav_list()
 		{
 			var shtml = '';
 			$(msg).each(function(i, ob) {
-				shtml += '<div class="fv-item col-xs-12"><div class="col-md-6">'+ob.project_name+'</div><div class="opt-fav col-md-6" data-prop="'+ob.id+'"></div><div class="col-md-3"><a href="/property/'+ob.id+'">link</a></div></div>';
+				shtml += '<div class="fv-item col-xs-12"><div class="col-xs-8 col-md-6">'+ob.project_name+'</div><div class="opt-fav col-xs-2 col-md-6" data-prop="'+ob.id+'"></div><div class="col-xs-2 col-md-3"><a href="/property/'+ob.id+'">link</a></div></div>';
 			});
 
 			$('#fv_list').html(shtml);
@@ -519,6 +519,42 @@ function chkfav_list()
 			}
 		}
 	}, 'json');
+}
+
+function article_getcomment(cid, climit)
+{
+	$.post('/editorial/getcomment', { id : cid, limit : climit }, function(msg) {
+		
+		article_setcomment(msg, climit);
+
+	}, 'json');
+}
+
+function article_setcomment(comment, limit)
+{
+	var 
+		$el_comment_box = $('.modal-article_comment'), 
+		$el_comment_total = $('.modal-article_comment_total'), 
+		tmpl = '<div class="cm-row"><div class="r-title">{comment_by}<small>{comment_daypass}</small></div><div class="r-detail">{comment}</div></div>',
+		comment_html = '';
+	
+	$el_comment_box.empty();
+
+	$(comment).each(function( i, c ) {
+		
+		if( i < limit )
+		{
+			comment_html = tmpl;
+			comment_html = comment_html.replace('{comment_by}', c.comment_byname);
+			comment_html = comment_html.replace('{comment_daypass}', c.diff);
+			comment_html = comment_html.replace('{comment}', c.comment);
+
+			$el_comment_box.append(comment_html);
+		}
+
+	});
+
+	$el_comment_total.text(comment.length);
 }
 
 $(document).on("ready", function () {
@@ -638,9 +674,45 @@ $(document).on("ready", function () {
 		itemSelector: '.grid-item',
 		columnWidth: '.bd-card',
 		//gutter: '.gutter-sizer',
-		originLeft: false,
+		originLeft: true,
 		percentPosition: true
 	});
+	
+	if( $('#articleModel').length )
+	{
+		$('#articleModel').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget); // Button that triggered the modal
+			var recipient = button.data('article_id'); // Extract info from data-* attributes
+			// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+			// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+			var modal = $(this);
+			
+			if( typeof article[recipient] != 'undefined' )
+			{
+				modal.find('.modal-title').html('<img src="/public/assets/img/icon/'+article[recipient].icon+'.png" alt="">');
+				modal.find('.modal-headline').text( article[recipient].description || article[recipient].name || '' );
+				modal.find('.modal-datepost .bd-card-date').text( article[recipient].date_post || '' );
+				modal.find('.modal-detail').html( article[recipient].content || '' );
+				modal.find('.modal-article_id').val( article[recipient].id || '' );
+				modal.find('.modal-picturepost').html( '<img src="/public/article_pic/'+article[recipient].image_path+'" alt="">' );
+				//modal.find('.modal-body input').val(recipient);
+				
+				modal.find('.modal-more_comment').data('cid', article[recipient].id);
+
+				article_getcomment( article[recipient].id, 2);
+
+			}
+		});
+	}
+
+	if( $('.modal-more_comment').length )
+	{
+		$('.modal-more_comment').click(function() {
+
+			article_getcomment( $(this).data('cid'), 100);
+
+		});
+	}
 
 	$('.pd-top').click(function () {
 		var $this = $(this);
@@ -730,6 +802,56 @@ $(document).on("ready", function () {
 				if( msg.success )
 				{
 					window.location = '/member/profile';
+				}
+				else
+				{
+					alert(msg.error);
+				}
+
+			}, 'json');
+
+		});
+	}
+
+	if( $('#form-article').length )
+	{
+		$( "#form-article" ).on( "submit", function( e ) {
+
+			e.preventDefault();
+
+			var $this = $(this);
+
+			$.post('/editorial/feedback', $this.serialize(), function( msg ) {
+				
+				if( msg.success )
+				{
+					article_getcomment($this.find('.modal-article_id').eq(0).val(), 2);
+					$this.find('textarea').val('');
+				}
+				else
+				{
+					alert(msg.error);
+				}
+
+			}, 'json');
+
+		});
+	}
+
+	if( $('#form-enquiry').length )
+	{
+		$( "#form-enquiry" ).on( "submit", function( e ) {
+
+			e.preventDefault();
+
+			var $this = $(this);
+
+			$.post('/member/post_enquiry', $this.serialize(), function( msg ) {
+				
+				if( msg.success )
+				{
+					alert('Your enquiry has been sent');
+					$( "#form-enquiry" )[0].reset();
 				}
 				else
 				{

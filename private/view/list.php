@@ -336,16 +336,16 @@ $this->import('/template/top-navbar');
 											<?php
 											$price = 'N/A';
 											$req = isset($props["requirement_id"]) ? $props["requirement_id"] : '';
-											if( $props["sell_price"] > 0 && $req == 1 )
+											if( $props["sell_price"] > 0 )
 											{
 												$price = number_format($props["sell_price"]);
 											}
-											elseif( $props["rent_price"] > 0 && $req == 2 )
+											elseif( $props["rent_price"] > 0 )
 											{	
 												$price = number_format($props["rent_price"]);
 											}
-											elseif( $req == '' )
-											{	
+											else
+											{
 												$price = isset($props["sell_price"]) ? number_format($props["sell_price"]) : 'N/A';
 											}
 											?>

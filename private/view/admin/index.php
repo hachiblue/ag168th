@@ -244,7 +244,7 @@ $this->import("/admin/layout/header");
 							  AND e.assign_manager_id = a2.id
 							  AND e.project_id = pj.id
                               AND DATEDIFF(NOW(), em.mx) > ".$date_expire_mx." 
-                              AND e.enquiry_status_id NOT IN (4, 10, 9, 12) "; 
+                              AND e.enquiry_status_id IN (1, 2, 3, 5, 14) "; 
 
                     $r = $db->query($sql);
                     $cnt = $r->fetch(\PDO::FETCH_ASSOC);
@@ -542,7 +542,7 @@ $this->import("/admin/layout/header");
 				  AND e.assign_manager_id = a2.id
 				  AND e.project_id = pj.id
                   AND DATEDIFF(NOW(), em.mx) > ".$date_expire_mx." 
-                  AND e.enquiry_status_id NOT IN (4, 10, 9, 12) 
+                  AND e.enquiry_status_id IN (1, 2, 3, 5, 14)
                 ORDER BY em.mx ASC LIMIT 500 ";   
            
         $r = $db->query($sql);

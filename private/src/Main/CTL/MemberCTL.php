@@ -243,12 +243,19 @@ class memberCTL extends BaseCTL {
 		if( $db->update('member', $update, ['id'=>$_SESSION['member']['id']]) )
 		{
 			$res['success'] = true; 
+
+			$_SESSION['member']['name'] = $params['name'];
+			$_SESSION['member']['surname'] = $params['surname'];
+			$_SESSION['member']['email'] = $params['email'];
+			$_SESSION['member']['line'] = $params['line'];
+			$_SESSION['member']['phone'] = $params['phone'];
+			$_SESSION['member']['address'] = $params['address'];
 		}
 		else
 		{
 			$res['success'] = false; 
 			$res['error'] = 'cannot update';
-			$res['log'] = $db->log();
+			//$res['log'] = $db->log();
 		}
 
         echo json_encode($res);
@@ -381,6 +388,95 @@ class memberCTL extends BaseCTL {
         return new HtmlView('/template/layout', $pItems);
 	}
 
+	/**
+     * @POST
+	 * @uri /post_enquiry
+     */
+    public function post_enquiry () 
+	{
+        $params = $this->reqInfo->params();
+		$db = MedooFactory::getInstance();
+
+		$res = array( 'success' => true );
+
+		foreach( $params as &$va )
+		{
+			$va = filter_var($va, FILTER_SANITIZE_STRING);
+		}
+		
+		if( isset($params['daterequest']) )
+		{
+			$comment = ' จาก website นัดชมห้อง วันที่' . $params['daterequest'];
+		}
+		else
+		{
+			$comment = $params['comment'];
+		}
+
+
+		if( $res['success'] === true )
+		{
+			$insert = ArrayHelper::filterKey([
+			  "enquiry_type_id", "customer", "requirement_id", "property_type_id", "province_id", "project_id",
+			  "buy_budget_start", "buy_budget_end", "rent_budget_start", "rent_budget_end", "zone_id",
+			  "desicion_maker", "bedroom", "is_studio", "size", "size_unit_id", "bts_id", "mrt_id",
+			  "airport_link_id", "enquiry_status_id", "ex_location", "ptime_to_pol", "sq_furnish",
+			  "sq_hospital", "sq_school", "sq_park", "sq_bts", "sq_shopmall", "sq_airport", "sq_mainroad",
+			  "sq_other", "contact_type_id", "chk1", "chk2", "chk3", "contact_method", "website"
+			], $params);
+
+			$insert = array_map(function($item) 
+			{
+			  if(is_string($item)) 
+			  {
+				$item = trim($item);
+			  }
+			  return $item;
+			}, $insert);
+
+			if( empty($comment) ) 
+			{
+				return \ResposenHelper::error("require comment");
+			}
+
+			$now = date('Y-m-d H:i:s');
+
+			$insert["enquiry_status_id"] = 1;
+			$insert["customer"] = $_SESSION['member']['name'];
+			$insert["enquiry_type_id"] = 1;
+			$insert['created_at'] = $now;
+			$insert['updated_at'] = $now;
+			$insert['enquiry_no'] = $this->_generateReferenceId($insert["enquiry_type_id"]);
+			$insert['contact_method'] = 'website';
+
+			$db->pdo->beginTransaction();
+			$id = $db->insert('enquiry', $insert);
+			if(!$id) {
+			   return ResponseHelper::error("Error can't add enquiry.".$db->error()[2]);
+			}
+
+			$accId = $_SESSION['member']['id'];
+			$commentInsert = [
+			  "enquiry_id"=> $id,
+			  "comment"=> $comment,
+			  "comment_by"=> $accId,
+			  "updated_at"=> $now  
+			];
+
+			$db->insert("enquiry_comment", $commentInsert);
+			$db->pdo->commit();
+
+			//$item = $db->get('enquiry', "*", ["id"=> $id]);
+			//return $item;
+		}
+
+		//$res['log'] = $db->log();
+
+		echo json_encode($res);
+
+        //return new HtmlView('/template/layout', $pItems);
+    }
+
 	public function update_fav ( $params )
 	{
 		$db = MedooFactory::getInstance();
@@ -415,29 +511,47 @@ class memberCTL extends BaseCTL {
 		$_SESSION['member']['fav_property'] = $new_fav;
 	}
 
-
-
-	public static function _set($key, $val)
-	{
+	public function _generateReferenceId($propTypeId)
+    {
 		$db = MedooFactory::getInstance();
-		if($db->count(self::$table, ['key'=> $key]) > 0) 
+		$propType = $db->get("enquiry_type", "*", ["id"=> $propTypeId]);
+		if(!$propType) 
 		{
-			$db->update(self::$table, ['val'=> $val], ['key'=> $key]);
+			return false;
+		}
+
+		$code = "E".$propType["code"];
+		$dt = new \DateTime();
+		return $this->_generateReferenceId2($code, $dt);
+	}
+
+	public function _generateReferenceId2($code, $dt) 
+	{
+		$dtStr = $code.$dt->format('dmy');
+
+		$db = MedooFactory::getInstance();
+		$sql = "SELECT enquiry_no FROM enquiry WHERE SUBSTRING(enquiry_no, 1, 8) = '{$dtStr}' ORDER BY enquiry_no DESC LIMIT 1";
+		$r = $db->query($sql);
+		$row = $r->fetch(\PDO::FETCH_ASSOC);
+
+		if(!empty($row)) 
+		{
+			$n = substr($row['enquiry_no'], -2);
+			if($n == '99') 
+			{
+				$dt->add(new \DateInterval('P1D'));
+				return $this->_generateReferenceId2($code, $dt);
+			}
+			else 
+			{
+				$n = intval($n) + 1;
+				return $code.$dt->format("dmy").sprintf("%02d", $n);
+			}
 		}
 		else 
 		{
-			$db->insert(self::$table, ['key'=> $key, 'val'=> $val]);
+			return $code.$dt->format("dmy")."00";
 		}
-
-		return ['success'=> true];
-	}
-
-	public static function _get($key)
-	{
-		$db = MedooFactory::getInstance();
-		$item = $db->get(self::$table, "*", ['key'=> $key]);
-
-		return isset($item['val'])? $item['val']: "";
 	}
 
 }

@@ -306,7 +306,7 @@ $this->import('/template/top-navbar');
 							<div class="col-xs-3 no_padd"><div class="bigtxt"><?=$item['year_built'];?></div><div class="subtxt">Year Built</div></div>
 							<div class="col-xs-3"><div class="bigtxt"><?=$item['number_buildings'];?></div><div class="subtxt">Towers</div></div>
 							<div class="col-xs-2 text-center pdl6"><div class="bigtxt"><?=$item['number_floors'];?></div><div class="subtxt">Floors</div></div>
-							<div class="col-xs-4 no_padd"><div class="bigtxt txt-orange"><?=$item['number_buildings'];?></div><div class="subtxt">Available Units</div></div>
+							<div class="col-xs-4 no_padd"><div class="bigtxt txt-orange"><?=$item['av_unit'];?></div><div class="subtxt">Available Units</div></div>
 						</div>
 					</div>
 				</div>
@@ -335,7 +335,7 @@ $this->import('/template/top-navbar');
 					<div class="col-md-3 no_padd"><div class="bigtxt"><?=$item['year_built'];?></div><div class="subtxt">Year Built</div></div>
 					<div class="col-md-3"><div class="bigtxt"><?=$item['number_buildings'];?></div><div class="subtxt">Towers</div></div>
 					<div class="col-md-2 text-center pdl6"><div class="bigtxt"><?=$item['number_floors'];?></div><div class="subtxt">Floors</div></div>
-					<div class="col-md-4 no_padd"><div class="bigtxt txt-orange"><?=$item['number_buildings'];?></div><div class="subtxt">Available Units</div></div>
+					<div class="col-md-4 no_padd"><div class="bigtxt txt-orange"><?=$item['av_unit'];?></div><div class="subtxt">Available Units</div></div>
 				</div>
 				<div class="clearfix"></div>
 			</div>		

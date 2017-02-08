@@ -151,7 +151,7 @@ $this->import('/template/top-navbar');
 											<div class="pj-unit">Floors</div>
 										</div>
 										<div class="col-xs-5 col-md-5 no_padd">
-											<div class="pj-val txt-org"><?php echo $proj['number_units'];?></div>
+											<div class="pj-val txt-org"><?php echo $proj['av_unit'];?></div>
 											<div class="pj-unit">Available Units</div>
 										</div>
 									</div>

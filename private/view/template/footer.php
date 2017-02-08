@@ -8,7 +8,7 @@
 		<a href="/list?requirement_id=2" class="list-group-item side-list-group-item <?=(isset($act3)) ? $act3 : '';?>">Rent</a>
 		<a href="/list_project" class="list-group-item side-list-group-item <?=(isset($act4)) ? $act4 : '';?>">Project Search</a>
 		<a href="/regisprops" class="list-group-item side-list-group-item <?=(isset($act5)) ? $act5 : '';?>">List Your Property</a>
-		<a href="/boards" class="list-group-item side-list-group-item <?=(isset($act6)) ? $act6 : '';?>">Editorial</a>
+		<a href="/editorial" class="list-group-item side-list-group-item <?=(isset($act6)) ? $act6 : '';?>">Editorial</a>
 		<a href="/contact" class="list-group-item side-list-group-item <?=(isset($act7)) ? $act7 : '';?>">Contact</a>
 
 		<?php
@@ -18,12 +18,18 @@
 		?>
 			<a href="#" class="list-group-item side-list-group-item dropdown-toggle mem-barwelcome" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome, <?=$txtWelcome;?> <span class="caret"></span></a>
 			<ul class="dropdown-menu">
-				<li><a href="#">Profile</a></li>
-				<li><a href="#">Enquiry</a></li>
-				<li><a href="#">Property</a></li>
-				<li><a href="member/logout">Log Out</a></li>
+				<li><a href="/member/profile">Profile</a></li>
+				<li><a href="/member/enquiry">Enquiry</a></li>
+				<li><a href="/member/property">Property</a></li>
+				<li><a href="/member/logout">Log Out</a></li>
 			</ul>
 		<?php
+		}
+		else
+		{
+			?>
+			<a href="/member" class="list-group-item side-list-group-item <?=(isset($act8)) ? $act8 : '';?>">Login / SignUp</a>
+			<?php
 		}
 		?>
 

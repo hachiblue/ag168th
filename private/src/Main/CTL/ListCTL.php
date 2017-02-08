@@ -38,7 +38,7 @@ class ListCTL extends BaseCTL {
 			
 		if( isset($params['q']) && !empty($params['q']) )
 		{
-			$query = "select p.id, p.name, pv.name as province, z.name as zone_name from project p, zone z, province pv where p.province_id = pv.id and p.zone_id = z.id and p.name like :na limit 10";
+			$query = "select p.id, p.name, pv.name as province, z.name as zone_name from project p, zone z, province pv where p.province_id = pv.id and p.zone_id = z.id and p.name like :na limit 200";
 			$stmt = $db->pdo->prepare($query);
 			$keyword = "%".$params['q']."%";
 			$stmt->bindValue(':na', $keyword, \PDO::PARAM_STR);

@@ -34,7 +34,8 @@ class ProjectCTL extends BaseCTL {
 		$db = MedooFactory::getInstance();
 		$item = $db->get("project", "*", ["id"=> $id]);
 		$this->_buildItem($item);
-		
+
+		$item['av_unit'] = $db->count('property', ['and' => ['web_status'=>'1', 'project_id'=>$item['id']]]);
 		
 		$act = 'act4';
 		$pItems = array('page' => 'project', 'item'=> $item, $act => 'act');

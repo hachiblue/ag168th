@@ -541,6 +541,7 @@ a:hover {
 	font-family: 'Arial', sans-serif;
 	font-size: 14px;
 	padding: 15px;
+	overflow: hidden;
 }
 
 .modal-comment-container {
@@ -1207,9 +1208,12 @@ input.search-bar:-moz-placeholder { /* Firefox 18- */
 }
 
 .listwrap {
-	top: 70px;
 	margin-bottom: 70px;
     position: relative;
+}
+
+.rightContainer {
+	top: 70px;
 }
 
 .sort_text {

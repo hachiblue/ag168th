@@ -272,16 +272,16 @@ $req_txt = strtoupper($item['requirement']['name']);
 			<?php
 			$price = 'N/A';
 			$req = isset($item["requirement_id"]) ? $item["requirement_id"] : '';
-			if( $item["sell_price"] > 0 && $req == 1 )
+			if( $item["sell_price"] > 0 )
 			{
 				$price = number_format($item["sell_price"]);
 			}
-			elseif( $item["rent_price"] > 0 && $req == 2 )
+			elseif( $item["rent_price"] > 0 )
 			{	
 				$price = number_format($item["rent_price"]);
 			}
-			elseif( $req == '' )
-			{	
+			else
+			{
 				$price = isset($item["sell_price"]) ? number_format($item["sell_price"]) : 'N/A';
 			}
 			?>
@@ -463,21 +463,34 @@ $req_txt = strtoupper($item['requirement']['name']);
 
 					<div class="col-md-12 form-enq pdt10 pdb20">
 						
-						<form id="form_enq" name="enquiry" method="post">
+						<form id="form-enquiry" name="enquiry" method="post">
 
 							<div class="form-group">
 								<label for="exampleInputEmail1">Enquiry this to this unit</label>
 								<div class="dropdown">
-									<select class="form-control" name="requirement" id="enq_to">
-										<option value="Buy">Buy</option>
-										<option value="Rent">Rent</option>
+									<select class="form-control" name="requirement_id" id="requirement_id">
+										<option value="1">Buy</option>
+										<option value="2">Rent</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group pdt10">
 								<label for="exampleInputEmail1">Want to see this unit</label>
-								<input type="text" class="form-control is_datepicker" id="enq_date" name="daterequest" placeholder="Select Date" required>
+								<?php
+								if( isset($_SESSION['member']) )
+								{
+									$dis = '';
+									$btn = '<button type="submit" class="btn btn-searchred col-md-12">Send Request</button>';
+								}
+								else
+								{	
+									$dis = 'disabled';
+									$btn = '<a href="/member"><button type="button" class="btn btn-searchred col-md-12">Sign up / Log in</button></a>';
+								}
+								?>
+								<input type="text" class="form-control is_datepicker" id="enq_date" name="daterequest" placeholder="Select Date" <?=$dis;?> required>
 								<input type="hidden" class="form-control" id="reference_id" name="reference_id" value="<?=$item['reference_id'];?>">
+								<input type="hidden" class="form-control" id="project_id" name="project_id" value="<?=$item['project']['id'];?>">
 							</div>
 							<!-- <div class="form-group">
 								<input type="txt" class="form-control" id="enq_phone" name="phone" placeholder="Phone number" required>
@@ -486,7 +499,7 @@ $req_txt = strtoupper($item['requirement']['name']);
 								<input type="email" class="form-control" id="enq_email" name="email" placeholder="Your Email" required>
 							</div> -->
 
-							<button type="submit" class="btn btn-searchred col-md-12">Send Request</button>
+							<?=$btn;?>
 						
 						</form>
 
@@ -518,7 +531,7 @@ $req_txt = strtoupper($item['requirement']['name']);
 						<a href="project.php"><img src="<?=$item['project']['pic'];?>" alt="" class="img-circle"></a>
 					</div>
 					<div class="top-txt col-md-9 no_padd">
-						<div><a href="project.php"><?=$item['project']['name'];?> </a></div>
+						<div><a href="/project/<?=$item['project']['id'];?>"><?=$item['project']['name'];?> </a></div>
 						<div class="sub-pjheading mgt3"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/pin_icon.png")?>" alt=""> <?=$item['sub_district']['name'];?>, <?=$item['province']['name'];?></div>
 					</div>
 				</div>
@@ -527,7 +540,7 @@ $req_txt = strtoupper($item['requirement']['name']);
 					<div class="col-md-3 no_padd"><div class="bigtxt"><?=$item['project']['year_built'];?></div><div class="subtxt">Year Built</div></div>
 					<div class="col-md-3"><div class="bigtxt"><?=$item['project']['number_buildings'];?></div><div class="subtxt">Towers</div></div>
 					<div class="col-md-2 text-center pdl6"><div class="bigtxt"><?=$item['project']['number_floors'];?></div><div class="subtxt">Floors</div></div>
-					<div class="col-md-4 no_padd"><div class="bigtxt txt-orange"><?=$item['project']['number_units'];?></div><div class="subtxt">Available Units</div></div>
+					<div class="col-md-4 no_padd"><div class="bigtxt txt-orange"><?=$item['project']['av_unit'];?></div><div class="subtxt">Available Units</div></div>
 				</div>
 				<div class="clearfix"></div>
 			</div>			
@@ -559,7 +572,18 @@ $req_txt = strtoupper($item['requirement']['name']);
 						}
 						elseif( $req == '' )
 						{	
-							$price = isset($simi["sell_price"]) ? number_format($simi["sell_price"]) : 'N/A';
+							if( $simi["sell_price"] > 0 )
+							{
+								$price = number_format($simi["sell_price"]);
+							}
+							elseif( $simi["rent_price"] > 0 )
+							{	
+								$price = number_format($simi["rent_price"]);
+							}
+							else
+							{
+								$price = isset($simi["sell_price"]) ? number_format($simi["sell_price"]) : 'N/A';
+							}
 						}
 					?>
 					<div class="property_list col-md-3 bx-m mgb20 swiper-slide">
