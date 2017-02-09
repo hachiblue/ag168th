@@ -119,13 +119,15 @@ $this->import('/template/top-navbar');
 
 			<div class="col-md-12 a_container rightContain">
 				
-				<div class="listContain row mgt70">
+				<div class="listContain row mgt130">
 
 					<?php
 					if( count($items) > 0 )
 					{
 						foreach( $items as $key=> $proj )
 						{
+							if( $proj['av_unit'] > 0 )
+							{
 							?>
 							<div class="cardContainer map_project" data-seq="<?=$key;?>" data-name="<?php echo $proj['name'];?>" data-pic="<?php echo $proj["image_path"];?>">
 								<div class="project_list col-md-4 mgb20" data-prop="<?php echo $proj["id"];?>">
@@ -158,6 +160,7 @@ $this->import('/template/top-navbar');
 								</div>
 							</div>
 							<?php
+							}
 						}
 
 						// paging

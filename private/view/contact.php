@@ -61,7 +61,7 @@ $this->import('/template/top-navbar');
 
 <script>
   function initMap() {
-	var uluru = {lat: 13.749500, lng: 100.557849};
+	var uluru = {lat: 13.749398, lng: 100.556870};
 	var map = new google.maps.Map(document.getElementById('contact_map'), {
 	  zoom: 16,
 	  center: uluru

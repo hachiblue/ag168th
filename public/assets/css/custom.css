@@ -470,6 +470,7 @@ a:hover {
 .bd-card {
 	margin-bottom: 10px;
 	padding: 10px;
+	cursor:pointer;
 }
 
 .bd-card .bd-card-img img {
@@ -981,6 +982,10 @@ input.search-bar:-moz-placeholder { /* Firefox 18- */
 
 .mt5 {
 	margin: 5px 0px;
+}
+
+.mgt130 {
+	margin-top: 130px;
 }
 
 .mt10 {
@@ -2611,6 +2616,7 @@ a.side-list-group-item, button.side-list-group-item {
 
 .pic_map .pp-gview .pp-tab.rht {
 	border-right: 1px solid #e6e6e6;
+	color: #165b60;
 	height: 100%;
 }
 

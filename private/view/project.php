@@ -426,7 +426,7 @@ $this->import('/template/top-navbar');
 											<a href="project.php"><img src="<?=$unit['images'];?>" alt="" class="img-circle"></a>
 										</div>
 										<div class="room-type col-md-9 mgt15">
-											<a href="/property/<?=$unit['id'];?>"><?=$unit['roomtype']['name'];?></a>
+											<a href="/property/<?=$unit['id'];?>"><?=$item['name'];?></a>
 											<div class="sub-title">Room No. <?=$unit['address_no'];?></div>
 										</div>
 									</td>
@@ -472,7 +472,7 @@ $this->import('/template/top-navbar');
 								<a href="/property/<?=$unit['id'];?>"><img src="<?=$unit['images'];?>" alt="" class="img-circle"></a>
 							</div>
 							<div class="room-type-m col-xs-9 mgt10">
-								<a href="/property/<?=$unit['id'];?>"><?=$unit['roomtype']['name'];?></a>
+								<a href="/property/<?=$unit['id'];?>"><?=$item['name'];?></a>
 								<div class="room-info-m">
 									<div class="col-xs-3 no_padd"><?=$unit['bedrooms'];?> Bed</div>
 									<div class="col-xs-3 no_padd"><?=$unit['bathrooms'];?> Bath</div>
@@ -516,7 +516,7 @@ $this->import('/template/top-navbar');
 											<a href="project.php"><img src="<?=$unit['images'];?>" alt="" class="img-circle"></a>
 										</div>
 										<div class="room-type col-md-9 mgt15">
-											<a href="/property/<?=$unit['id'];?>"><?=$unit['roomtype']['name'];?></a>
+											<a href="/property/<?=$unit['id'];?>"><?=$item['name'];?></a>
 											<div class="sub-title">Room No. <?=$unit['address_no'];?></div>
 										</div>
 									</td>
@@ -562,7 +562,7 @@ $this->import('/template/top-navbar');
 								<a href="/property/<?=$unit['id'];?>"><img src="<?=$unit['images'];?>" alt="" class="img-circle"></a>
 							</div>
 							<div class="room-type-m col-xs-9 mgt10">
-								<a href="/property/<?=$unit['id'];?>"><?=$unit['roomtype']['name'];?></a>
+								<a href="/property/<?=$unit['id'];?>"><?=$item['name'];?></a>
 								<div class="room-info-m">
 									<div class="col-xs-3 no_padd"><?=$unit['bedrooms'];?> Bed</div>
 									<div class="col-xs-3 no_padd"><?=$unit['bathrooms'];?> Bath</div>

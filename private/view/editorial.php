@@ -100,14 +100,6 @@ $this->import('/template/top-navbar');
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title pull-left" id="myModalLabel"><img src="img/icon/post_editorial_icon.png" alt=""></h4>
-		
-		<div class="modal-socialbar pull-right">
-			<i class="fa fa-facebook" aria-hidden="true"></i>
-			<i class="fa fa-twitter" aria-hidden="true"></i>
-			<i class="fa fa-google-plus" aria-hidden="true"></i>
-			<i class="fa fa-pinterest-p" aria-hidden="true"></i>
-		</div>
-
       </div>
       <div class="modal-body">
 		<div class="modal-headline mgt10"></div>
@@ -122,7 +114,20 @@ $this->import('/template/top-navbar');
 			<div class="cm-box col-xs-12 mgt30 modal-article_comment">
 
 			</div>
-			<div class="cm-more col-xs-12"><a href="#" class="modal-more_comment">Show More</a><i class="fa fa-sort-desc" aria-hidden="true"></i></div>
+
+			
+			<div class="cm-more col-xs-6">
+				<a href="#" class="modal-more_comment">Show More</a><i class="fa fa-sort-desc" aria-hidden="true"></i>
+			</div>
+			
+			<div class="modal-socialbar pull-right">
+				<i class="fa fa-facebook" aria-hidden="true"></i>
+				<i class="fa fa-twitter" aria-hidden="true"></i>
+				<i class="fa fa-google-plus" aria-hidden="true"></i>
+				<i class="fa fa-pinterest-p" aria-hidden="true"></i>
+			</div>
+
+
 		</div>
 
 		<div class="modal-feedback-container">

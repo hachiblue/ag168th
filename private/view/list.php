@@ -305,7 +305,7 @@ $this->import('/template/top-navbar');
 
 			<div class="col-md-12 a_container rightContain">
 				
-				<div class="listContain row mgt70">
+				<div class="listContain row mgt130">
 
 					<?php
 					$i = 0;

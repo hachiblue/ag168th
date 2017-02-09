@@ -459,7 +459,7 @@ class memberCTL extends BaseCTL {
 			$commentInsert = [
 			  "enquiry_id"=> $id,
 			  "comment"=> $comment,
-			  "comment_by"=> $accId,
+			  "comment_by"=> '999',
 			  "updated_at"=> $now  
 			];
 
