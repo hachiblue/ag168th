@@ -1,7 +1,7 @@
 
 <?php extract($params); ?>
 
-	<div class="col-xs-6 col-sm-3  sidebar-offcanvas hidden-md hidden-lg" id="sidebar">
+	<div class="col-xs-6 col-sm-3 mgt65 sidebar-offcanvas hidden-md hidden-lg" id="sidebar">
 	  <div class="list-group side-list-group fixright">
 		<a href="/home" class="list-group-item side-list-group-item <?=(isset($act1)) ? $act1 : '';?>">Home</a>
 		<a href="/list?requirement_id=1" class="list-group-item side-list-group-item <?=(isset($act2)) ? $act2 : '';?>">Buy</a>

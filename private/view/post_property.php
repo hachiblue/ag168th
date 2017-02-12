@@ -16,7 +16,7 @@ $this->import('/template/top-navbar');
 	</div>
 	
 	<div class="lyp-form mgt30">
-		<form action="" name="regis_prop" method="post" enctype="multipart/form-data">
+		<form id="form-property" name="form-property" method="post" enctype="multipart/form-data">
 
 			<div class="lyp-form-header">
 				<div class="bullet_1 flol mgt5"></div>
@@ -50,22 +50,29 @@ $this->import('/template/top-navbar');
 							</tr>
 						</thead>
 						<tbody>
+						<?php
+						foreach( $property as $i => $prop )
+						{
+							?>
 							<tr>
-								<td class="seq">1.</td>
-								<td>333riverside</td>
-								<td>328/11</td>
-								<td>A5,235</td>
-								<td>N/A</td>
-								<td>15</td>
-								<td>48 Sqm.</td>
-								<td>1 Bedroom</td>
-								<td>1 Bathroom</td>
-								<td>South</td>
-								<td>2,850,000 ฿</td>
-								<td>3,000,000 ฿</td>
-								<td>50,000 ฿</td>
-								<td><button type="button" class="btn btn-sm btn-edit" onclick="alert('not available');">edit</button></td>
+								<td class="seq"><?=($i+1);?>.</td>
+								<td><?=$prop['project']['name'];?></td>
+								<td><?=$prop['address_no'];?></td>
+								<td>n/a</td>
+								<td>n/a</td>
+								<td><?=$prop['floors'];?></td>
+								<td><?=$prop['size'];?> <?=$prop['size_unit']['name'];?></td>
+								<td><?=($prop['bedrooms'])?$prop['bedrooms']:'n/a';?></td>
+								<td>n/a</td>
+								<td>n/a</td>
+								<td><?=number_format($prop['contract_price']);?> ฿</td>
+								<td><?=number_format($prop['sell_price']);?> ฿</td>
+								<td><?=number_format($prop['rent_price']);?> ฿</td>
+								<td><a href="?edit=<?=$prop['id'];?>#property_detail"><button type="button" class="btn btn-sm btn-edit">edit</button></a></td>
 							</tr>
+							<?php
+						}
+							?>
 						</tbody>
 					</table>
 				</div>
@@ -74,7 +81,7 @@ $this->import('/template/top-navbar');
 
 			<div class="clearfix"></div>
 
-			<div class="lyp-form-header mgt50">
+			<div class="lyp-form-header mgt50" id="property_detail">
 				<div class="bullet_2 flol mgt5"></div>
 				<div class="flol mgl10 col-xs-10 no_padd">
 					<div class="header-main">Property Details</div>
@@ -85,20 +92,20 @@ $this->import('/template/top-navbar');
 		
 			<div class="row mgt30">
 				<div class="form-group col-md-6">
-					<label for="projectname">Project Name</label>
-					<input type="text" class="form-control" id="auto-searchby" placeholder="Enter Project Name">
-					<input type="hidden" class="form-control" id="projectname" name="projectname">
+					<label for="auto-search_project">Project Name</label>
+					<input type="text" class="form-control" id="auto-search_project" placeholder="Enter Project Name" required>
+					<input type="hidden" class="form-control" id="project_id" name="project_id">
 				</div>
 
 				<div class="form-group col-md-3 hidden-xs">
 					<label for="requirement">Requirement</label>
 					<div class="dropdown">
-						<select class="form-control" id="requirement" name="requirement">
+						<select class="form-control" id="requirement_id" name="requirement_id">
 							<option value="" selected>Select Property Requirement</option>
 							<?php
 							foreach( $requirement as $rq )
 							{ ?>
-								<option value="<?=$rq['name'];?>"><?=$rq['name'];?></option>
+								<option value="<?=$rq['id'];?>"><?=$rq['name'];?></option>
 								<?php
 							}
 							?>
@@ -107,14 +114,14 @@ $this->import('/template/top-navbar');
 				</div>
 
 				<div class="form-group col-md-3 hidden-xs">
-					<label for="propertytype">Property Type</label>
+					<label for="property_type_id">Property Type</label>
 					<div class="dropdown">
-						<select class="form-control" id="propertytype" name="propertytype">
+						<select class="form-control" id="property_type_id" name="property_type_id" required>
 							<option value="" selected>Select Property Type</option>
 							<?php
 							foreach( $property_type as $pt )
 							{ ?>
-								<option value="<?=$pt['name'];?>"><?=$pt['name'];?></option>
+								<option value="<?=$pt['id'];?>"><?=$pt['name'];?></option>
 								<?php
 							}
 							?>
@@ -126,18 +133,27 @@ $this->import('/template/top-navbar');
 			<div class="row">
 				<div class="form-group col-md-6">
 					<label for="zone">Zone</label>
-					<input type="text" class="form-control" name="zone" id="zone" placeholder="eg. Phra Kanong, Silom etc.">
+					<select class="form-control" id="zone_id" name="zone_id">
+						<option value="" selected>eg. Phra Kanong, Silom etc.</option>
+						<?php
+						foreach( $zone as $sn )
+						{ ?>
+							<option value="<?=$sn['id'];?>"><?=$sn['name'];?></option>
+							<?php
+						}
+						?>
+					</select>
 				</div>
 
 				<div class="form-group col-md-3 hidden-xs">
 					<label for="province">Province</label>
 					<div class="dropdown">
-						<select class="form-control" id="province" name="province">
+						<select class="form-control" id="province_id" name="province_id">
 							<option>Select Province</option>
 							<?php
 							foreach( $province as $pv )
 							{ ?>
-								<option value="<?=$pv['name'];?>"><?=$pv['name'];?></option>
+								<option value="<?=$pv['id'];?>"><?=$pv['name'];?></option>
 								<?php
 							}
 							?>
@@ -153,11 +169,11 @@ $this->import('/template/top-navbar');
 					<div>
 						<div class="col-xs-5 col-md-5 no_padd"><input type="text" class="form-control" name="size" id="size" placeholder="0"></div>
 						<div class="col-xs-6 col-md-6 col-xs-offset-1 col-md-offset-1 no_padd">
-							<select class="form-control" id="size_unit" name="size_unit">
+							<select class="form-control" id="size_unit_id" name="size_unit_id">
 								<?php
 								foreach( $size_unit as $sn )
 								{ ?>
-									<option value="<?=$sn['name'];?>"><?=$sn['name'];?></option>
+									<option value="<?=$sn['id'];?>"><?=$sn['name'];?></option>
 									<?php
 								}
 								?>
@@ -167,7 +183,7 @@ $this->import('/template/top-navbar');
 				</div>
 				<div class="form-group col-xs-6 col-md-2">
 					<label for="address">Address No.</label>
-					<input type="text" class="form-control" name="address" id="address" placeholder="eg. 9/34">
+					<input type="text" class="form-control" name="address_no" id="address_no" placeholder="eg. 9/34">
 				</div>
 				<div class="form-group col-md-2 hidden-xs">
 					<label for="unit">Unit No.</label>
@@ -175,7 +191,7 @@ $this->import('/template/top-navbar');
 				</div>
 				<div class="form-group col-md-2 hidden-xs">
 					<label for="floor">Floor</label>
-					<input type="text" class="form-control" name="floor" id="floor" placeholder="0">
+					<input type="text" class="form-control" name="floors" id="floors" placeholder="0">
 				</div>
 				<div class="form-group col-md-4 hidden-xs">
 					<label for="direction">Direction</label>
@@ -194,14 +210,14 @@ $this->import('/template/top-navbar');
 				<div class="form-group col-md-4 hidden-xs">
 					<label for="net_price">Net Price</label>
 					<div class="input-group">
-						<input type="text" class="form-control" name="net_price" id="net_price" placeholder="0" aria-describedby="addon2">
+						<input type="text" class="form-control" name="sell_price" id="sell_price" placeholder="0" aria-describedby="addon2">
 						<span class="input-group-addon" id="addon2">฿</span>
 					</div>
 				</div>
 				<div class="form-group col-md-4 hidden-xs">
 					<label for="rental_price">Rental Price</label>
 					<div class="input-group">
-						<input type="text" class="form-control" name="rental_price" id="rental_price" placeholder="0" aria-describedby="addon3">
+						<input type="text" class="form-control" name="rent_price" id="rent_price" placeholder="0" aria-describedby="addon3">
 						<span class="input-group-addon" id="addon3">฿</span>
 					</div>
 				</div>
@@ -219,13 +235,27 @@ $this->import('/template/top-navbar');
 				<div class="form-group col-md-12">
 					<label for="description">Full Description</label>
 					<div class="input-group full-width">
-						<textarea class="form-control" name="description" id="description" rows="8"></textarea>
+						<textarea class="form-control" name="comment" id="comment" rows="8"></textarea>
 					</div>
 				</div>
 			</div>
 
 			<div class="lyp-button mgt10 text-center">
-				<button type="button" class="btn btn-searchred" onclick="alert('not available');">Submit Property</button>
+				<?php
+				if( isset($_GET['edit']) && !empty($_GET['edit']) )
+				{
+					?>
+					<button type="submit" class="btn btn-searchred">Save Property</button>
+					<input type="hidden" name="property_id" id="property_id">
+				<?php
+				}
+				else
+				{
+					?>
+					<button type="submit" class="btn btn-searchred">Submit Property</button>
+					<?php
+				}
+					?>
 			</div>
 		
 		</form>
@@ -235,5 +265,20 @@ $this->import('/template/top-navbar');
 </div>
 
 </section>
+
+<script type="text/javascript">
+<!--
+
+<?php
+if( isset($_GET['edit']) && !empty($_GET['edit']) )
+{
+?>
+	var e_property = <?=json_encode($e_property);?>;
+<?php
+}
+?>
+
+//-->
+</script>
 
 <?php $this->import('/template/footer'); ?>

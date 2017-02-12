@@ -103,26 +103,26 @@ $req_txt = strtoupper($item['requirement']['name']);
 										<div class="row price-list">
 											<div class="col-xs-6 col-sm-6 lft">
 												<ul id="list-price-min" class="multi-column-dropdown price-selector">
-													<li data-price="1000000">฿ 1,000,000</li>
-													<li data-price="2000000">฿ 2,000,000</li>
-													<li data-price="3000000">฿ 3,000,000</li>
-													<li data-price="4000000">฿ 4,000,000</li>
-													<li data-price="5000000">฿ 5,000,000</li>
-													<li data-price="7000000">฿ 7,000,000</li>
-													<li data-price="10000000">฿ 10,000,000</li>
-													<li data-price="30000000">฿ 30,000,000</li>
+													<li data-price="10000">฿ 10,000</li>
+													<li data-price="15000">฿ 15,000</li>
+													<li data-price="20000">฿ 20,000</li>
+													<li data-price="25000">฿ 25,000</li>
+													<li data-price="30000">฿ 30,000</li>
+													<li data-price="40000">฿ 40,000</li>
+													<li data-price="50000">฿ 50,000</li>
+													<li data-price="80000">฿ 80,000</li>
 												</ul>
 											</div>
 											<div class="col-xs-6 col-sm-6 rit">
 												<ul id="list-price-max" class="multi-column-dropdown price-selector">
-													<li data-price="1000000">฿ 1,000,000</li>
-													<li data-price="2000000">฿ 2,000,000</li>
-													<li data-price="3000000">฿ 3,000,000</li>
-													<li data-price="4000000">฿ 4,000,000</li>
-													<li data-price="5000000">฿ 5,000,000</li>
-													<li data-price="7000000">฿ 7,000,000</li>
-													<li data-price="10000000">฿ 10,000,000</li>
-													<li data-price="30000000">฿ 30,000,000</li>
+													<li data-price="15000">฿ 15,000</li>
+													<li data-price="20000">฿ 20,000</li>
+													<li data-price="25000">฿ 25,000</li>
+													<li data-price="30000">฿ 30,000</li>
+													<li data-price="40000">฿ 40,000</li>
+													<li data-price="50000">฿ 50,000</li>
+													<li data-price="80000">฿ 80,000</li>
+													<li data-price="999999999999">฿ 100,000+</li>
 												</ul>
 											</div>
 										</div>
@@ -304,7 +304,9 @@ $req_txt = strtoupper($item['requirement']['name']);
 								?>
 								<div class="swiper-slide">
 									<!-- <img src="<?=$img['url'];?>" class="img-responsive" alt=""> -->
-									<div class="swiper-bg-image" style="background: #fff url(<?=$img['url'];?>) center center;height: 100%;width: 100%;background-size: cover;background-repeat: no-repeat;"></div>
+									<div class="swiper-bg-image" style="background: #fff;width:100%;">
+										<img src="<?=$img['url'];?>" alt="" style="width:800px;" class="img-responsive">
+									</div>
 								</div>
 								<?php
 							}

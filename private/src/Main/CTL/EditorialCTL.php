@@ -45,10 +45,13 @@ class EditorialCTL extends BaseCTL {
 
 		if( isset($params['searchBy']) && !empty($params['searchBy']) ) 
 		{
-			$where["AND"]['description[~]'] = '%'.$params['searchBy'].'%';
+			$where["AND"]['description[~]'] = $params['searchBy'];
 		}
+		
+		$where["ORDER"] = 'created_at DESC';
 
 		$article = $db->select('article', '*', $where);
+		//print_r($db->log());
 		foreach( $article as &$topic )
 		{
 			$topic['icon'] = 'post_editorial_icon';

@@ -582,6 +582,33 @@ $(document).on("ready", function () {
 	$('#auto-searchby').keyup(function() {
 		$('input[name=project_id]').length && $('input[name=project_id]').val('');
 	});
+		
+	if( $('#auto-search_project').length ) 
+	{
+		new autoComplete({
+			selector: '#auto-search_project',
+			minChars: 2,
+			source: function(term, response) {
+				$.getJSON('/list', { q: term }, function(data) { response(data); });
+			},
+			renderItem: function (item, search) {
+				search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+				var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+				return '<div class="autocomplete-suggestion" data-project_id="'+item[1]+'" data-val="'+item[0]+'" data-province="'+item[5]+'" data-zone="'+item[4]+'">'+item[0].replace(re, "<b>$1</b>")+'</div>';
+			},
+			onSelect: function(e, term, item) {
+				$('input[name=project_id]').length && $('input[name=project_id]').val( $(item).data('project_id') );
+				$('input[name=projectname]').length && $('input[name=projectname]').val( $(item).data('val') );
+				$('select[name=province_id]').length && $('select[name=province_id]').val( $(item).data('province') );
+				$('select[name=zone_id]').length && $('select[name=zone_id]').val( $(item).data('zone') );
+			}
+		});
+
+		// to clear search value
+		$('#auto-search_project').keyup(function() {
+			$('input[name=project_id]').length && $('input[name=project_id]').val('');
+		});
+	}
 
 	$('.cardContainer').hover(
 		// when mouse in
@@ -696,6 +723,8 @@ $(document).on("ready", function () {
 				modal.find('.modal-article_id').val( article[recipient].id || '' );
 				modal.find('.modal-picturepost').html( '<img src="/public/article_pic/'+article[recipient].image_path+'" alt="">' );
 				//modal.find('.modal-body input').val(recipient);
+
+				modal.find('.fb-share-button').attr('data-href', 'http://agent168th.com/editorial?topic='+recipient);
 				
 				modal.find('.modal-more_comment').data('cid', article[recipient].id);
 
@@ -703,6 +732,11 @@ $(document).on("ready", function () {
 
 			}
 		});
+
+		if( typeof topic != 'undefined' )
+		{
+			topic != '' && $('[data-article_id='+topic+']').click();
+		}
 	}
 
 	if( $('.modal-more_comment').length )
@@ -852,6 +886,7 @@ $(document).on("ready", function () {
 				{
 					alert('Your enquiry has been sent');
 					$( "#form-enquiry" )[0].reset();
+					window.location = '';
 				}
 				else
 				{
@@ -861,6 +896,42 @@ $(document).on("ready", function () {
 			}, 'json');
 
 		});
+	}
+
+	if( $('#form-property').length )
+	{
+		$( "#form-property" ).on( "submit", function( e ) {
+
+			e.preventDefault();
+
+			var $this = $(this);
+
+			$.post('/member/post_property', $this.serialize(), function( msg ) {
+				
+				if( msg.success )
+				{
+					alert('Your property has been sent');
+					$( "#form-property" )[0].reset();
+					window.location = '';
+				}
+				else
+				{
+					alert(msg.error);
+				}
+
+			}, 'json');
+
+		});
+
+
+		if( typeof e_property != 'undefined' )
+		{
+			var i;
+			for( i in e_property )
+			{
+				$('#'+i).length && $('#'+i).val(e_property[i]);
+			}
+		}	
 	}
 
 	if( $('#form-chg_password').length )

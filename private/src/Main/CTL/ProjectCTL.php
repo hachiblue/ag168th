@@ -37,8 +37,12 @@ class ProjectCTL extends BaseCTL {
 
 		$item['av_unit'] = $db->count('property', ['and' => ['web_status'=>'1', 'project_id'=>$item['id']]]);
 		
+		$this->_buildAZone($zone);
+		$this->_buildBTS($bts);
+		$this->_buildMRT($mrt);
+
 		$act = 'act4';
-		$pItems = array('page' => 'project', 'item'=> $item, $act => 'act');
+		$pItems = array('page' => 'project', 'item'=> $item, $act => 'act', 'zone'=> $zone, 'bts'=> $bts, 'mrt'=> $mrt );
 
 		//return new HtmlView('/under_construct', array('page' => 'project') );
 
@@ -137,6 +141,27 @@ class ProjectCTL extends BaseCTL {
 		{
 			$item['roomtype'] = array( 'name' => 'n/a' );
 		}
+    }
+
+	public function _buildAZone(&$item)
+    {
+		$db = MedooFactory::getInstance();
+		$zone = $db->select("zone", "*");
+		$item['zone'] = $zone;
+    }
+
+	public function _buildBTS(&$item)
+    {
+		$db = MedooFactory::getInstance();
+		$bts = $db->select("bts", "*");
+		$item['bts'] = $bts;
+    }
+
+	public function _buildMRT(&$item)
+    {
+		$db = MedooFactory::getInstance();
+		$mrt = $db->select("mrt", "*");
+		$item['mrt'] = $mrt;
     }
 
 	function is_file_exists($filePath)

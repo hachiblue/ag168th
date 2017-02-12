@@ -7,244 +7,108 @@ $this->import('/template/top-navbar');
 
 <div class="container">
 
-	<div id="searchArea" class="collapse search_bar pds  pos_relative no_padd">
+	<div id="searchArea" class="collapse search_bar_pj pds">
 	
-		<div class="col-md-12 no_padd">
-			<form action="/list" class="search_prod_form form-inline">
+		<div class="col-xs-12 col-md-12 no_padd">
+			<form class="search_proj_form form-inline" action="/list_project">
+				
 
-				<div class="form-group col-xs-12 col-sm-12 col-md-4 padd_form">
-					<div class="inp_contain shc">
+				<div class="form-group col-xs-12 col-sm-12 col-md-5 padd_form">
+					<div class="inp_contain shc_pj">
 						<span class="icon"></span>
 						<input type="search" name="searchBy" id="auto-searchby" class="form-control search-prod opabx" autocomplete="off" placeholder="Search for ..." value="<?=(isset($_GET["searchBy"]))? $_GET["searchBy"] : '';?>">
 						<input type="hidden" name="project_id" value="<?=(isset($_GET["project_id"]))? $_GET["project_id"] : '';?>">
 					</div>	
 				</div>
 				
-				<div class="col-md-3 no_padd">
+				<div class="col-md-6 no_padd">
 
-					<div class="form-group col-xs-6 col-sm-6 col-md-6 padd_form">
+					<div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
 						<div class="inp_contain">
-							<div class="btn-group search-prod">
-								<?php
-								$req = array( '1' => 'For Buy', '2' => 'For Rent' );
-								?>
+							<!-- <div class="btn-group search-prod_pj">
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-									<span data-bind="label" id="searchLabel" class="dsp_drop_txt"><?=(isset($_GET["requirement_id"]) && !empty($_GET["requirement_id"]))? $req[$_GET["requirement_id"]]: 'Sell/Rent';?></span>  
+									<span data-bind="label" id="searchLabel">Sell/Rent</span>  
 									<span class="caret"></span>
 								</button>
-								<input type="hidden" id="requirement_id" name="requirement_id" value="<?=(isset($_GET["requirement_id"]))?$_GET["requirement_id"]:1;?>" class="btn_value">
 								<ul class="dropdown-menu" role="menu">
-									<li><a value="1">For Buy</a></li>
-									<li><a value="2">For Rent</a></li>
+									<li><a name="sel_requirement">For Buy</a></li>
+									<li><a name="sel_requirement">For Rent</a></li>
+								</ul>
+							</div> -->
+
+							<div class="btn-group search-prod_pj">
+								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+									<span data-bind="label" id="searchLabel" class="dsp_drop_txt">Zone</span>  
+									<span class="caret"></span>
+								</button>
+								<input type="hidden" id="zone_id" name="zone_id" value="<?=(isset($_GET["zone_id"]))? $_GET["zone_id"] : '';?>" class="btn_value">
+								<ul class="dropdown-menu" role="menu">
+									<li><a name="zone_id" value=""> All </a></li>
+									<?php
+									foreach( $zone['zone'] as $z )
+									{
+										?>
+									<li><a name="zone_id" value="<?=$z['id'];?>"><?=$z['name'];?></a></li>
+									<?php
+									}
+										?>
 								</ul>
 							</div>
+
 						</div>
 					</div>
 			
-					<div class="form-group col-xs-6 col-sm-6 col-md-6 padd_form">
+					<div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
 						<div class="inp_contain">
-							<div class="btn-group search-prod">
+							<div class="btn-group search-prod_pj">
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-									<span data-bind="label" id="btn_beds" class="dsp_drop_txt"><?=(isset($_GET["bedrooms"]) && !empty($_GET["bedrooms"]))? $_GET["bedrooms"] : 'All Beds';?></span>
+									<span data-bind="label" id="searchLabel" class="dsp_drop_txt">BTS</span>  
 									<span class="caret"></span>
 								</button>
-								<input type="hidden" id="bedrooms" name="bedrooms" value="<?=(isset($_GET["bedrooms"]))? $_GET["bedrooms"] : '';?>" class="btn_value">
+								<input type="hidden" id="bts_id" name="bts_id" value="<?=(isset($_GET["bts_id"]))? $_GET["bts_id"] : '';?>" class="btn_value">
 								<ul class="dropdown-menu" role="menu">
-									<li><a name="bedrooms" value="1">1</a></li>
-									<li><a name="bedrooms" value="2">2</a></li>
-									<li><a name="bedrooms" value="3">3</a></li>
-									<li><a name="bedrooms" value="4+">4+</a></li>
+									<li><a name="bts_id" value=""> All </a></li>
+									<?php
+									foreach( $bts['bts'] as $z )
+									{
+										?>
+									<li><a name="bts_id" value="<?=$z['id'];?>"><?=$z['name'];?></a></li>
+									<?php
+									}
+										?>
 								</ul>
 							</div>
 						</div>
 					</div>
 
-					<!-- <div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
+					<div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
 						<div class="inp_contain">
-							<div class="btn-group search-prod">
+							<div class="btn-group search-prod_pj">
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-									<span data-bind="label" id="searchLabel" class="dsp_drop_txt"><?=(isset($_GET["bathrooms"]) && !empty($_GET["bathrooms"]))? $_GET["bathrooms"] : 'All Baths';?></span>  
+									<span data-bind="label" id="searchLabel" class="dsp_drop_txt">MRT</span>  
 									<span class="caret"></span>
 								</button>
-								<input type="hidden" id="bathrooms" name="bathrooms" value="<?=(isset($_GET["bathrooms"]))? $_GET["bathrooms"] : '';?>" class="btn_value">
+								<input type="hidden" id="mrt_id" name="mrt_id" value="<?=(isset($_GET["mrt_id"]))? $_GET["mrt_id"] : '';?>" class="btn_value">
 								<ul class="dropdown-menu" role="menu">
-									<li><a name="bathrooms" value="1">1</a></li>
-									<li><a name="bathrooms" value="2">2</a></li>
-									<li><a name="bathrooms" value="3">3</a></li>
-									<li><a name="bathrooms" value="4+">4+</a></li>
-								</ul>
-							</div>
-						</div>
-					</div> -->
-
-				</div>
-			
-				<div class="col-md-3 no_padd">
-					
-					<div class="form-group col-xs-12 col-sm-12 col-md-12 padd_form">
-						<div class="inp_contain">
-							<div class="btn-group search-prod dropdown keep-open">
-								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-									<span data-bind="label" id="price-range-dsp">All Price</span>  
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu multi-column columns-2x right_column">
-									<div id="row-pricemn">
-										<div class="col-md-6 drop-input_length pdr5">
-											<input type="text" id="price-min" name="price-range-min" class="form-control" placeholder="No Min">
-										</div>	
-										<div class="col-md-6 drop-input_length pdl5">
-											<input type="text" id="price-max" name="price-range-max" class="form-control" placeholder="No Max">
-										</div>	
-										<div class="row price-list">
-											<div class="col-xs-6 col-sm-6 lft">
-												<ul id="list-price-min" class="multi-column-dropdown price-selector">
-													<li data-price="1000000">฿ 1,000,000</li>
-													<li data-price="2000000">฿ 2,000,000</li>
-													<li data-price="3000000">฿ 3,000,000</li>
-													<li data-price="4000000">฿ 4,000,000</li>
-													<li data-price="5000000">฿ 5,000,000</li>
-													<li data-price="7000000">฿ 7,000,000</li>
-													<li data-price="10000000">฿ 10,000,000</li>
-													<li data-price="30000000">฿ 30,000,000</li>
-												</ul>
-											</div>
-											<div class="col-xs-6 col-sm-6 rit">
-												<ul id="list-price-max" class="multi-column-dropdown price-selector">
-													<li data-price="1000000">฿ 1,000,000</li>
-													<li data-price="2000000">฿ 2,000,000</li>
-													<li data-price="3000000">฿ 3,000,000</li>
-													<li data-price="4000000">฿ 4,000,000</li>
-													<li data-price="5000000">฿ 5,000,000</li>
-													<li data-price="7000000">฿ 7,000,000</li>
-													<li data-price="10000000">฿ 10,000,000</li>
-													<li data-price="30000000">฿ 30,000,000</li>
-												</ul>
-											</div>
-										</div>
-									</div>
+									<li><a name="mrt_id" value=""> All </a></li>
+									<?php
+									foreach( $mrt['mrt'] as $z )
+									{
+										?>
+									<li><a name="mrt_id" value="<?=$z['id'];?>"><?=$z['name'];?></a></li>
+									<?php
+									}
+										?>
 								</ul>
 							</div>
 						</div>
 					</div>
-
-					<!-- <div class="form-group col-xs-6 col-sm-6 col-md-5 padd_form">
-						<div class="inp_contain">
-							<div class="btn-group search-prod dropdown keep-open">
-								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-									<span data-bind="label" id="searchLabel">More Filters</span>  
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu multi-column columns-2">
-									<div class="col-xs-12 drop-title">Facilities</div>	
-									<div class="row row-facility">
-										<div class="col-sm-6">
-											<ul class="multi-column-dropdown">
-												<li>
-													<div class="checkbox">
-														<input id="chk-swimming_pool" name="swimming_pool" type="checkbox">
-														<label for="chk-swimming_pool">
-															<span class="chk-list">&nbsp;Swimming Pool</span>
-														</label>
-													</div>
-												</li>
-												<li>
-													<div class="checkbox">
-														<input id="chk-garden" name="garden" type="checkbox">
-														<label for="chk-garden">
-															<span class="chk-list">&nbsp;Garden</span>
-														</label>
-													</div>
-												</li>
-												<li>
-													<div class="checkbox">
-														<input id="chk-suana" name="suana" type="checkbox">
-														<label for="chk-suana">
-															<span class="chk-list">&nbsp;Suana</span>
-														</label>
-													</div>
-												</li>
-												<li>
-													<div class="checkbox">
-														<input id="chk-gym" name="gym" type="checkbox">
-														<label for="chk-gym">
-															<span class="chk-list">&nbsp;Fitness</span>
-														</label>
-													</div>
-												</li>
-												<li>
-													<div class="checkbox">
-														<input id="chk-private_parking" name="private_parking" type="checkbox">
-														<label for="chk-private_parking">
-															<span class="chk-list">&nbsp;Parking Lot</span>
-														</label>
-													</div>
-												</li>
-												<li>
-													<div class="checkbox">
-														<input id="chk-laundry_service" name="laundry_service" type="checkbox">
-														<label for="chk-laundry_service">
-															<span class="chk-list">&nbsp;Laundry</span>
-														</label>
-													</div>
-												</li>
-											</ul>
-										</div>
-										<div class="col-sm-6">
-											<ul class="multi-column-dropdown">
-												<li>
-													<div class="checkbox">
-														<input id="chk-library" name="library" type="checkbox">
-														<label for="chk-library">
-															<span class="chk-list">&nbsp;Library</span>
-														</label>
-													</div>
-												</li>
-												<li>
-													<div class="checkbox">
-														<input id="chk-conf" name="meeting_room" type="checkbox">
-														<label for="chk-conf">
-															<span class="chk-list">&nbsp;Conference room</span>
-														</label>
-													</div>
-												</li>
-												<li>
-													<div class="checkbox">
-														<input id="chk-kid" name="kid_club" type="checkbox">
-														<label for="chk-kid">
-															<span class="chk-list">&nbsp;Kid's club</span>
-														</label>
-													</div>
-												</li>
-												<li>
-													<div class="checkbox">
-														<input id="chk-pet" name="pet" type="checkbox">
-														<label for="chk-pet">
-															<span class="chk-list">&nbsp;Pet friendly</span>
-														</label>
-													</div>
-												</li>
-												<li>
-													<div class="checkbox">
-														<input id="chk-golf" name="golf" type="checkbox">
-														<label for="chk-golf">
-															<span class="chk-list">&nbsp;Golf</span>
-														</label>
-													</div>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</ul>
-							</div>
-						</div>
-					</div> -->
 
 				</div>
 			
 				<div class="col-xs-12 col-sm-12 col-md-1 no_padd">
 					<div class="inp_contain">
-						<button type="submit" class="btn btn-grn">Search</button>
+						<button type="submit" class="btn btn-org">Search</button>
 					</div>
 				</div>
 
@@ -284,7 +148,9 @@ $this->import('/template/top-navbar');
 								?>
 								<div class="swiper-slide">
 									<!-- <img src="<?=$img['url'];?>" class="img-responsive" alt=""> -->
-									<div class="swiper-bg-image" style="background: #fff url(<?=$img['url'];?>) center center;height: 100%;width: 100%;background-size: cover;background-repeat: no-repeat;"></div>
+									<div class="swiper-bg-image" style="background: #fff;width:100%;">
+										<img src="<?=$img['url'];?>" alt="" style="width:800px;" class="img-responsive">
+									</div>
 								</div>
 								<?php
 							}

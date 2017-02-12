@@ -41,6 +41,12 @@ a:hover {
 	height: 100%;
 }
 
+button.dropdown-toggle {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .site-brand {
 	display: inline-block;
 	padding-left: 5px;
@@ -936,6 +942,10 @@ input.search-bar:-moz-placeholder { /* Firefox 18- */
 	margin-top: 1px;
 }
 
+.mgt65 {
+	margin-top: 65px;
+}
+
 .ml3 {
 	margin-left: 3px;
 }
@@ -1175,6 +1185,11 @@ input.search-bar:-moz-placeholder { /* Firefox 18- */
 	font-size: 14px;
 	color: #3d4544;
 	padding: 5px 15px 5px 15px;
+}
+
+.dropdown-menu {
+	max-height: 300px;
+	overflow-x: auto;
 }
 
 .dropdown-menu input {
@@ -3475,6 +3490,10 @@ and (max-width : 320px) {
 @media only screen 
 	and (max-device-width : 767px) {
 
+	body {
+		padding-top: 0px;
+	}
+
 	.txt-headline {
 		font-size: 22px;
 		color: #fff;
@@ -3824,6 +3843,10 @@ and (max-width : 320px) {
 
 	.right.pull-right {
 		float: none !important;
+	}
+
+	.a_container {
+		margin-top: 65px;
 	}
 }
 

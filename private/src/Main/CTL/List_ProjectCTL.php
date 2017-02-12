@@ -42,6 +42,29 @@ class List_ProjectCTL extends BaseCTL {
 			$excParams[":id"] = $params['project_id'];
 		}
 
+		if(!empty($params['zone_id'])) 
+		{
+			$searchQuery .= " AND pj.zone_id=:zone_id";
+			$excParams[":zone_id"] = $params['zone_id'];
+		}
+
+		if(!empty($params['bts_id'])) 
+		{
+			$searchQuery .= " AND pj.bts_id=:bts_id";
+			$excParams[":bts_id"] = $params['bts_id'];
+		}
+
+		if(!empty($params['mrt_id'])) 
+		{
+			$searchQuery .= " AND pj.mrt_id=:mrt_id";
+			$excParams[":mrt_id"] = $params['mrt_id'];
+		}
+
+		if(!empty($params['sortby']) && $params['sortby'] == 'Popular') 
+		{
+			$searchQuery .= " AND pj.is_popular=1";
+		}
+
 		// paging attribute
 		$limit = empty($_GET['limit'])? 9: $_GET['limit'];
 		$page = !empty($params['page'])? $params['page']: 1;
@@ -78,6 +101,9 @@ class List_ProjectCTL extends BaseCTL {
 
 		$this->_buildProvince($province);
 		$this->_buildDistrict($district);
+		$this->_buildZone($zone);
+		$this->_buildBTS($bts);
+		$this->_buildMRT($mrt);
 
 		foreach($items as &$proj) 
 		{
@@ -101,6 +127,9 @@ class List_ProjectCTL extends BaseCTL {
 			'items'=> $items, 
 			'province'=> $province, 
 			'district'=> $district, 
+			'zone'=> $zone, 
+			'bts'=> $bts, 
+			'mrt'=> $mrt, 
 			'items'=> $items, 
 			"p" => "list", 
 			'paging'=> [
@@ -133,6 +162,27 @@ class List_ProjectCTL extends BaseCTL {
 		$db = MedooFactory::getInstance();
 		$district = $db->select("district", "*");
 		$item['district'] = $district;
+    }
+
+	public function _buildZone(&$item)
+    {
+		$db = MedooFactory::getInstance();
+		$zone = $db->select("zone", "*");
+		$item['zone'] = $zone;
+    }
+
+	public function _buildBTS(&$item)
+    {
+		$db = MedooFactory::getInstance();
+		$bts = $db->select("bts", "*");
+		$item['bts'] = $bts;
+    }
+
+	public function _buildMRT(&$item)
+    {
+		$db = MedooFactory::getInstance();
+		$mrt = $db->select("mrt", "*");
+		$item['mrt'] = $mrt;
     }
 
 	function is_file_exists($filePath)

@@ -133,7 +133,7 @@ $this->import("/admin/layout/header");
                 </li>
                 <?php }?>
 
-                <?php if($_SESSION['login']['level_id'] == 4){?>
+                <?php if( $_SESSION['login']['level_id'] == 4 || $_SESSION['login']['nitcha'] ){?>
                 <li>
                     <a href="<?php echo \Main\Helper\URL::absolute('/admin/enquiries#/wishlist') ?>">Wish List</a>
                 </li>
@@ -221,7 +221,7 @@ $this->import("/admin/layout/header");
                 <?php
                 if( $_SESSION['login']["level"]["id"] == 2 || $_SESSION['login']["level"]["id"] == 4 )
                 {
-                    $date_expire_mx = 7;
+                    $date_expire_mx = 15;
                     $sql_sale = '';
 
                     if( $_SESSION['login']["level"]["id"] == 4 )

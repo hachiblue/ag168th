@@ -84,7 +84,6 @@ $this->import('/template/top-navbar');
 			}
 			?>
 
-
 		</div>
 
 		<div class="clearfix"></div>
@@ -121,7 +120,11 @@ $this->import('/template/top-navbar');
 			</div>
 			
 			<div class="modal-socialbar pull-right">
-				<i class="fa fa-facebook" aria-hidden="true"></i>
+
+				<div class="fb-share-button" data-href="http://agent168th.com/editorial?topic=0" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://agent168th.com/editorial?topic=0">Share</a></div>
+
+
+				<!-- <i class="fa fa-facebook" aria-hidden="true"></i> -->
 				<i class="fa fa-twitter" aria-hidden="true"></i>
 				<i class="fa fa-google-plus" aria-hidden="true"></i>
 				<i class="fa fa-pinterest-p" aria-hidden="true"></i>
@@ -157,6 +160,12 @@ $this->import('/template/top-navbar');
 			</form>	
 			<?php
 			}
+			else
+			{
+				?>
+				<button type="button" class="btn btn-default btn-fbpost pull-right mgr15" data-dismiss="modal">Close</button>
+				<?php
+			}
 			?>
 			<div class="clearfix"></div>
 		</div>
@@ -171,6 +180,7 @@ $this->import('/template/top-navbar');
 <!--
 	
 var article = <?=json_encode($article);?>;
+var topic = '<?=( isset($_GET["topic"]) )? $_GET["topic"] : '';?>';
 
 //-->
 </script>

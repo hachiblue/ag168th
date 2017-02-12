@@ -16,7 +16,7 @@ $this->import('/template/top-navbar');
 	</div>
 	
 	<div class="lyp-form mgt30">
-		<form action="" name="post_enquiry" method="post">
+		<form id="form-enquiry" name="enquiry" method="post">
 
 			<div class="lyp-form-header">
 				<div class="bullet_1 flol mgt5"></div>
@@ -47,18 +47,25 @@ $this->import('/template/top-navbar');
 							</tr>
 						</thead>
 						<tbody>
+						<?php
+						foreach( $enquiry as $i => $enq )
+						{
+							?>
 							<tr>
-								<td class="seq">1.</td>
-								<td>Individual</td>
-								<td>Buy</td>
-								<td>333riverside</td>
-								<td>Bangsue, Toapoon</td>
-								<td>48 Sqm.</td>
-								<td>1 Bedroom</td>
+								<td class="seq"><?=($i+1);?>.</td>
+								<td><?=$enq['enquiry_type']['name'];?></td>
+								<td><?=$enq['requirement']['name_for_enquiry'];?></td>
+								<td><?=$enq['project']['name'];?></td>
+								<td><?=$enq['zone']['name'];?></td>
+								<td><?=$enq['size'];?> <?=$enq['size_unit']['name'];?>.</td>
+								<td><?=$enq['bedroom'];?> Bedroom</td>
 								<td>1 Bathroom</td>
-								<td>3,000,000 ฿ - 4,500,000 ฿</td>
-								<td class="text-orange">jiphanu s. 089-654-8511</td>
+								<td><?=number_format($enq['buy_budget_start']);?> ฿ - <?=number_format($enq['buy_budget_end']);?> ฿</td>
+								<td class="text-orange"><?=$enq['sale']['name'];?> <?=$enq['sale']['phone'];?></td>
 							</tr>
+							<?php
+						}
+							?>
 						</tbody>
 					</table>
 				</div>
@@ -80,32 +87,57 @@ $this->import('/template/top-navbar');
 			<div class="row mgt30">
 
 				<div class="form-group col-md-3">
-					<label for="client_type">Client Type</label>
+					<label for="enquiry_type_id">Client Type</label>
 					<div class="dropdown">
-						<select class="form-control" id="client_type" name="client_type">
+						<select class="form-control" id="enquiry_type_id" name="enquiry_type_id" required>
 							<option value="" selected>Select Client Type</option>
+							<?php
+							foreach( $enquiry_type as $sn )
+							{ ?>
+								<option value="<?=$sn['id'];?>"><?=$sn['name'];?></option>
+								<?php
+							}
+							?>
 						</select>
 					</div>
 				</div>
 
 				<div class="form-group col-md-3">
-					<label for="enquiry_type">Enquiry Type</label>
+					<label for="requirement_id">Enquiry Type</label>
 					<div class="dropdown">
-						<select class="form-control" id="enquiry_type" name="enquiry_type">
+						<select class="form-control" id="requirement_id" name="requirement_id" required>
 							<option value="" selected>Select Enquiry Type</option>
+							<?php
+							foreach( $requirement as $sn )
+							{ ?>
+								<option value="<?=$sn['id'];?>"><?=$sn['name_for_enquiry'];?></option>
+								<?php
+							}
+							?>
 						</select>
 					</div>
 				</div>
 
 				<div class="form-group col-md-3">
 					<label for="projectname">Project Name</label>
-					<input type="text" class="form-control" id="auto-searchby" placeholder="Enter Project Name">
-					<input type="hidden" class="form-control" id="projectname" name="projectname">
+					<input type="text" class="form-control" id="auto-search_project" placeholder="Enter Project Name">
+					<input type="hidden" class="form-control" id="project_id" name="project_id">
 				</div>
 
 				<div class="form-group col-md-3">
 					<label for="zone">Zone</label>
-					<input type="text" class="form-control" name="zone" id="zone" placeholder="eg. Phra Kanong, Silom etc.">
+
+					<select class="form-control" id="zone_id" name="zone_id">
+						<option value="" selected>eg. Phra Kanong, Silom etc.</option>
+						<?php
+						foreach( $zone as $sn )
+						{ ?>
+							<option value="<?=$sn['id'];?>"><?=$sn['name'];?></option>
+							<?php
+						}
+						?>
+					</select>
+
 				</div>
 
 			</div>
@@ -118,11 +150,11 @@ $this->import('/template/top-navbar');
 						<div class="col-xs-5 col-md-5 no_padd"><input type="text" class="form-control" name="size" id="size" placeholder="0"></div>
 						<div class="col-xs-6 col-md-6 col-xs-offset-1 col-md-offset-1 no_padd">
 							<div class="dropdown">
-								<select class="form-control" id="size_unit" name="size_unit">
+								<select class="form-control" id="size_unit_id" name="size_unit_id">
 									<?php
 									foreach( $size_unit as $sn )
 									{ ?>
-										<option value="<?=$sn['name'];?>"><?=$sn['name'];?></option>
+										<option value="<?=$sn['id'];?>"><?=$sn['name'];?></option>
 										<?php
 									}
 									?>
@@ -135,37 +167,37 @@ $this->import('/template/top-navbar');
 					<div class="col-xs-5 col-md-5 no_padd">
 						<label for="bedroom">Bedroom</label>
 						<select class="form-control" id="bedroom" name="bedroom">
-							<option value="">1</option>
-							<option value="">2</option>
-							<option value="">3</option>
-							<option value="">4</option>
-							<option value="">5</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
 						</select>
 					</div>
 					<div class="col-xs-6 col-md-5 col-xs-offset-1 col-md-offset-2 no_padd">
-						<label for="bedroom">Bathroom</label>
-						<select class="form-control" id="bedroom" name="bedroom">
-							<option value="">1</option>
-							<option value="">2</option>
-							<option value="">3</option>
-							<option value="">4</option>
-							<option value="">5</option>
+						<label for="bathroom">Bathroom</label>
+						<select class="form-control" id="bathroom" name="bathroom">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
 						</select>
 					</div>
 				</div>
 				
 				<div class="form-group col-xs-12 col-md-6">
 					<div class="col-xs-5 col-md-5 no_padd">
-						<label for="budget_from">Budget</label>
-						<input type="text" class="form-control" name="budget_from" id="budget_from" placeholder="0">
+						<label for="buy_budget_start">Budget</label>
+						<input type="text" class="form-control" name="buy_budget_start" id="buy_budget_start" placeholder="0">
 					</div>
 					<div class="col-xs-2 col-md-2 no_padd">
 						<label for="">&nbsp;</label>
 						<div class="text-center">to</div>
 					</div>
 					<div class="col-xs-5 col-md-5  no_padd">
-						<label for="budget_to">&nbsp;</label>
-						<input type="text" class="form-control" name="budget_to" id="budget_to" placeholder="0">
+						<label for="buy_budget_end">&nbsp;</label>
+						<input type="text" class="form-control" name="buy_budget_end" id="buy_budget_end" placeholder="0">
 					</div>
 				</div>
 
@@ -177,13 +209,13 @@ $this->import('/template/top-navbar');
 				<div class="form-group col-md-12">
 					<label for="description">Full Description</label>
 					<div class="input-group full-width">
-						<textarea class="form-control" name="description" id="description" rows="8"></textarea>
+						<textarea class="form-control" name="comment" id="comment" rows="8"></textarea>
 					</div>
 				</div>
 			</div>
 
 			<div class="lyp-button mgt10 text-center">
-				<button type="button" class="btn btn-searchred" onclick="alert('not available.');">Submit Enquiry</button>
+				<button type="submit" class="btn btn-searchred">Submit Enquiry</button>
 			</div>
 		
 		</form>

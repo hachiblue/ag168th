@@ -36,7 +36,7 @@ $this->import('/template/top-navbar');
 				<div class="col-md-12 no_padd">
 					<form action="" class="search_prod_form form-inline">
 
-						<div class="form-group col-xs-12 col-sm-12 col-md-3 padd_form">
+						<div class="form-group col-xs-12 col-sm-12 col-md-2 padd_form">
 							<div class="inp_contain shc">
 								<span class="icon"></span>
 								<input type="search" name="searchBy" id="auto-searchby" class="form-control search-prod opabx" autocomplete="off" placeholder="Search for ..." value="<?=(isset($_GET["searchBy"]))? $_GET["searchBy"] : '';?>">
@@ -44,11 +44,11 @@ $this->import('/template/top-navbar');
 							</div>	
 						</div>
 						
-						<div class="col-md-2 no_padd">
+						<div class="col-md-4 no_padd">
 
-							<div class="form-group col-xs-6 col-sm-6 col-md-6 padd_form">
+							<div class="form-group col-xs-6 col-sm-6 col-md-3 padd_form">
 								<div class="inp_contain">
-									<div class="btn-group search-prod">
+									<div class="btn-group search-prod" style="display:none;">
 										<?php
 										$req = array( '1' => 'For Buy', '2' => 'For Rent' );
 										?>
@@ -62,10 +62,76 @@ $this->import('/template/top-navbar');
 											<li><a value="2">For Rent</a></li>
 										</ul>
 									</div>
+
+									<div class="btn-group search-prod">
+										<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+											<span data-bind="label" id="searchLabel" class="dsp_drop_txt">Zone</span>  
+											<span class="caret"></span>
+										</button>
+										<input type="hidden" id="zone_id" name="zone_id" value="<?=(isset($_GET["zone_id"]))? $_GET["zone_id"] : '';?>" class="btn_value">
+										<ul class="dropdown-menu" role="menu">
+											<li><a name="zone_id" value=""> All </a></li>
+											<?php
+											foreach( $zone['zone'] as $z )
+											{
+												?>
+											<li><a name="zone_id" value="<?=$z['id'];?>"><?=$z['name'];?></a></li>
+											<?php
+											}
+												?>
+										</ul>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="form-group col-xs-6 col-sm-6 col-md-3 padd_form">
+								<div class="inp_contain">
+									<div class="btn-group search-prod">
+										<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+											<span data-bind="label" id="searchLabel" class="dsp_drop_txt">BTS</span>  
+											<span class="caret"></span>
+										</button>
+										<input type="hidden" id="bts_id" name="bts_id" value="<?=(isset($_GET["bts_id"]))? $_GET["bts_id"] : '';?>" class="btn_value">
+										<ul class="dropdown-menu" role="menu">
+											<li><a name="bts_id" value=""> All </a></li>
+											<?php
+											foreach( $bts['bts'] as $z )
+											{
+												?>
+											<li><a name="bts_id" value="<?=$z['id'];?>"><?=$z['name'];?></a></li>
+											<?php
+											}
+												?>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group col-xs-6 col-sm-6 col-md-3 padd_form">
+								<div class="inp_contain">
+									<div class="btn-group search-prod">
+										<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+											<span data-bind="label" id="searchLabel" class="dsp_drop_txt">MRT</span>  
+											<span class="caret"></span>
+										</button>
+										<input type="hidden" id="mrt_id" name="mrt_id" value="<?=(isset($_GET["mrt_id"]))? $_GET["mrt_id"] : '';?>" class="btn_value">
+										<ul class="dropdown-menu" role="menu">
+											<li><a name="mrt_id" value=""> All </a></li>
+											<?php
+											foreach( $mrt['mrt'] as $z )
+											{
+												?>
+											<li><a name="mrt_id" value="<?=$z['id'];?>"><?=$z['name'];?></a></li>
+											<?php
+											}
+												?>
+										</ul>
+									</div>
 								</div>
 							</div>
 					
-							<div class="form-group col-xs-6 col-sm-6 col-md-6 padd_form">
+							<div class="form-group col-xs-6 col-sm-6 col-md-3 padd_form">
 								<div class="inp_contain">
 									<div class="btn-group search-prod">
 										<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
@@ -103,7 +169,7 @@ $this->import('/template/top-navbar');
 
 						</div>
 					
-						<div class="col-md-2 no_padd">
+						<div class="col-md-1 no_padd">
 							
 							<div class="form-group col-xs-12 col-sm-12 col-md-12 padd_form">
 								<div class="inp_contain">
@@ -123,26 +189,26 @@ $this->import('/template/top-navbar');
 												<div class="row price-list">
 													<div class="col-xs-6 col-sm-6 lft">
 														<ul id="list-price-min" class="multi-column-dropdown price-selector">
-															<li data-price="1000000">฿ 1,000,000</li>
-															<li data-price="2000000">฿ 2,000,000</li>
-															<li data-price="3000000">฿ 3,000,000</li>
-															<li data-price="4000000">฿ 4,000,000</li>
-															<li data-price="5000000">฿ 5,000,000</li>
-															<li data-price="7000000">฿ 7,000,000</li>
-															<li data-price="10000000">฿ 10,000,000</li>
-															<li data-price="30000000">฿ 30,000,000</li>
+															<li data-price="10000">฿ 10,000</li>
+															<li data-price="15000">฿ 15,000</li>
+															<li data-price="20000">฿ 20,000</li>
+															<li data-price="25000">฿ 25,000</li>
+															<li data-price="30000">฿ 30,000</li>
+															<li data-price="40000">฿ 40,000</li>
+															<li data-price="50000">฿ 50,000</li>
+															<li data-price="80000">฿ 80,000</li>
 														</ul>
 													</div>
 													<div class="col-xs-6 col-sm-6 rit">
 														<ul id="list-price-max" class="multi-column-dropdown price-selector">
-															<li data-price="1000000">฿ 1,000,000</li>
-															<li data-price="2000000">฿ 2,000,000</li>
-															<li data-price="3000000">฿ 3,000,000</li>
-															<li data-price="4000000">฿ 4,000,000</li>
-															<li data-price="5000000">฿ 5,000,000</li>
-															<li data-price="7000000">฿ 7,000,000</li>
-															<li data-price="10000000">฿ 10,000,000</li>
-															<li data-price="30000000">฿ 30,000,000</li>
+															<li data-price="15000">฿ 15,000</li>
+															<li data-price="20000">฿ 20,000</li>
+															<li data-price="25000">฿ 25,000</li>
+															<li data-price="30000">฿ 30,000</li>
+															<li data-price="40000">฿ 40,000</li>
+															<li data-price="50000">฿ 50,000</li>
+															<li data-price="80000">฿ 80,000</li>
+															<li data-price="999999999999">฿ 100,000+</li>
 														</ul>
 													</div>
 												</div>
@@ -291,8 +357,7 @@ $this->import('/template/top-navbar');
 							<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" role="menu">
-							<li><a name="sel_requirement">For Buy</a></li>
-							<li><a name="sel_requirement">For Rent</a></li>
+							<li><a name="sel_requirement">Newest</a></li>
 						</ul>
 					</div>
 				</div>

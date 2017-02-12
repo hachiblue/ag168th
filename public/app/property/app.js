@@ -569,8 +569,8 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         var bathrooms = this.form.bathrooms || '';
         if (this.form.room_type_id == 1 && ( bedrooms == '' || (bathrooms == '' || bathrooms == 0)))
         {
-            alert("Studio need Bed Room and Bath Room");
-            return false;
+            //alert("Studio need Bed Room and Bath Room");
+            //return false;
         }
 
         // if(!$scope.form.bts_id && !$scope.form.mrt_id && !$scope.form.airport_link_id) {

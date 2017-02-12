@@ -31,7 +31,7 @@ $xcrud->fields([
   'has_swimming_pool', 'has_onsen', 'has_gym', 'has_garden', 'has_futsal', 'has_badminton', 'has_basketball', 'has_tennis', 'has_bowling', 'has_pool_room',
   'has_game_room', 'has_playground', 'has_meeting_room', 'has_private_butler', 'has_shuttle_bus', 'has_minimart_supermarket', 'has_restaurant',
   'has_laundry_service', 'has_private_parking', 'has_bathtub_inside_unit', 'has_sauna', 'has_parking_lot', 'has_library', 'has_kid_club', 'has_golf', 'has_conference_room', 'has_pet', 'has_rooftop', 'builder_by',
-  'address', 'province_id', 'district_id', 'sub_district_id', 'bts_id', 'mrt_id', 'airport_link_id',
+  'address', 'province_id', 'district_id', 'sub_district_id', 'bts_id', 'from_bts', 'mrt_id', 'from_mrt', 'airport_link_id',
   'location_lat', 'location_lng', 'zone_id', 'year_built', 'is_popular', 'is_recent', 'project_desc'
   ]);
 
@@ -209,11 +209,11 @@ echo $xcrud->render();
     width: 70%;
   }
 
-  .form-horizontal div.form-group:nth-child(44) {
-    margin-left: 14%;
+  .form-horizontal div.form-group:nth-child(46) {
+	margin-left: 14%;
   }
-  .form-horizontal div.form-group:nth-child(44),
-  .form-horizontal div.form-group:nth-child(45) {
+  .form-horizontal div.form-group:nth-child(46),
+  .form-horizontal div.form-group:nth-child(47) {
     width: 40%;
     display: inline-block;
   }

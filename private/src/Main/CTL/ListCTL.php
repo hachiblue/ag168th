@@ -38,7 +38,7 @@ class ListCTL extends BaseCTL {
 			
 		if( isset($params['q']) && !empty($params['q']) )
 		{
-			$query = "select p.id, p.name, pv.name as province, z.name as zone_name from project p, property pp, zone z, province pv where pp.project_id = p.id and p.province_id = pv.id and p.zone_id = z.id and ( p.name like :na OR pp.reference_id like :nab  ) GROUP BY p.id limit 200";
+			$query = "select p.id, p.name, pv.id as province_id, pv.name as province, z.id as zone_id, z.name as zone_name from project p, property pp, zone z, province pv where pp.project_id = p.id and p.province_id = pv.id and p.zone_id = z.id and ( p.name like :na OR pp.reference_id like :nab  ) GROUP BY p.id limit 200";
 			$stmt = $db->pdo->prepare($query);
 			$keyword = "%".$params['q']."%";
 			$stmt->bindValue(':na', $keyword, \PDO::PARAM_STR);
@@ -49,7 +49,7 @@ class ListCTL extends BaseCTL {
 			$res = array();
 			foreach( $items as $data )
 			{	
-				$res[] = array( $data['name'], $data['id'], $data['province'], $data['zone_name'] );
+				$res[] = array( $data['name'], $data['id'], $data['province'], $data['zone_name'], $data['zone_id'], $data['province_id'] );
 			}
 
 			echo json_encode($res);
@@ -205,6 +205,10 @@ class ListCTL extends BaseCTL {
 		{
 			$pageLimit = ceil($pageLimit);
 		}
+		
+		$this->_buildZone($zone);
+		$this->_buildBTS($bts);
+		$this->_buildMRT($mrt);
 
 		$this->_buildItems($items);
 	
@@ -215,6 +219,9 @@ class ListCTL extends BaseCTL {
 			'page' => 'list',
 			$act => 'act',
 			'items'=> $items, 
+			'zone'=> $zone, 
+			'bts'=> $bts, 
+			'mrt'=> $mrt, 
 			"p" => "list", 
 			'paging'=> [
 				"limit"=> $limit,
@@ -281,6 +288,27 @@ class ListCTL extends BaseCTL {
 		}
 
 		$item['picture'] = $pic;
+    }
+
+	public function _buildZone(&$item)
+    {
+		$db = MedooFactory::getInstance();
+		$zone = $db->select("zone", "*");
+		$item['zone'] = $zone;
+    }
+
+	public function _buildBTS(&$item)
+    {
+		$db = MedooFactory::getInstance();
+		$bts = $db->select("bts", "*");
+		$item['bts'] = $bts;
+    }
+
+	public function _buildMRT(&$item)
+    {
+		$db = MedooFactory::getInstance();
+		$mrt = $db->select("mrt", "*");
+		$item['mrt'] = $mrt;
     }
 
     public function getProject($id)

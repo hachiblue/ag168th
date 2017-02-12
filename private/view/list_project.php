@@ -32,7 +32,7 @@ $this->import('/template/top-navbar');
 
 					<div class="form-group col-xs-6 col-sm-6 col-md-4 padd_form">
 						<div class="inp_contain">
-							<div class="btn-group search-prod_pj">
+							<!-- <div class="btn-group search-prod_pj">
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
 									<span data-bind="label" id="searchLabel">Sell/Rent</span>  
 									<span class="caret"></span>
@@ -41,7 +41,27 @@ $this->import('/template/top-navbar');
 									<li><a name="sel_requirement">For Buy</a></li>
 									<li><a name="sel_requirement">For Rent</a></li>
 								</ul>
+							</div> -->
+
+							<div class="btn-group search-prod_pj">
+								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+									<span data-bind="label" id="searchLabel" class="dsp_drop_txt">Zone</span>  
+									<span class="caret"></span>
+								</button>
+								<input type="hidden" id="zone_id" name="zone_id" value="<?=(isset($_GET["zone_id"]))? $_GET["zone_id"] : '';?>" class="btn_value">
+								<ul class="dropdown-menu" role="menu">
+									<li><a name="zone_id" value=""> All </a></li>
+									<?php
+									foreach( $zone['zone'] as $z )
+									{
+										?>
+									<li><a name="zone_id" value="<?=$z['id'];?>"><?=$z['name'];?></a></li>
+									<?php
+									}
+										?>
+								</ul>
 							</div>
+
 						</div>
 					</div>
 			
@@ -49,12 +69,20 @@ $this->import('/template/top-navbar');
 						<div class="inp_contain">
 							<div class="btn-group search-prod_pj">
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-									<span data-bind="label" id="searchLabel">All Province</span>  
+									<span data-bind="label" id="searchLabel" class="dsp_drop_txt">BTS</span>  
 									<span class="caret"></span>
 								</button>
+								<input type="hidden" id="bts_id" name="bts_id" value="<?=(isset($_GET["bts_id"]))? $_GET["bts_id"] : '';?>" class="btn_value">
 								<ul class="dropdown-menu" role="menu">
-									<li><a name="sel_requirement">1</a></li>
-									<li><a name="sel_requirement">2</a></li>
+									<li><a name="bts_id" value=""> All </a></li>
+									<?php
+									foreach( $bts['bts'] as $z )
+									{
+										?>
+									<li><a name="bts_id" value="<?=$z['id'];?>"><?=$z['name'];?></a></li>
+									<?php
+									}
+										?>
 								</ul>
 							</div>
 						</div>
@@ -64,12 +92,20 @@ $this->import('/template/top-navbar');
 						<div class="inp_contain">
 							<div class="btn-group search-prod_pj">
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-									<span data-bind="label" id="searchLabel">All District</span>  
+									<span data-bind="label" id="searchLabel" class="dsp_drop_txt">MRT</span>  
 									<span class="caret"></span>
 								</button>
+								<input type="hidden" id="mrt_id" name="mrt_id" value="<?=(isset($_GET["mrt_id"]))? $_GET["mrt_id"] : '';?>" class="btn_value">
 								<ul class="dropdown-menu" role="menu">
-									<li><a name="sel_requirement">1</a></li>
-									<li><a name="sel_requirement">2</a></li>
+									<li><a name="mrt_id" value=""> All </a></li>
+									<?php
+									foreach( $mrt['mrt'] as $z )
+									{
+										?>
+									<li><a name="mrt_id" value="<?=$z['id'];?>"><?=$z['name'];?></a></li>
+									<?php
+									}
+										?>
 								</ul>
 							</div>
 						</div>
@@ -101,12 +137,15 @@ $this->import('/template/top-navbar');
 				<div class="inp_contain shc no-bg-drop" style="float:left;">
 					<div class="btn-group search-prod_pj">
 						<button class="btn btn-default text-org dropdown-toggle" type="button" data-toggle="dropdown">
-							<span data-bind="label" id="searchLabel">Newest</span>  
+							<span data-bind="label" id="searchLabel"><?=(isset($_GET['sortby']))? $_GET['sortby'] : 'Newest';?></span>  
 							<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" role="menu">
-							<li><a name="sel_requirement">For Buy</a></li>
-							<li><a name="sel_requirement">For Rent</a></li>
+							<?php
+							unset($_GET['sortby']);
+							?>
+							<li><a href="?<?=http_build_query($_GET);?>&sortby=Newest" name="sortby" value="Newest">Newest</a></li>
+							<li><a href="?<?=http_build_query($_GET);?>&sortby=Popular" name="sortby" value="Popular">Popular</a></li>
 						</ul>
 					</div>
 				</div>

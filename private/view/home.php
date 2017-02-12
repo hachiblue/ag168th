@@ -12,7 +12,7 @@ $this->import('/template/top-navbar');
 			<div class="heroImage" style="background-image: url(<?php echo \Main\Helper\URL::absolute("/public/assets/img/bg3.jpg")?>);"></div>
 	
 			<div class="banner">
-				<div class="col-md-12 box-holder text-center">
+				<div class="col-md-12 box-holder text-center mgt65">
 					<div class="logo_s">
 						<img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/AGENT168_1.png")?>" alt="" class="img-responsive">
 					</div>

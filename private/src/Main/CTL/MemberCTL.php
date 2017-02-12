@@ -367,7 +367,18 @@ class memberCTL extends BaseCTL {
 		
 		$pf = $db->get('member', '*', ['id'=>$_SESSION['member']['id']]);
 
-		$pItems = array('page' => 'post_enquiry', 'profile' => $pf);
+		$sql = "SELECT* FROM enquiry WHERE member_id = '{$_SESSION['member']['id']}' ORDER BY updated_at DESC";
+		$r = $db->query($sql);
+		$enquiry = $r->fetchAll(\PDO::FETCH_ASSOC);
+		$this->_buildItem($enquiry);
+
+
+		$requirement = $db->select('requirement', '*', ['id'=>[1,2]]);
+		$size_unit = $db->select('size_unit', '*');
+		$zone = $db->select('zone', '*');
+		$enquiry_type = $db->select('enquiry_type', '*', ['id'=>[1,4]]);
+
+		$pItems = array('page' => 'post_enquiry', 'profile' => $pf, 'enquiry' => $enquiry, 'requirement' => $requirement, 'size_unit' => $size_unit, 'enquiry_type' => $enquiry_type, 'zone' => $zone);
 
         return new HtmlView('/template/layout', $pItems);
 	}
@@ -382,8 +393,27 @@ class memberCTL extends BaseCTL {
 		$db = MedooFactory::getInstance();
 		
 		$pf = $db->get('member', '*', ['id'=>$_SESSION['member']['id']]);
+		
+		$sql = "SELECT* FROM property WHERE member_id = '{$_SESSION['member']['id']}' ORDER BY updated_at DESC";
+		$r = $db->query($sql);
+		$property = $r->fetchAll(\PDO::FETCH_ASSOC);
+		$this->_buildItem2($property);
+		
+		$e_property = array();
+		if( isset($params['edit']) && !empty($params['edit']) )
+		{
+			$e_property = $db->get('property', '*', ['id'=>$params['edit']]);
+			$e_property['auto-search_project'] = $db->get('project', 'name', ['id'=>$e_property['project_id']]);
+			$e_property['property_id'] = $e_property['id'];
+		}
 
-		$pItems = array('page' => 'post_property', 'profile' => $pf);
+		$requirement = $db->select('requirement', '*', ['id'=>[1,2]]);
+		$size_unit = $db->select('size_unit', '*');
+		$province = $db->select('province', '*');
+		$property_type = $db->select('property_type', '*');
+		$zone = $db->select('zone', '*');
+
+		$pItems = array('page' => 'post_property', 'profile' => $pf, 'property' => $property, 'requirement' => $requirement, 'size_unit' => $size_unit, 'zone' => $zone, 'property_type' => $property_type, 'province' => $province, 'e_property' => $e_property);
 
         return new HtmlView('/template/layout', $pItems);
 	}
@@ -404,34 +434,34 @@ class memberCTL extends BaseCTL {
 			$va = filter_var($va, FILTER_SANITIZE_STRING);
 		}
 		
-		if( isset($params['daterequest']) )
+		if( isset($params['daterequest']) && !empty($params['daterequest']) )
 		{
 			$comment = ' จาก website นัดชมห้อง วันที่' . $params['daterequest'];
 		}
 		else
 		{
-			$comment = $params['comment'];
+			$comment = ' จาก website ' . $params['comment'];
 		}
 
 
 		if( $res['success'] === true )
 		{
 			$insert = ArrayHelper::filterKey([
-			  "enquiry_type_id", "customer", "requirement_id", "property_type_id", "province_id", "project_id",
-			  "buy_budget_start", "buy_budget_end", "rent_budget_start", "rent_budget_end", "zone_id",
-			  "desicion_maker", "bedroom", "is_studio", "size", "size_unit_id", "bts_id", "mrt_id",
-			  "airport_link_id", "enquiry_status_id", "ex_location", "ptime_to_pol", "sq_furnish",
-			  "sq_hospital", "sq_school", "sq_park", "sq_bts", "sq_shopmall", "sq_airport", "sq_mainroad",
-			  "sq_other", "contact_type_id", "chk1", "chk2", "chk3", "contact_method", "website"
+				"enquiry_type_id", "customer", "requirement_id", "property_type_id", "province_id", "project_id",
+				"buy_budget_start", "buy_budget_end", "rent_budget_start", "rent_budget_end", "zone_id",
+				"desicion_maker", "bedroom", "is_studio", "size", "size_unit_id", "bts_id", "mrt_id",
+				"airport_link_id", "enquiry_status_id", "ex_location", "ptime_to_pol", "sq_furnish",
+				"sq_hospital", "sq_school", "sq_park", "sq_bts", "sq_shopmall", "sq_airport", "sq_mainroad",
+				"sq_other", "contact_type_id", "chk1", "chk2", "chk3", "contact_method", "website", "member_id"
 			], $params);
 
 			$insert = array_map(function($item) 
 			{
-			  if(is_string($item)) 
-			  {
-				$item = trim($item);
-			  }
-			  return $item;
+				if(is_string($item)) 
+				{
+					$item = trim($item);
+				}
+				return $item;
 			}, $insert);
 
 			if( empty($comment) ) 
@@ -443,27 +473,133 @@ class memberCTL extends BaseCTL {
 
 			$insert["enquiry_status_id"] = 1;
 			$insert["customer"] = $_SESSION['member']['name'];
-			$insert["enquiry_type_id"] = 1;
 			$insert['created_at'] = $now;
 			$insert['updated_at'] = $now;
+			$insert["enquiry_type_id"] = isset($insert["enquiry_type_id"]) ? $insert["enquiry_type_id"] : 1;
 			$insert['enquiry_no'] = $this->_generateReferenceId($insert["enquiry_type_id"]);
 			$insert['contact_method'] = 'website';
+			$insert['member_id'] = $_SESSION['member']['id'];
 
 			$db->pdo->beginTransaction();
+
 			$id = $db->insert('enquiry', $insert);
-			if(!$id) {
-			   return ResponseHelper::error("Error can't add enquiry.".$db->error()[2]);
+			if(!$id) 
+			{
+				return ResponseHelper::error("Error can't add enquiry.".$db->error()[2]);
 			}
 
-			$accId = $_SESSION['member']['id'];
+			//$accId = $_SESSION['member']['id'];
 			$commentInsert = [
-			  "enquiry_id"=> $id,
-			  "comment"=> $comment,
-			  "comment_by"=> '999',
-			  "updated_at"=> $now  
+				"enquiry_id"=> $id,
+				"comment"=> $comment,
+				"comment_by"=> '999',
+				"updated_at"=> $now  
 			];
 
 			$db->insert("enquiry_comment", $commentInsert);
+			$db->pdo->commit();
+
+			//$item = $db->get('enquiry', "*", ["id"=> $id]);
+			//return $item;
+		}
+
+		//$res['log'] = $db->log();
+
+		echo json_encode($res);
+
+        //return new HtmlView('/template/layout', $pItems);
+    }
+
+	/**
+     * @POST
+	 * @uri /post_property
+     */
+    public function post_property () 
+	{
+        $params = $this->reqInfo->params();
+		$db = MedooFactory::getInstance();
+
+		$res = array( 'success' => true );
+
+		foreach( $params as &$va )
+		{
+			$va = filter_var($va, FILTER_SANITIZE_STRING);
+		}
+		
+		$comment = ' จาก website ' . $params['comment'];
+
+		if( $res['success'] === true )
+		{
+			$insert = ArrayHelper::filterKey([
+				"property_type_id", "project_id", "address_no", "floors", "size", "size_unit_id", "bedrooms", "bathrooms",
+				"requirement_id", "contract_price", "sell_price", "net_sell_price", "rent_price", "net_rent_price", "owner",
+				"key_location_id", "zone_id", "road", "province_id", "district_id", "sub_district_id", "bts_id", "mrt_id",
+				"airport_link_id", "property_status_id", "contract_expire", "web_status", "property_highlight_id",
+				"feature_unit_id", "rented_expire", "inc_vat", "transfer_status_id", "owner", "web_url_search", "room_type_id", "contract_chk_key",
+				"property_pending_type", "property_pending_info", "property_pending_date", "building_no"
+			], $params);
+
+			$insert = array_map(function($item) 
+			{
+				if(is_string($item)) 
+				{
+					$item = trim($item);
+				}
+				return $item;
+			}, $insert);
+
+			if( empty($comment) ) 
+			{
+				$res['success'] = false;
+				$res['error'] = 'require comment';
+				echo json_encode($res); exit;
+			}
+
+			if(!isset($insert['property_type_id'])) 
+			{
+				$res['success'] = false;
+				$res['error'] = 'require property type';
+				echo json_encode($res); exit;
+			}
+
+			if( !empty($insert['project_id']) && !empty($insert['address_no']) && !isset($params['property_id']) ) 
+			{
+				if($db->count("property", "*", [ "AND"=> [ "project_id"=> $insert["project_id"], "address_no"=> $insert["address_no"]]]) > 0) 
+				{
+					$res['success'] = false;
+					$res['error'] = 'duplicate property';
+					echo json_encode($res); exit;
+				}
+			}
+
+			$now = date('Y-m-d H:i:s');
+	
+			$insert['created_at'] = $now;
+			$insert['updated_at'] = $now;
+			$insert['reference_id'] = $this->_generateReference_propId($insert["property_type_id"]);
+			$insert['member_id'] = $_SESSION['member']['id'];
+
+			$db->pdo->beginTransaction();
+			
+			if( isset($params['property_id']) && !empty($params['property_id']) )
+			{
+				$id = $db->update('property', $insert, ['id'=>$params['property_id']]);
+			}
+			else
+			{
+				$id = $db->insert('property', $insert);
+
+				//$accId = $_SESSION['member']['id'];
+				$commentInsert = [
+					"property_id"=> $id,
+					"comment"=> $comment,
+					"comment_by"=> '999',
+					"updated_at"=> $now  
+				];
+
+				$db->insert("property_comment", $commentInsert);
+			}
+
 			$db->pdo->commit();
 
 			//$item = $db->get('enquiry', "*", ["id"=> $id]);
@@ -554,4 +690,99 @@ class memberCTL extends BaseCTL {
 		}
 	}
 
+	public function _generateReference_propId($propTypeId)
+    {
+      $db = MedooFactory::getInstance();
+      $propType = $db->get("property_type", "*", ["id"=> $propTypeId]);
+      if(!$propType) {
+        return false;
+      }
+
+      $code = "A".$propType["code"];
+      $dt = new \DateTime();
+      return $this->_generateReference_propId2($code, $dt);
+    }
+
+    public function _generateReference_propId2($code, $dt) {
+      $dtStr = $code.$dt->format('dmy');
+
+      $db = MedooFactory::getInstance();
+      $sql = "SELECT reference_id FROM property WHERE SUBSTRING(reference_id, 1, 8) = '{$dtStr}' ORDER BY reference_id DESC LIMIT 1";
+      $r = $db->query($sql);
+      $row = $r->fetch(\PDO::FETCH_ASSOC);
+      if(!empty($row)) {
+        $n = substr($row['reference_id'], -2);
+        if($n == '99') {
+          $dt->add(new \DateInterval('P1D'));
+          return $this->_generateReference_propId2($code, $dt);
+        }
+        else {
+          $n = intval($n) + 1;
+          return $code.$dt->format("dmy").sprintf("%02d", $n);
+        }
+      }
+      else {
+        return $code.$dt->format("dmy")."00";
+      }
+    }
+	
+	public function _buildItem(&$items)
+    {
+		foreach($items as &$item) 
+		{
+			$this->_buildSaleAssign($item);
+			$this->_buildProject($item);
+			$this->_buildSizeUnit($item);
+			$this->_buildRequirement($item);
+			$this->_buildZone($item);
+			$this->_buildEnquiry_type($item);
+		}
+    }
+
+	public function _buildItem2(&$items)
+    {
+		foreach($items as &$item) 
+		{
+			$this->_buildProject($item);
+			$this->_buildSizeUnit($item);
+			$this->_buildRequirement($item);
+			$this->_buildZone($item);
+		}
+    }
+	
+	public function _buildSaleAssign(&$item)
+    {
+		$db = MedooFactory::getInstance();
+		$item['sale'] = $db->get("account", "*", ["id"=> $item['assign_sale_id']]);
+    }
+
+	public function _buildProject(&$item)
+    {
+		$db = MedooFactory::getInstance();
+		$item['project'] = $db->get("project", "*", ["id"=> $item['project_id']]);
+    }
+
+	public function _buildEnquiry_type(&$item)
+    {
+		$db = MedooFactory::getInstance();
+		$item['enquiry_type'] = $db->get("enquiry_type", "*", ["id"=> $item['enquiry_type_id']]);
+    }
+
+	public function _buildZone(&$item)
+    {
+		$db = MedooFactory::getInstance();
+		$item['zone'] = $db->get("zone", "*", ["id"=> $item['zone_id']]);
+    }
+
+	public function _buildSizeUnit(&$item)
+    {
+		$db = MedooFactory::getInstance();
+		$item['size_unit'] = $db->get("size_unit", "*", ["id"=> $item['size_unit_id']]);
+    }
+
+    public function _buildRequirement(&$item)
+    {
+		$db = MedooFactory::getInstance();
+		$item['requirement'] = $db->get("requirement", "*", ["id"=> $item['requirement_id']]);
+    }
 }
