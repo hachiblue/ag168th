@@ -725,6 +725,7 @@ $(document).on("ready", function () {
 				//modal.find('.modal-body input').val(recipient);
 
 				modal.find('.fb-share-button').attr('data-href', 'http://agent168th.com/editorial?topic='+recipient);
+				modal.find('.fb-share-button a').attr('href', 'http://agent168th.com/editorial?topic='+recipient);
 				
 				modal.find('.modal-more_comment').data('cid', article[recipient].id);
 
