@@ -724,12 +724,23 @@ $(document).on("ready", function () {
 				modal.find('.modal-picturepost').html( '<img src="/public/article_pic/'+article[recipient].image_path+'" alt="">' );
 				//modal.find('.modal-body input').val(recipient);
 
-				modal.find('.fb-share-button').attr('data-href', 'http://agent168th.com/editorial?topic='+recipient);
-				modal.find('.fb-share-button a').attr('href', 'http://agent168th.com/editorial?topic='+recipient);
+				//modal.find('.fb-share-button').attr('data-href', 'http://agent168th.com/editorial?topic='+recipient);
+				//modal.find('.fb-share-button a').attr('href', 'http://agent168th.com/editorial?topic='+recipient);
+				modal.find('.twitter-share-button').attr('href', 'https://twitter.com/intent/tweet?text=http://agent168th.com/editorial?topic='+recipient);
+				modal.find('.google-share-button').attr('href', 'https://plus.google.com/share?url=http://agent168th.com/editorial?topic='+recipient);
+				//modal.find('.pin-share-button').attr('href', 'https://www.pinterest.com/pin/create/button/?url=http://agent168th.com/editorial?topic='+recipient);
 				
 				modal.find('.modal-more_comment').data('cid', article[recipient].id);
 
 				article_getcomment( article[recipient].id, 2);
+
+				$('#fb-share-button').click(function() {
+					FB.ui({
+						display: 'popup',
+						method: 'share',
+						href: 'http://agent168th.com/editorial?topic='+recipient,
+					}, function(response){});
+				});
 
 			}
 		});

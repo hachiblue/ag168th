@@ -121,13 +121,23 @@ $this->import('/template/top-navbar');
 			
 			<div class="modal-socialbar pull-right">
 
-				<div class="fb-share-button" data-href="http://agent168th.com/editorial?topic=0" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://agent168th.com/editorial?topic=0">Share</a></div>
+				<!-- <div class="fb-share-button" data-href="http://agent168th.com/editorial?topic=0" data-layout="button" data-size="small" data-mobile-iframe="true"></div> -->
+				
+				<a id="fb-share-button" style="color:#a3a9ae;">
+				<i class="fa fa-facebook" aria-hidden="true"></i></a>
 
+				<a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Hello%20world" style="color:#a3a9ae;">
+				<i class="fa fa-twitter" aria-hidden="true"></i></a>
+
+				<a class="google-share-button" href="https://plus.google.com/share?url={URL}" onclick="javascript:window.open(this.href, '',  'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" style="color:#a3a9ae;"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+				
+
+				<a class="pin-share-button" data-pin-do="buttonPin" href="https://www.pinterest.com/pin/create/button/" data-pin-custom="true" style="color:#a3a9ae;"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a>
 
 				<!-- <i class="fa fa-facebook" aria-hidden="true"></i> -->
-				<i class="fa fa-twitter" aria-hidden="true"></i>
-				<i class="fa fa-google-plus" aria-hidden="true"></i>
-				<i class="fa fa-pinterest-p" aria-hidden="true"></i>
+				<!-- <i class="fa fa-twitter" aria-hidden="true"></i> -->
+				
+				
 			</div>
 
 
