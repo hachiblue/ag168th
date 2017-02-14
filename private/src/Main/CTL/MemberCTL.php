@@ -190,6 +190,95 @@ class memberCTL extends BaseCTL {
 	}
 
 	/**
+     * @POST
+	 * @uri /comp
+     */
+	public function comp ()
+	{
+		$params = $this->reqInfo->params();
+		//unset($_SESSION['comp']);
+		if( isset($_SESSION['member']) )
+		{
+			if( ! isset($_SESSION['comp']) )
+			{
+				$_SESSION['comp'] = array();
+			}
+		
+			$chk = 0;
+			$comp = &$_SESSION['comp'];
+			
+			$i = 0;
+			while( $i < 4 )
+			{
+				if( $params['status'] == 'true' )
+				{
+					if( (! isset($comp[$i]) && ! in_array($params['prop'], $comp)) || (empty($comp[$i]) && ! in_array($params['prop'], $comp)) )
+					{
+						$comp[$i] = $params['prop'];
+						$chk = 1;
+						break;
+					}
+				}
+				else
+				{
+					if( isset($comp[$i]) && $comp[$i] == $params['prop'] )
+					{
+						unset($comp[$i]);
+						$chk = 1;
+						break;
+					}
+				}
+
+				$i++;
+			}
+
+			$comp = array_values($comp);
+
+			if( $chk ) 
+			{
+				if( count($comp) == 0 )
+				{
+					echo 3;
+				}
+				else
+				{
+					echo 1;
+				}
+			}
+			else
+			{
+				echo 2;
+			}//echo json_encode($_SESSION['comp']);
+		}
+		else
+		{
+			echo 0;
+		}
+	}
+	
+	/**
+     * @POST
+	 * @uri /complist
+     */
+	public function complist ()
+	{
+		$db = MedooFactory::getInstance();
+			
+		if( isset($_SESSION['member']) )
+		{
+			$fav = explode(',', $_SESSION['member']['fav_property']);
+
+			$property = $db->select('property', [ "[><]project" => ["project_id" => "id"] ], ['property.id', 'project.name(project_name)'], ['property.id'=>$fav]);
+
+			echo json_encode($property);
+		}
+		else
+		{
+			echo json_encode(array());
+		}
+	}
+
+	/**
      * @GET
 	 * @uri /profile
      */

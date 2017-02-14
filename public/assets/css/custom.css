@@ -1780,11 +1780,28 @@ input.search-bar:-moz-placeholder { /* Firefox 18- */
 }
 
 .opt-plus {
-	background: url(../img/icon/plus_icon.png);
-	width: 15px;
-	height: 20px;
-	background-repeat: no-repeat;
-	background-position: center;
+	margin-top: -3px;
+	color: #a8adb2;
+	cursor:pointer;
+}
+
+.opt-plus.on {
+	color: #00907d;
+}
+
+.mg-auto .opt-plus {
+	margin-top: 17px;
+}
+
+.opt-plus:before {
+    content: "\f067";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+/*--adjust as necessary--*/
+ 
+    font-size: 19px;
 }
 
 .facebook_icon {
@@ -2378,7 +2395,7 @@ a.side-list-group-item, button.side-list-group-item {
 .pp-tabopt div .ico.opt-plus {
 	margin-right: -40px;
 	margin-left: 37px;
-	margin-top: -1px;
+	margin-top: -3px;
 }
 
 .pp-tabopt div.right, .pp-tabopt div.left {
@@ -3344,6 +3361,82 @@ a.side-list-group-item, button.side-list-group-item {
 	color: #fb634a !important;
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 600;
+}
+
+.navbar-fixed-bottom {
+	background: #fff;
+	-moz-box-shadow: 0 -2px 5px rgba(0,0,0,.5);
+	-ms-box-shadow: 0 -2px 5px rgba(0,0,0,.5);
+	-o-box-shadow: 0 -2px 5px rgba(0,0,0,.5);
+	box-shadow: 0 -2px 5px rgba(0,0,0,.5);
+}
+
+.remove {
+	position: absolute;
+	right: 5px;
+	background: red;
+	color: #fff;
+	top: 3px;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	-ms-border-radius: 50%;
+	width: 21px;
+	-o-border-radius: 50%;
+	border-radius: 50%;
+	text-align: center;
+	z-index: 1;
+}
+
+.remove {
+	cursor:pointer;
+}
+
+.remove:hover{
+	text-decoration: none;
+	color:#333;
+}
+
+.remove i {
+	width: 100%;
+	height: 100%;
+}	
+
+.item-com {
+	padding: 2px 30px;
+}
+
+.item-com .item-com-name {
+	color: #2a6496;
+	font-weight: bold;
+}
+
+.emp-compare {
+	text-align: center;
+	margin-top: 32px;
+	font-weight: bold;
+}
+
+.btn-wrap {
+	position: absolute;
+	width: 200px;
+	margin: auto;
+	height: 40px;
+	background: #fff;
+	-moz-box-shadow: 0 -2px 1px rgba(0,0,0,.5);
+	-ms-box-shadow: 0 -2px 1px rgba(0,0,0,.5);
+	-o-box-shadow: 0 -2px 1px rgba(0,0,0,.5);
+	box-shadow: 0 -2px 1px rgba(0,0,0,.5);
+	top: -40px;
+	right: 44%;
+	text-align: center;
+}
+
+.btn-wrap button {
+	width: 83%;
+	margin-top: 3px;
+	color: #fff;
+	font-weight: bold;
+	font-size: 19px;
 }
 
 @media (max-width: 767px) {

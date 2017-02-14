@@ -293,7 +293,7 @@ $this->import('/template/top-navbar');
 										</div>
 										<div class="room-type col-md-9 mgt15">
 											<a href="/property/<?=$unit['id'];?>"><?=$item['name'];?></a>
-											<div class="sub-title">Room No. <?=$unit['address_no'];?></div>
+											<!-- <div class="sub-title">Room No. <?=$unit['address_no'];?></div> -->
 										</div>
 									</td>
 									<td class="col-md-2">
@@ -314,7 +314,7 @@ $this->import('/template/top-navbar');
 									<td class="col-md-1 text-center">
 										<div class="mg-auto">
 											<div class="opt-fav col-md-6 mgt20" data-prop="<?=$unit['id'];?>"></div>
-											<div class="opt-plus col-md-6 mgt20"></div>
+											<div class="opt-plus col-md-6 mgt20" data-prop="<?=$unit['id'];?>"></div>
 										</div>
 									</td>
 									<td class="col-md-2">
@@ -383,7 +383,7 @@ $this->import('/template/top-navbar');
 										</div>
 										<div class="room-type col-md-9 mgt15">
 											<a href="/property/<?=$unit['id'];?>"><?=$item['name'];?></a>
-											<div class="sub-title">Room No. <?=$unit['address_no'];?></div>
+											<!-- <div class="sub-title">Room No. <?=$unit['address_no'];?></div> -->
 										</div>
 									</td>
 									<td class="col-md-2">
@@ -404,7 +404,7 @@ $this->import('/template/top-navbar');
 									<td class="col-md-1 text-center">
 										<div class="mg-auto">
 											<div class="opt-fav col-md-6 mgt20" data-prop="<?=$unit['id'];?>"></div>
-											<div class="opt-plus col-md-6 mgt20"></div>
+											<div class="opt-plus col-md-6 mgt20" data-prop="<?=$unit['id'];?>"></div>
 										</div>
 									</td>
 									<td class="col-md-2">

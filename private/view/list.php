@@ -16,8 +16,6 @@ $this->import('/template/top-navbar');
 
 <section id="listContainer" class="a_container">
 
-	
-	
 	<div class="listwrap">
 
 		<div id="heroContainer" class="col-md-4 fixed left0 hidden-xs hidden-sm">
@@ -394,8 +392,8 @@ $this->import('/template/top-navbar');
 											<div class="ppt-name" title="<?php echo $props['project']['name'];?>">
 												<?php echo $props['project']['name'];?>
 												<div class="pull-right text-right mgt5 hidden-sm hidden-md hidden-lg">
-													<div class="opt-plus pull-right"></div>
-													<div class="opt-fav pull-right mrgrl10"  data-prop="<?=$props['id'];?>"></div>
+													<div class="opt-plus pull-right" data-prop="<?=$props['id'];?>"></div>
+													<div class="opt-fav pull-right mrgrl10" data-prop="<?=$props['id'];?>"></div>
 												</div>
 											</div>
 											<?php
@@ -428,7 +426,7 @@ $this->import('/template/top-navbar');
 									<div class="pd-bottom hidden-xs">
 										<div class="pd-price col-xs-6">฿ <?php echo $price;?></div>
 										<div class="pd-opt col-xs-6 text-right">
-											<div class="opt-plus pull-right"></div>
+											<div class="opt-plus pull-right" data-prop="<?=$props['id'];?>"></div>
 											<div class="opt-fav pull-right mrgrl10" data-prop="<?=$props['id'];?>"></div>
 										</div>
 									</div>
@@ -492,6 +490,9 @@ $this->import('/template/top-navbar');
 	</div>
 
 </section>
+
+
+
 
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_mlBrkkojSUJnMjYKf00nhno1nlO9CCI"></script>

@@ -479,6 +479,36 @@ function chkfav()
 	});
 }
 
+function chkcomp()
+{
+	var $self = $(this);
+
+	$.post('/member/comp', { prop : $self.data('prop'), status : ! $self.hasClass('on')}, function(msg) {
+		if( msg == '1' )
+		{
+			$self.toggleClass('on');
+			$("#compare-panel").show();
+			$("#btn-go-compare").prop("disabled", false).addClass("btn-grn");
+		}
+		else if( msg == '3' )
+		{
+			$self.toggleClass('on');
+			$("#compare-panel").hide();
+		}
+		else
+		{
+			if( msg == '0' && confirm('Please login first')  )
+			{
+				window.location = '/member';
+			}
+			else
+			{
+				alert('max compare items is 4');
+			}
+		}
+	});
+}
+
 function chkfav_list()
 {
 	var $self = $(this);
@@ -519,6 +549,195 @@ function chkfav_list()
 			}
 		}
 	}, 'json');
+}
+
+function chkcompare_list()
+{
+	var $self = $(this);
+	
+	/*
+	$.post('/member/complist', { }, function(msg) {
+		if( msg.length )
+		{
+			var shtml = '';
+			$(msg).each(function(i, ob) {
+				shtml += '<div class="fv-item col-xs-12"><div class="col-xs-8 col-md-6">'+ob.project_name+'</div><div class="opt-fav col-xs-2 col-md-6" data-prop="'+ob.id+'"></div><div class="col-xs-2 col-md-3"><a href="/property/'+ob.id+'">link</a></div></div>';
+			});
+
+			$('#fv_list').html(shtml);
+			
+			if( typeof _fav != 'undefined' )
+			{
+				$('.opt-fav').each(function(i, el) {
+					if( typeof $(el).data('prop') != 'undefined' && _fav.indexOf( ''+$(el).data('prop') ) != -1 )
+					{
+						$(el).addClass('on');
+					}
+				});
+
+				$('.opt-fav').unbind().click(function () {
+	
+					chkfav.call(this);	
+					
+				});
+			}
+
+			$('#fav_list_model').modal('show');
+		}
+		else
+		{
+			if( confirm('Please login first') )
+			{
+				window.location = '/member';
+			}
+		}
+	}, 'json');
+	*/
+}
+
+function compare_modal()
+{
+
+}
+
+function setComparePanel()
+{
+	var i, b=1, tmp = $("#tmp_compare_sm_box"), html; 
+
+	$(".com-content").each(function(){
+		$(this).html("<div class='emp-compare'>Compare</div>").removeClass("active");
+	});
+
+	/*
+	for( i in compare_box )
+	{
+		html = tmp.html();
+		html = html.replace("#name#", compare_box[i].name + " " + compare_box[i].project.name );	
+		html = html.replace("#price#", $("#price_"+compare_box[i].reference_id).html().replace("<br>", ""));
+		html = html.replace("#id#", "com-bx-"+i);		
+
+		$("#com-b"+b).eq(0).html(html).addClass("active");
+
+		b++;
+	}
+
+	$("div[name=rm-com-box]").unbind().click(function(){
+
+		var id = $(this).attr("com-id").replace("com-bx-c", "");
+		
+		$("a[name=btn-compare][compare-id="+id+"]").removeClass("active");
+		delete compare_box["c"+id];
+
+		compare_items--;
+
+		setComparePanel();
+
+	});
+	
+	if( compare_items == 0 )
+	{
+		$("#compare-panel").hide();
+	}
+
+	if( compare_items > 1 )
+	{
+		$("#btn-go-compare").prop("disabled", false).addClass("btn-grn");
+	}
+	else
+	{
+		$("#btn-go-compare").prop("disabled", true).removeClass("btn-grn");
+	}
+	*/
+}
+
+function setCompareModel()
+{
+	var i,j=0, b=1, tmp = $("#tmp_compare_md_box"), html, locations, ind, ond; 
+
+	$(".md-content").each(function(){
+		$(this).html("<div class='md-emp-compare text-center'><button class='btn btn-danger'>เลือกกล่องเปรียบเทียบ</button></div>").removeClass("active");
+	});
+	
+	/*
+	for( i in compare_box )
+	{
+		locations = compare_box[i];
+
+		ind = '';
+		for( j in indoor )
+		{
+			if( typeof locations.project[j] != 'undefined' && locations.project[j] != 0 )
+			{
+				ind += indoor[j] + ", ";
+			}
+		}
+		
+		j = 0;
+		ond = '';
+		for( j in outdoor )
+		{
+			if( typeof locations.project[j] != 'undefined' && locations.project[j] != 0 )
+			{
+				ond += outdoor[j] + ", ";
+			}
+		}
+
+		html = tmp.html()
+			.replace("#title#", locations.property_type.name + " " + locations.requirement.name + " " + locations.project.name + " " + locations.road)
+			.replace("#id#", "com-bx-"+i)
+			.replace("#pic#", locations.picture.url)
+			.replace("#code#", locations.reference_id)
+			.replace("#bed#", locations.bedrooms || 0)
+			.replace("#bath#", locations.bathrooms || 0)
+			.replace("#floor#", locations.floors || 0)
+			.replace("#indoor#", ind)
+			.replace("#outdoor#", ond)
+			.replace("#unit#", size_unit[locations.size_unit_id])
+			.replace("#priceunit#", (locations.sell_price / locations.size).format(2))
+			.replace("#dsppunit#", ( (locations.sell_price == 0)? "none" : "" ) )
+			.replace("#size#", locations.size + " " + size_unit[locations.size_unit_id])
+			.replace("#price#", $("#price_"+locations.reference_id).html())
+			.replace(/#link#/g, $("#link_"+locations.reference_id).attr("href"))
+			.replace("#type#", locations.property_type.name_th);		
+
+		$("#mc-"+b).eq(0).html(html).addClass("active");
+
+		b++;
+	}
+
+	$("div[name=rm-com-box-md]").unbind().click(function() {
+
+		var id = $(this).attr("com-id").replace("com-bx-c", "");
+		
+		$("a[name=btn-compare][compare-id="+id+"]").removeClass("active");
+		delete compare_box["c"+id];
+
+		compare_items--;
+
+		setCompareModel();
+		setComparePanel();
+
+	});
+
+	$("div.md-emp-compare").unbind().click(function() {
+		$('#model-compare').modal('hide'); 
+	});
+	
+	if( compare_items == 0 )
+	{
+		$("#compare-panel").hide();
+		$('#model-compare').modal('hide'); 
+	}
+
+	if( compare_items > 1 )
+	{
+		$("#btn-go-compare").prop("disabled", false).addClass("btn-grn");
+	}
+	else
+	{
+		$("#btn-go-compare").prop("disabled", true).removeClass("btn-grn");
+	}
+	*/
 }
 
 function article_getcomment(cid, climit)
@@ -660,6 +879,12 @@ $(document).on("ready", function () {
 		
 	});
 
+	$('.opt-plus').click(function () {
+	
+		chkcomp.call(this);	
+		
+	});
+
 	$('.fav_list').click(function () {
 	
 		chkfav_list.call(this);	
@@ -675,6 +900,37 @@ $(document).on("ready", function () {
 			}
 		});
 	}
+
+	if( typeof _comp != 'undefined' )
+	{
+		$('.opt-plus').each(function(i, el) {
+			if( typeof $(el).data('prop') != 'undefined' && _comp.indexOf( ''+$(el).data('prop') ) != -1 )
+			{
+				$(el).addClass('on');
+			}
+		});
+		
+		setCompareModel();
+
+		if( _comp.length > 0 )
+		{
+			$("#compare-panel").show();
+			$("#btn-go-compare").prop("disabled", false).addClass("btn-grn");
+		}
+		else
+		{
+			$("#btn-go-compare").prop("disabled", true).removeClass("btn-grn");
+		}
+	}
+
+	$('#model-compare').on('shown.bs.modal', function (event) {
+		var button = $(event.relatedTarget) // Button that triggered the modal
+		var recipient = button.data('whatever') // Extract info from data-* attributes
+		
+		var modal = $(this);
+
+		setCompareModel();
+	});
 
 	$('.add_to_fav').click(function () {
 
@@ -736,10 +992,10 @@ $(document).on("ready", function () {
 
 				$('#fb-share-button').click(function() {
 					FB.ui({
-						display: 'popup',
-						method: 'share',
-						href: 'http://agent168th.com/editorial?topic='+recipient,
-					}, function(response){});
+                        display: 'popup',
+                        method: 'share',
+                        href: 'http://agent168th.com/editorial?topic=' + recipient,
+                    }, function(response) {});
 				});
 
 			}
