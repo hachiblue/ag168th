@@ -62,6 +62,30 @@ class EditorialCTL extends BaseCTL {
 
 		return new HtmlView('/template/layout', $pItems);
     }
+	
+	/**
+     * @GET
+	 * @uri /article
+     */
+    public function article ()
+    {
+		$params = $this->reqInfo->params();
+		$db = MedooFactory::getInstance();
+		
+		foreach( $params as &$va )
+		{
+			$va = filter_var($va, FILTER_SANITIZE_STRING);
+		}
+				
+		$article = $db->get('article', '*', ['id' => $params['id']]);
+
+		$article['icon'] = 'post_editorial_icon';
+		$article['date_post'] = date('d M Y', strtotime($article['created_at']));
+
+		$pItems = array('page' => 'article', 'act6' => 'act', 'article' => $article);
+
+		return new HtmlView('/template/layout', $pItems);
+    }
 
 	/**
      * @POST

@@ -210,9 +210,13 @@ $this->import('/template/top-navbar');
 							$i = $pag - 4;
 							$i = $i > 0? $i: 1;
 							$i = $i < $params["paging"]["pageLimit"]-7? $i: $params["paging"]["pageLimit"]-7;
-						}
 
-						$stop = $i + 8;
+							$stop = $i + 8;
+						}
+						else
+						{
+							$stop = $params["paging"]["pageLimit"] + 1;
+						}
 
 						?>
 						<div class="clearfix"></div>

@@ -101,6 +101,8 @@ $this->import('/template/top-navbar');
         <h4 class="modal-title pull-left" id="myModalLabel"><img src="img/icon/post_editorial_icon.png" alt=""></h4>
       </div>
       <div class="modal-body">
+
+
 		<div class="modal-headline mgt10"></div>
 		<div class="modal-datepost"><div class="bd-card-date modal-datepost"></div></div>
 		<div class="modal-picturepost mgt15">

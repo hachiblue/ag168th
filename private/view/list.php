@@ -185,6 +185,43 @@ $this->import('/template/top-navbar');
 													<input type="text" id="price-max" name="price-range-max" class="form-control" placeholder="No Max">
 												</div>	
 												<div class="row price-list">
+													
+													<?php
+													if( $_GET['requirement_id'] == 1 )
+													{
+														?>
+													<div class="col-xs-6 col-sm-6 lft">
+														<ul id="list-price-min" class="multi-column-dropdown price-selector">
+															<li data-price="1000000">฿ 1,000,000</li>
+															<li data-price="2000000">฿ 2,000,000</li>
+															<li data-price="3000000">฿ 3,000,000</li>
+															<li data-price="4000000">฿ 4,000,000</li>
+															<li data-price="5000000">฿ 5,000,000</li>
+															<li data-price="7000000">฿ 7,000,000</li>
+															<li data-price="10000000">฿ 10,000,000</li>
+															<li data-price="30000000">฿ 30,000,000</li>
+														</ul>
+													</div>
+													<div class="col-xs-6 col-sm-6 rit">
+														<ul id="list-price-max" class="multi-column-dropdown price-selector">
+															<li data-price="2000000">฿ 2,000,000</li>
+															<li data-price="3000000">฿ 3,000,000</li>
+															<li data-price="4000000">฿ 4,000,000</li>
+															<li data-price="5000000">฿ 5,000,000</li>
+															<li data-price="7000000">฿ 7,000,000</li>
+															<li data-price="10000000">฿ 10,000,000</li>
+															<li data-price="30000000">฿ 30,000,000</li>
+															<li data-price="100000000">฿ 100,000,000</li>
+														</ul>
+													</div>
+														<?php
+													}
+													?>
+
+													<?php
+													if( $_GET['requirement_id'] == 2 )
+													{
+														?>
 													<div class="col-xs-6 col-sm-6 lft">
 														<ul id="list-price-min" class="multi-column-dropdown price-selector">
 															<li data-price="10000">฿ 10,000</li>
@@ -209,6 +246,10 @@ $this->import('/template/top-navbar');
 															<li data-price="999999999999">฿ 100,000+</li>
 														</ul>
 													</div>
+													<?php
+													}
+														?>
+
 												</div>
 											</div>
 										</ul>
@@ -443,10 +484,13 @@ $this->import('/template/top-navbar');
 							$i = $pag - 4;
 							$i = $i > 0? $i: 1;
 							$i = $i < $params["paging"]["pageLimit"]-7? $i: $params["paging"]["pageLimit"]-7;
+
+							$stop = $i + 8;
 						}
-
-						$stop = $i + 8;
-
+						else
+						{
+							$stop = $params["paging"]["pageLimit"] + 1;
+						}
 						?>
 						<div class="clearfix"></div>
 						<div class="page-next text-center">

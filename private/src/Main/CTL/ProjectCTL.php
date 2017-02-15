@@ -35,7 +35,7 @@ class ProjectCTL extends BaseCTL {
 		$item = $db->get("project", "*", ["id"=> $id]);
 		$this->_buildItem($item);
 
-		$item['av_unit'] = $db->count('property', ['and' => ['web_status'=>'1', 'project_id'=>$item['id']]]);
+		$item['av_unit'] = $db->count('property', ['and' => ['property_status_id'=>'1', 'web_status'=>'1', 'project_id'=>$item['id']]]);
 		
 		$this->_buildAZone($zone);
 		$this->_buildBTS($bts);
@@ -87,8 +87,8 @@ class ProjectCTL extends BaseCTL {
     public function _buildUnit(&$item)
     {
 		$db = MedooFactory::getInstance();
-		$item['unit']['sale'] = $db->select("property", "*", ["AND" => ["project_id"=> $item['id'], "requirement_id"=>"1"]]);
-		$item['unit']['rent'] = $db->select("property", "*", ["AND" => ["project_id"=> $item['id'], "requirement_id"=>"2"]]);
+		$item['unit']['sale'] = $db->select("property", "*", ["AND" => ["project_id"=> $item['id'],"property_status_id"=>"1", "requirement_id"=>"1", "web_status"=>"1"]]);
+		$item['unit']['rent'] = $db->select("property", "*", ["AND" => ["project_id"=> $item['id'],"property_status_id"=>"1", "requirement_id"=>"2", "web_status"=>"1"]]);
 		
 		foreach( $item['unit']['sale'] as &$sale )
 		{

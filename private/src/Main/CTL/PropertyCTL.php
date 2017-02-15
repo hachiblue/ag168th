@@ -42,7 +42,7 @@ class PropertyCTL extends BaseCTL {
 		if( $item['requirement_id'] == 2 ) $act = 'act3';
 		
 
-		$stmt = $db->pdo->prepare(' select * from property where project_id = :project_id order by rand() limit 6');
+		$stmt = $db->pdo->prepare(' select * from property where project_id = :project_id  and property_status_id = 1 and web_status = 1 order by rand() limit 6');
 		$stmt->execute(array(':project_id' => $item['project_id']));
 		$similar = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 		foreach( $similar as $i => $sim )

@@ -6,6 +6,14 @@ $this->import('/template/top-navbar');
 
 <section id="postEnquiryContainer" class="a_container">
 
+<div class="lyp-banner">
+	<div class="lyp-head">
+		<div class="lyp-head-logo"></div>
+		<div class="lyp-head-txt">Register Enquiry</div>
+	</div>
+	<span class="overlayLowlight overlayBG overlayFull"></span>
+</div>
+
 <div class="container">
 
 	<div class="mgt25 hidden-xs hidden-sm">

@@ -522,6 +522,14 @@ class memberCTL extends BaseCTL {
 		{
 			$va = filter_var($va, FILTER_SANITIZE_STRING);
 		}
+
+		if( empty($_SESSION['member']['phone']) || empty($_SESSION['member']['name']) )
+		{
+			$res['success'] = false;
+			$res['error'] = 'Please fulfill your profile';
+			echo json_encode($res);
+			return false;
+		}
 		
 		if( isset($params['daterequest']) && !empty($params['daterequest']) )
 		{
@@ -615,6 +623,14 @@ class memberCTL extends BaseCTL {
 			$va = filter_var($va, FILTER_SANITIZE_STRING);
 		}
 		
+		if( empty($_SESSION['member']['phone']) || empty($_SESSION['member']['name']) )
+		{
+			$res['success'] = false;
+			$res['error'] = 'Please fulfill your profile';
+			echo json_encode($res);
+			return false;
+		}
+
 		$comment = ' จาก website ' . $params['comment'];
 
 		if( $res['success'] === true )
