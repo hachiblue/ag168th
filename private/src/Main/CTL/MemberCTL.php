@@ -17,6 +17,7 @@ use Main\Helper\ArrayHelper;
 use Main\ThirdParty\Xcrud\Xcrud;
 use Main\DB\Medoo\MedooFactory;
 use Main\Helper\ResponseHelper;
+use Main\Helper\URL;
 
 /**
  * @Restful
@@ -264,11 +265,20 @@ class memberCTL extends BaseCTL {
 	{
 		$db = MedooFactory::getInstance();
 			
-		if( isset($_SESSION['member']) )
+		if( isset($_SESSION['member']) && isset($_SESSION['comp']) )
 		{
-			$fav = explode(',', $_SESSION['member']['fav_property']);
+			$comp = $_SESSION['comp'];
 
-			$property = $db->select('property', [ "[><]project" => ["project_id" => "id"] ], ['property.id', 'project.name(project_name)'], ['property.id'=>$fav]);
+			$property = $db->select('property', [ "[><]project" => ["project_id" => "id"] ], ['property.*', 'project.name(project_name)'], ['property.id'=>$comp]);
+			
+			foreach( $property as &$prop )
+			{
+				$prop['project'] = $db->get('project', '*', ['id'=>$prop['project_id']]);
+				$prop['property_type'] = $db->get('property_type', '*', ['id'=>$prop['property_type_id']]);
+				$prop['requirement'] = $db->get('requirement', '*', ['id'=>$prop['requirement_id']]);
+
+				$this->_buildThumb($prop);
+			}
 
 			echo json_encode($property);
 		}
@@ -276,6 +286,47 @@ class memberCTL extends BaseCTL {
 		{
 			echo json_encode(array());
 		}
+	}
+	
+	public function _buildThumb(&$item)
+    {
+		$db = MedooFactory::getInstance();
+
+		$pic = $db->get("property_image", "*", ["property_id"=> $item['id']]);
+
+		if(empty($pic))
+		{
+			$pic = array();
+			$path = 'public/project_pic/'.$item['project']['image_path'];
+			if( isset($item['project']['image_path']) && !empty($item['project']['image_path']) && $this->is_file_exists( $path ) ) 
+			{
+				$pic['url'] = URL::absolute("/".$path);
+			}
+			else 
+			{
+				$pic['url'] = URL::absolute("/public/assets/default-project.jpg");
+			}
+		}
+		else 
+		{
+			if( !empty($pic['name']) && $this->is_file_exists( "public/prop_pic/".$pic['name'] ) ) 
+			{
+				$pic['url'] = URL::absolute("/public/prop_pic/".$pic['name']);
+			}
+			else 
+			{
+				$pic['url'] = URL::absolute("/public/assets/default-project.jpg");
+			}
+		}
+
+		$item['picture'] = $pic;
+    }
+
+	function is_file_exists($filePath)
+	{ 
+		$root = realpath($_SERVER["DOCUMENT_ROOT"]) . '/';
+
+		return is_file($root.$filePath) && file_exists($root.$filePath);
 	}
 
 	/**

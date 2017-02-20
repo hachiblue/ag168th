@@ -1173,8 +1173,8 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$route',
 
         if (form.room_type_id == 1 && ( form.bedrooms == '' || (form.bathrooms == '' || form.bathrooms == 0)))
         {
-            alert("Studio need Bed Room and Bath Room");
-            return false;
+            //alert("Studio need Bed Room and Bath Room");
+            //return false;
         }
 
         if (!window.confirm('Are you sure?')) return;

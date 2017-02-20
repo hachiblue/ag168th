@@ -3439,6 +3439,35 @@ a.side-list-group-item, button.side-list-group-item {
 	font-size: 19px;
 }
 
+.comp-title {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 600;
+	font-size: 19px;
+}
+
+.item-list-type-room {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 600;
+}
+
+.item-list {
+	background: #fff;
+    padding: 20px;
+}
+
+.item-list-type-room div {
+	padding: 10px 0px;
+}
+
+.item-list-type-room div .pull-right {
+	font-weight: 500;
+}
+
+.item-name a {
+	font-weight: bold;
+	color: #00907d;
+}
+
 @media (max-width: 767px) {
 	.dropdown-menu.multi-column {
 		min-width: 240px !important;

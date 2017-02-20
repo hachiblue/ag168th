@@ -68,7 +68,7 @@
 					<script type="text/javascript">
 					<!--
 						var _fav = <?=json_encode(explode(',', $_SESSION['member']['fav_property']));?>;
-						var _comp = <?=json_encode($_SESSION['comp']);?>;
+						var _comp = <?=(isset($_SESSION['comp']))? json_encode($_SESSION['comp']) : "[]";?>;
 					//-->
 					</script>
 				</li>

@@ -74,7 +74,7 @@ $this->import('/template/top-navbar');
 			foreach( $article as $i => $topic )
 			{
 				?>
-				<div class="bd-card grid-item" data-toggle="modal" data-target="#articleModel" data-article_id="<?=$i;?>">
+				<div class="bd-card grid-item" data-toggle="modal" data-target="#articleModel" data-article_id="<?=$topic['id'];?>">
 					<div class="bd-card-img"><img src="<?php echo \Main\Helper\URL::absolute("/public/article_pic/".$topic['image_path'])?>" alt=""></div>
 					<div class="editorial_icon"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/".$topic['icon'].".png")?>" alt=""></div>
 					<div class="bd-card-title"><?=(empty($topic['description']))? $topic['name'] : $topic['description'];?></div>

@@ -304,7 +304,7 @@ function geoCallback(prop)
 	var price = 0;
 	var geoCB = function(results, status) {
 		
-		if( null !== prop.sell_price )
+		if( null !== prop.sell_price && 0 != prop.sell_price )
 		{
 			price = prop.sell_price;
 		}
@@ -655,57 +655,96 @@ function setCompareModel()
 {
 	var i,j=0, b=1, tmp = $("#tmp_compare_md_box"), html, locations, ind, ond; 
 
-	$(".md-content").each(function(){
-		$(this).html("<div class='md-emp-compare text-center'><button class='btn btn-danger'>เลือกกล่องเปรียบเทียบ</button></div>").removeClass("active");
+	$(".md-content").each(function() {
+		$(this).html("<div class='md-emp-compare text-center'><button class='btn btn-grn'>เลือกกล่องเปรียบเทียบ</button></div>").removeClass("active");
 	});
 	
-	/*
-	for( i in compare_box )
-	{
-		locations = compare_box[i];
 
-		ind = '';
-		for( j in indoor )
+	$.post('/member/complist', { items : _comp }, function( compare_box ) {
+		
+		for( i in compare_box )
 		{
-			if( typeof locations.project[j] != 'undefined' && locations.project[j] != 0 )
+			locations = compare_box[i];
+
+			ind = '';
+			for( j in indoor )
 			{
-				ind += indoor[j] + ", ";
+				if( typeof locations.project[j] != 'undefined' && locations.project[j] != 0 )
+				{
+					ind += indoor[j] + ", ";
+				}
 			}
+			
+			j = 0;
+			ond = '';
+			for( j in outdoor )
+			{
+				if( typeof locations.project[j] != 'undefined' && locations.project[j] != 0 )
+				{
+					ond += outdoor[j] + ", ";
+				}
+			}
+
+			html = tmp.html()
+				.replace("#title#", locations.property_type.name + " " + locations.requirement.name + " " + locations.project.name + " " + locations.road)
+				.replace("#id#", "com-bx-"+i)
+				.replace("#pic#", locations.picture.url)
+				.replace(/#code#/g, locations.reference_id)
+				.replace("#bed#", locations.bedrooms || 0)
+				.replace("#bath#", locations.bathrooms || 0)
+				.replace("#floor#", locations.floors || 0)
+				.replace("#indoor#", ind)
+				.replace("#outdoor#", ond)
+				.replace("#unit#", size_unit[locations.size_unit_id])
+				.replace("#priceunit#", (locations.sell_price / locations.size).format(2))
+				.replace("#dsppunit#", ( (locations.sell_price == 0)? "none" : "" ) )
+				.replace("#size#", locations.size + " " + size_unit[locations.size_unit_id])
+				.replace(/#price#/g, $("#price_"+locations.reference_id).html())
+				.replace(/#link#/g, $("#link_"+locations.reference_id).attr("href"))
+				.replace("#type#", locations.property_type.name_th);		
+
+			$("#mc-"+b).eq(0).html(html).addClass("active");
+
+			b++;
+		}
+
+	}, 'json');
+
+
+	$("div.md-emp-compare").unbind().click(function() {
+		$('#model-compare').modal('hide'); 
+	});
+
+	
+	$("div[name=rm-com-box-md]").unbind().click(function() {
+		console.log('ssdf');
+		var id = $(this).attr("com-id").replace("com-bx-c", "");
+			
+		var seq = 0, i, del_id = '';
+		for( i in _comp )
+		{
+			if( seq == id )
+			{
+				del_id = i;
+				delete _comp[i];
+				break;
+			}
+
+			seq++;
 		}
 		
-		j = 0;
-		ond = '';
-		for( j in outdoor )
-		{
-			if( typeof locations.project[j] != 'undefined' && locations.project[j] != 0 )
-			{
-				ond += outdoor[j] + ", ";
-			}
-		}
+		console.log(del_id);
 
-		html = tmp.html()
-			.replace("#title#", locations.property_type.name + " " + locations.requirement.name + " " + locations.project.name + " " + locations.road)
-			.replace("#id#", "com-bx-"+i)
-			.replace("#pic#", locations.picture.url)
-			.replace("#code#", locations.reference_id)
-			.replace("#bed#", locations.bedrooms || 0)
-			.replace("#bath#", locations.bathrooms || 0)
-			.replace("#floor#", locations.floors || 0)
-			.replace("#indoor#", ind)
-			.replace("#outdoor#", ond)
-			.replace("#unit#", size_unit[locations.size_unit_id])
-			.replace("#priceunit#", (locations.sell_price / locations.size).format(2))
-			.replace("#dsppunit#", ( (locations.sell_price == 0)? "none" : "" ) )
-			.replace("#size#", locations.size + " " + size_unit[locations.size_unit_id])
-			.replace("#price#", $("#price_"+locations.reference_id).html())
-			.replace(/#link#/g, $("#link_"+locations.reference_id).attr("href"))
-			.replace("#type#", locations.property_type.name_th);		
+		/*
+		$.post('/member/comp', { prop : $self.data('prop'), status : false }, function(msg) {
 
-		$("#mc-"+b).eq(0).html(html).addClass("active");
+			
+		});
+		*/
 
-		b++;
-	}
+	});
 
+	/*
 	$("div[name=rm-com-box-md]").unbind().click(function() {
 
 		var id = $(this).attr("com-id").replace("com-bx-c", "");
@@ -999,7 +1038,7 @@ $(document).on("ready", function () {
 						quote: article[recipient].name,
 						picture: 'http://agent168th.com/public/article_pic/'+article[recipient].image_path,
 						caption: article[recipient].description,
-                        href: 'http://agent168th.com/editorial?topic=' + recipient,
+                        href: 'http://agent168th.com/editorial?topic=' + article[recipient].id,
                     }, function(response) {});
 				});
 

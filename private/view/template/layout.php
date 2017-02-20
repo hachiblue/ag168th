@@ -156,18 +156,18 @@
 				</div>
 				<div class="item-room clearfix">
 					<div class="col-sm-12" style="padding:0;">Indoor amenities</div>
-					<div class="pull-left"><a class="item-type-name">#indoor#</a></div>
+					<div class="pull-left">#indoor#</div>
 				</div>
 				<div class="item-room clearfix">
 					<div class="col-sm-12" style="padding:0;">Outdoor amenities</div>
-					<div class="pull-left"><a class="item-type-name">#outdoor#</a></div>
+					<div class="pull-left">#outdoor#</div>
 				</div>
-			   <div class="item-price text-red">
+			   <!-- <div class="item-price text-red">
 					<a id="link_#code#" href="#link#">
 						<button type="button" class="btn btn-primary pull-right">Detail</button>
 					</a>
 					<span id="price_#code#">#price#<br> </span>
-				</div>
+				</div> -->
 			</li>
 		</ul>
 	</div>
@@ -177,7 +177,9 @@
 	<div class="modal-dialog modal-lg" style="width: 88%;">
 		<div class="modal-content" style="background: #eee;">
 			<div class="modal-header"> 
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button> <h4 class="modal-title" id="myLargeModalLabel">Property Comparer</h4> 
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">×</span></button> 
+				<div class="modal-title comp-title" id="myLargeModalLabel">Property Comparer</div> 
 			</div>
 			
 			<div class="modal-body" style="padding-top:0px;">
@@ -204,6 +206,40 @@
 	</div>
 </div>
 
+<?php
+
+$indoor = array(
+	"has_bowling" => "Bowline",
+	"has_pool_room" => "Pool Room",
+	"has_game_room" => "Game Room",
+	"has_meeting_room" => "Meeting Room",
+	"has_private_butler" => "Private Butler",
+	"has_minimart_supermarket" => "Minimart Supermarket",
+	"has_restaurant" => "Restaurant",
+	"has_laundry_service" => "Laundry Servic",
+	"has_bathtub_inside_unit" => "Bathtub Inside Unit"
+);
+
+$outdoor = array(
+	"has_swimming_pool" => "Swimming Pool",
+	"has_gym" => "Gym",
+	"has_garden" => "Garden",
+	"has_futsal" => "Futsal",
+	"has_badminton" => "Badminton",
+	"has_basketball" => "Basketball",
+	"has_tennis" => "Tennis",
+	"has_playground" => "Playground",
+	"has_shuttle_bus" => "Shuttle Bus",
+	"has_private_parking" => "Private Parking"
+);
+
+$size_unit = array(
+	"1" => "Sq. m.",
+	"2" => "Sq. wa.",
+	"3" => "Rai"
+);
+
+?>
 <div id="fb-root"></div>
 <g:plus action="share"></g:plus>
 
@@ -216,6 +252,10 @@
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 <script>
+
+var indoor = <?=json_encode($indoor);?>;
+var outdoor = <?=json_encode($outdoor);?>;
+var size_unit = <?=json_encode($size_unit);?>;
 
 window.fbAsyncInit = function() {
 	FB.init({

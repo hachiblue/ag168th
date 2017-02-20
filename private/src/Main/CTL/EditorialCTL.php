@@ -52,13 +52,17 @@ class EditorialCTL extends BaseCTL {
 
 		$article = $db->select('article', '*', $where);
 		//print_r($db->log());
+
+		$article_idxs = array();
 		foreach( $article as &$topic )
 		{
 			$topic['icon'] = 'post_editorial_icon';
 			$topic['date_post'] = date('d M Y', strtotime($topic['created_at']));
+
+			$article_idxs[$topic['id']] = $topic;
 		}
 		
-		$pItems = array('page' => 'editorial', 'act6' => 'act', 'article' => $article);
+		$pItems = array('page' => 'editorial', 'act6' => 'act', 'article' => $article_idxs);
 
 		return new HtmlView('/template/layout', $pItems);
     }
