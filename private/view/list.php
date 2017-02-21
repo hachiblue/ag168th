@@ -63,7 +63,18 @@ $this->import('/template/top-navbar');
 
 									<div class="btn-group search-prod">
 										<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-											<span data-bind="label" id="searchLabel" class="dsp_drop_txt">Zone</span>  
+											<?php
+											$zone_name = '';
+											if( isset($_GET["zone_id"]) && !empty($_GET["zone_id"]) )
+											{
+												foreach( $zone['zone'] as $z )
+												{
+													$zone_name = $z['name'];
+													if( $z['id'] == $_GET["zone_id"] ) break;
+												}
+											}
+											?>
+											<span data-bind="label" id="searchLabel" class="dsp_drop_txt"><?=(isset($_GET["zone_id"]) && !empty($_GET["zone_id"]))? $zone_name : 'Zone';?></span>  
 											<span class="caret"></span>
 										</button>
 										<input type="hidden" id="zone_id" name="zone_id" value="<?=(isset($_GET["zone_id"]))? $_GET["zone_id"] : '';?>" class="btn_value">
@@ -87,7 +98,18 @@ $this->import('/template/top-navbar');
 								<div class="inp_contain">
 									<div class="btn-group search-prod">
 										<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-											<span data-bind="label" id="searchLabel" class="dsp_drop_txt">BTS</span>  
+											<?php
+											$bts_name = '';
+											if( isset($_GET["bts_id"]) && !empty($_GET["bts_id"]) )
+											{
+												foreach( $bts['bts'] as $z )
+												{
+													$bts_name = $z['name'];
+													if( $z['id'] == $_GET["bts_id"] ) break;
+												}
+											}
+											?>
+											<span data-bind="label" id="searchLabel" class="dsp_drop_txt"><?=(isset($_GET["bts_id"]) && !empty($_GET["bts_id"]))? $bts_name : 'BTS';?></span>  
 											<span class="caret"></span>
 										</button>
 										<input type="hidden" id="bts_id" name="bts_id" value="<?=(isset($_GET["bts_id"]))? $_GET["bts_id"] : '';?>" class="btn_value">
@@ -110,7 +132,18 @@ $this->import('/template/top-navbar');
 								<div class="inp_contain">
 									<div class="btn-group search-prod">
 										<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-											<span data-bind="label" id="searchLabel" class="dsp_drop_txt">MRT</span>  
+											<?php
+											$mrt_name = '';
+											if( isset($_GET["mrt_id"]) && !empty($_GET["mrt_id"]) )
+											{
+												foreach( $mrt['mrt'] as $z )
+												{
+													$mrt_name = $z['name'];
+													if( $z['id'] == $_GET["mrt_id"] ) break;
+												}
+											}
+											?>
+											<span data-bind="label" id="searchLabel" class="dsp_drop_txt"><?=(isset($_GET["mrt_id"]) && !empty($_GET["mrt_id"]))? $mrt_name : 'MRT';?></span>  
 											<span class="caret"></span>
 										</button>
 										<input type="hidden" id="mrt_id" name="mrt_id" value="<?=(isset($_GET["mrt_id"]))? $_GET["mrt_id"] : '';?>" class="btn_value">
@@ -173,16 +206,34 @@ $this->import('/template/top-navbar');
 								<div class="inp_contain">
 									<div class="btn-group search-prod dropdown keep-open">
 										<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-											<span data-bind="label" id="price-range-dsp">All Price</span>  
+											<?php
+											$txtPrice = 'All Price';
+											if( (isset($_GET['price-range-min']) && !empty($_GET['price-range-min'])) ||
+												(isset($_GET['price-range-max']) && !empty($_GET['price-range-max'])) )
+											{
+												$txt_min = !empty($_GET['price-range-min']) ? $_GET['price-range-min'] : 0;
+												$txt_max = !empty($_GET['price-range-max']) ? $_GET['price-range-max'] : 0;
+
+												$txtPrice = thinkprice($txt_min) . ' - ' . thinkprice($txt_max);
+											}
+
+											function thinkprice($price)
+											{
+												$divine = ( $price < 1000000 ) ? 10000 : 1000000;
+												$unit = ( $price < 1000000 ) ? 'k' : 'm';
+												return ( $price / $divine ) . $unit;
+											}
+											?>
+											<span data-bind="label" id="price-range-dsp"><?=$txtPrice;?></span>  
 											<span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu multi-column columns-2x right_column">
 											<div id="row-pricemn">
 												<div class="col-md-6 drop-input_length pdr5">
-													<input type="text" id="price-min" name="price-range-min" class="form-control" placeholder="No Min">
+													<input type="text" id="price-min" name="price-range-min" value="<?=(isset($_GET["price-range-min"]))? $_GET["price-range-min"] : '';?>" class="form-control" placeholder="No Min">
 												</div>	
 												<div class="col-md-6 drop-input_length pdl5">
-													<input type="text" id="price-max" name="price-range-max" class="form-control" placeholder="No Max">
+													<input type="text" id="price-max" name="price-range-max" value="<?=(isset($_GET["price-range-max"]))? $_GET["price-range-max"] : '';?>" class="form-control" placeholder="No Max">
 												</div>	
 												<div class="row price-list">
 													

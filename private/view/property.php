@@ -510,8 +510,20 @@ $req_txt = strtoupper($item['requirement']['name']);
 					<div class="clearfix"></div>
 			</div>			
 			
-			
-			<div class="row_enq pp-projectinfo pdt10 mgt25">
+			<div class="mgt25 text-center">
+				<?php
+				if( !empty($item['project']['from_bts']) && !empty($item['project']['bts']['name']) )
+				{
+					echo $item['project']['from_bts'] . ' m from BTS ' . $item['project']['bts']['name'] . ' ';
+				}
+
+				if( !empty($item['project']['from_mrt']) && !empty($item['project']['mrt']['name']) )
+				{
+					echo $item['project']['from_mrt'] . ' m from MRT ' . $item['project']['mrt']['name'];
+				}
+				?>
+			</div>
+			<div class="row_enq pp-projectinfo pdt10">
 				<div class="box-map">
 					<img src="https://maps.googleapis.com/maps/api/staticmap?center=<?=$item['project']['address'];?>&markers=color:blue|<?=$item['project']['address'];?>&zoom=16&size=400x200&key=AIzaSyB_mlBrkkojSUJnMjYKf00nhno1nlO9CCI" class="img-responsive" alt="">
 

@@ -30,7 +30,7 @@ $this->import('/template/top-navbar');
 				<div class="bullet_1 flol mgt5"></div>
 				<div class="flol mgl10  col-xs-10 no_padd">
 					<div class="header-main">Contact Information</div>
-					<div class="header-sub">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint ea temporibus dolores.	</div>
+					<!-- <div class="header-sub">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint ea temporibus dolores.	</div> -->
 				</div>	
 			</div>
 
@@ -59,7 +59,7 @@ $this->import('/template/top-navbar');
 				<div class="bullet_2 flol mgt5"></div>
 				<div class="flol mgl10 col-xs-10 no_padd">
 					<div class="header-main">Contact Information</div>
-					<div class="header-sub">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint ea temporibus dolores.	</div>
+					<!-- <div class="header-sub">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint ea temporibus dolores.	</div> -->
 				</div>	
 			</div>
 

@@ -56,7 +56,15 @@ class EditorialCTL extends BaseCTL {
 		$article_idxs = array();
 		foreach( $article as &$topic )
 		{
-			$topic['icon'] = 'post_editorial_icon';
+			if( $topic['topic_id'] == 2 )
+			{
+				$topic['icon'] = 'post_topic_icon';
+			}
+			else
+			{
+				$topic['icon'] = 'post_editorial_icon';
+			}
+
 			$topic['date_post'] = date('d M Y', strtotime($topic['created_at']));
 
 			$article_idxs[$topic['id']] = $topic;

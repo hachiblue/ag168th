@@ -771,13 +771,14 @@ input.search-bar:-moz-placeholder { /* Firefox 18- */
 
 .btn-group.search-prod button .caret {
 	background: url(../img/icon/dropdown_icon.png);
-	position: relative;
+	position: absolute;
     border: none;
     float: right;
     padding: 0px 4px;
     margin-top: 9px;
     width: 5px;
     height: 5px;
+    right: 12px;
 }
 
 .search-board {
@@ -1397,13 +1398,14 @@ input.search-bar:-moz-placeholder { /* Firefox 18- */
 
 .btn-group.search-prod_pj button .caret {
     background: url(../img/icon/dropdown_icon_org.png);
-    position: relative;
+    position: absolute;
     border: none;
     float: right;
     padding: 0px 4px;
     margin-top: 9px;
     width: 5px;
     height: 5px;
+    right: 12px;
 }
 
 .btn-group.search-prod_pj button {

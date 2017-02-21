@@ -180,7 +180,10 @@ MAILCONTENT;
 		$db = MedooFactory::getInstance();
 		$project = $db->get("project", "*", ["id"=> $id]);
 
-		$project['av_unit'] = $db->count('property', ['and' => ['web_status'=>'1', 'project_id'=>$project['id']]]);
+		$project['av_unit'] = $db->count('property', ['and' => ['web_status'=>'1', 'project_id'=>$project['id'], 'property_status_id'=>'1']]);
+
+		$project['bts'] = $db->get("bts", "*", ["id"=> $project['bts_id']]);
+		$project['mrt'] = $db->get("mrt", "*", ["id"=> $project['mrt_id']]);
 
 		if($project) 
 		{

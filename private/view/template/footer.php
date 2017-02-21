@@ -105,12 +105,12 @@ $popular = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 					<div class="list-sitemap">
 						<div class="stitle">Prime Location</div>
 						<ul class="lst mgt10">
-							<li>Sukhumvit </li>
-							<li>Sathorn</li>
-							<li>Silom</li>
-							<li>Ratchada</li>
-							<li>Riverside</li>
-							<li class="vw_all"><a href="">View All <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></li>
+							<li><a href="/list_project?zone=Sukhumvit">Sukhumvit</a></li>
+							<li><a href="/list_project?zone=Sathorn">Sathorn</a></li>
+							<li><a href="/list_project?zone=Silom">Silom</a></li>
+							<li><a href="/list_project?zone=Ratchada">Ratchada</a></li>
+							<li><a href="/list_project?zone=Riverside">Riverside</a></li>
+							<li class="vw_all"><a href="/list_project">View All <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
 				</div>
@@ -119,10 +119,10 @@ $popular = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 					<div class="list-sitemap">
 						<div class="stitle">Province</div>
 						<ul class="lst mgt10">
-							<li>Pattaya</li>
-							<li>Hua Hin</li>
-							<li>Chiang Mai</li>
-							<li class="vw_all"><a href="">View All <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></li>
+							<li><a href="/list_project?province_id=12">Pattaya</a></li>
+							<li><a href="/list_project?province_id=62">Hua Hin</a></li>
+							<li><a href="/list_project?province_id=38">Chiang Mai</a></li>
+							<li class="vw_all"><a href="/list_project">View All <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></li>
 						</ul>
 					</div>
 				</div>
