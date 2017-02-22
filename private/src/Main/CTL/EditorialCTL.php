@@ -64,6 +64,10 @@ class EditorialCTL extends BaseCTL {
 			{
 				$topic['icon'] = 'post_editorial_icon';
 			}
+			
+			$topic['total_comment'] = $db->count("article_comment", [
+				"article_id" => $topic['id']
+			]);
 
 			$topic['date_post'] = date('d M Y', strtotime($topic['created_at']));
 

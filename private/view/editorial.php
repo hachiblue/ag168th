@@ -78,7 +78,9 @@ $this->import('/template/top-navbar');
 					<div class="bd-card-img"><img src="<?php echo \Main\Helper\URL::absolute("/public/article_pic/".$topic['image_path'])?>" alt=""></div>
 					<div class="editorial_icon"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/".$topic['icon'].".png")?>" alt=""></div>
 					<div class="bd-card-title"><?=(empty($topic['description']))? $topic['name'] : $topic['description'];?></div>
-					<div class="bd-card-date"><?=$topic['date_post'];?></div>
+					<div class="bd-card-date col-xs-6 col-md-6"><?=$topic['date_post'];?></div>
+					<div class="bd-comment text-right col-xs-6 col-md-6 mgt10"><?=$topic['total_comment'];?> comments</div>
+					<div class="clearfix"></div>
 				</div>
 				<?php
 			}

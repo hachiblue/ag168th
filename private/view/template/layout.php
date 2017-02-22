@@ -109,7 +109,7 @@
 </div>
 
 <div id="tmp_compare_md_box" style="display:none;">
-	<div name="rm-com-box-md" com-id="#id#" class="remove">
+	<div name="rm-com-box-md" com-id="#id#" data-dprop="#propid#" class="remove">
 		<i class="glyphicon glyphicon-minus" aria-hidden="true"></i>
 	</div>
 	<div class="item-list">

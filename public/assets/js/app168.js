@@ -203,7 +203,7 @@ $(window).scroll(_.throttle(function() {
 		&& page != 'list_your_property' && page != 'investment_property'  
 		&& page != 'investment_project'  && page != 'investment' && page != 'registeryourproperty' 
 		&& page != 'member' && page != 'profile' && page != 'post_enquiry' && page != 'post_property'
-		&& page != 'editorial' && page != 'article' )
+		&& page != 'editorial' && page != 'article' && page != 'highlight' )
 	{
 		if( ! isMobile ) x() && g(l) ? m() : !x() && v() && S();
 	}
@@ -695,6 +695,7 @@ function setCompareModel()
 				.replace("#floor#", locations.floors || 0)
 				.replace("#indoor#", ind)
 				.replace("#outdoor#", ond)
+				.replace("#propid#", locations.id)
 				.replace("#unit#", size_unit[locations.size_unit_id])
 				.replace("#priceunit#", (locations.sell_price / locations.size).format(2))
 				.replace("#dsppunit#", ( (locations.sell_price == 0)? "none" : "" ) )
@@ -707,6 +708,48 @@ function setCompareModel()
 
 			b++;
 		}
+		
+		$("div[name=rm-com-box-md]").unbind().click(function() {
+			
+			var $this = $(this);
+			var id = $this.attr("com-id").replace("com-bx-c", "");
+			var prop_id = $this.data('dprop');
+
+			var seq = 0, i, del_id = '';
+			for( i in _comp )
+			{
+				if( seq == id )
+				{
+					del_id = i;
+					delete _comp[i];
+					break;
+				}
+
+				seq++;
+			}
+					
+			$.post('/member/comp', { prop : prop_id, status : false }, function(msg) {
+			
+				var $self = $('.opt-plus[data-prop='+prop_id+']');
+				if( msg == '1' )
+				{
+					$self.toggleClass('on');
+					$("#compare-panel").show();
+					$("#btn-go-compare").prop("disabled", false).addClass("btn-grn");
+				}
+				else if( msg == '3' )
+				{
+					$self.toggleClass('on');
+					$("#compare-panel").hide();
+				}
+
+				$this.parents('.md-content').html('<div class="md-emp-compare text-center"><button class="btn btn-grn">เลือกกล่องเปรียบเทียบ</button></div>');
+				$("div.md-emp-compare").unbind().click(function() {
+					$('#model-compare').modal('hide'); 
+				});
+			});
+		
+		});
 
 	}, 'json');
 
@@ -716,33 +759,7 @@ function setCompareModel()
 	});
 
 	
-	$("div[name=rm-com-box-md]").unbind().click(function() {
-		console.log('ssdf');
-		var id = $(this).attr("com-id").replace("com-bx-c", "");
-			
-		var seq = 0, i, del_id = '';
-		for( i in _comp )
-		{
-			if( seq == id )
-			{
-				del_id = i;
-				delete _comp[i];
-				break;
-			}
-
-			seq++;
-		}
-		
-		console.log(del_id);
-
-		/*
-		$.post('/member/comp', { prop : $self.data('prop'), status : false }, function(msg) {
-
-			
-		});
-		*/
-
-	});
+	
 
 	/*
 	$("div[name=rm-com-box-md]").unbind().click(function() {

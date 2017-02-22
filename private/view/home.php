@@ -73,7 +73,7 @@ $this->import('/template/top-navbar');
 
 			<div class="box <?=$mgt;?>">
 				<div class="headline">
-					<div class="mt20"><?=$tp['name'];?>
+					<div class="mt20"><a href="/home/highlight?id=<?=$tp['id'];?>"><?=$tp['name'];?></a>
 						<!-- <div class="mt-5"><small>Lorem ipsum dolor sit amet, consectetur adipisicing.</small></div> -->
 					</div>
 				</div>

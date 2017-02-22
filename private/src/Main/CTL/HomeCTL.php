@@ -53,6 +53,35 @@ class HomeCTL extends BaseCTL {
 		return new HtmlView('/template/layout', $pItems);
 	}
 
+	/**
+	 * @GET
+	 * @uri /highlight
+	 */
+	public function highlight ()
+	{
+		$params = $this->reqInfo->params();
+		$db = MedooFactory::getInstance();
+		
+		$pItems = array('page' => 'highlight', 'act1' => 'act');
+		
+		$sql = " select id, name from wm_topic where id=:id limit 1";
+		$stmt = $db->pdo->prepare($sql);
+		$stmt->bindParam(':id', $params['id'], \PDO::PARAM_INT);
+		$stmt->execute();
+		$items = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		foreach( $items as &$prop )
+		{
+			$this->_buildTopic($prop);
+		}
+
+		$pItems['topics'] = $items;
+
+		unset($items);
+
+		return new HtmlView('/template/layout', $pItems);
+	}
+
+
     public function _buildItems(&$items)
     {
 		foreach($items as &$item) 
@@ -68,7 +97,7 @@ class HomeCTL extends BaseCTL {
 	{
 		$db = MedooFactory::getInstance();
 
-		$sql = " select p.*, IF(p.sell_price=0, p.rent_price, p.sell_price) AS price from wm_property wm, property p where p.reference_id = wm.property_reference_id AND p.web_status = 1 AND wm.wm_topic_id = '".$item['id']."' order by rand() limit 5";
+		$sql = " select p.*, IF(p.sell_price=0, p.rent_price, p.sell_price) AS price from wm_property wm, property p where p.reference_id = wm.property_reference_id AND p.web_status = 1 AND wm.wm_topic_id = '".$item['id']."' order by rand() ";
 		$stmt = $db->pdo->prepare($sql);
 		$stmt->execute();
 		$item['property'] = $stmt->fetchAll(\PDO::FETCH_ASSOC);
