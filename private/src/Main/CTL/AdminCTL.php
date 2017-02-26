@@ -26,31 +26,38 @@ class AdminCTL extends BaseCTL {
     /**
      * @GET
      */
-    public function index () {
-      if(empty($_SESSION['login'])) {
-        return new RedirectView(URL::absolute('/admin/login'));
-      }
-      // return new HtmlView('/admin/index');
-      return new RedirectView(URL::absolute('/admin/enquiries'));
+    public function index () 
+	{
+		if(empty($_SESSION['login'])) 
+		{
+			return new RedirectView(URL::absolute('/admin/login'));
+		}
+		// return new HtmlView('/admin/index');
+
+		return new RedirectView(URL::absolute('/admin/enquiries'));
     }
 
     /**
      * @GET
      * @uri /login
      */
-    public function getLogin () {
-      unset($_SESSION['login']);
-        return new HtmlView('/admin/login');
+    public function getLogin () 
+	{
+		unset($_SESSION['login']);
+		return new HtmlView('/admin/login');
     }
 
     /**
      * @GET
      * @uri /project/[:id]/images
      */
-    public function projectImages () {
-        if(empty($_SESSION['login'])) {
-          return new RedirectView(URL::absolute('/admin/login'));
-        }
+    public function projectImages () 
+	{
+		if(empty($_SESSION['login'])) 
+		{
+			return new RedirectView(URL::absolute('/admin/login'));
+		}
+
         $id = $this->reqInfo->urlParam("id");
         $db = MedooFactory::getInstance();
         $pqCount = $db->count("request_contact", "*", ["status_id"=> 1]);
@@ -61,10 +68,13 @@ class AdminCTL extends BaseCTL {
      * @GET
      * @uri /[a:view]
      */
-    public function indexView () {
-        if(empty($_SESSION['login'])) {
-          return new RedirectView(URL::absolute('/admin/login'));
+    public function indexView () 
+	{
+        if(empty($_SESSION['login'])) 
+		{
+			return new RedirectView(URL::absolute('/admin/login'));
         }
+
         $view = $this->reqInfo->urlParam("view");
         $db = MedooFactory::getInstance();
 
@@ -93,7 +103,7 @@ class AdminCTL extends BaseCTL {
         $exCount = $db->count("property", "*", $where);
         //$exCount = $db->last_query();
 
-        return new HtmlView('/admin/index', array("view"=>$view, "pqCount"=> $pqCount, "exCount"=> $exCount));
+        return new HtmlView('/admin/index', array("view" => $view, "pqCount" => $pqCount, "exCount" => $exCount));
     }
 
 	   /**

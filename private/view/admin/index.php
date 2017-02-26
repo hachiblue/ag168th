@@ -155,6 +155,8 @@ $this->import("/admin/layout/header");
 
                 <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/reportuser') ?>"><i class="fa fa-user-secret fa-3"></i> Report User</a></li>
 
+                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/report#/sale') ?>"><i class="fa fa-user-secret fa-3"></i> Report Sale</a></li>
+
                 <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/article') ?>"><i class="fa fa-user-secret fa-3"></i> Article</a></li>
                 <?php }?>
                 <?php if($_SESSION['login']['level_id'] == 1 ||

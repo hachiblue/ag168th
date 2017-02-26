@@ -1,93 +1,90 @@
 <?php session_start();?>
+
 <div ng-controller="ListCTL">
-  <form ng-submit="getProps(1)">
-       
-    <div class="row">
 
+	<form ng-submit="getProps(1)">
+		   
+		<div class="row">
+		  <div class="col-md-3 form-group">
+				<label class="control-label">User</label>
+				<div>
+				  <select class="form-control"
+				  ng-model="form.account_comment_id"
+				  ng-options="item.aid*1 as item.aname for item in gmessages.groupcomment.data"
+				  >
+				  <option value="">All</option>
+				</select>
+				</div>
+			</div>
 
-      <div class="col-md-3 form-group">
-            <label class="control-label">User</label>
-            <div>
-              <select class="form-control"
-              ng-model="form.account_comment_id"
-              ng-options="item.aid*1 as item.aname for item in gmessages.groupcomment.data"
-              >
-              <option value="">All</option>
-            </select>
-            </div>
-        </div>
+			<div class="col-md-3 form-group">
+				<label class="control-label">Report Type</label>
+				<div>
+				  <select class="form-control"
+				  ng-model="form.report_type"
+				  >
+				  <option value="property" selected>Property</option>
+				  <option value="enquiry">Enquiry</option>
+				  <option value="phonerequest">Phone Request</option>
+				</select>
+				</div>
+			</div>
+		</div>
 
-        <div class="col-md-3 form-group">
-            <label class="control-label">Report Type</label>
-            <div>
-              <select class="form-control"
-              ng-model="form.report_type"
-              >
-              <option value="property" selected>Property</option>
-              <option value="enquiry">Enquiry</option>
-              <option value="phonerequest">Phone Request</option>
-            </select>
-            </div>
-        </div>
+		<div class="row">
+		  <div class="col-md-3 el-custom-1">
+			<label>User Updated start</label>
+			<input type="text" class="form-control" ng-model="form.user_updated_at_start"
+			id="user_updated_at_start">
+		  </div>
+		  <div class="col-md-3 el-custom-1">
+			<label>User Updated end</label>
+			<input type="text" class="form-control" ng-model="form.user_updated_at_end"
+			id="user_updated_at_end">
+		  </div>
+		</div>
 
-    </div>
+		<div class="row">
+		  <div class="col-md-2 el-custom-1">
+			<label>Order By</label>
+			<select ng-model="form.orderBy" ng-init="form.orderBy='property.updated_at'" class="form-control">
+				<option value="property.updated_at">Updated at</option>
+				<option value="property.created_at">Created at</option>
+				<option value="property.reference_id">Reference ID</option>
+				<!-- <option value="property.rented_expire">Rent expire</option> -->
+				<option value="project.name">Project name</option>
+				<!-- <option value="property.sell_price">Sell price</option>  -->
+				<!-- <option value="property.rent_price">Rent price</option> -->
+				<!-- <option value="property.size">Size</option> -->
+			</select>
+		  </div>
+		  <div class="col-md-2 el-custom-1">
+			<label></label>
+			<select ng-model="form.orderType" ng-init="form.orderType='DESC'" class="form-control">
+				<option value="DESC">max -> min</option>
+				<option value="ASC">min -> max</option>
+			</select>
+		  </div>
+		</div>
 
-    <div class="row">
-      <div class="col-md-3 el-custom-1">
-        <label>User Updated start</label>
-        <input type="text" class="form-control" ng-model="form.user_updated_at_start"
-        id="user_updated_at_start">
-      </div>
-      <div class="col-md-3 el-custom-1">
-        <label>User Updated end</label>
-        <input type="text" class="form-control" ng-model="form.user_updated_at_end"
-        id="user_updated_at_end">
-      </div>
-    </div>
+		<div class="row">
+		  <div class="col-md-6"></div>
+		</div>
 
+		<div class="row">
 
-    <div class="row">
-      <div class="col-md-2 el-custom-1">
-        <label>Order By</label>
-        <select ng-model="form.orderBy" ng-init="form.orderBy='property.updated_at'" class="form-control">
-            <option value="property.updated_at">Updated at</option>
-            <option value="property.created_at">Created at</option>
-            <option value="property.reference_id">Reference ID</option>
-            <!-- <option value="property.rented_expire">Rent expire</option> -->
-            <option value="project.name">Project name</option>
-            <!-- <option value="property.sell_price">Sell price</option>  -->
-            <!-- <option value="property.rent_price">Rent price</option> -->
-            <!-- <option value="property.size">Size</option> -->
-        </select>
-      </div>
-      <div class="col-md-2 el-custom-1">
-        <label></label>
-        <select ng-model="form.orderType" ng-init="form.orderType='DESC'" class="form-control">
-            <option value="DESC">max -> min</option>
-            <option value="ASC">min -> max</option>
-        </select>
-      </div>
-    </div>
+			<div class="col-md-6">
+				<button type="submit" class="btn btn-success">Search</button>
+				<button type="reset" class="btn btn-success">Reset</button>
+				<span ng-if="isShowTotal()">Search total: {{props.total}} item</span>
+			</div>
 
-    <div class="row">
-      <div class="col-md-6"></div>
-    </div>
-    <div class="row">
+			<div class="col-md-6 text-right">
+				<button class="btn btn-primary" ng-click="get_reportuser()">Report User</button>
+			</div>
+		</div>
 
-        <div class="col-md-6">
-            <button type="submit" class="btn btn-success">Search</button>
-            <button type="reset" class="btn btn-success">Reset</button>
-            <span ng-if="isShowTotal()">Search total: {{props.total}} item</span>
-        </div>
-
-        <div class="col-md-6 text-right">
-            <button class="btn btn-primary" ng-click="get_reportuser()">Report User</button>
-        </div>
-
-    </div>
-  </form>
-
-
+	</form>
 
     <table class="table table-striped table-hover ">
       <thead>
@@ -124,6 +121,7 @@
       </tr>
       </tbody>
     </table>
+
     <div>
       <ul class="pagination">
         <li>
@@ -165,16 +163,22 @@
         </li>
       </ul>
     </div>
-</div>
-<script>
-$(function(){
-  $.fn.datepicker.defaults.format = "yyyy-mm-dd";
-  $('#created_at_start').datepicker();
-  $('#created_at_end').datepicker();
-  $('#updated_at_start').datepicker();
-  $('#updated_at_end').datepicker();
 
-  $('#user_updated_at_start').datepicker();
-  $('#user_updated_at_end').datepicker();
+</div>
+
+<script>
+
+$(function() {
+
+	$.fn.datepicker.defaults.format = "yyyy-mm-dd";
+	$('#created_at_start').datepicker();
+	$('#created_at_end').datepicker();
+	$('#updated_at_start').datepicker();
+	$('#updated_at_end').datepicker();
+
+	$('#user_updated_at_start').datepicker();
+	$('#user_updated_at_end').datepicker();
+
 });
+
 </script>

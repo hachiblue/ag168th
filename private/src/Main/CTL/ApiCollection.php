@@ -165,6 +165,19 @@ class ApiCollection extends BaseCTL {
 
       return $collection;
     }
+
+	/**
+     * @GET
+     * @uri /saleprofile
+     */
+    public function sale_acc()
+    {
+		$db = MedooFactory::getInstance();
+		$collection = [];
+		$collection['data'] = $db->select("account", "*", ['level_id' => 4]);
+
+		return $collection;
+    }
 	
 	/**
      * @GET
