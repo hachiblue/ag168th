@@ -39,17 +39,17 @@ $this->import('/template/top-navbar');
 			<div class="row mgt30">
 				<div class="form-group col-md-4">
 					<label for="name">Name</label>
-					<input type="text" class="form-control" id="name" placeholder="Your Name" required>
+					<input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required>
 				</div>
 
 				<div class="form-group col-md-4">
 					<label for="phone">Phone Number</label>
-					<input type="text" class="form-control" id="phone" placeholder="Phone Number" required>
+					<input type="text" class="form-control" id="phone" name="phone_number" placeholder="Phone Number" required>
 				</div>
 
 				<div class="form-group col-md-4">
 					<label for="email">Email</label>
-					<input type="email" class="form-control" id="email" placeholder="Your Email" required>
+					<input type="email" class="form-control" id="email" name="email" placeholder="Your Email" required>
 				</div>
 			</div>
 
