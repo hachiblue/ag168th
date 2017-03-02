@@ -15,6 +15,32 @@ div.day-number		{ background:#999; padding:5px; color:#fff; font-weight:bold; fl
 /* shared */
 td.calendar-day, td.calendar-day-np { width:120px; padding:5px; border-bottom:1px solid #999; border-right:1px solid #999; }
 
+.dialogdemoBasicUsage #popupContainer {
+  position: relative; }
+
+.dialogdemoBasicUsage .footer {
+  width: 100%;
+  text-align: center;
+  margin-left: 20px; }
+
+.dialogdemoBasicUsage .footer, .dialogdemoBasicUsage .footer > code {
+  font-size: 0.8em;
+  margin-top: 50px; }
+
+.dialogdemoBasicUsage button {
+  width: 200px; }
+
+.dialogdemoBasicUsage div#status {
+  color: #c60008; }
+
+.dialogdemoBasicUsage .dialog-demo-prerendered md-checkbox {
+  margin-bottom: 0; }
+
+md-backdrop{
+	position: fixed !important;
+	background-color: #333 !important;
+}
+
 </style>
 
 <div ng-controller="IndexCTL">

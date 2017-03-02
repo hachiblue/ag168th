@@ -3,7 +3,7 @@
 session_start();
 
 ?>
-<form ng-submit="submit()" ng-controller="AddCTL" id="form-edit-prop" layout="column" ng-cloak class="md-inline-form" ng-show="initSuccess">
+<form ng-submit="submit()" ng-controller="EditCTL" id="form-edit-prop" layout="column" ng-cloak class="md-inline-form" ng-show="initSuccess">
 
 	<md-content layout-padding>
 		<div>
@@ -202,10 +202,9 @@ session_start();
 			<!-- <button class="btn btn-primary">Save</button> -->
 			<a class="btn btn-info" href="#/">Back</a>
 			<button type="submit" class="btn btn-primary">Save</button>
+			<button type="button" class="btn btn-danger" ng-click="remove(form.id)">Delete</button>
 		</div>
 
 	</md-content>
 
 </form>
-
-
