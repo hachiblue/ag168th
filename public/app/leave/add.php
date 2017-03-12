@@ -32,6 +32,18 @@ session_start();
 				</md-input-container>
 
 			</div>
+			
+			<div layout-gt-sm="row">
+
+				<div>
+					<md-input-container class="md-block" flex>
+						<md-checkbox name="tos" ng-model="form.late_flag" ng-true-value="'y'" ng-false-value="'n'" style="margin: 4px 0 18px;">
+							มาสาย
+						</md-checkbox>
+					</md-input-container>
+				</div>
+
+			</div>
 
 			<div layout-gt-sm="row">
 
@@ -43,24 +55,63 @@ session_start();
 					</md-input-container>
 				</div>
 
-				<md-input-container flex>
+				<md-input-container>
 					<label>วันที่ลา</label>
 					<md-datepicker ng-model="form.rqshift_date"></md-datepicker>
 				</md-input-container>
-
-				<md-input-container class="md-block" flex>
+				
+				<md-input-container class="md-block">
 					<label>ตั้งแต่เวลา (น.)</label>
-					<input type="time" ng-model="form.rqshift_from_tm">
+					<md-select ng-model="form.f_hours">
+						<md-option ng-repeat="hour in hours" value="{{hour}}">
+							{{hour}}
+						</md-option>
+					</md-select>
 				</md-input-container>
 
-				<md-input-container class="md-block" flex>
+				<md-input-container class="md-block">
+					<label>นาที</label>
+					<md-select ng-model="form.f_minutes">
+						<md-option ng-repeat="minute in minutes" value="{{minute}}">
+							{{minute}}
+						</md-option>
+					</md-select>
+				</md-input-container>
+
+				<md-input-container class="md-block">
 					<label>ถึงเวลา (น.)</label>
-					<input type="time" ng-model="form.rqshift_to_tm">
+					<md-select ng-model="form.t_hours">
+						<md-option ng-repeat="hour in hours" value="{{hour}}">
+							{{hour}}
+						</md-option>
+					</md-select>
 				</md-input-container>
 
-				<md-input-container class="md-block" flex>
+				<md-input-container class="md-block">
+					<label>นาที</label>
+					<md-select ng-model="form.t_minutes">
+						<md-option ng-repeat="minute in minutes" value="{{minute}}">
+							{{minute}}
+						</md-option>
+					</md-select>
+				</md-input-container>
+
+				<md-input-container class="md-block">
 					<label>รวมเป็นเวลา</label>
-					<input type="time" ng-model="form.rqshift_leave_total_tm">
+					<md-select ng-model="form.total_time_hours">
+						<md-option ng-repeat="hour in hours" value="{{hour}}">
+							{{hour}}
+						</md-option>
+					</md-select>
+				</md-input-container>
+
+				<md-input-container class="md-block">
+					<label>นาที</label>
+					<md-select ng-model="form.total_time_minutes">
+						<md-option ng-repeat="minute in minutes" value="{{minute}}">
+							{{minute}}
+						</md-option>
+					</md-select>
 				</md-input-container>
 
 			</div>
@@ -75,17 +126,17 @@ session_start();
 					</md-input-container>
 				</div>
 
-				<md-input-container flex>
+				<md-input-container>
 					<label>ตั้งแต่วันที่</label>
 					<md-datepicker ng-model="form.rqperiod_from_date"></md-datepicker>
 				</md-input-container>
 
-				<md-input-container flex>
+				<md-input-container>
 					<label>ถึงวันที่</label>
 					<md-datepicker ng-model="form.rqperiod_to_date"></md-datepicker>
 				</md-input-container>
 
-				<md-input-container class="md-block" flex>
+				<md-input-container class="md-block">
 					<label>รวมเป็นเวลา (วัน)</label>
 					<input ng-model="form.rqperiod_total_day">
 				</md-input-container>
@@ -114,11 +165,13 @@ session_start();
 							</td>
 							<td>
 								<md-input-container class="md-block">
+									<label></label>
 									<textarea ng-model="form.lv_vacation_reason" md-maxlength="150" rows="4" md-select-on-focus></textarea>
 								</md-input-container>
 							</td>
 							<td style="width: 250px;">
 								<md-input-container class="md-block">
+									<label></label>
 									<textarea ng-model="form.lv_vacation_ps" md-maxlength="50" rows="4" md-select-on-focus></textarea>
 								</md-input-container>
 							</td>
@@ -135,11 +188,13 @@ session_start();
 							</td>
 							<td>
 								<md-input-container class="md-block">
+									<label></label>
 									<textarea ng-model="form.lv_personal_reason" md-maxlength="150" rows="4" md-select-on-focus></textarea>
 								</md-input-container>
 							</td>
 							<td style="width: 250px;">
 								<md-input-container class="md-block">
+									<label></label>
 									<textarea ng-model="form.lv_personal_ps" md-maxlength="50" rows="4" md-select-on-focus></textarea>
 								</md-input-container>
 							</td>
@@ -156,11 +211,13 @@ session_start();
 							</td>
 							<td>
 								<md-input-container class="md-block">
+									<label></label>
 									<textarea ng-model="form.lv_sick_reason" md-maxlength="150" rows="4" md-select-on-focus></textarea>
 								</md-input-container>
 							</td>
 							<td style="width: 250px;">
 								<md-input-container class="md-block">
+									<label></label>
 									<textarea ng-model="form.lv_sick_ps" md-maxlength="50" rows="4" md-select-on-focus></textarea>
 								</md-input-container>
 							</td>
@@ -181,11 +238,13 @@ session_start();
 							</td>
 							<td>
 								<md-input-container class="md-block">
+									<label></label>
 									<textarea ng-model="form.lv_etc_reason" md-maxlength="150" rows="4" md-select-on-focus></textarea>
 								</md-input-container>
 							</td>
 							<td style="width: 250px;">
 								<md-input-container class="md-block">
+									<label></label>
 									<textarea ng-model="form.lv_etc_ps" md-maxlength="50" rows="4" md-select-on-focus></textarea>
 								</md-input-container>
 							</td>
@@ -202,6 +261,7 @@ session_start();
 			<!-- <button class="btn btn-primary">Save</button> -->
 			<a class="btn btn-info" href="#/">Back</a>
 			<button type="submit" class="btn btn-primary">Save</button>
+			<button type="button" class="btn btn-danger" ng-click="remove(form.id)">Delete</button>
 		</div>
 
 	</md-content>

@@ -4,10 +4,9 @@ var app = angular.module('leave-app', ['ngRoute', 'angular-loading-bar', 'localy
 app.config(['$routeProvider', 'cfpLoadingBarProvider', '$mdDateLocaleProvider',
     function ($routeProvider, cfpLoadingBarProvider, $mdDateLocaleProvider)
     {
-		
-		$mdDateLocaleProvider.formatDate = function(date) {
-			return moment(date).format('YYYY-MM-DD');
-		};
+		//$mdDateLocaleProvider.formatDate = function(date) {
+			//return moment(date).format('YYYY-MM-DD');
+		//};
 
         $routeProvider.
         when('/',
@@ -121,30 +120,36 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         $scope.collection = data;
 		
 		var i;
-		var acc = $scope.collection.account;
+		var acc = $scope.collection.lv_account;
 		var strAcc = '';
-
 		for( i in acc )
 		{
 			strAcc += acc[i].name + '#' + acc[i].id + '|';
 		}
-
 		$scope.accounts = (strAcc.slice(0, -1)).split('|').map(function(state) {
 			var states = state.split('#');
 			return {abbrev: states[0], va: states[1]};
 		});
 
-		$scope.levels = ('System Admin#1|Admin#2|Manager#3|Sale#4').split('|').map(function(state) {
+		var j;
+		var lev = $scope.collection.levels;
+		var strlev = '';
+		for( j in lev )
+		{
+			strlev += lev[j].name + '#' + lev[j].id + '|';
+		}
+		$scope.levels = (strlev.slice(0, -1)).split('|').map(function(state) {
 			var states = state.split('#');
 			return {abbrev: states[0], va: states[1]};
 		});
 
+		$scope.hours = getHours();
+		$scope.minutes = getMinutes();	
     });
 
 	
 	$scope.submit = function ()
-    {
-		
+    {	
 		if( $scope.form.account_id === undefined || $scope.form.account_id == '' )
 		{
 			alert('Need Name');
@@ -161,7 +166,56 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
 		$scope.form.rqperiod_to_date = typeof $scope.form.rqperiod_to_date == 'object' ? getDate( $scope.form.rqperiod_to_date ) : '';
 		$scope.form.rqshift_date = typeof $scope.form.rqshift_date == 'object' ? getDate( $scope.form.rqshift_date ) : '';
 
-		//$scope.form.rqshift_from_tm = typeof $scope.form.rqshift_from_tm == 'object' ? getDate( $scope.form.rqshift_from_tm ) : '';
+		/**
+		 * rqshift_from_tm
+		 */
+		var h = '00';
+		var m = '00';
+		if( typeof $scope.form.f_hours != 'undefined' ) 
+		{
+			h = $scope.form.f_hours;
+		}
+		
+		if( typeof $scope.form.f_minutes != 'undefined' ) 
+		{
+			m = $scope.form.f_minutes;
+		}
+
+		$scope.form.rqshift_from_tm = h + ':' + m;
+
+		/**
+		 * rqshift_to_tm
+		 */
+		h = '00';
+		if( typeof $scope.form.t_hours != 'undefined' ) 
+		{
+			h = $scope.form.t_hours;
+		}
+		
+		m = '00';
+		if( typeof $scope.form.t_minutes != 'undefined' ) 
+		{
+			m = $scope.form.t_minutes;
+		}
+
+		$scope.form.rqshift_to_tm = h + ':' + m;
+
+		/**
+		 * rqshift_leave_total_tm
+		 */
+		h = '00';
+		if( typeof $scope.form.total_time_hours != 'undefined' ) 
+		{
+			h = $scope.form.total_time_hours;
+		}
+		
+		m = '00';
+		if( typeof $scope.form.total_time_minutes != 'undefined' ) 
+		{
+			m = $scope.form.total_time_minutes;
+		}
+
+		$scope.form.rqshift_leave_total_tm = h + ':' + m;
 
         $.post("../api/leave", $scope.form, function (data)
         {
@@ -177,39 +231,6 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         }, 'json');
     };
 
-	function getDate(date)
-	{
-		if( date === null ) return '';
-
-		var dd = date.getDate();
-		var mm = date.getMonth() + 1; //January is 0!
-
-		var yyyy = date.getFullYear();
-		if (dd < 10)
-		{
-			dd = '0' + dd;
-		}
-		if (mm < 10)
-		{
-			mm = '0' + mm;
-		}
-		return yyyy + '-' + mm + '-' + dd;
-	}
-	
-	function setDate(date)
-	{
-		//2017-02-22
-
-		if( date == '0000-00-00' ) return '';
-
-		var dt1   = parseInt(date.substr(8,2));
-		var mon1  = parseInt(date.substr(5,2));
-		var yr1   = parseInt(date.substr(0,4));
-		var date1 = new Date(yr1, mon1-1, dt1);
-
-		return date1;
-	}
-
     window.s = $scope;
 
     //$.fn.datepicker.defaults.format = "yyyy-mm-dd";
@@ -219,6 +240,8 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
 app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$routeParams', function ($scope, $compile, $http, $location, $routeParams) {
 	
 	$scope.form = {};
+	$scope.minutes = [];
+	$scope.hours = [];
 
     $scope.isSaving = false;
     $scope.initSuccess = true;
@@ -228,7 +251,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$routePa
         $scope.collection = data;
 		
 		var i;
-		var acc = $scope.collection.account;
+		var acc = $scope.collection.lv_account;
 		var strAcc = '';
 
 		for( i in acc )
@@ -241,12 +264,21 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$routePa
 			return {abbrev: states[0], va: states[1]};
 		});
 
-		$scope.levels = ('System Admin#1|Admin#2|Manager#3|Sale#4').split('|').map(function(state) {
+		var j;
+		var lev = $scope.collection.levels;
+		var strlev = '';
+		for( j in lev )
+		{
+			strlev += lev[j].name + '#' + lev[j].id + '|';
+		}
+		$scope.levels = (strlev.slice(0, -1)).split('|').map(function(state) {
 			var states = state.split('#');
 			return {abbrev: states[0], va: states[1]};
 		});
 
-    });
+		$scope.hours = getHours();
+		$scope.minutes = getMinutes();	
+	});
 
 	function getLeaveData()
 	{
@@ -255,6 +287,14 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$routePa
 			data.rqperiod_from_date = setDate( data.rqperiod_from_date );
 			data.rqperiod_to_date = setDate( data.rqperiod_to_date );
 			data.rqshift_date = setDate( data.rqshift_date );
+			
+
+			data.f_hours = setHours( data.rqshift_from_tm );
+			data.t_hours = setHours(data.rqshift_to_tm );
+			data.total_time_hours = setHours( data.rqshift_leave_total_tm );
+			data.f_minutes = setMinutes( data.rqshift_from_tm );
+			data.t_minutes = setMinutes( data.rqshift_to_tm );
+			data.total_time_minutes = setMinutes( data.rqshift_leave_total_tm );
 
             $scope.form = data;
         });
@@ -262,7 +302,6 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$routePa
 
     $scope.submit = function ()
     {
-		
 		if( $scope.form.account_id === undefined || $scope.form.account_id == '' )
 		{
 			alert('Need Name');
@@ -278,8 +317,59 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$routePa
 		$scope.form.rqperiod_from_date = typeof $scope.form.rqperiod_from_date == 'object' ? getDate( $scope.form.rqperiod_from_date ) : '';
 		$scope.form.rqperiod_to_date = typeof $scope.form.rqperiod_to_date == 'object' ? getDate( $scope.form.rqperiod_to_date ) : '';
 		$scope.form.rqshift_date = typeof $scope.form.rqshift_date == 'object' ? getDate( $scope.form.rqshift_date ) : '';
+		
+		/**
+		 * rqshift_from_tm
+		 */
+		var h = '00';
+		var m = '00';
+		if( typeof $scope.form.f_hours != 'undefined' ) 
+		{
+			h = $scope.form.f_hours;
+		}
+		
+		if( typeof $scope.form.f_minutes != 'undefined' ) 
+		{
+			m = $scope.form.f_minutes;
+		}
 
-		//$scope.form.rqshift_from_tm = typeof $scope.form.rqshift_from_tm == 'object' ? getDate( $scope.form.rqshift_from_tm ) : '';
+		$scope.form.rqshift_from_tm = h + ':' + m;
+
+		/**
+		 * rqshift_to_tm
+		 */
+		h = '00';
+		if( typeof $scope.form.t_hours != 'undefined' ) 
+		{
+			h = $scope.form.t_hours;
+		}
+		
+		m = '00';
+		if( typeof $scope.form.t_minutes != 'undefined' ) 
+		{
+			m = $scope.form.t_minutes;
+		}
+
+		$scope.form.rqshift_to_tm = h + ':' + m;
+
+		/**
+		 * rqshift_leave_total_tm
+		 */
+		h = '00';
+		if( typeof $scope.form.total_time_hours != 'undefined' ) 
+		{
+			h = $scope.form.total_time_hours;
+		}
+		
+		m = '00';
+		if( typeof $scope.form.total_time_minutes != 'undefined' ) 
+		{
+			m = $scope.form.total_time_minutes;
+		}
+
+		$scope.form.rqshift_leave_total_tm = h + ':' + m;
+
+
 
         $.post("../api/leave/edit/" + $routeParams.id, $scope.form, function (data)
         {
@@ -315,41 +405,96 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$routePa
         });
     };
 
-	function getDate(date)
-	{
-		if( date === null ) return '';
-
-		var dd = date.getDate();
-		var mm = date.getMonth() + 1; //January is 0!
-
-		var yyyy = date.getFullYear();
-		if (dd < 10)
-		{
-			dd = '0' + dd;
-		}
-		if (mm < 10)
-		{
-			mm = '0' + mm;
-		}
-		return yyyy + '-' + mm + '-' + dd;
-	}
-	
-	function setDate(date)
-	{
-		//2017-02-22
-
-		if( date == '0000-00-00' ) return '';
-
-		var dt1   = parseInt(date.substr(8,2));
-		var mon1  = parseInt(date.substr(5,2));
-		var yr1   = parseInt(date.substr(0,4));
-		var date1 = new Date(yr1, mon1-1, dt1);
-
-		return date1;
-	}
-	
 	getLeaveData();
 
     window.s = $scope;
-
 }]);
+
+
+
+function getDate(date)
+{
+	if( date === null ) return '';
+
+	var dd = date.getDate();
+	var mm = date.getMonth() + 1; //January is 0!
+
+	var yyyy = date.getFullYear();
+	if (dd < 10)
+	{
+		dd = '0' + dd;
+	}
+	if (mm < 10)
+	{
+		mm = '0' + mm;
+	}
+	return yyyy + '-' + mm + '-' + dd;
+}
+
+function setDate(date)
+{
+	//2017-02-22
+
+	if( date == '0000-00-00' ) return '';
+
+	var dt1   = parseInt(date.substr(8,2));
+	var mon1  = parseInt(date.substr(5,2));
+	var yr1   = parseInt(date.substr(0,4));
+	var date1 = new Date(yr1, mon1-1, dt1);
+
+	return date1;
+}
+
+function getHours()
+{
+	var hours = [], h = 0, hh;
+	while( h <= 24 )
+	{
+		if( h < 10 )
+		{
+			hh = '0' + h;
+		}
+		else
+		{
+			hh = '' + h;
+		}
+
+		hours.push(hh);
+		h++;
+	}
+
+	return hours;
+}
+
+function getMinutes()
+{
+	var minutes = [], m = 0, mm;
+	while( m <= 59 )
+	{
+		if( m < 10 )
+		{
+			mm = '0' + m;
+		}
+		else
+		{
+			mm = '' + m;
+		}
+
+		minutes.push(mm);
+		m++;
+	}
+
+	return minutes;
+}
+
+function setHours(tm)
+{
+	var tm = tm.split(':');
+	return tm[0];
+}
+
+function setMinutes(tm)
+{
+	var tm = tm.split(':');
+	return tm[1];
+}

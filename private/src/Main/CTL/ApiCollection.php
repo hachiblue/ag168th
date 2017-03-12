@@ -112,6 +112,35 @@ class ApiCollection extends BaseCTL {
         ];
         $collection['account'] = $db->select("account", "*", $where);
 
+		/** leave collection */
+		if( $_SESSION['login']['level']['id'] == 4 )
+		{
+			$where = [
+			  "account.id" => $_SESSION['login']['id']
+			];
+		}
+		else
+		{
+			$where = [
+			  "account.id[!]" => array(4, 10, 11, 14, 15, 17),
+			  "ORDER"=> 'account.name'
+			];
+		}
+        $collection['lv_account'] = $db->select("account", "*", $where);
+
+		/** levels collection */
+		if( $_SESSION['login']['level']['id'] == 4 )
+		{
+			$where = [
+			  "level.id" => $_SESSION['login']['level']['id']
+			];
+		}
+		else
+		{
+			$where = [];
+		}
+        $collection['levels'] = $db->select("level", "*", $where);
+
 
         $db = MedooFactory::getInstance();
         $sql = " SELECT * FROM enquiry_status WHERE id NOT IN(2, 8, 11) ORDER BY (CASE id

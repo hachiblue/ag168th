@@ -51,8 +51,17 @@ class ApiLeaveCTL extends BaseCTL {
 		{
 			$year = $params['year'];
 		}
+		
+		$sql = "select count(ml.id) as total, DAY(ml.created_at) as dDay from mng_leave ml where MONTH(ml.created_at) = '$month' and YEAR(ml.created_at) = '$year' ";
 
-		$r = $db->query("select count(ml.id) as total, DAY(ml.created_at) as dDay from mng_leave ml where MONTH(ml.created_at) = '$month' and YEAR(ml.created_at) = '$year' group by dDay ");
+		if( $_SESSION['login']['level']['id'] == 4 )
+		{
+			$sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
+		}
+
+		$sql .= "  group by dDay ";
+
+		$r = $db->query($sql);
 		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
 		
 		$groups = array();
@@ -62,6 +71,7 @@ class ApiLeaveCTL extends BaseCTL {
 		}
 
         echo '<div class="col-md-6"><h2>'.$months[$month-1].'</h2></div><div>' . $this->draw_calendar($month, $year, $groups) . '</div>';
+
     }
 	
 
@@ -211,7 +221,16 @@ class ApiLeaveCTL extends BaseCTL {
 
 		$date = $year . '-' . $month . '-' . $day;
 		
-		$r = $db->query("SELECT ac.name AS account_name, lv.name AS level_name, ml.* FROM mng_leave ml, account ac, level lv WHERE ml.account_id = ac.id AND ml.level_id = lv.id AND DATE_FORMAT(ml.created_at,'%Y-%m-%d') ='".$date."' order by ml.created_at desc ");
+		$sql = "SELECT ac.name AS account_name, lv.name AS level_name, ml.* FROM mng_leave ml, account ac, level lv WHERE ml.account_id = ac.id AND ml.level_id = lv.id AND DATE_FORMAT(ml.created_at,'%Y-%m-%d') ='".$date."' ";
+
+		if( $_SESSION['login']['level']['id'] == 4 )
+		{
+			$sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
+		}
+
+		$sql .= " order by ml.created_at desc ";
+
+		$r = $db->query($sql);
 		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
 
 		echo '<md-dialog aria-label="'.$date.'">
@@ -231,17 +250,141 @@ class ApiLeaveCTL extends BaseCTL {
 			foreach( $rows as $row )
 			{
 				echo '<md-tab label="'.$row['account_name'].'">
-				  <md-content class="md-padding">
-
+				  <md-content class="md-padding">';
+				
+					if( strtotime($row['created_at']) > strtotime("-1 days") )
+					{
+						echo '
 					<a href="#edit/'.$row['id'].'">
 						<md-button class="btn-success md-raised pull-right">
 							EDIT
 						</md-button>
-					</a>				
+					</a>';
+					}
+				
+				$is_late = $row['late_flag'] == 'y' ? '(สาย)' : '';
+				echo '
+					<div class="row" style="min-width: 800px">
+						<div class="col-md-3">
+							<b>ชื่อ - สกุล : </b>'.$row['account_name'].'
+							'  . $is_late . '
+						</div>
+						<div class="col-md-3">
+							<b>ตำแหน่ง: </b>'.$row['level_name'].'
+						</div>
+						<div class="col-md-3">
+							<b>ฝ่าย: </b>'.$row['department'].'
+						</div>
+						<div class="clearfix"></div>
+						<br>';
 
-					<h1 class="md-display-1">'.$row['account_name'].' <small>'.$row['level_name'].'</small></h1>
-					
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi.</p>
+				if( $row['rqshift_flag'] == 'y' )
+				{
+					echo '<div class="col-md-3">
+								<b>ขอลาในเวลาทำงาน</b>
+							</div>
+							<div class="col-md-2">
+								<b>วันที่</b> '.$row['rqshift_date'].'
+							</div>
+							<div class="col-md-2">
+								<b>ตั้งแต่เวลา</b> '.$row['rqshift_from_tm'].'
+							</div>
+							<div class="col-md-2">
+								<b>ถึงเวลา</b> '.$row['rqshift_to_tm'].'
+							</div>
+							<div class="col-md-2">
+								<b>รวมเป็นเวลา</b> '.$row['rqshift_leave_total_tm'].'
+							</div>
+							<div class="clearfix"></div>
+							<br>';
+				}
+				
+				if( $row['rqperiod_flag'] == 'y' )
+				{
+					echo '<div class="col-md-3">
+							<b>ขอลาหยุดตั้งแต่</b>
+						</div>
+						<div class="col-md-3">
+							<b>วันที่</b> '.$row['rqperiod_from_date'].'
+						</div>
+						<div class="col-md-3">
+							<b>ถึงวันที่</b> '.$row['rqperiod_to_date'].'
+						</div>
+						<div class="col-md-3">
+							<b>รวมเป็นเวลา</b> '.$row['rqperiod_total_day'].' วัน
+						</div>
+						<div class="clearfix"></div>
+						<br>';
+				}
+		
+				echo '<br>
+					<div class="col-md-3">
+						<b>ประเภทของการลาหยุด</b>
+					</div>
+					<div class="clearfix"></div>
+					<br>';
+				
+				if( $row['lv_vacation_flag'] == 'y' )
+				{
+					echo '<div class="col-md-3">
+							<b>พักร้อน</b>
+						</div>
+						<div class="col-md-3">
+							<b>เหตุผล</b> '.$row['lv_vacation_reason'].'
+						</div>
+						<div class="col-md-3">
+							<b>หมายเหตุ</b> '.$row['lv_vacation_ps'].'
+						</div>
+						<div class="clearfix"></div>
+						<br>';
+				}
+
+				if( $row['lv_personal_flag'] == 'y' )
+				{
+					echo '<div class="col-md-3">
+							<b>ลากิจ</b>
+						</div>
+						<div class="col-md-3">
+							<b>เหตุผล</b> '.$row['lv_personal_reason'].'
+						</div>
+						<div class="col-md-3">
+							<b>หมายเหตุ</b> '.$row['lv_personal_ps'].'
+						</div>
+						<div class="clearfix"></div>
+						<br>';
+				}
+
+				if( $row['lv_sick_flag'] == 'y' )
+				{
+					echo '<div class="col-md-3">
+							<b>ลาป่วย</b>
+						</div>
+						<div class="col-md-3">
+							<b>เหตุผล</b> '.$row['lv_sick_reason'].'
+						</div>
+						<div class="col-md-3">
+							<b>หมายเหตุ</b> '.$row['lv_sick_ps'].'
+						</div>
+						<div class="clearfix"></div>
+						<br>';
+				}
+
+				if( $row['lv_etc_flag'] == 'y' )
+				{
+					echo '<div class="col-md-3">
+							<b>อื่นๆ : </b> '.$row['lv_etc_desc'].'
+						</div>
+						<div class="col-md-3">
+							<b>เหตุผล</b> '.$row['lv_etc_reason'].'
+						</div>
+						<div class="col-md-3">
+							<b>หมายเหตุ</b> '.$row['lv_etc_ps'].'
+						</div>
+						<div class="clearfix"></div>
+						<br>';
+				}
+
+				echo '</div>
 				  </md-content>
 				</md-tab>';
 			}
@@ -304,7 +447,7 @@ class ApiLeaveCTL extends BaseCTL {
 				if( isset($dDay[$list_day]) && !empty($dDay[$list_day]) )
 				{
 					$calendar .= '<p><md-button class="md-primary md-raised" ng-click="showAdvanced($event, '.$month.', '.$year.', '.$list_day.')">
-										ลา '.$dDay[$list_day].' คน
+										รวม '.$dDay[$list_day].' คน
 									</md-button></p>';
 				}
 				
