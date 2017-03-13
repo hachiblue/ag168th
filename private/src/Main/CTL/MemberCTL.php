@@ -618,9 +618,9 @@ class memberCTL extends BaseCTL {
 			}
 
 			$now = date('Y-m-d H:i:s');
-
+			//omom,4544543455,test@test.com,lind
 			$insert["enquiry_status_id"] = 1;
-			$insert["customer"] = $_SESSION['member']['name'];
+			$insert["customer"] = $_SESSION['member']['name'] . ',' . $_SESSION['member']['phone'] . ',' . $_SESSION['member']['email'] . ',' . $_SESSION['member']['line'];
 			$insert['created_at'] = $now;
 			$insert['updated_at'] = $now;
 			$insert["enquiry_type_id"] = isset($insert["enquiry_type_id"]) ? $insert["enquiry_type_id"] : 1;
