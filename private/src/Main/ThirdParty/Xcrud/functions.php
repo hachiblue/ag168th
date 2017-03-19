@@ -150,50 +150,86 @@ function before_list_example($list, $xcrud)
 
 function sale_beforeInsert($postdata, $xcrud)
 {
-  $postdata->set('created_at', date('Y-m-d H:i:s'));
-  $postdata->set('level_id', 4);
+	$postdata->set('created_at', date('Y-m-d H:i:s'));
+	$postdata->set('level_id', 4);
+}
+
+function investment_data_beforeInsert($postdata, $xcrud)
+{ 
+	$postdata->set('created_at', date('Y-m-d H:i:s'));
+	//$postdata->set('project_id', 4);
 }
 
 function manager_beforeInsert($postdata, $xcrud)
 {
-  $postdata->set('created_at', date('Y-m-d H:i:s'));
-  $postdata->set('level_id', 3);
+	$postdata->set('created_at', date('Y-m-d H:i:s'));
+	$postdata->set('level_id', 3);
 }
 
 function admin_beforeInsert($postdata, $xcrud)
 {
-  $postdata->set('created_at', date('Y-m-d H:i:s'));
-  $postdata->set('level_id', 2);
+	$postdata->set('created_at', date('Y-m-d H:i:s'));
+	$postdata->set('level_id', 2);
+}
+
+function admin_manager_beforeInsert($postdata, $xcrud)
+{
+	$postdata->set('created_at', date('Y-m-d H:i:s'));
+	$postdata->set('level_id', 7);
+}
+
+function sale_manager_beforeInsert($postdata, $xcrud)
+{
+	$postdata->set('created_at', date('Y-m-d H:i:s'));
+	$postdata->set('level_id', 8);
+}
+
+function marketing_manager_beforeInsert($postdata, $xcrud)
+{
+	$postdata->set('created_at', date('Y-m-d H:i:s'));
+	$postdata->set('level_id', 9);
+}
+
+function marketing_beforeInsert($postdata, $xcrud)
+{
+	$postdata->set('created_at', date('Y-m-d H:i:s'));
+	$postdata->set('level_id', 5);
+}
+
+function hr_beforeInsert($postdata, $xcrud)
+{
+	$postdata->set('created_at', date('Y-m-d H:i:s'));
+	$postdata->set('level_id', 6);
 }
 
 function article_beforeInsert($postdata, $xcrud)
 {
-  $postdata->set('created_at', date('Y-m-d H:i:s'));
+	$postdata->set('created_at', date('Y-m-d H:i:s'));
 }
 
 function project_afterUpdate($postdata, $primary, $xcrud)
 {
-  $db = \Main\DB\Medoo\MedooFactory::getInstance();
-  $id = $xcrud->get('primary');
+	$db = \Main\DB\Medoo\MedooFactory::getInstance();
+	$id = $xcrud->get('primary');
 
-  $zone_id = $postdata->get('zone_id');
-  $bts_id = $postdata->get('bts_id');
-  $mrt_id = $postdata->get('mrt_id');
-  $airport_link_id = $postdata->get('airport_link_id');
-  $province_id = $postdata->get('province_id');
-  $district_id = $postdata->get('district_id');
-  $sub_district_id = $postdata->get('sub_district_id');
-  $zone_id = $postdata->get('zone_id');
+	$zone_id = $postdata->get('zone_id');
+	$bts_id = $postdata->get('bts_id');
+	$mrt_id = $postdata->get('mrt_id');
+	$airport_link_id = $postdata->get('airport_link_id');
+	$province_id = $postdata->get('province_id');
+	$district_id = $postdata->get('district_id');
+	$sub_district_id = $postdata->get('sub_district_id');
+	$zone_id = $postdata->get('zone_id');
 
-  $update = [
-    'zone_id'=> $zone_id,
-    'bts_id'=> $bts_id,
-    'mrt_id'=> $mrt_id,
-    'airport_link_id'=> $airport_link_id,
-    'province_id'=> $province_id,
-    'district_id'=> $district_id,
-    'sub_district_id'=> $sub_district_id
-  ];
+	$update = [
+		'zone_id'=> $zone_id,
+		'bts_id'=> $bts_id,
+		'mrt_id'=> $mrt_id,
+		'airport_link_id'=> $airport_link_id,
+		'province_id'=> $province_id,
+		'district_id'=> $district_id,
+		'sub_district_id'=> $sub_district_id
+	];
 
-  $db->update("property", $update, ["project_id"=> $id]);
+	$db->update("property", $update, ["project_id"=> $id]);
 }

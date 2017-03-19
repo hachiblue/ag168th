@@ -3,7 +3,9 @@
 
 <div class="container" ng-controller="EditCTL"
 ng-show="prepareDisplayEdit"
-ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2 && @$_SESSION['login']['level_id'] > 0);?>;"
+ng-init="editAllow = <?php 
+echo json_encode(@$_SESSION['login']['level_id'] != 3 && @$_SESSION['login']['level_id'] != 4 && @$_SESSION['login']['level_id'] > 0);
+?>;"
 >
 	<ul class="nav nav-tabs tabs-add" >
   	<li class="active"><a href="">Enquiry</a></li>

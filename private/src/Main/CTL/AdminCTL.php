@@ -64,6 +64,65 @@ class AdminCTL extends BaseCTL {
         return new HtmlView('/admin/index', array("view"=> 'project_images', "project_id"=> $id, "pqCount"=> $pqCount));
     }
 
+	/**
+     * @GET
+     * @uri /member/[:id]/images
+     */
+    public function memberImages () 
+	{
+		if(empty($_SESSION['login'])) 
+		{
+			return new RedirectView(URL::absolute('/admin/login'));
+		}
+
+        $id = $this->reqInfo->urlParam("id");
+        $db = MedooFactory::getInstance();
+        $pqCount = $db->count("request_contact", "*", ["status_id"=> 1]);
+        return new HtmlView('/admin/index', array("view"=> 'member_images', "member_id"=> $id, "pqCount"=> $pqCount));
+    }
+
+	/**
+     * @GET
+     * @uri /investment/[:id]
+     */
+    public function investmentData () 
+	{
+		if(empty($_SESSION['login'])) 
+		{
+			return new RedirectView(URL::absolute('/admin/login'));
+		}
+
+        $id = $this->reqInfo->urlParam("id");
+        $db = MedooFactory::getInstance();
+        $pqCount = $db->count("request_contact", "*", ["status_id"=> 1]);
+
+		$where = array();
+
+        /*
+        $where["AND"] = array(
+          "OR" => array( 
+            "web_status" => 1,
+            "AND" => array(
+              "web_status" => 0, 
+              "property_status_id" => 1 
+            )
+          )
+        );*/
+
+        //$where["AND"]['rented_expire[>]'] = "0000-00-00";
+        //$where["AND"]['property_status_id[!]'] = ['1', '4', '5', '9'];
+        $where["AND"]['property_status_id'] = ['3'];
+
+        $where["AND"]['rented_expire[<]'] = date("Y-m-d H:i:s", strtotime("+7 days"));
+        $where["AND"]['requirement_id[!]'] = "1";
+
+        $exCount = $db->count("property", "*", $where);
+
+        $project = $db->get("project", "*", ['id'=>$id]);
+
+        return new HtmlView('/admin/index', array("view" => 'investment_data', "project_id"=> $id, "project_name"=>$project['name'], "pqCount" => $pqCount, "exCount" => $exCount));
+    }
+
     /**
      * @GET
      * @uri /[a:view]
@@ -106,7 +165,7 @@ class AdminCTL extends BaseCTL {
         return new HtmlView('/admin/index', array("view" => $view, "pqCount" => $pqCount, "exCount" => $exCount));
     }
 
-	   /**
+	/**
      * @GET
      * @uri /gen
      */

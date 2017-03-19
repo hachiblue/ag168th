@@ -4,7 +4,7 @@ session_start();
 //   return "";
 // }
 ?>
-<form ng-submit="submit()" ng-controller="AddCTL" id="form-edit-prop" ng-show="initSuccess" ng-init="isadmin = <?php echo json_encode($_SESSION['login']['level_id'] == 2 );?>;">
+<form ng-submit="submit()" ng-controller="AddCTL" id="form-edit-prop" ng-show="initSuccess" ng-init="isadmin = <?php echo json_encode(($_SESSION['login']['level_id'] == 2 || $_SESSION['login']['level_id'] == 7));?>;">
 
 	<div class="row" id="tmpl-owner">
 

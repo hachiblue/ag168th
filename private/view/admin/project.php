@@ -108,6 +108,7 @@ $xcrud->label([
   'is_recent'=> 'Recent Project'
 ]);
 
+$xcrud->button('investment/{id}','Investment','glyphicon glyphicon-stats','',array('target'=>'_self'));
 $xcrud->button('project/{id}/images','Images','glyphicon glyphicon-picture','',array('target'=>'_blank'));
 
 $xcrud->subselect('Total Unit','SELECT COUNT(id) FROM property WHERE property.project_id = {id}');

@@ -30,6 +30,24 @@ class ApiWebManageCTL extends BaseCTL {
 		echo json_encode($item);
 	}
 
+	/**
+     * @GET
+	 * @uri /inv
+     */
+    public function index_iv () 
+	{	
+		$params = $this->reqInfo->params();
+		$db = MedooFactory::getInstance();
+
+		$item = array();
+		$sth = $db->pdo->prepare('select w.*, GROUP_CONCAT(wp.property_reference_id) as ref, GROUP_CONCAT(wp.id) as ref_id from iv_topic w left join iv_property wp on w.id = wp.iv_topic_id GROUP BY w.id');
+		$sth->execute(); 
+
+		$item = $sth->fetchAll(\PDO::FETCH_ASSOC);
+
+		echo json_encode($item);
+	}
+
 
     /**
      * @POST
@@ -86,6 +104,48 @@ class ApiWebManageCTL extends BaseCTL {
 
 				$item['success'] = true;
 			}
+		}
+
+		//$item = $sth->fetchAll(\PDO::FETCH_ASSOC);
+
+		echo json_encode($item);
+    }
+
+	/**
+     * @POST
+	 * @uri /inv
+     */
+    public function save_inv () 
+	{
+		$params = $this->reqInfo->params();
+
+		$db = MedooFactory::getInstance();
+
+        $item = array();
+		$item['success'] = false;
+		
+		$props = substr($params['props'], 0, -3);
+		$props_id = substr($params['props_id'], 0, -3);
+
+		$sth = $db->pdo->prepare('UPDATE iv_topic SET name = :name WHERE id = :id');
+		 
+		$sth->bindParam(':name', $params['topic'], \PDO::PARAM_STR);
+		$sth->bindParam(':id', $params['topic_id'], \PDO::PARAM_INT);
+		 
+		if( $sth->execute() )
+		{
+			$db->delete("iv_property", [ "iv_topic_id" => $params['topic_id'] ]);
+
+			$pp = explode('#|#', $props);
+			foreach( $pp as $ref )
+			{
+				$db->insert("iv_property", [
+					"iv_topic_id" => $params['topic_id'],
+					"property_reference_id" => $ref
+				]);
+			}
+
+			$item['success'] = true;
 		}
 
 		//$item = $sth->fetchAll(\PDO::FETCH_ASSOC);

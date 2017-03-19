@@ -2,7 +2,7 @@
 <div ng-controller="MatchedCTL">
   <ul class="nav nav-tabs tabs-add" >
   	<li><a href="" ng-click="changeHash('/edit/'+id)">Enquiry</a></li>
-  	<?php if(@$_SESSION['login']['level_id']==4){?>
+  	<?php if(@$_SESSION['login']['level_id']==4 || @$_SESSION['login']['level_id']==8){?>
   	<li><a href="" ng-click="changeHash('/match/'+id)">Match Property</a></li>
     <li><a href="">Matched Property</a></li>
     <?php }?>

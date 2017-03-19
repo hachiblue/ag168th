@@ -18,6 +18,7 @@ use Main\ThirdParty\Xcrud\Xcrud;
         background-color: rgba(0,0,0,.1);
     }
 </style>
+
 <div id="content">
     <div class="bs-component">
         <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
@@ -147,9 +148,9 @@ use Main\ThirdParty\Xcrud\Xcrud;
                     $xcrud2->unset_title();
                     $xcrud2->table_name('Zone');
 
-//                    $xcrud2->relation('zone_group_id', 'zone_group', 'id', 'name');
-//                    $xcrud2->fields('name, zone_group_id');
-//                    $xcrud2->label('zone_group_id','Zone Group');
+					//$xcrud2->relation('zone_group_id', 'zone_group', 'id', 'name');
+					//$xcrud2->fields('name, zone_group_id');
+					//$xcrud2->label('zone_group_id','Zone Group');
 
                     $xcrud2->hide_button('save_return,return,save_edit');
                     $xcrud2->set_lang('save_new', 'Add');
@@ -162,9 +163,9 @@ use Main\ThirdParty\Xcrud\Xcrud;
                     $xcrud1->table('zone');
                     $xcrud1->unset_title();
 
-//                    $xcrud1->relation('zone_group_id', 'zone_group', 'id', 'name');
-//                    $xcrud1->label('zone_group_id','Zone Group');
-//                    $xcrud1->columns('name, zone_group_id');
+					//$xcrud1->relation('zone_group_id', 'zone_group', 'id', 'name');
+					//$xcrud1->label('zone_group_id','Zone Group');
+					//$xcrud1->columns('name, zone_group_id');
 
                     $xcrud1->hide_button('add');
                     $xcrud1->hide_button('save_edit,save_new');
@@ -390,8 +391,8 @@ use Main\ThirdParty\Xcrud\Xcrud;
             </div>
         </div>
     </div>
-
 </div>
+
 <link href="<?php echo \Main\Helper\URL::absolute("/bower_components/select2/select2.css");?>" rel="stylesheet" />
 <script src="<?php echo \Main\Helper\URL::absolute("/bower_components/select2/select2.min.js");?>"></script>
 <script type="text/javascript">

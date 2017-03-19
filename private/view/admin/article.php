@@ -19,13 +19,14 @@ $xcrud->table('article');
 $xcrud->unset_title();
 
 $xcrud->change_type('image_path', 'image', '', [
-  'path'=> dirname($_SERVER["SCRIPT_FILENAME"]).'/public/article_pic',
-  'thumbs'=> [
-    ['width'=> 600, 'marker'=>'_small'],
-    ['width'=> 800, 'marker'=>'_middle'],
-    ['width' => 150, 'folder' => 'thumbs']
-  ]
+	'path'=> dirname($_SERVER["SCRIPT_FILENAME"]).'/public/article_pic',
+	'thumbs'=> [
+		['width'=> 600, 'marker'=>'_small'],
+		['width'=> 800, 'marker'=>'_middle'],
+		['width' => 150, 'folder' => 'thumbs']
+	]
 ]);
+
 $xcrud->change_type('topic_id', 'select', '', [null=> '', 1=> 'News', 2=> 'Tips', 3=> 'Review']);
 
 // $xcrud->where('level_id =', 3);

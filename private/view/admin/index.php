@@ -1,374 +1,449 @@
 <?php
 $this->import("/admin/layout/header");
 ?>
-    <style>
-    body, html {
-                height: 100%;
-                margin: 0;
-                overflow-x: hidden;
-                font-family: helvetica;
-                font-weight: 100;
-            }
+<style>
+body, html {
+	height: 100%;
+	margin: 0;
+	overflow-x: hidden;
+	font-family: helvetica;
+	font-weight: 100;
+}
 
-            .container {
-                position: relative;
-                height: 100%;
-                width: 100%;
-                left: 0;
-                -webkit-transition: left 0.4s ease-in-out;
-                -moz-transition: left 0.4s ease-in-out;
-                -ms-transition: left 0.4s ease-in-out;
-                -o-transition: left 0.4s ease-in-out;
-                transition: left 0.4s ease-in-out;
-            }
+.container {
+	position: relative;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	-webkit-transition: left 0.4s ease-in-out;
+	-moz-transition: left 0.4s ease-in-out;
+	-ms-transition: left 0.4s ease-in-out;
+	-o-transition: left 0.4s ease-in-out;
+	transition: left 0.4s ease-in-out;
+}
 
-            .container.open-sidebar {
-                left: 240px;
-            }
+.container.open-sidebar {
+	left: 240px;
+}
 
-            .swipe-area {
-                position: absolute;
-                width: 50px;
-                left: -14px;
-                top: 0;
-                height: 100%;
-                background: #f3f3f3;
-                z-index: 0;
-            }
+.swipe-area {
+	position: absolute;
+	width: 50px;
+	left: -14px;
+	top: 0;
+	height: 100%;
+	background: #f3f3f3;
+	z-index: 0;
+}
 
-            #sidebar {
-                background: #DF314D;
-                position: absolute;
-                width: 240px;
-                height: 100%;
-                left: -240px;
-                box-sizing: border-box;
-                -moz-box-sizing: border-box;
-            }
+#sidebar {
+	background: #DF314D;
+	position: absolute;
+	width: 240px;
+	height: 100%;
+	left: -240px;
+	overflow: auto;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
 
-            #sidebar ul {
-                margin: 0;
-                padding: 0;
-                list-style: none;
-            }
+#sidebar ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
 
-            #sidebar ul li {
-                margin: 0;
-            }
+#sidebar ul li {
+	margin: 0;
+}
 
-            #sidebar ul li a {
-                padding: 15px 20px;
-                font-size: 16px;
-                font-weight: 100;
-                color: white;
-                text-decoration: none;
-                display: block;
-                border-bottom: 1px solid #C9223D;
-                -webkit-transition: background 0.3s ease-in-out;
-                -moz-transition: background 0.3s ease-in-out;
-                -ms-transition: background 0.3s ease-in-out;
-                -o-transition: background 0.3s ease-in-out;
-                transition: background 0.3s ease-in-out;
-            }
+#sidebar ul li a {
+	padding: 15px 20px;
+	font-size: 16px;
+	font-weight: 100;
+	color: white;
+	text-decoration: none;
+	display: block;
+	border-bottom: 1px solid #C9223D;
+	-webkit-transition: background 0.3s ease-in-out;
+	-moz-transition: background 0.3s ease-in-out;
+	-ms-transition: background 0.3s ease-in-out;
+	-o-transition: background 0.3s ease-in-out;
+	transition: background 0.3s ease-in-out;
+}
 
-            #sidebar ul li:hover a {
-                background: #C9223D;
-            }
+#sidebar ul li:hover a {
+	background: #C9223D;
+}
 
-            .main-content {
-                width: 100%;
-                /*height: 100%;*/
-                padding: 10px;
-                box-sizing: border-box;
-                -moz-box-sizing: border-box;
-                position: relative;
-            }
+.main-content {
+	width: 100%;
+	/*height: 100%;*/
+	padding: 10px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	position: relative;
+}
 
-            .main-content .content h1 {
-                font-weight: 100;
-            }
+.main-content .content h1 {
+	font-weight: 100;
+}
 
-            .main-content .content p {
-                width: 100%;
-                line-height: 160%;
-            }
+.main-content .content p {
+	width: 100%;
+	line-height: 160%;
+}
 
-            .main-content #sidebar-toggle {
-                background: #DF314D;
-                border-radius: 3px;
-                display: block;
-                position: relative;
-                padding: 10px 7px;
-                float: left;
-                margin-left: -16px;
-            }
+.main-content #sidebar-toggle {
+	background: #DF314D;
+	border-radius: 3px;
+	display: block;
+	position: relative;
+	padding: 10px 7px;
+	float: left;
+	margin-left: -16px;
+}
 
-            .main-content #sidebar-toggle .bar {
-                display: block;
-                width: 18px;
-                margin-bottom: 3px;
-                height: 2px;
-                background-color: #fff;
-                border-radius: 1px;
-            }
+.main-content #sidebar-toggle .bar {
+	display: block;
+	width: 18px;
+	margin-bottom: 3px;
+	height: 2px;
+	background-color: #fff;
+	border-radius: 1px;
+}
 
-            .main-content #sidebar-toggle .bar:last-child {
-                margin-bottom: 0;
-            }
+.main-content #sidebar-toggle .bar:last-child {
+	margin-bottom: 0;
+}
 
-            a.bell-alert {
-                color:red;
-            }
+a.bell-alert {
+	color:red;
+}
 
-    </style>
-    <div class="container">
-        <div id="sidebar">
-            <ul>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/enquiries') ?>"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries</a></li>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/properties') ?>"><i class="fa fa-building fa-2"></i> Properties</a></li>
+</style>
 
-                <?php if($_SESSION['login']['level_id'] != 4){?>
-                <li>
-                    <a href="<?php echo \Main\Helper\URL::absolute('/admin/enquiries#/rentalexpire') ?>">Rental Expire (<?php echo (isset($params['exCount'])?$params['exCount']:0);?>)</a>
-                </li>
-                <?php }?>
+<div class="container">
+	<div id="sidebar">
+		<ul>
+			<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/enquiries') ?>"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries</a></li>
+			<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/properties') ?>"><i class="fa fa-building fa-2"></i> Properties</a></li>
 
-                <?php if( $_SESSION['login']['level_id'] == 4 || $_SESSION['login']['nitcha'] ){?>
-                <li>
-                    <a href="<?php echo \Main\Helper\URL::absolute('/admin/enquiries#/wishlist') ?>">Wish List</a>
-                </li>
-                <?php }?>
+			<?php 
+			if($_SESSION['login']['level_id'] != 4)
+			{ 
+				?>
+				<li>
+					<a href="<?php echo \Main\Helper\URL::absolute('/admin/enquiries#/rentalexpire') ?>"> Rental Expire (<?php echo (isset($params['exCount'])?$params['exCount']:0);?>)</a>
+				</li>
+				<?php 
+			}
+			?>
 
-                <?php if($_SESSION['login']['level_id'] == 1){?>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/manager') ?>"><i class="fa fa-user-secret fa-3"></i> Manager</a></li>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/admin') ?>"><i class="fa fa-user-secret fa-3"></i> Admin</a></li>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/sale') ?>"><i class="fa fa-user-secret fa-3"></i> Sale</a></li>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/webmanage') ?>"><i class="fa fa-user-secret fa-3"></i> Web Manage</a></li>
-              
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/layout') ?>"><i class="fa fa-user-secret fa-3"></i> Layout</a></li>
-                <?php }?>
+			<?php 
+			if( $_SESSION['login']['level_id'] == 4 || $_SESSION['login']['nitcha'] )
+			{
+				?>
+				<li>
+					<a href="<?php echo \Main\Helper\URL::absolute('/admin/enquiries#/wishlist') ?>"> Wish List</a>
+				</li>
+				<?php 
+			}
+			?>
 
-				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/leave#') ?>"><i class="fa fa-user-secret fa-3"></i>On Leave Manage</a></li>
+			<?php 
+			if( $_SESSION['login']['level_id'] == 1 || $_SESSION['login']['level_id'] == 2 || $_SESSION['login']['level_id'] == 5 )
+			{
+				?>
+				<li>
+					<a href="<?php echo \Main\Helper\URL::absolute('/admin/member') ?>"> Member</a>
+				</li>
+				<?php 
+			}
+			?>
 
-                <?php if($_SESSION['login']['level_id'] == 1 || $_SESSION['login']['level_id'] == 2){?>
-                <!-- <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/customer') ?>"><i
-                            class="fa fa-user-secret fa-3"></i> Customer</a></li> -->
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/project') ?>"><i class="fa fa-user-secret fa-3"></i> Project</a></li>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/phonereq') ?>"><i class="fa fa-user-secret fa-3"></i> Phone Request (<?php echo $params['pqCount'];?>)</a></li>
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/reportproperty') ?>"><i class="fa fa-user-secret fa-3"></i> Report Property</a></li>
+			<?php 
+			if($_SESSION['login']['level_id'] == 1)	/* System Admin only */
+			{
+				?>
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/manager') ?>"><i class="fa fa-user-secret fa-3"></i> Manager</a></li>
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/adminmanager') ?>"><i class="fa fa-user-secret fa-3"></i> Admin Manager</a></li>
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/admin') ?>"><i class="fa fa-user-secret fa-3"></i> Admin</a></li>
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/salemanager') ?>"><i class="fa fa-user-secret fa-3"></i> Sale Manager</a></li>
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/sale') ?>"><i class="fa fa-user-secret fa-3"></i> Sale</a></li>
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/marketingmanager') ?>"><i class="fa fa-user-secret fa-3"></i> Marketing Manager</a></li>
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/marketing') ?>"><i class="fa fa-user-secret fa-3"></i> Marketing</a></li>
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/hr') ?>"><i class="fa fa-user-secret fa-3"></i> HR</a></li>
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/webmanage') ?>"><i class="fa fa-user-secret fa-3"></i> Web Manage</a></li>
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/layout') ?>"><i class="fa fa-user-secret fa-3"></i> Layout</a></li>
+				<?php 
+			}
+			?>
 
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/reportuser') ?>"><i class="fa fa-user-secret fa-3"></i> Report User</a></li>
+			<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/leave#') ?>"><i class="fa fa-user-secret fa-3"></i>On Leave Manage</a></li>
 
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/report#/sale') ?>"><i class="fa fa-user-secret fa-3"></i> Report Sale</a></li>
+			<?php 
+			if( $_SESSION['login']['level_id'] == 1 || /* System Admin */
+			    $_SESSION['login']['level_id'] == 2 || /* Admin */
+				$_SESSION['login']['level_id'] == 5 || /* Marketing */
+				$_SESSION['login']['level_id'] == 6 || /* HR */
+				$_SESSION['login']['level_id'] == 7 || /* Admin Manager */
+				$_SESSION['login']['level_id'] == 8 || /* Sale Manager */
+				$_SESSION['login']['level_id'] == 9    /* Marketing Manager */
+			  )
+			{
+				?>
+				<!-- <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/customer') ?>"><i
+							class="fa fa-user-secret fa-3"></i> Customer</a></li> -->
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/project') ?>"><i class="fa fa-user-secret fa-3"></i> Project</a></li>
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/phonereq') ?>"><i class="fa fa-user-secret fa-3"></i> Phone Request (<?php echo $params['pqCount'];?>)</a></li>
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/reportproperty') ?>"><i class="fa fa-user-secret fa-3"></i> Report Property</a></li>
 
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/article') ?>"><i class="fa fa-user-secret fa-3"></i> Article</a></li>
-                <?php }?>
-                <?php if($_SESSION['login']['level_id'] == 1 ||
-                $_SESSION['login']['level_id'] == 2 ||
-                $_SESSION['login']['level_id'] == 3){?>
-                  <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/bookreq') ?>"><i
-                              class="fa fa-user-secret fa-3"></i> Booking request</a></li>
-                <?php }?>
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/reportuser') ?>"><i class="fa fa-user-secret fa-3"></i> Report User</a></li>
 
-                <li><a href="<?php echo \Main\Helper\URL::absolute('/admin/login') ?>"><i class="fa fa-sign-out fa-3"></i> Sign Out</a></li>
-            </ul>
-        </div>
-        <div class="main-content">
-            <!-- <div class="swipe-area"></div> -->
-            <a href="" data-toggle=".container" id="sidebar-toggle">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </a>
-            <?php
-            use Main\DB\Medoo\MedooFactory;
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/report#/sale') ?>"><i class="fa fa-user-secret fa-3"></i> Report Sale</a></li>
 
-            $db = MedooFactory::getInstance();
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/article') ?>"><i class="fa fa-user-secret fa-3"></i> Article</a></li>
+				<?php 
+			}
+			?>
 
-            $item = array();
+			<?php 
+			if( $_SESSION['login']['level_id'] == 1 || /* System Admin */
+				$_SESSION['login']['level_id'] == 2 || /* Admin */
+				$_SESSION['login']['level_id'] == 3 || /* Manager */
+				$_SESSION['login']['level_id'] == 5 || /* Marketing */
+				$_SESSION['login']['level_id'] == 6 || /* HR */
+				$_SESSION['login']['level_id'] == 7 || /* Admin Manager */
+				$_SESSION['login']['level_id'] == 8 || /* Sale Manager */
+				$_SESSION['login']['level_id'] == 9    /* Marketing Manager */
+			  )
+			{
+				?>
+				<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/bookreq') ?>"><i class="fa fa-user-secret fa-3"></i> Booking request</a></li>
+				<?php 
+			}
+			?>
 
-            if( $_SESSION["login"]["username"] == 'somporn' )
-            {
-                $sql = "SELECT COUNT(p.id) AS cnt FROM property p WHERE p.property_status_id = 10 AND p.property_pending_date > '0000-00-00' AND p.property_pending_date <= now() ORDER BY p.property_pending_date ";  
-            }
-            else
-            {
-                $sql = "SELECT 
-                      COUNT(p.id) AS cnt 
-                    FROM
-                      property p 
-                    WHERE p.property_status_id = 10 
-                      AND p.property_pending_date > '0000-00-00'
-                      AND p.property_pending_date <= now()
-                      AND p.id IN 
-                      (SELECT 
-                        property_id 
-                      FROM
-                        property_comment 
-                      WHERE comment_by = '".$_SESSION['login']['id']."'
-                      GROUP BY property_id)
-                      ORDER BY p.property_pending_date ";   
-            }
-           
-            $r = $db->query($sql);
-            $istatus = $r->fetch(\PDO::FETCH_ASSOC);
+			<li><a href="<?php echo \Main\Helper\URL::absolute('/admin/login') ?>"><i class="fa fa-sign-out fa-3"></i> Sign Out</a></li>
+		</ul>
+	</div>
 
-            $sql = "SELECT 
-                      COUNT(id) AS cnt 
-                    FROM
-                      enquiry_comment
-                    WHERE user_remind = '".$_SESSION['login']['id']."' AND read_status = 'noread'  ";   
-            $r = $db->query($sql);
-            $iremind = $r->fetch(\PDO::FETCH_ASSOC);
+	<div class="main-content">
+		<!-- <div class="swipe-area"></div> -->
+		<a href="" data-toggle=".container" id="sidebar-toggle">
+			<span class="bar"></span>
+			<span class="bar"></span>
+			<span class="bar"></span>
+		</a>
+		<?php
+		use Main\DB\Medoo\MedooFactory;
 
-            ?>
-            <div class="navbar">
-              <ul class="nav navbar-nav navbar-right">
-                <?php
-                if( $_SESSION['login']["level"]["id"] == 2 || $_SESSION['login']["level"]["id"] == 4 )
-                {
-                    $date_expire_mx = 15;
-                    $sql_sale = '';
+		$db = MedooFactory::getInstance();
 
-                    if( $_SESSION['login']["level"]["id"] == 4 )
-                    {
-                        $date_expire_mx = 5;
-                        $sql_sale = " WHERE comment_by = " . $_SESSION['login']["id"];
-                    }
-                    
-                    $sql = "SELECT 
-                              count(e.id) as total
-                            FROM
-                              enquiry e, enquiry_type et, enquiry_status es, size_unit su, requirement rq, account a1, account a2, project pj,
-                              ( SELECT enquiry_id, MAX(updated_at) AS mx  FROM enquiry_comment  ".$sql_sale." GROUP BY enquiry_id ORDER BY  mx DESC ) em 
-                            WHERE e.id = em.enquiry_id 
-							  AND e.enquiry_type_id = et.id
-							  AND e.enquiry_status_id = es.id
-							  AND e.size_unit_id = su.id
-							  AND e.requirement_id = rq.id
-							  AND e.assign_sale_id = a1.id
-							  AND e.assign_manager_id = a2.id
-							  AND e.project_id = pj.id
-                              AND DATEDIFF(NOW(), em.mx) > ".$date_expire_mx." 
-                              AND e.enquiry_status_id IN (1, 2, 3, 5, 14) "; 
+		$item = array();
 
-                    $r = $db->query($sql);
-                    $cnt = $r->fetch(\PDO::FETCH_ASSOC);
-                ?>
-                <li>
-                    
-                    <a class="bell-alert" id="open-warning" data-toggle="modal" data-target="#warning-model" style="cursor:pointer; font-size:20px;"><span class="glyphicon glyphicon-calendar"></span><span>[<?=$cnt['total'];?>]</span></a>
-                </li>
-                <?php
-                }
+		if( $_SESSION["login"]["username"] == 'somporn' )
+		{
+			$sql = "SELECT COUNT(p.id) AS cnt FROM property p WHERE p.property_status_id = 10 AND p.property_pending_date > '0000-00-00' AND p.property_pending_date <= now() ORDER BY p.property_pending_date ";  
+		}
+		else
+		{
+			$sql = "SELECT 
+				  COUNT(p.id) AS cnt 
+				FROM
+				  property p 
+				WHERE p.property_status_id = 10 
+				  AND p.property_pending_date > '0000-00-00'
+				  AND p.property_pending_date <= now()
+				  AND p.id IN 
+				  (SELECT 
+					property_id 
+				  FROM
+					property_comment 
+				  WHERE comment_by = '".$_SESSION['login']['id']."'
+				  GROUP BY property_id)
+				  ORDER BY p.property_pending_date ";   
+		}
+	   
+		$r = $db->query($sql);
+		$istatus = $r->fetch(\PDO::FETCH_ASSOC);
+
+		$sql = "SELECT 
+				  COUNT(id) AS cnt 
+				FROM
+				  enquiry_comment
+				WHERE user_remind = '".$_SESSION['login']['id']."' AND read_status = 'noread'  ";   
+		$r = $db->query($sql);
+		$iremind = $r->fetch(\PDO::FETCH_ASSOC);
+
+		?>
+		<div class="navbar">
+		  <ul class="nav navbar-nav navbar-right">
+			<?php
+			if( $_SESSION['login']['level_id'] == 2 || /* Admin */
+				$_SESSION['login']['level_id'] == 4 || /* Sale */
+				$_SESSION['login']['level_id'] == 5 || /* Marketing */
+				$_SESSION['login']['level_id'] == 6 || /* HR */
+				$_SESSION['login']['level_id'] == 7 || /* Admin Manager */
+				$_SESSION['login']['level_id'] == 8 || /* Sale Manager */
+				$_SESSION['login']['level_id'] == 9    /* Marketing Manager */
+			  )
+			{
+				$date_expire_mx = 15;
+				$sql_sale = '';
+
+				if( $_SESSION['login']["level"]["id"] == 4 )
+				{
+					$date_expire_mx = 5;
+					$sql_sale = " WHERE comment_by = " . $_SESSION['login']["id"];
+				}
+				
+				$sql = "SELECT 
+						  count(e.id) as total
+						FROM
+						  enquiry e, enquiry_type et, enquiry_status es, size_unit su, requirement rq, account a1, account a2, project pj,
+						  ( SELECT enquiry_id, MAX(updated_at) AS mx  FROM enquiry_comment  ".$sql_sale." GROUP BY enquiry_id ORDER BY  mx DESC ) em 
+						WHERE e.id = em.enquiry_id 
+						  AND e.enquiry_type_id = et.id
+						  AND e.enquiry_status_id = es.id
+						  AND e.size_unit_id = su.id
+						  AND e.requirement_id = rq.id
+						  AND e.assign_sale_id = a1.id
+						  AND e.assign_manager_id = a2.id
+						  AND e.project_id = pj.id
+						  AND DATEDIFF(NOW(), em.mx) > ".$date_expire_mx." 
+						  AND e.enquiry_status_id IN (1, 2, 3, 5, 14) "; 
+
+				$r = $db->query($sql);
+				$cnt = $r->fetch(\PDO::FETCH_ASSOC);
+				?>
+				<li>
+					
+					<a class="bell-alert" id="open-warning" data-toggle="modal" data-target="#warning-model" style="cursor:pointer; font-size:20px;"><span class="glyphicon glyphicon-calendar"></span><span>[<?=$cnt['total'];?>]</span></a>
+				</li>
+				<?php
+			}
+			
+			/**
+			 * user reminder
+			 */
+			$dsp_iremind = 'hide';
+			if( $iremind["cnt"] > 0 )
+			{
+				$dsp_iremind = 'show';
+				?>
+				<li>
+					<a class="bell-alert" id="open-userremind" data-toggle="modal" data-target="#userremind-model" style="cursor:pointer; font-size:20px;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <span>[<?=$iremind["cnt"];?>]</span></a>
+				</li>
+				<?php
+			}
+
+			if( $_SESSION['login']['level_id'] == 1 || /* System Admin */
+				$_SESSION['login']['level_id'] == 2 || /* Admin */
+				$_SESSION['login']['level_id'] == 5 || /* Marketing */
+				$_SESSION['login']['level_id'] == 6 || /* HR */
+				$_SESSION['login']['level_id'] == 7 || /* Admin Manager */
+				$_SESSION['login']['level_id'] == 8 || /* Sale Manager */
+				$_SESSION['login']['level_id'] == 9    /* Marketing Manager */
+			  )
+			{
+				?>
+				<li>
+					<a class="bell-alert" id="open-pending" data-toggle="modal" data-target="#pending-model" style="cursor:pointer; background: red;color:#fff; font-size:20px;"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> <span>[<?=$istatus["cnt"];?>]</span></a>
+				</li>
+				<?php
+			}
+			?>
+
+			<?php
+			
+			$sess_login_name = $_SESSION['login']['level']['name'];
+
+			if( isset($_SESSION['login']['id']) && $_SESSION['login']['id'] == 71 )
+			{
+				$sess_login_name = 'Manager';
+			}
+			?>
+			<li>
+				<a href=""><?php echo $_SESSION['login']['email'];?> [<?php echo $sess_login_name;?>]</a>
+			</li>
 
 
-                $dsp_iremind = 'hide';
-                if( $iremind["cnt"] > 0 )
-                {
-                    $dsp_iremind = 'show';
-                ?>
-                <li>
-                    <a class="bell-alert" id="open-userremind" data-toggle="modal" data-target="#userremind-model" style="cursor:pointer; font-size:20px;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <span>[<?=$iremind["cnt"];?>]</span></a>
-                </li>
-                <?php
-                }
+			<!-- <li class="dropdown">
+			  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+			  <ul class="dropdown-menu">
+				<li><a href="#">Action</a></li>
+				<li><a href="#">Another action</a></li>
+				<li><a href="#">Something else here</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a href="#">Separated link</a></li>
+			  </ul>
+			</li> -->
 
-                if( $_SESSION['login']["level"]["id"] == 1 || $_SESSION['login']["level"]["id"] == 2 )
-                {
-                ?>
-                <li>
-                    <a class="bell-alert" id="open-pending" data-toggle="modal" data-target="#pending-model" style="cursor:pointer; background: red;color:#fff; font-size:20px;"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> <span>[<?=$istatus["cnt"];?>]</span></a>
-                </li>
-                <?php
-                }
-                ?>
+			
 
-                <?php
-                
-                $sess_login_name = $_SESSION['login']['level']['name'];
+		  </ul>
+		</div>
+		<div class="content">
+			<?php
+			if (empty($params['view'])) 
+			{
+				$this->import("/admin/enquiries");
+			} 
+			else 
+			{
+				$this->import("/admin/" . $params['view']);
+			}
+			?>
+		</div>
+	</div>
+</div>
+<script>
 
-                if( isset($_SESSION['login']['id']) && $_SESSION['login']['id'] == 71 )
-                {
-                    $sess_login_name = 'Manager';
-                }
-                ?>
-                <li>
-                    <a href=""><?php echo $_SESSION['login']['email'];?> [<?php echo $sess_login_name;?>]</a>
-                </li>
+	var $ = jQuery;
+	$(document).ready(function () {
+		$("[data-toggle]").click(function (e) {
+			e.preventDefault();
+			var toggle_el = $(this).data("toggle");
+			$(toggle_el).toggleClass("open-sidebar");
+			return false;
+		});
 
+		$("#open-pending").click(function() {
+			$("#pending-model").toggleClass('show');
+		});
 
-                <!-- <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                  </ul>
-                </li> -->
+		$("#open-userremind").click(function() {
+			$("#userremind-model").toggleClass('show');
+		});
 
-                
+		$("#open-warning").click(function() {
+			$("#warning-model").toggleClass('show');
+		});
 
-              </ul>
-            </div>
-            <div class="content">
-                <?php
-                if (empty($params['view'])) {
-                    $this->import("/admin/enquiries");
-                } else {
-                    $this->import("/admin/" . $params['view']);
-                }
-                ?>
-            </div>
-        </div>
-    </div>
-    <script>
-        var $ = jQuery;
-        $(document).ready(function () {
-            $("[data-toggle]").click(function (e) {
-                e.preventDefault();
-                var toggle_el = $(this).data("toggle");
-                $(toggle_el).toggleClass("open-sidebar");
-                return false;
-            });
+		$("button[name=model-dismiss]").click(function() {
+			closeModel();
+		});
 
-            $("#open-pending").click(function() {
-                $("#pending-model").toggleClass('show');
-            });
+		$("button[name=model-dismiss-plan]").click(function() {
+			$("#plan_model").removeClass('show').addClass('hide');
+		});
+	});
 
-            $("#open-userremind").click(function() {
-                $("#userremind-model").toggleClass('show');
-            });
+	function closeModel()
+	{
+		$("#pending-model").removeClass('show').addClass('hide');
+		$("#userremind-model").removeClass('show').addClass('hide');
+		$("#warning-model").removeClass('show').addClass('hide');
+	};
 
-            $("#open-warning").click(function() {
-                $("#warning-model").toggleClass('show');
-            });
+	function openModel()
+	{
+		$("#pending-model").removeClass('hide').addClass('show');
+	};
 
-            $("button[name=model-dismiss]").click(function() {
-                closeModel();
-            });
-
-            $("button[name=model-dismiss-plan]").click(function() {
-                $("#plan_model").removeClass('show').addClass('hide');
-            });
-        });
-
-        function closeModel()
-        {
-            $("#pending-model").removeClass('show').addClass('hide');
-            $("#userremind-model").removeClass('show').addClass('hide');
-            $("#warning-model").removeClass('show').addClass('hide');
-        };
-
-        function openModel()
-        {
-            $("#pending-model").removeClass('hide').addClass('show');
-        };
-
-    </script>
-
+</script>
 
 <!-- Modal -->
 <div class="modal hide" id="pending-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
@@ -406,9 +481,6 @@ $this->import("/admin/layout/header");
 
         $r = $db->query($sql);
         $items = $r->fetchAll(\PDO::FETCH_ASSOC);
-
-        //print_r($items);
-
         ?>
         <table class="table table-striped table-hover ">
             <thead>
@@ -425,25 +497,21 @@ $this->import("/admin/layout/header");
             <?php
             foreach( $items as $item )
             {
-            ?>
-            <tr>
-                <td><?=$item["reference_id"];?></td>
-                <td><?=$item["created_at"];?></td>
-                <td><?=$item["updated_at"];?></td>
-                <td><?=$item["property_pending_date"];?></td>
-                <td><?=getuseradmin($item["id"], $db);?></td>
-                <td><a class="btn btn-info" href="properties#/edit/<?=$item["id"];?>" target="_blank">View</a></td>
-            </tr>
-            <?php
+				?>
+				<tr>
+					<td><?=$item["reference_id"];?></td>
+					<td><?=$item["created_at"];?></td>
+					<td><?=$item["updated_at"];?></td>
+					<td><?=$item["property_pending_date"];?></td>
+					<td><?=getuseradmin($item["id"], $db);?></td>
+					<td><a class="btn btn-info" href="properties#/edit/<?=$item["id"];?>" target="_blank">View</a></td>
+				</tr>
+				<?php
             }
 
             function getuseradmin($id, $db)
             {   
-                $sql = " SELECT 
-                  a.name
-                FROM
-                  property p , property_comment c, account a
-                WHERE p.id = '".$id."'  AND p.id = c.property_id AND c.comment_by = a.id ORDER BY c.updated_at DESC LIMIT 1";  
+                $sql = " SELECT a.name FROM property p , property_comment c, account a WHERE p.id = '".$id."'  AND p.id = c.property_id AND c.comment_by = a.id ORDER BY c.updated_at DESC LIMIT 1";  
 
                 $r = $db->query($sql);
                 $items = $r->fetch(\PDO::FETCH_ASSOC);
@@ -481,9 +549,6 @@ $this->import("/admin/layout/header");
            
         $r = $db->query($sql);
         $items = $r->fetchAll(\PDO::FETCH_ASSOC);
-
-        //print_r($items);
-
         ?>
         <table class="table table-striped table-hover ">
             <thead>
@@ -497,13 +562,13 @@ $this->import("/admin/layout/header");
             <?php
             foreach( $items as $item )
             {
-            ?>
-            <tr>
-                <td><?=$item["enquiry_id"];?></td>
-                <td><?=$item["updated_at"];?></td>
-                <td><a class="btn btn-info" href="enquiries#/edit/<?=$item["enquiry_id"];?>" target="_blank">View</a></td>
-            </tr>
-            <?php
+				?>
+				<tr>
+					<td><?=$item["enquiry_id"];?></td>
+					<td><?=$item["updated_at"];?></td>
+					<td><a class="btn btn-info" href="enquiries#/edit/<?=$item["enquiry_id"];?>" target="_blank">View</a></td>
+				</tr>
+				<?php
             }
 
             ?>
@@ -520,158 +585,171 @@ $this->import("/admin/layout/header");
 
 
 <?php
- if( $_SESSION['login']["level"]["id"] == 2 || $_SESSION['login']["level"]["id"] == 4 )
- {
+if( $_SESSION['login']['level_id'] == 2 || /* System Admin */ 
+	$_SESSION['login']['level_id'] == 4 || /* Sale */
+	$_SESSION['login']['level_id'] == 5 || /* Marketing */
+	$_SESSION['login']['level_id'] == 6 || /* HR */
+	$_SESSION['login']['level_id'] == 7 || /* Admin Manager */
+	$_SESSION['login']['level_id'] == 8 || /* Sale Manager */
+	$_SESSION['login']['level_id'] == 9    /* Marketing Manager */
+  )
+{
     ?>
-<div class="modal hide" id="warning-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
-  <div class="modal-dialog modal-lg" role="document" style="width: 90%;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" name="model-dismiss" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Last update over <?=$date_expire_mx;?> days #</h4>
-      </div>
-      <div class="modal-body">
-        
-        <?php
+	<div class="modal hide" id="warning-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
+	  <div class="modal-dialog modal-lg" role="document" style="width: 90%;">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" name="model-dismiss" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="myModalLabel">Last update over <?=$date_expire_mx;?> days #</h4>
+		  </div>
+		  <div class="modal-body">
+			
+			<?php
 
-        $sql = "SELECT 
-                  e.*, a1.name as sale_name, a2.name as manager_name, pj.name as project_name, et.name as enquiry_type_name, es.name as enquiry_status_name, rq.name_for_enquiry
-                FROM
-                  enquiry e, enquiry_type et, enquiry_status es, size_unit su, requirement rq, account a1, account a2, project pj,
-                  ( SELECT enquiry_id, MAX(updated_at) AS mx  FROM enquiry_comment ".$sql_sale."   GROUP BY enquiry_id ORDER BY  mx DESC ) em 
-                WHERE e.id = em.enquiry_id 
-				  AND e.enquiry_type_id = et.id
-				  AND e.enquiry_status_id = es.id
-				  AND e.size_unit_id = su.id
-				  AND e.requirement_id = rq.id
-				  AND e.assign_sale_id = a1.id
-				  AND e.assign_manager_id = a2.id
-				  AND e.project_id = pj.id
-                  AND DATEDIFF(NOW(), em.mx) > ".$date_expire_mx." 
-                  AND e.enquiry_status_id IN (1, 2, 3, 5, 14)
-                ORDER BY em.mx ASC LIMIT 500 ";   
-           
-        $r = $db->query($sql);
-        $items = $r->fetchAll(\PDO::FETCH_ASSOC);
+			$sql = "SELECT 
+					  e.*, a1.name as sale_name, a2.name as manager_name, pj.name as project_name, et.name as enquiry_type_name, es.name as enquiry_status_name, rq.name_for_enquiry
+					FROM
+					  enquiry e, enquiry_type et, enquiry_status es, size_unit su, requirement rq, account a1, account a2, project pj,
+					  ( SELECT enquiry_id, MAX(updated_at) AS mx  FROM enquiry_comment ".$sql_sale."   GROUP BY enquiry_id ORDER BY  mx DESC ) em 
+					WHERE e.id = em.enquiry_id 
+					  AND e.enquiry_type_id = et.id
+					  AND e.enquiry_status_id = es.id
+					  AND e.size_unit_id = su.id
+					  AND e.requirement_id = rq.id
+					  AND e.assign_sale_id = a1.id
+					  AND e.assign_manager_id = a2.id
+					  AND e.project_id = pj.id
+					  AND DATEDIFF(NOW(), em.mx) > ".$date_expire_mx." 
+					  AND e.enquiry_status_id IN (1, 2, 3, 5, 14)
+					ORDER BY em.mx ASC LIMIT 500 ";   
+			   
+			$r = $db->query($sql);
+			$items = $r->fetchAll(\PDO::FETCH_ASSOC);
 
-        //print_r($items);
+			//print_r($items);
 
-        ?>
-        <table class="table table-striped table-hover ">
-            <thead>
-            <tr>
-                <th>Enquiry no</th>
-                <th>Created</th>
-				<th>Assign to</th>
-				<th>Customer</th>
-				<th>Project</th>
-				<th>Requirement</th>
-				<th>Enquiry Type</th>
-				<th>Buying Budget</th>
-				<th>Rental Budget</th>
-				<th>Status</th>
-				<th>Updated</th>
-                <th>LINK</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php
-            foreach( $items as $item )
-            {
-            ?>
-            <tr>
-                <td><?=$item["id"];?></td>
-                <td><?=$item["created_at"];?></td>
-                <td><?php if(@$_SESSION['login']['level_id'] <= 2){ ?>
-				<strong>Manager</strong>: <?=$item["manager_name"];?>
-				<?php } ?>
-				<strong>Sale</strong>: <?=$item["sale_name"];?></td>
-                <td><?=$item["customer"];?></td>
-                <td><?=$item["project_name"];?></td>
-                <td><?=$item["name_for_enquiry"];?></td>
-                <td><?=$item["enquiry_type_name"];?></td>
-                <td>฿<?=$item["buy_budget_start"];?> - <?=$item["buy_budget_end"];?></td>
-                <td>฿<?=$item["rent_budget_start"];?> - <?=$item["rent_budget_end"];?></td>
-                <td><?=$item["enquiry_status_name"];?></td>
-                <td><?=$item["updated_at"];?></td>
-                <td><a class="btn btn-info" href="enquiries#/edit/<?=$item["id"];?>" target="_blank">View</a></td>
-            </tr>
-            <?php
-            }
+			?>
+			<table class="table table-striped table-hover ">
+				<thead>
+				<tr>
+					<th>Enquiry no</th>
+					<th>Created</th>
+					<th>Assign to</th>
+					<th>Customer</th>
+					<th>Project</th>
+					<th>Requirement</th>
+					<th>Enquiry Type</th>
+					<th>Buying Budget</th>
+					<th>Rental Budget</th>
+					<th>Status</th>
+					<th>Updated</th>
+					<th>LINK</th>
+				</tr>
+				</thead>
+				<tbody>
+				<?php
+				foreach( $items as $item )
+				{
+				?>
+				<tr>
+					<td><?=$item["id"];?></td>
+					<td><?=$item["created_at"];?></td>
+					<td><?php if(@$_SESSION['login']['level_id'] <= 2){ ?>
+					<strong>Manager</strong>: <?=$item["manager_name"];?>
+					<?php } ?>
+					<strong>Sale</strong>: <?=$item["sale_name"];?></td>
+					<td><?=$item["customer"];?></td>
+					<td><?=$item["project_name"];?></td>
+					<td><?=$item["name_for_enquiry"];?></td>
+					<td><?=$item["enquiry_type_name"];?></td>
+					<td>฿<?=$item["buy_budget_start"];?> - <?=$item["buy_budget_end"];?></td>
+					<td>฿<?=$item["rent_budget_start"];?> - <?=$item["rent_budget_end"];?></td>
+					<td><?=$item["enquiry_status_name"];?></td>
+					<td><?=$item["updated_at"];?></td>
+					<td><a class="btn btn-info" href="enquiries#/edit/<?=$item["id"];?>" target="_blank">View</a></td>
+				</tr>
+				<?php
+				}
 
-            ?>
-            </tbody>
-        </table>
+				?>
+				</tbody>
+			</table>
 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" name="model-dismiss" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" name="model-dismiss" data-dismiss="modal">Close</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
     <?php
 }
 ?>
 
 
-<?php if($_SESSION['login']['level_id'] == 4){?>
-  <!-- Modal -->
-  <div class="modal show" id="plan_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
-    <div class="modal-dialog modal-lg" role="document" style="width: 90%;">
-    <div class="modal-content">
-      <div class="modal-header">
-      <button type="button" class="close" name="model-dismiss-plan" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <h4 class="modal-title" id="myModalLabel">Plan Alert</h4>
-      </div>
-      <div class="modal-body">
-      
-      <div style="overflow-x: auto;">
-        <table class="table table-striped table-hover ">
-          <thead>
-          <tr>
-            <th>no.</th>
-            <th>Enquiry no.</th>
-            <th>Name</th>
-            <th>Plan</th>
-            <th>Status</th>
-            <th>Updated At</th>
-          </tr>
-          </thead>
-          <tbody>
-          <?php
+<?php 
+if( $_SESSION['login']['level_id'] == 4 || $_SESSION['login']['level_id'] == 8 )
+{
+	?>
+	<!-- Modal -->
+	<div class="modal show" id="plan_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
+		<div class="modal-dialog modal-lg" role="document" style="width: 90%;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" name="model-dismiss-plan" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Plan Alert</h4>
+				</div>
+				<div class="modal-body">
 
-          $sql = "SELECT ec.*, e.enquiry_no, e.enquiry_status_id, es.name as status_name, e.customer as customer FROM enquiry e, enquiry_comment ec, enquiry_status es WHERE e.id = ec.enquiry_id AND e.enquiry_status_id = es.id AND e.enquiry_status_id NOT IN('6','4', '10', '9') AND ec.comment_by = '".$_SESSION["login"]["id"]."' AND ec.plan != '' AND ec.updated_at >= DATE_ADD(CURDATE(), INTERVAL -5 DAY) limit 100";
-          $r = $db->query($sql);
+					<div style="overflow-x: auto;">
+						<table class="table table-striped table-hover ">
+							<thead>
+								<tr>
+									<th>no.</th>
+									<th>Enquiry no.</th>
+									<th>Name</th>
+									<th>Plan</th>
+									<th>Status</th>
+									<th>Updated At</th>
+								</tr>
+							</thead>
+							<tbody>
+							<?php
 
-          $row = $r->fetchAll(\PDO::FETCH_ASSOC);
+							$sql = "SELECT ec.*, e.enquiry_no, e.enquiry_status_id, es.name as status_name, e.customer as customer FROM enquiry e, enquiry_comment ec, enquiry_status es WHERE e.id = ec.enquiry_id AND e.enquiry_status_id = es.id AND e.enquiry_status_id NOT IN('6','4', '10', '9') AND ec.comment_by = '".$_SESSION["login"]["id"]."' AND ec.plan != '' AND ec.updated_at >= DATE_ADD(CURDATE(), INTERVAL -5 DAY) limit 100";
+							$r = $db->query($sql);
 
-          foreach( $row as $i => $rw )
-          {
-          ?>
-          <tr>
-            <td><?=($i+1);?></td>
-            <td><?=$rw['enquiry_no'];?></td>
-            <td><?=$rw['customer'];?></td>
-            <td><?=$rw['plan'];?></td>
-            <td><?=$rw['status_name'];?></td>
-            <td><?=$rw['updated_at'];?></td>
-          </tr>
-          <?php
-          }
-          ?>
-          </tbody>
-        </table>
-      </div>
+							$row = $r->fetchAll(\PDO::FETCH_ASSOC);
 
-      </div>
-      <div class="modal-footer">
-      <button type="button" class="btn btn-default" name="model-dismiss-plan" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-    </div>
-  </div>
-<?php }?>
+							foreach( $row as $i => $rw )
+							{
+								?>
+								<tr>
+									<td><?=($i+1);?></td>
+									<td><?=$rw['enquiry_no'];?></td>
+									<td><?=$rw['customer'];?></td>
+									<td><?=$rw['plan'];?></td>
+									<td><?=$rw['status_name'];?></td>
+									<td><?=$rw['updated_at'];?></td>
+								</tr>
+								<?php
+							}
+							?>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" name="model-dismiss-plan" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php 
+}
+?>
 
 <?php
+
 $this->import("/admin/layout/footer");

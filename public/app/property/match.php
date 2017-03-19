@@ -1,7 +1,9 @@
 <?php
 session_start();
-if(@$_SESSION['login']['level_id']!=4) {
-  exit();
+
+if( @$_SESSION['login']['level_id'] != 4 && @$_SESSION['login']['level_id'] != 8 ) 
+{
+	exit();
 }
 ?>
 <div ng-controller="MatchCTL">

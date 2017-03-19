@@ -2,7 +2,7 @@
 <div ng-controller="EditCTL">
 <?php include(dirname(__FILE__).'/head.php');?>
 <form ng-submit="submit()" id="form-edit-prop" ng-show="initSuccess"
-  ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] <= 2 && @$_SESSION['login']['level_id'] > 0);?>; isadmin = <?php echo json_encode($_SESSION['login']['level_id'] == 2 );?>;"
+  ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] != 3 && @$_SESSION['login']['level_id'] != 4 && @$_SESSION['login']['level_id'] > 0);?>; isadmin = <?php echo json_encode( ($_SESSION['login']['level_id'] == 2 || $_SESSION['login']['level_id'] == 7) );?>;"
   >
 
 	<div class="row" id="tmpl-owner">
