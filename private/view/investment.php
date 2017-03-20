@@ -17,22 +17,21 @@ $this->import('/template/top-navbar');
 			<div class="inv-project col-md-6 mgt25 clearfix">
 
 				<div class="pp-pjtag col-xs-3 col-md-3">
-					<a href="project.php"><img src="http://agent168th.com/public/prop_pic/rYOtg9jHpU6ENK13mR2JB8Lz0eDoFX4P.jpg" alt="" class="img-circle"></a>
+					<a href="/project/<?=$project_of_month['id'];?>"><img src="<?=$project_of_month['url'];?>" alt="" class="img-circle"></a>
 				</div>
-				
-				<?php
-				$otm = $topics[0];
-				?>
 				<div class="top-txt col-xs-9 col-md-9 no_padd">
-					<div><a href="project.php">The Address Sukhumvit 42 </a></div>
-					<div class="sub-pjheading mgt3"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/pin_icon.png")?>" alt="">Phra Kanong, Bangkok</div>
+					<div><a href="/project/<?=$project_of_month['id'];?>"><?=$project_of_month['name'];?></a></div>
+					<div class="sub-pjheading mgt3"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/pin_icon.png")?>" alt=""><?=$project_of_month['district_name'];?>, <?=$project_of_month['province_name'];?></div>
 				</div>
 				
 				<div class="clearfix"></div>
 
 				<div class="inv-prop col-md-12 mgt30">
 					<div class="inv-prop-headtxt3">Price Chart (THB)</div>
-					<div class="mgt30 mgb20"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/graph.png")?>" alt=""></div>
+					<div class="mgt30 mgb20">
+						<!-- <img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/graph.png")?>" alt="">  -->
+						<canvas id="invest-chart" style="width: 100%;"></canvas>
+					</div>
 				</div>
 
 			</div>
@@ -41,30 +40,30 @@ $this->import('/template/top-navbar');
 
 				<div class="inv-prop col-md-12 clearfix">
 					<div class="inv-prop-headtxt3">Current Market Price</div>
-					<div class="inv-have-bborder mgt10 mgb20"><div><span class="inv-currency">฿</span> <span class="inv-prop-price">81,082</span></div></div>
+					<div class="inv-have-bborder mgt10 mgb20"><div><span class="inv-currency">฿</span> <span class="inv-prop-price">n/a</span></div></div>
 				</div>
 				
 				<div class="inv-prop col-md-12">
 					
 					<div class="inv-prop-headtxt3">Buy</div>
-					<div class="inv-prop-lefttxt mgt15 mgb10">Change from last quarter <div class="pull-right"><div class="inv-up"></div><span class="inv-num-up pdl5 pdr5">3.82</span> %</div></div>
-					<div class="inv-prop-lefttxt mgt15 mgb10">Change from last quarter <div class="pull-right"><div class="inv-down"></div><span class="inv-num-down pdl5 pdr5">1.45</span> %</div></div>
-					<div class="inv-prop-lefttxt mgt15 inv-have-bborder pdb20">Capital gain <div class="pull-right"><span class="inv-num-bd pdl5 pdr5">3.48</span> /y</div></div>
+					<div class="inv-prop-lefttxt mgt15 mgb10">Change from last quarter <div class="pull-right"><div class="inv-up"></div><span class="inv-num-up pdl5 pdr5">n/a</span> %</div></div>
+					<div class="inv-prop-lefttxt mgt15 mgb10">Change from last quarter <div class="pull-right"><div class="inv-down"></div><span class="inv-num-down pdl5 pdr5">n/a</span> %</div></div>
+					<div class="inv-prop-lefttxt mgt15 inv-have-bborder pdb20">Capital gain <div class="pull-right"><span class="inv-num-bd pdl5 pdr5">n/a</span> /y</div></div>
 					
 				</div>
 
 				<div class="inv-prop col-md-12">
 							
 					<div class="inv-prop-headtxt3 mgt15">Rent</div>
-					<div class="inv-prop-lefttxt mgt15 mgb10">Change from last year <div class="pull-right"><div class="inv-down"></div><span class="inv-num-down pdl5 pdr5">8.50</span> %</div></div>
-					<div class="inv-prop-lefttxt mgt15 mgb10">Yield <div class="pull-right"><span class="inv-num-bd pdl5 pdr5">3.82</span> %</div></div>
+					<div class="inv-prop-lefttxt mgt15 mgb10">Change from last year <div class="pull-right"><div class="inv-down"></div><span class="inv-num-down pdl5 pdr5">n/a</span> %</div></div>
+					<div class="inv-prop-lefttxt mgt15 mgb10">Yield <div class="pull-right"><span class="inv-num-bd pdl5 pdr5">n/a</span> %</div></div>
 
 				</div>	
 
 			</div>
 	
 			<div class="col-md-12 text-center mgt15">
-				<button class="btn btn-vewproject">View Project</button>
+				<a href="/project/<?=$project_of_month['id'];?>"><button class="btn btn-vewproject">View Project</button></a>
 			</div>
 			
 			<div class="clearfix"></div>
@@ -73,26 +72,36 @@ $this->import('/template/top-navbar');
 				
 				<div class="swiper-investment-container">
 					<div class="swiper-wrapper">
+			
+						<?php 
+						foreach( $article as $at )
+						{
+							?>
+							<div class="inv-news swiper-slide">
+								<div class="news-img col-xs-12 col-md-4 no_padd">
+									<a href="/editorial?topic=<?=$at['id'];?>"><img src="<?php echo \Main\Helper\URL::absolute("/public/article_pic/".$at['image_path'])?>" class="img-responsive" alt=""></a></div>
+								<div class="col-xs-12 col-md-8">
+									<div class="news-headline"><a href="/editorial?topic=<?=$at['id'];?>"><?=$at['name'];?></a></div>
+									<div class="news-icon-sub mgt5"><div class="bd-investment">Investment</div><div class="bd-card-date"><?=date('d M Y', strtotime($at['created_at']));?></div></div>
+									<div class="news-short-detail mgt15">
+										<?=$out = mb_strlen($at['description']) > 200 ? mb_substr($at['description'],0,200)."..." : $at['description'];?>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+							<?php
+						}
+							?>
 
-				<div class="inv-news swiper-slide">
-					<div class="news-img col-xs-12 col-md-4 no_padd"><img src="http://agent168th.com/public/project_pic/20y9l7xewp6scwcoso.jpg" class="img-responsive" alt=""></div>
-					<div class="col-xs-12 col-md-8">
-						<div class="news-headline">Israel stocks higher at close of trade; TA 25 up 0.03%</div>
-						<div class="news-icon-sub mgt5"><div class="bd-investment">Investment</div><div class="bd-card-date">10 Nov 2016</div></div>
-						<div class="news-short-detail mgt15">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem mollitia libero. Fugit consequuntur mollitia cumque est expedita in et necessitatibus id aliquid animi. Aliquam repudiandae alias provident laboriosam quis quidem.</div>
-					</div>
-					<div class="clearfix"></div>
-				</div>
-
-				<div class="inv-news swiper-slide mgt3">
-					<div class="news-img col-xs-12 col-md-4 no_padd"><img src="http://agent168th.com/public/project_pic/20y9l7xewp6scwcoso.jpg" class="img-responsive" alt=""></div>
-					<div class="col-xs-12 col-md-8">
-						<div class="news-headline">Blindsided by SUV boom, Hyundai Motor trims costs, perks</div>
-						<div class="news-icon-sub mgt5"><div class="bd-investment">Investment</div><div class="bd-card-date">10 Nov 2016</div></div>
-						<div class="news-short-detail mgt15">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem mollitia libero. Fugit consequuntur mollitia cumque est expedita in et necessitatibus id aliquid animi. Aliquam repudiandae alias provident laboriosam quis quidem.</div>
-					</div>
-					<div class="clearfix"></div>
-				</div>
+						<!-- <div class="inv-news swiper-slide mgt3">
+							<div class="news-img col-xs-12 col-md-4 no_padd"><img src="http://agent168th.com/public/project_pic/20y9l7xewp6scwcoso.jpg" class="img-responsive" alt=""></div>
+							<div class="col-xs-12 col-md-8">
+								<div class="news-headline">Blindsided by SUV boom, Hyundai Motor trims costs, perks</div>
+								<div class="news-icon-sub mgt5"><div class="bd-investment">Investment</div><div class="bd-card-date">10 Nov 2016</div></div>
+								<div class="news-short-detail mgt15">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem mollitia libero. Fugit consequuntur mollitia cumque est expedita in et necessitatibus id aliquid animi. Aliquam repudiandae alias provident laboriosam quis quidem.</div>
+							</div>
+							<div class="clearfix"></div>
+						</div> -->
 			
 					</div>
 				</div>

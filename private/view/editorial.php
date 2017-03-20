@@ -16,9 +16,14 @@ $this->import('/template/top-navbar');
 						<input type="search" name="searchBy" id="searchBy" value="<?=(isset($_GET["searchBy"]))?$_GET["searchBy"]:'';?>" class="form-control search-prod search-board opabx" autocomplete="off" placeholder="What you are looking for">
 					</div>	
 				</div>
-					
+				
 				<?php
-				$topic = array('1'=>'Editorial', '2'=>'Investment', '3'=>'Topic');
+				$topic = array(
+					'1'=>'Editorial', 
+					'2'=>'Tips', 
+					'3'=>'Editorial',
+					'4'=>'Investment'
+				);
 				?>
 				<div class="form-group col-xs-6 col-sm-6 col-md-1 padd_form">
 					<div class="inp_contain">
@@ -30,8 +35,8 @@ $this->import('/template/top-navbar');
 							<input type="hidden" id="topic_id" name="topic_id" value="<?=(isset($_GET["topic_id"]))?$_GET["topic_id"]:1;?>" class="btn_value">
 							<ul class="dropdown-menu" role="menu">
 								<li><a name="sel_editorial" value="1">Editorial</a></li>
-								<li><a name="sel_investment" value="2">Investment</a></li>
-								<li><a name="sel_topic" value="3">Topic</a></li>
+								<li><a name="sel_topic" value="2">Tips</a></li>
+								<li><a name="sel_investment" value="4">Investment</a></li>
 							</ul>
 						</div>
 

@@ -82,6 +82,7 @@ $this->import('/template/top-navbar');
 					<div class="hidden-xs">
 						<?php if( isset($tp['property'][0]) ) { ?>
 						<div class="col-xs-12 col-sm-4 col-md-4 pd0">
+							<a href="/property/<?=$tp['property'][0]['id'];?>">
 							<div class="" data-refid="<?=$tp['property'][0]['reference_id'];?>">
 								<div class="prop_banner" style="background-image: url('<?=$tp['property'][0]['picture']['url'];?>');"></div>
 								<span class="overlayPhoto overlayFull mg0" data-href="/property/<?=$tp['property'][0]['id'];?>"></span>
@@ -97,11 +98,13 @@ $this->import('/template/top-navbar');
 									</ul>
 								</div>
 							</div>
+							</a>
 						</div>
 						<?php } ?>
 						
 						<?php if( isset($tp['property'][1]) ) { ?>
 						<div class="col-xs-12 col-sm-4 col-md-4 pd0">
+							<a href="/property/<?=$tp['property'][1]['id'];?>">
 							<div class="ml3" data-refid="<?=$tp['property'][1]['reference_id'];?>">
 								<div class="prop_banner" style="background-image: url('<?=$tp['property'][1]['picture']['url'];?>');"></div>
 								<span class="overlayPhoto overlayFull ml3" data-href="/property/<?=$tp['property'][1]['id'];?>"></span>
@@ -117,11 +120,13 @@ $this->import('/template/top-navbar');
 									</ul>
 								</div>
 							</div>
+							</a>
 						</div>
 						<?php } ?>
 						
 						<?php if( isset($tp['property'][2]) ) { ?>
 						<div class="col-xs-12 col-sm-4 col-md-4 pd0">
+							<a href="/property/<?=$tp['property'][2]['id'];?>">
 							<div class="ml3" data-refid="<?=$tp['property'][2]['reference_id'];?>">
 								<div class="prop_banner" style="background-image: url('<?=$tp['property'][2]['picture']['url'];?>');"></div>
 								<span class="overlayPhoto overlayFull ml3" data-href="/property/<?=$tp['property'][2]['id'];?>"></span>
@@ -137,6 +142,7 @@ $this->import('/template/top-navbar');
 									</ul>
 								</div>
 							</div>
+							</a>
 						</div>
 						<?php } ?>
 					
@@ -146,6 +152,7 @@ $this->import('/template/top-navbar');
 					
 					<?php if( isset($tp['property'][3]) ) { ?>
 					<div class="col-xs-12 col-sm-6 col-md-6 pd0">
+						<a href="/property/<?=$tp['property'][3]['id'];?>">
 						<div class="mgt3" data-refid="<?=$tp['property'][3]['reference_id'];?>">
 							<div class="prop_banner_big" style="background-image: url('<?=$tp['property'][3]['picture']['url'];?>');"></div>
 							<span class="overlayPhoto overlayFull mgt3" data-href="/property/<?=$tp['property'][3]['id'];?>"></span>
@@ -163,11 +170,13 @@ $this->import('/template/top-navbar');
 								</ul>
 							</div>
 						</div>
+						</a>
 					</div>
 					<?php } ?>	
 
 					<?php if( isset($tp['property'][4]) ) { ?>
 					<div class="col-xs-12 col-sm-6 col-md-6 pd0">
+						<a href="/property/<?=$tp['property'][4]['id'];?>">
 						<div class="ml3 mgt3" data-refid="<?=$tp['property'][4]['reference_id'];?>">
 							<div class="prop_banner_big" style="background-image: url('<?=$tp['property'][4]['picture']['url'];?>');"></div>
 							<span class="overlayPhoto overlayFull ml3 mgt3" data-href="/property/<?=$tp['property'][4]['id'];?>"></span>
@@ -185,6 +194,7 @@ $this->import('/template/top-navbar');
 								</ul>
 							</div>
 						</div>
+						</a>
 					</div>
 					<?php } ?>	
 

@@ -200,8 +200,21 @@ class ApiPropertyReportCTL extends BaseCTL {
                 "limit"=> $limit
             ]);
         }
+		
+		$where = array();
+		foreach( $list['data'] as &$ls )
+		{
+			$where["AND"]['property_id'] = $ls['id'];
+			$where["ORDER"] = 'updated_at DESC';
+			$where["LIMIT"] = 1;
+			$row = $db->select('property_comment', '*', $where);
+			$comment_by = $db->get('account', 'name', ['id'=>$row[0]['comment_by']]);
 
-        // $list['sql'] = $db->last_query();
+			$ls['last_comment'] = $row[0]['comment'];
+			$ls['comment_by'] = $comment_by;
+		}
+
+		//$list['sql'] = $db->log();
 
         return $list;
     }

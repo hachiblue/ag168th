@@ -19,8 +19,13 @@ var page = '<?=$params["page"];?>';
 <script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/jquery-ui-datepicker.js")?>"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/bootstrap-datepicker-init.js")?>"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/fileinput.min.js")?>"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/app168.js")?>"></script>
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+
+<link rel="stylesheet" href="<?php echo \Main\Helper\URL::absolute("/public/css/skylo.css");?>" />
+<script type="text/javascript" src="<?php echo \Main\Helper\URL::absolute("/public/js/skylo.js");?>"></script>

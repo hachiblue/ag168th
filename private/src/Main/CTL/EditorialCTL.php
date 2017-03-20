@@ -47,6 +47,11 @@ class EditorialCTL extends BaseCTL {
 		{
 			$where["AND"]['description[~]'] = $params['searchBy'];
 		}
+
+		if( isset($params['topic_id']) && !empty($params['topic_id']) ) 
+		{
+			$where["AND"]['topic_id'] = ( $params['topic_id'] == 1 )? array(1, 3) : $params['topic_id'];
+		}
 		
 		$where["ORDER"] = 'created_at DESC';
 
@@ -56,13 +61,12 @@ class EditorialCTL extends BaseCTL {
 		$article_idxs = array();
 		foreach( $article as &$topic )
 		{
-			if( $topic['topic_id'] == 2 )
+			switch( $topic['topic_id'] )
 			{
-				$topic['icon'] = 'post_topic_icon';
-			}
-			else
-			{
-				$topic['icon'] = 'post_editorial_icon';
+				case '1' : $topic['icon'] = 'post_editorial_icon'; break;
+				case '2' : $topic['icon'] = 'post_topic_icon'; break;
+				case '3' : $topic['icon'] = 'post_editorial_icon'; break;
+				case '4' : $topic['icon'] = 'post_investment_icon'; break;
 			}
 			
 			$topic['total_comment'] = $db->count("article_comment", [

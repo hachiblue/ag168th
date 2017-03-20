@@ -16,36 +16,40 @@ $projectId = $params['project_id'];
 </div>
 <button id="deleteImages" class="btn btn-danger">REMOVE ALL SELECT</button>
 <script type="text/javascript">
-$(function(){
-  "use strict";
 
-  var id = <?php echo json_encode($projectId);?>;
+$(function() {
 
-  var $blockList = $('#block-imgs');
+	"use strict";
 
-  function init() {
-    $.get('../../../api/project/image', { project_id: id }, function(data){
-      for (var i in data.data) {
-        insertEl(data.data[i]);
-      }
-    }, 'json');
-  }
+	var id = <?php echo json_encode($projectId);?>;
+	var $blockList = $('#block-imgs');
 
-  function insertEl(row) {
-    var $el = $('<div class="block-img"><label><input class="ch-box" type="checkbox"><img class="imgThumb" /><label></div>');
-    var $img = $('.imgThumb', $el);
-    $img.attr('src', row.image_url);
-    // $img.attr('width', 80);
-    $img.attr('height', 60);
-    var $chBox = $('.ch-box', $el);
-    $chBox.val(row.id);
-    $blockList.append($el);
-  }
+	function init() 
+	{
+		$.get('../../../api/project/image', { project_id: id }, function(data){
+			for (var i in data.data) 
+			{
+				insertEl(data.data[i]);
+			}
+		}, 'json');
+	}
 
-  function clearBlocks() {
-    $('.block-img').remove();
-  }
+	function insertEl(row) 
+	{
+		var $el = $('<div class="block-img"><label><input class="ch-box" type="checkbox"><img class="imgThumb" /><label></div>');
+		var $img = $('.imgThumb', $el);
+		$img.attr('src', row.image_url);
+		// $img.attr('width', 80);
+		$img.attr('height', 60);
+		var $chBox = $('.ch-box', $el);
+		$chBox.val(row.id);
+		$blockList.append($el);
+	}
 
+	function clearBlocks() 
+	{
+		$('.block-img').remove();
+	}
 
   $('#form-upload').submit(function(e){
     e.preventDefault();

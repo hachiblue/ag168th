@@ -1232,9 +1232,62 @@ $(document).on("ready", function () {
 		$( "#form-property" ).on( "submit", function( e ) {
 
 			e.preventDefault();
+			$.skylo('start');
+
+			var fData = new FormData(this);
 
 			var $this = $(this);
 
+			$.ajax({
+				url: '/member/post_property',
+				type: 'post',
+				data: fData,
+				dataType: "json",
+				cache: false,
+				contentType: false,
+				processData: false,
+				xhr: function() {
+					var xhr = new window.XMLHttpRequest();
+					xhr.upload.addEventListener("progress", function(evt) {
+						if (evt.lengthComputable) 
+						{
+							var percentComplete = (evt.loaded / evt.total)*100;
+							$.skylo('set', parseInt(percentComplete));
+							console.log(percentComplete);
+						}
+					}, false);
+
+					xhr.addEventListener("progress", function(evt) {
+						if (evt.lengthComputable) 
+						{
+							var percentComplete = (evt.loaded / evt.total) * 100;
+							$.skylo('set', parseInt(percentComplete));
+							console.log(percentComplete);
+						}
+					}, false);
+
+					return xhr;
+				},
+				success: function(data) {
+					$.skylo('end');
+					//clearBlocks();
+					//init();
+
+					alert('Your property has been sent');
+					$( "#form-property" )[0].reset();
+					window.location = '';
+				},
+				error: function() {
+					$.skylo('end');
+					//clearBlocks();
+					//init();
+				}
+			});
+
+
+
+
+			/*
 			$.post('/member/post_property', $this.serialize(), function( msg ) {
 				
 				if( msg.success )
@@ -1249,6 +1302,7 @@ $(document).on("ready", function () {
 				}
 
 			}, 'json');
+			*/
 
 		});
 
@@ -1311,19 +1365,41 @@ $(document).on("ready", function () {
 	
 	if( $('#image_file').length )
 	{
-		$("#image_file").fileinput({
+		var gl = {};
+		if( typeof e_property != 'undefined' && e_property.gallery.length > 0 )
+		{
+			var gallery = e_property.gallery, i;
+			
+			gl.initialPreviewAsData = true;
+			gl.overwriteInitial = false;
+			gl.initialPreview = [];
+			gl.initialPreviewConfig = [];
+
+			for( i in gallery )
+			{
+				gl.initialPreview.push('/public/prop_pic/'+gallery[i].name);
+				gl.initialPreviewConfig.push({key: gallery[i].id});
+			}
+		}
+
+		var f_opt = {
+			deleteUrl: "/member/delete_gallery",
 			uploadUrl: "/file-upload-batch/2",
 			showUpload: false,
 			allowedFileExtensions: ["jpg", "png", "gif"],
 			browseOnZoneClick : true,
 			showBrowse: false,
-			maxFileSize: 1000,
+			//maxFileSize: 1000,
 			fileActionSettings : { showUpload: false },
 			dropZoneClickTitle : '',
 			showCaption : false,
 			showRemove: false,
-			dropZoneTitle : '<div class="lyp-upload-pic mgt30"><i class="fa fa-picture-o" aria-hidden="true"></i></div><div class="lyp-upload-txt">Upload Photo</div><div class="lyp-upload-ext mgt5">Allow .jpg .gif .png and Max file size per image is  not 1mb</div><div class="lyp-upload-btn mgt20"><i class="fa fa-upload" aria-hidden="true"></i> Add Files</div>'
-		});
+			dropZoneTitle : '<div class="lyp-upload-pic mgt30"><i class="fa fa-picture-o" aria-hidden="true"></i></div><div class="lyp-upload-txt">Upload Photo</div><div class="lyp-upload-ext mgt5">Allow .jpg .gif .png</div><div class="lyp-upload-btn mgt20"><i class="fa fa-upload" aria-hidden="true"></i> Add Files</div>'
+		};
+
+		f_opt = $.extend(f_opt, gl);
+
+		$("#image_file").fileinput(f_opt);
 	}
 
 	if( $('#map').length && ! isMobile )
@@ -1368,6 +1444,36 @@ $(document).on("ready", function () {
 			defaultPreviewContent: '<img src="'+mPicture+'" alt="Your Picture" style="width:160px">',
 			//layoutTemplates: {main2: '{preview} ' +  btnCust + ' {remove} {browse}'},
 			allowedFileExtensions: ["jpg", "png", "gif"]
+		});
+	}
+
+	if( $('#invest-chart').length )
+	{
+		var data = {
+			labels: ["2014", "2015", "2016", "2017"],
+			datasets: [{
+				borderColor: 'rgba(251, 99, 74, 1)',
+                type: 'line',
+                label: 'Investment',
+                data: [20, 26, 32, 45],
+            }]
+		};
+
+		var opts = {
+			scales: {
+				xAxes: [{
+					time: {
+						unit: 'year'
+					}
+				}]
+			}
+		};
+
+		var ctx = document.getElementById("invest-chart");
+		var myLineChart = new Chart(ctx, {
+			type: 'line',
+			data: data,
+			//options: opts
 		});
 	}
 

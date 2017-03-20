@@ -1,7 +1,6 @@
 <?php 
 extract($params);
 $this->import('/template/top-navbar'); 
-
 ?>
 
 <section id="postPropertyContainer" class="a_container">
@@ -234,7 +233,7 @@ $this->import('/template/top-navbar');
 			<div class="clearfix"></div>
 
 			<div class="bg-white">
-				<input id="image_file" name="image[]" type="file" multiple class="file-loading">
+				<input id="image_file" name="images[]" type="file" multiple class="file-loading">
 			</div>
 			
 			<div class="clearfix"></div>

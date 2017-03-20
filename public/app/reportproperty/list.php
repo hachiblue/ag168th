@@ -194,7 +194,9 @@
           <th>Status</th>
           <th>Zone</th>
           <th>Owner</th>
-          <th>Province</th>
+          <th>Last Comment</th>
+          <th>Last Comment By</th>
+          <!-- <th>Province</th> -->
           <!-- <th>Total Unit</th> -->
       </tr>
       </thead>
@@ -217,7 +219,9 @@
           <td>{{prop.property_status_name}}</td>
           <td>{{prop.zone_name}}</td>
           <td>{{prop.owner}}</td>
-          <td>{{prop.province_name}}</td>
+          <td>{{prop.last_comment}}</td>
+          <td>{{prop.comment_by}}</td>
+          <!-- <td>{{prop.province_name}}</td> -->
           <td><a class="btn btn-info" href="properties#/edit/{{prop.id}}" target="_blank">View</a></td>
       </tr>
       </tbody>

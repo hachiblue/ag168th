@@ -139,8 +139,18 @@
 						<div class="propContain col-md-7 mgtb7" data-prop-contain='1'>
 
 							<div class="wm-bx-prop input-group col-md-3">
-							  <input type="text" class="inp-props form-control" data-ivid="1" value="" placeholder="REF." aria-describedby="addon1">
-							  <span class="btn-delprop input-group-addon" id="addon1"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
+								<!-- <input type="text" class="inp-props form-control" data-ivid="1" value="" placeholder="REF." aria-describedby="addon1"> -->
+
+								<select id="proj_of_month" class="inp-props form-control" data-ivid="1">
+									<?php
+									foreach( $params['extends']['project'] as $pj )
+									{
+										?>
+										<option value="<?=$pj['id'];?>"><?=$pj['name'];?></option>
+										<?php
+									}
+									?>
+								</select>
 							</div>
 
 						</div>
@@ -482,6 +492,9 @@ var wm = {
 			}
 
 		});
+
+		$('[data-ivid=1]').val( ob[0].ref );
+		$('#proj_of_month').chosen({disable_search_threshold: 10});
 
 		self.re_btnEvent();
 	}

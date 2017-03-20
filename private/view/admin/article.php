@@ -27,7 +27,7 @@ $xcrud->change_type('image_path', 'image', '', [
 	]
 ]);
 
-$xcrud->change_type('topic_id', 'select', '', [null=> '', 1=> 'News', 2=> 'Tips', 3=> 'Review']);
+$xcrud->change_type('topic_id', 'select', '', [null=> '', 1=> 'News', 2=> 'Tips', 3=> 'Review', 4=> 'Investment']);
 
 // $xcrud->where('level_id =', 3);
 $xcrud->fields('created_at', true);

@@ -162,7 +162,13 @@ class AdminCTL extends BaseCTL {
         $exCount = $db->count("property", "*", $where);
         //$exCount = $db->last_query();
 
-        return new HtmlView('/admin/index', array("view" => $view, "pqCount" => $pqCount, "exCount" => $exCount));
+		$ex_data = array();
+		if( $view == 'webmanage' )
+		{
+			$ex_data['project'] = $db->select("project", "*", ['ORDER'=>'name desc']);
+		}
+
+        return new HtmlView('/admin/index', array("view" => $view, "pqCount" => $pqCount, "exCount" => $exCount, "extends" => $ex_data));
     }
 
 	/**

@@ -46,10 +46,41 @@ class InvestmentCTL extends BaseCTL {
 
 		$pItems['topics'] = $items;
 
+		$project_id = $db->get('iv_property', 'property_reference_id', ['iv_topic_id'=>'1']);
+
+		$pItems['project_of_month'] = $db->get("project", "*", ["id"=> $project_id]);
+		
+		$where = ["AND"=> []];
+		$where["AND"]['topic_id'] = 4;
+		$where["ORDER"] = 'created_at DESC';
+		$where["LIMIT"] = 2;
+		$pItems['article'] = $db->select("article", "*", $where);
+
+		$this->_buildProject( $pItems['project_of_month'] );
+
 		unset($items);
 
 		return new HtmlView('/template/layout', $pItems );
     }
+	
+	public function _buildProject(&$item)
+	{
+		$db = MedooFactory::getInstance();
+
+		$path = '/public/project_pic/'.$item['image_path'];
+		//if(is_file($path)) 
+		if( $this->is_file_exists( $path ) ) 
+		{
+			$item['url'] = URL::absolute($path);
+		}
+		else 
+		{
+			$item['url'] = URL::absolute("public/assets/default-project.jpg");
+		}
+
+		$item['province_name'] = $db->get('province', 'name', ['id'=>$item['province_id']]);
+		$item['district_name'] = $db->get('district', 'name', ['id'=>$item['district_id']]);
+	}
 
 	public function _buildTopic(&$item)
 	{

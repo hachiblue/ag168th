@@ -18,6 +18,7 @@ use Main\ThirdParty\Xcrud\Xcrud;
 use Main\DB\Medoo\MedooFactory;
 use Main\Helper\ResponseHelper;
 use Main\Helper\URL;
+use Main\Helper\ImageHelper;
 
 /**
  * @Restful
@@ -545,6 +546,9 @@ class memberCTL extends BaseCTL {
 			$e_property = $db->get('property', '*', ['id'=>$params['edit']]);
 			$e_property['auto-search_project'] = $db->get('project', 'name', ['id'=>$e_property['project_id']]);
 			$e_property['property_id'] = $e_property['id'];
+
+			$gallery = $db->select('property_image', '*', ['property_id'=>$params['edit']]);
+			$e_property['gallery'] = $gallery;
 		}
 
 		$requirement = $db->select('requirement', '*', ['id'=>[1,2]]);
@@ -742,6 +746,7 @@ class memberCTL extends BaseCTL {
 			if( isset($params['property_id']) && !empty($params['property_id']) )
 			{
 				$id = $db->update('property', $insert, ['id'=>$params['property_id']]);
+				$prop_id = $params['property_id'];
 			}
 			else
 			{
@@ -756,9 +761,13 @@ class memberCTL extends BaseCTL {
 				];
 
 				$db->insert("property_comment", $commentInsert);
+
+				$prop_id = $id;
 			}
 
 			$db->pdo->commit();
+		
+			$this->post_gallery($prop_id);
 
 			//$item = $db->get('enquiry', "*", ["id"=> $id]);
 			//return $item;
@@ -770,6 +779,60 @@ class memberCTL extends BaseCTL {
 
         //return new HtmlView('/template/layout', $pItems);
     }
+
+	/**
+     * @POST
+	 * @uri /delete_gallery
+     */
+    public function delete_gallery () 
+	{
+        $params = $this->reqInfo->params();
+		$db = MedooFactory::getInstance();
+		
+		$gallery = $db->get('property_image', '*', ['id'=>$params['key']]);
+
+		if( $db->delete("property_image", ["id"=> $params['key']]) )
+		{
+			if( is_file( 'public/prop_pic/' . $gallery['name'] ) )
+			{
+				unlink( 'public/prop_pic/' . $gallery['name'] );
+			}
+		}
+		
+		return ["success"=> true];
+    }
+
+	public function post_gallery ($id)
+	{
+		$validator = new \FileUpload\Validator\Simple(1024 * 1024 * 4, ['image/png', 'image/jpg', 'image/jpeg']);
+        $pathresolver = new \FileUpload\PathResolver\Simple('public/prop_pic');
+        $filesystem = new \FileUpload\FileSystem\Simple();
+        $filenamegenerator = new \FileUpload\FileNameGenerator\Random();
+
+        $fileupload = new \FileUpload\FileUpload($_FILES['images'], $_SERVER);
+        $fileupload->setPathResolver($pathresolver);
+        $fileupload->setFileSystem($filesystem);
+        $fileupload->addValidator($validator);
+
+        $fileupload->setFileNameGenerator($filenamegenerator);
+
+        list($files, $headers) = $fileupload->processAll();
+
+        $db = MedooFactory::getInstance();
+
+        foreach($files as $file)
+		{
+            if($file->error == 0)
+			{
+                $db->insert("property_image", ["property_id"=> $id, "name"=> $file->name]);
+                // $ffff[] = $file;
+				//print_r($db->log());exit;
+                ImageHelper::makeResizeWatermark($file->path);
+            }
+        }
+
+		return ["success"=> true];
+	}
 
 	public function update_fav ( $params )
 	{
