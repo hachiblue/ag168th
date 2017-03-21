@@ -201,7 +201,7 @@ $this->import('/template/top-navbar');
 							if( $proj['av_unit'] > 0 )
 							{
 							?>
-							<div class="cardContainer map_project" data-seq="<?=$key;?>" data-name="<?php echo $proj['name'];?>" data-pic="<?php echo $proj["image_path"];?>">
+							<div class="cardContainer map_project" data-seq="<?=$key;?>" data-id="<?php echo $proj["id"];?>" data-name="<?php echo $proj['name'];?>" data-pic="<?php echo $proj["image_path"];?>">
 								<div class="project_list col-md-4 mgb20" data-prop="<?php echo $proj["id"];?>">
 									<div class="pj-top" data-prop="<?php echo $proj["id"];?>">
 										<div class="img-pd" style="background: url(<?php echo $proj["image_path"];?>);"></div>

@@ -52,25 +52,89 @@ class ApiLeaveCTL extends BaseCTL {
 			$year = $params['year'];
 		}
 		
-		$sql = "select count(ml.id) as total, DAY(ml.created_at) as dDay from mng_leave ml where MONTH(ml.created_at) = '$month' and YEAR(ml.created_at) = '$year' ";
+		//no approve
+		$nleave = array();
+		$sql = "select count(ml.id) as total, DAY(ml.created_at) as dDay from mng_leave ml where MONTH(ml.created_at) = '$month' and YEAR(ml.created_at) = '$year' and late_flag = 'y' AND ISNULL(ml.supervisor_approve_id) ";
+		if( $_SESSION['login']['level']['id'] == 4 ) $sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
+		$sql .= "  group by dDay ";
 
-		if( $_SESSION['login']['level']['id'] == 4 )
+		$r = $db->query($sql);
+		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
+	
+		foreach( $rows as $row )
 		{
-			$sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
+			$nleave[$row['dDay']] = $row['total'];
 		}
 
+		$sql = "select count(ml.id) as total, DAY(ml.rqshift_date) as dDay from mng_leave ml where MONTH(ml.rqshift_date) = '$month' and YEAR(ml.rqshift_date) = '$year' and rqshift_flag = 'y' AND ISNULL(ml.supervisor_approve_id) ";
+		if( $_SESSION['login']['level']['id'] == 4 ) $sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
 		$sql .= "  group by dDay ";
 
 		$r = $db->query($sql);
 		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
 		
-		$groups = array();
 		foreach( $rows as $row )
 		{
-			$groups[$row['dDay']] = $row['total'];
+			$nleave[$row['dDay']] = isset($nleave[$row['dDay']]) ? $nleave[$row['dDay']] + $row['total'] : $row['total'];
 		}
 
-        echo '<div class="col-md-6"><h2>'.$months[$month-1].'</h2></div><div>' . $this->draw_calendar($month, $year, $groups) . '</div>';
+		$sql = "select count(ml.id) as total, DAY(ml.rqperiod_from_date) as dDay from mng_leave ml where MONTH(ml.rqperiod_from_date) = '$month' and YEAR(ml.rqperiod_from_date) = '$year' and rqperiod_flag = 'y' AND ISNULL(ml.supervisor_approve_id) ";
+		if( $_SESSION['login']['level']['id'] == 4 ) $sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
+		$sql .= "  group by dDay ";
+
+		$r = $db->query($sql);
+		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
+		
+		foreach( $rows as $row )
+		{
+			$nleave[$row['dDay']] = isset($nleave[$row['dDay']]) ? $nleave[$row['dDay']] + $row['total'] : $row['total'];
+		}
+	
+
+		
+
+		//approve
+		$leave = array();
+		$sql = "select count(ml.id) as total, DAY(ml.created_at) as dDay from mng_leave ml where MONTH(ml.created_at) = '$month' and YEAR(ml.created_at) = '$year' and late_flag = 'y' AND !ISNULL(ml.supervisor_approve_id) ";
+		if( $_SESSION['login']['level']['id'] == 4 ) $sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
+		$sql .= "  group by dDay ";
+
+		$r = $db->query($sql);
+		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
+
+		foreach( $rows as $row )
+		{
+			$leave[$row['dDay']] = $row['total'];
+		}
+
+		$sql = "select count(ml.id) as total, DAY(ml.rqshift_date) as dDay from mng_leave ml where MONTH(ml.rqshift_date) = '$month' and YEAR(ml.rqshift_date) = '$year' and rqshift_flag = 'y' AND !ISNULL(ml.supervisor_approve_id) ";
+		if( $_SESSION['login']['level']['id'] == 4 ) $sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
+		$sql .= "  group by dDay ";
+
+		$r = $db->query($sql);
+		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
+		
+		foreach( $rows as $row )
+		{
+			$leave[$row['dDay']] = isset($leave[$row['dDay']]) ? $leave[$row['dDay']] + $row['total'] : $row['total'];
+		}
+
+		$sql = "select count(ml.id) as total, DAY(ml.rqperiod_from_date) as dDay from mng_leave ml where MONTH(ml.rqperiod_from_date) = '$month' and YEAR(ml.rqperiod_from_date) = '$year' and rqperiod_flag = 'y' AND !ISNULL(ml.supervisor_approve_id) ";
+		if( $_SESSION['login']['level']['id'] == 4 ) $sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
+		$sql .= "  group by dDay ";
+
+		$r = $db->query($sql);
+		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
+		
+		foreach( $rows as $row )
+		{
+			$leave[$row['dDay']] = isset($leave[$row['dDay']]) ? $leave[$row['dDay']] + $row['total'] : $row['total'];
+		}
+
+
+
+
+        echo '<div class="col-md-6"><h2>'.$months[$month-1].'</h2></div><div>' . $this->draw_calendar($month, $year, $nleave, $leave) . '</div>';
 
     }
 	
@@ -221,14 +285,29 @@ class ApiLeaveCTL extends BaseCTL {
 
 		$date = $year . '-' . $month . '-' . $day;
 		
-		$sql = "SELECT ac.name AS account_name, lv.name AS level_name, ml.* FROM mng_leave ml, account ac, level lv WHERE ml.account_id = ac.id AND ml.level_id = lv.id AND DATE_FORMAT(ml.created_at,'%Y-%m-%d') ='".$date."' ";
+		$sql = "SELECT ac.name AS account_name, lv.name AS level_name, ml.* FROM mng_leave ml, account ac, level lv WHERE ml.account_id = ac.id AND ml.level_id = lv.id AND DATE_FORMAT(ml.created_at,'%Y-%m-%d') ='".$date."' AND late_flag='y' ";
+
+		if( $_SESSION['login']['level']['id'] == 4 )
+		{
+			$sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
+		}
+		
+		$sql .= "UNION SELECT ac.name AS account_name, lv.name AS level_name, ml.* FROM mng_leave ml, account ac, level lv WHERE ml.account_id = ac.id AND ml.level_id = lv.id AND DATE_FORMAT(ml.rqshift_date,'%Y-%m-%d') ='".$date."' AND rqshift_flag='y' ";
 
 		if( $_SESSION['login']['level']['id'] == 4 )
 		{
 			$sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
 		}
 
-		$sql .= " order by ml.created_at desc ";
+		$sql .= "UNION SELECT ac.name AS account_name, lv.name AS level_name, ml.* FROM mng_leave ml, account ac, level lv WHERE ml.account_id = ac.id AND ml.level_id = lv.id AND DATE_FORMAT(ml.rqperiod_from_date,'%Y-%m-%d') ='".$date."' AND rqperiod_flag='y' ";
+
+		if( $_SESSION['login']['level']['id'] == 4 )
+		{
+			$sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
+		}
+
+
+		//$sql .= " order by ml.created_at desc ";
 
 		$r = $db->query($sql);
 		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
@@ -261,6 +340,11 @@ class ApiLeaveCTL extends BaseCTL {
 						</md-button>
 					</a>';
 					}
+
+				if( $row['supervisor_approve_id'] == '' )
+				{	
+					echo '<div class="row text-danger" style="padding:10px;">ยังไม่ได้ approve</div>';
+				}
 				
 				$is_late = $row['late_flag'] == 'y' ? '(สาย)' : '';
 				echo '
@@ -402,7 +486,7 @@ class ApiLeaveCTL extends BaseCTL {
 		</md-dialog>';
 	}
 
-	private function draw_calendar($month, $year, $dDay)
+	private function draw_calendar($month, $year, $nleave, $leave)
 	{
 		/* draw table */
 		$calendar = '<table class="table calendar">';
@@ -444,10 +528,17 @@ class ApiLeaveCTL extends BaseCTL {
 									</md-button></p>';
 				}
 				*/
-				if( isset($dDay[$list_day]) && !empty($dDay[$list_day]) )
+				if( isset($nleave[$list_day]) && !empty($nleave[$list_day]) )
 				{
-					$calendar .= '<p><md-button class="md-primary md-raised" ng-click="showAdvanced($event, '.$month.', '.$year.', '.$list_day.')">
-										รวม '.$dDay[$list_day].' คน
+					$calendar .= '<p><md-button class="md-warn md-raised sm" ng-click="showAdvanced($event, '.$month.', '.$year.', '.$list_day.')">
+										รอ approve <br>รวม '.$nleave[$list_day].' คน
+									</md-button></p>';
+				}
+
+				if( isset($leave[$list_day]) && !empty($leave[$list_day]) )
+				{
+					$calendar .= '<p><md-button class="md-primary md-raised sm" ng-click="showAdvanced($event, '.$month.', '.$year.', '.$list_day.')">
+										approve แล้ว <br>รวม '.$leave[$list_day].' คน
 									</md-button></p>';
 				}
 				

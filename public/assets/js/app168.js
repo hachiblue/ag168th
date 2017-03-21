@@ -265,7 +265,7 @@ function initialize()
 	geocoder = new google.maps.Geocoder();
 
 	setMarkers(params.items);
-	
+	//autocenter();
 	// Bind event listener on button to reload markers
 	//document.getElementById('reloadMarkers').addEventListener('click', reloadMarkers);
 }
@@ -278,7 +278,7 @@ function setMarkers(locations)
 	{
 		prop = locations[i];
 		prop.seq = i;
-
+		
 		geocoder.geocode({
 			'address': ('undefined' != typeof prop.project) ? prop.project.address : prop.address
 		}, 
@@ -315,11 +315,11 @@ function geoCallback(prop)
 		
 		if( 'undefined' != typeof prop.project )
 		{
-			var content = '<a href="#" class=""><div class="gmap-marker" data-marker="'+prop.seq+'">'+ (price_toshort(price) != 0 ? price_toshort(price) : 'n/a')+'</div></a>';
+			var content = '<a href="#" class=""><div class="gmap-marker" data-marker="'+prop.id+'">'+ (price_toshort(price) != 0 ? price_toshort(price) : 'n/a')+'</div></a>';
 		}
 		else
 		{
-			var content = '<a href="#" class=""><div class="gmap-marker2 map_project" data-marker="'+prop.seq+'">'+ prop.av_unit+'</div></a>';
+			var content = '<a href="#" class=""><div class="gmap-marker2 map_project" data-marker="'+prop.id+'">'+ prop.av_unit+'</div></a>';
 		}
 
 		if (status == google.maps.GeocoderStatus.OK) 
@@ -328,7 +328,7 @@ function geoCallback(prop)
 				position: results[0].geometry.location,
 				map: map,
 				address: ('undefined' != typeof prop.project) ? prop.project.address : prop.address,
-				animation: google.maps.Animation.DROP,
+				//animation: google.maps.Animation.DROP,
 				title: prop.name,
 				content: content,
 				zIndex: 1,
@@ -356,11 +356,11 @@ function geoCallback(prop)
 		}
 		
 		marker.addListener('mouseover', function() {
-          when_hover(prop.seq);
+          when_hover.call(this, prop.id);
         });
 
 		marker.addListener('mouseout', function() {
-          when_offhover(prop.seq);
+          when_offhover(prop.id);
         });
 		
 		/*
@@ -400,13 +400,44 @@ function getMapCenter()
 var infowindow = null;
 function when_hover(e)
 {
+	var self = this;
+	var autopan = true;
+
 	if( e.type != 'mouseenter' )
 	{
-		var $this = $('.cardContainer[data-seq='+e+']');
+		var $this = $('.cardContainer[data-id='+e+']');
+		self = this;
+		autopan = false;
 	}
 	else
 	{
 		var $this = $(this);
+		self = markers[$this.data('seq')];
+		autopan = true;
+	}
+
+	var mapCenter = map.getCenter();
+	var markerPosition = self.position;
+
+	var horizontal = undefined;
+	var vertical = undefined;
+
+	if( mapCenter.lat() < markerPosition.lat() )	// marker is on the right side
+	{ 
+		vertical = 'top';
+	} 
+	else 
+	{
+		vertical = 'bottom';
+	}
+
+	if(mapCenter.lng() < markerPosition.lng()) 
+	{
+		horizontal = 'right';
+	} 
+	else 
+	{
+		horizontal = 'left';
 	}
 
 	if (infowindow) 
@@ -425,27 +456,49 @@ function when_hover(e)
 	}
 	else
 	{
-		var content =  '<div class="gmap-infobox" style="1px solid #bbb">' + $this.html().replace('pd-bottom', 'pd-bottom hidden') + '</div>';
+		var content =  '<div class="gmap-infobox3" style="1px solid #bbb">' + $this.html()
+			.replace('pd-bottom', 'pd-bottom hidden').replace('col-md-4', '') + '</div>';
 	}
 
 	var myOptions = {
-		content: content
-		,maxWidth: 0
-		,pixelOffset: new google.maps.Size(-140, 0)
-		,zIndex: null
-		,boxStyle: { 
-			width: "100%"
-		}
-		,closeBoxURL : ''
-		,closeBoxMargin: "10px 2px 2px 2px"
-		,isHidden: false
-		,infoBoxClearance: new google.maps.Size(1, 1)
-		,enableEventPropagation: false
+		content: content,
+		maxWidth: 150,
+		pixelOffset: new google.maps.Size(0, 0),
+		disableAutoPan: ! autopan,
+		zIndex: null,
+		boxStyle: { 
+			width: "230px",
+			opacity: 0.95
+		},
+		closeBoxURL : '',
+		closeBoxMargin: "10px 2px 2px 2px",
+		isHidden: false,
+		infoBoxClearance: new google.maps.Size(1, 1),
+		enableEventPropagation: false
 	};
 
 	infowindow = new InfoBox(myOptions);
 	
 	var seq = $this.data('seq');
+	
+	if(horizontal == 'right') 
+	{
+		infowindow.pixelOffset_.width = -300;
+	} 
+	else 
+	{
+		infowindow.pixelOffset_.width = 0;
+	}
+
+	if(vertical == 'top') 
+	{
+		infowindow.pixelOffset_.height = 0;
+	} 
+	else 
+	{
+		infowindow.pixelOffset_.height = -200;
+	}
+
 
 	if( undefined !== markers[ +seq ] )
 	{
@@ -460,6 +513,18 @@ function when_offhover()
 		infowindow.close();
 	}
 }	
+
+function autocenter()
+{
+	//  Create a new viewpoint bound
+	var bounds = new google.maps.LatLngBounds();
+	//  Go through each...
+	$.each(markers, function (index, marker) {
+		bounds.extend(marker.position);
+	});
+	//  Fit these bounds to the map
+	map.fitBounds(bounds);
+}
 
 function chkfav()
 {

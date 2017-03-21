@@ -476,7 +476,7 @@ $this->import('/template/top-navbar');
 						foreach( $items as $key=> $props )
 						{
 							?>
-							<div class="cardContainer" data-seq="<?=$key;?>">
+							<div class="cardContainer" data-seq="<?=$key;?>" data-id="<?=$props["id"];?>">
 								<div class="property_list col-md-4 mgb20" data-prop="<?php echo $props["id"];?>">
 									<div class="pd-top" data-prop="<?php echo $props["id"];?>">
 										<div class="img-pd" style="background-image: url(<?php echo $props["picture"]["url"];?>);"></div>

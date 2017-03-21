@@ -966,6 +966,10 @@ input.search-bar:-moz-placeholder { /* Firefox 18- */
 	margin-left: 3px;
 }
 
+.mgl10 {
+	margin-left: 10px;
+}
+
 .mg-auto {
 	margin: auto;
 }

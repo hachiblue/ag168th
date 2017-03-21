@@ -20,8 +20,8 @@ $this->import('/template/top-navbar');
 					<a href="/project/<?=$project_of_month['id'];?>"><img src="<?=$project_of_month['url'];?>" alt="" class="img-circle"></a>
 				</div>
 				<div class="top-txt col-xs-9 col-md-9 no_padd">
-					<div><a href="/project/<?=$project_of_month['id'];?>"><?=$project_of_month['name'];?></a></div>
-					<div class="sub-pjheading mgt3"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/pin_icon.png")?>" alt=""><?=$project_of_month['district_name'];?>, <?=$project_of_month['province_name'];?></div>
+					<div class="mgl10"><a href="/project/<?=$project_of_month['id'];?>"><?=$project_of_month['name'];?></a></div>
+					<div class="sub-pjheading mgt3 mgl10"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/pin_icon.png")?>" alt=""><?=$project_of_month['district_name'];?>, <?=$project_of_month['province_name'];?></div>
 				</div>
 				
 				<div class="clearfix"></div>

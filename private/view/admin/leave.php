@@ -7,6 +7,13 @@
 <link rel="stylesheet" href="<?php echo \Main\Helper\URL::absolute("/bower_components/angular/angular-material.css");?>">
 <link rel="stylesheet" href="<?php echo \Main\Helper\URL::absolute("/bower_components/angular/material-datetimepicker.css");?>">
 
+<style type="text/css">
+	.md-button.sm {
+		min-height: 25px;
+		line-height: 25px;
+	}
+
+</style>
 
 <script src="<?php echo \Main\Helper\URL::absolute("/bower_components/angular/angular.min.js");?>"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/bower_components/angular-route/angular-route.min.js");?>"></script>
