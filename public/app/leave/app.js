@@ -121,11 +121,18 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
 		
 		var i;
 		var acc = $scope.collection.lv_account;
+		var acc_self = $scope.collection.lv_self_account[0];
 		var strAcc = '';
+
+		$scope.form.account_name = acc_self.name;
+		$scope.form.account_id = acc_self.id;
+		$scope.form.level_id = acc_self.level_id;
+
 		for( i in acc )
 		{
 			strAcc += acc[i].name + '#' + acc[i].id + '|';
 		}
+
 		$scope.accounts = (strAcc.slice(0, -1)).split('|').map(function(state) {
 			var states = state.split('#');
 			return {abbrev: states[0], va: states[1]};
@@ -150,15 +157,34 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
 	
 	$scope.submit = function ()
     {	
-		if( $scope.form.account_id === undefined || $scope.form.account_id == '' )
+		if( $scope.form.rq_approve_id === undefined || $scope.form.rq_approve_id == '' )
 		{
-			alert('Need Name');
+			alert('Need Approver');
 			return;
 		}
 
-		if( $scope.form.level_id === undefined || $scope.form.level_id == '' )
+		if( ($scope.form.late_flag === undefined || $scope.form.late_flag == '') &&
+			($scope.form.rqshift_flag === undefined || $scope.form.rqshift_flag == '') &&
+			($scope.form.rqperiod_flag === undefined || $scope.form.rqperiod_flag == '') 
+		  )
 		{
-			alert('Need ตำแหน่ง');
+			alert('Need Leave Mode');
+			return;
+		}
+
+		if( ($scope.form.rqshift_flag == 'y') &&
+			($scope.form.rqshift_date === undefined || $scope.form.rqshift_date == '') 
+		  )
+		{
+			alert('กรุณาใส่วันที่ลา');
+			return;
+		}
+
+		if( ($scope.form.rqperiod_flag == 'y') &&
+			($scope.form.rqperiod_from_date === undefined || $scope.form.rqperiod_from_date == '') 
+		  )
+		{
+			alert('กรุณาใส่วันที่ลา ตั้งแต่วันที่');
 			return;
 		}
 
@@ -242,6 +268,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$routePa
 	$scope.form = {};
 	$scope.minutes = [];
 	$scope.hours = [];
+	$scope.acc_self = {};
 
     $scope.isSaving = false;
     $scope.initSuccess = true;
@@ -252,7 +279,11 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$routePa
 		
 		var i;
 		var acc = $scope.collection.lv_account;
+		var acc_self = $scope.collection.lv_self_account[0];
 		var strAcc = '';
+		
+		$scope.acc_self = acc_self;
+
 
 		for( i in acc )
 		{
@@ -297,20 +328,43 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$routePa
 			data.total_time_minutes = setMinutes( data.rqshift_leave_total_tm );
 
             $scope.form = data;
+
+			$scope.form.account_name = $scope.acc_self.name;
+			$scope.form.account_id = $scope.acc_self.id;
+			$scope.form.level_id = $scope.acc_self.level_id;
         });
 	}
 
     $scope.submit = function ()
     {
-		if( $scope.form.account_id === undefined || $scope.form.account_id == '' )
+		if( $scope.form.rq_approve_id === undefined || $scope.form.rq_approve_id == '' )
 		{
-			alert('Need Name');
+			alert('Need Approver');
 			return;
 		}
 
-		if( $scope.form.level_id === undefined || $scope.form.level_id == '' )
+		if( ($scope.form.late_flag === undefined || $scope.form.late_flag == '') &&
+			($scope.form.rqshift_flag === undefined || $scope.form.rqshift_flag == '') &&
+			($scope.form.rqperiod_flag === undefined || $scope.form.rqperiod_flag == '') 
+		  )
 		{
-			alert('Need ตำแหน่ง');
+			alert('Need Leave Mode');
+			return;
+		}
+
+		if( ($scope.form.rqshift_flag == 'y') &&
+			($scope.form.rqshift_date === undefined || $scope.form.rqshift_date == '') 
+		  )
+		{
+			alert('กรุณาใส่วันที่ลา');
+			return;
+		}
+
+		if( ($scope.form.rqperiod_flag == 'y') &&
+			($scope.form.rqperiod_from_date === undefined || $scope.form.rqperiod_from_date == '') 
+		  )
+		{
+			alert('กรุณาใส่วันที่ลา ตั้งแต่วันที่');
 			return;
 		}
 

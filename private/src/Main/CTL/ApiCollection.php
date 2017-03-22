@@ -113,22 +113,21 @@ class ApiCollection extends BaseCTL {
         $collection['account'] = $db->select("account", "*", $where);
 
 		/** leave collection */
-		if( $_SESSION['login']['level']['id'] == 4 )
-		{
-			$where = [
-			  "account.id" => $_SESSION['login']['id']
-			];
-		}
-		else
-		{
-			$where = [
-			  "account.id[!]" => array(4, 10, 11, 14, 15, 17),
-			  "ORDER"=> 'account.name'
-			];
-		}
+		$where = [
+		  "account.level_id[!]" => array(4, 5, 1, 2),
+		  "ORDER"=> 'account.name'
+		];
         $collection['lv_account'] = $db->select("account", "*", $where);
 
-		/** levels collection */
+
+		$where = [
+		  "account.id" => $_SESSION['login']['id']
+		];
+        $collection['lv_self_account'] = $db->select("account", "*", $where);
+
+
+
+		/** levels collection 
 		if( $_SESSION['login']['level']['id'] == 4 )
 		{
 			$where = [
@@ -138,7 +137,10 @@ class ApiCollection extends BaseCTL {
 		else
 		{
 			$where = [];
-		}
+		}*/
+		$where = [
+			  "level.id" => $_SESSION['login']['level']['id']
+			];
         $collection['levels'] = $db->select("level", "*", $where);
 
 

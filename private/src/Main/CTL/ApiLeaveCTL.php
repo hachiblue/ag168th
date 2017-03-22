@@ -52,11 +52,16 @@ class ApiLeaveCTL extends BaseCTL {
 			$year = $params['year'];
 		}
 		
-		//no approve
+		$see_self = '';
+		if( $_SESSION['login']['level']['id'] == 4 ) $see_self = " and ml.account_id = '".$_SESSION['login']['id']."' "; 
+
+		/**
+		 * NON APPROVE
+		 */
 		$nleave = array();
-		$sql = "select count(ml.id) as total, DAY(ml.created_at) as dDay from mng_leave ml where MONTH(ml.created_at) = '$month' and YEAR(ml.created_at) = '$year' and late_flag = 'y' AND ISNULL(ml.supervisor_approve_id) ";
-		if( $_SESSION['login']['level']['id'] == 4 ) $sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
-		$sql .= "  group by dDay ";
+		$sql = "select count(ml.id) as total, DAY(ml.created_at) as dDay from mng_leave ml where MONTH(ml.created_at) = '$month' and YEAR(ml.created_at) = '$year' and late_flag = 'y' AND IFNULL(ml.supervisor_approve_id, '') = '' ";
+		
+		$sql .=  $see_self . " group by dDay ";
 
 		$r = $db->query($sql);
 		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
@@ -66,9 +71,9 @@ class ApiLeaveCTL extends BaseCTL {
 			$nleave[$row['dDay']] = $row['total'];
 		}
 
-		$sql = "select count(ml.id) as total, DAY(ml.rqshift_date) as dDay from mng_leave ml where MONTH(ml.rqshift_date) = '$month' and YEAR(ml.rqshift_date) = '$year' and rqshift_flag = 'y' AND ISNULL(ml.supervisor_approve_id) ";
+		$sql = "select count(ml.id) as total, DAY(ml.rqshift_date) as dDay from mng_leave ml where MONTH(ml.rqshift_date) = '$month' and YEAR(ml.rqshift_date) = '$year' and rqshift_flag = 'y' AND IFNULL(ml.supervisor_approve_id, '') = '' ";
 		if( $_SESSION['login']['level']['id'] == 4 ) $sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
-		$sql .= "  group by dDay ";
+		$sql .=  $see_self . " group by dDay ";
 
 		$r = $db->query($sql);
 		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
@@ -78,9 +83,8 @@ class ApiLeaveCTL extends BaseCTL {
 			$nleave[$row['dDay']] = isset($nleave[$row['dDay']]) ? $nleave[$row['dDay']] + $row['total'] : $row['total'];
 		}
 
-		$sql = "select count(ml.id) as total, DAY(ml.rqperiod_from_date) as dDay from mng_leave ml where MONTH(ml.rqperiod_from_date) = '$month' and YEAR(ml.rqperiod_from_date) = '$year' and rqperiod_flag = 'y' AND ISNULL(ml.supervisor_approve_id) ";
-		if( $_SESSION['login']['level']['id'] == 4 ) $sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
-		$sql .= "  group by dDay ";
+		$sql = "select count(ml.id) as total, DAY(ml.rqperiod_from_date) as dDay from mng_leave ml where MONTH(ml.rqperiod_from_date) = '$month' and YEAR(ml.rqperiod_from_date) = '$year' and rqperiod_flag = 'y' AND IFNULL(ml.supervisor_approve_id, '') = '' ";
+		$sql .=  $see_self . " group by dDay ";
 
 		$r = $db->query($sql);
 		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
@@ -90,14 +94,13 @@ class ApiLeaveCTL extends BaseCTL {
 			$nleave[$row['dDay']] = isset($nleave[$row['dDay']]) ? $nleave[$row['dDay']] + $row['total'] : $row['total'];
 		}
 	
-
 		
-
-		//approve
+		/**
+		 * IN APPROVE
+		 */
 		$leave = array();
-		$sql = "select count(ml.id) as total, DAY(ml.created_at) as dDay from mng_leave ml where MONTH(ml.created_at) = '$month' and YEAR(ml.created_at) = '$year' and late_flag = 'y' AND !ISNULL(ml.supervisor_approve_id) ";
-		if( $_SESSION['login']['level']['id'] == 4 ) $sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
-		$sql .= "  group by dDay ";
+		$sql = "select count(ml.id) as total, DAY(ml.created_at) as dDay from mng_leave ml where MONTH(ml.created_at) = '$month' and YEAR(ml.created_at) = '$year' and late_flag = 'y' AND IFNULL(ml.supervisor_approve_id, '') != '' ";
+		$sql .=  $see_self . " group by dDay ";
 
 		$r = $db->query($sql);
 		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
@@ -107,9 +110,8 @@ class ApiLeaveCTL extends BaseCTL {
 			$leave[$row['dDay']] = $row['total'];
 		}
 
-		$sql = "select count(ml.id) as total, DAY(ml.rqshift_date) as dDay from mng_leave ml where MONTH(ml.rqshift_date) = '$month' and YEAR(ml.rqshift_date) = '$year' and rqshift_flag = 'y' AND !ISNULL(ml.supervisor_approve_id) ";
-		if( $_SESSION['login']['level']['id'] == 4 ) $sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
-		$sql .= "  group by dDay ";
+		$sql = "select count(ml.id) as total, DAY(ml.rqshift_date) as dDay from mng_leave ml where MONTH(ml.rqshift_date) = '$month' and YEAR(ml.rqshift_date) = '$year' and rqshift_flag = 'y' AND IFNULL(ml.supervisor_approve_id, '') != '' ";
+		$sql .=  $see_self . " group by dDay ";
 
 		$r = $db->query($sql);
 		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
@@ -119,9 +121,8 @@ class ApiLeaveCTL extends BaseCTL {
 			$leave[$row['dDay']] = isset($leave[$row['dDay']]) ? $leave[$row['dDay']] + $row['total'] : $row['total'];
 		}
 
-		$sql = "select count(ml.id) as total, DAY(ml.rqperiod_from_date) as dDay from mng_leave ml where MONTH(ml.rqperiod_from_date) = '$month' and YEAR(ml.rqperiod_from_date) = '$year' and rqperiod_flag = 'y' AND !ISNULL(ml.supervisor_approve_id) ";
-		if( $_SESSION['login']['level']['id'] == 4 ) $sql .= " and ml.account_id = '".$_SESSION['login']['id']."' "; 
-		$sql .= "  group by dDay ";
+		$sql = "select count(ml.id) as total, DAY(ml.rqperiod_from_date) as dDay from mng_leave ml where MONTH(ml.rqperiod_from_date) = '$month' and YEAR(ml.rqperiod_from_date) = '$year' and rqperiod_flag = 'y' AND IFNULL(ml.supervisor_approve_id, '') != '' ";
+		$sql .=  $see_self . " group by dDay ";
 
 		$r = $db->query($sql);
 		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
@@ -130,12 +131,9 @@ class ApiLeaveCTL extends BaseCTL {
 		{
 			$leave[$row['dDay']] = isset($leave[$row['dDay']]) ? $leave[$row['dDay']] + $row['total'] : $row['total'];
 		}
-
-
 
 
         echo '<div class="col-md-6"><h2>'.$months[$month-1].'</h2></div><div>' . $this->draw_calendar($month, $year, $nleave, $leave) . '</div>';
-
     }
 	
 

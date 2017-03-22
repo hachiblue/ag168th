@@ -10,18 +10,23 @@ session_start();
 			<div layout-gt-xs="row">
 				<md-input-container class="md-block" flex>
 					<label>ชื่อ - สกุล</label>
-					<md-select ng-model="form.account_id" required>
-						<md-option ng-repeat="account in accounts" value="{{account.va}}">
-							{{account.abbrev}}
+					<input ng-model="form.account_name">
+				</md-input-container>
+
+				<md-input-container class="md-block" flex>
+					<label>ตำแหน่ง</label>
+					<md-select ng-model="form.level_id">
+						<md-option ng-repeat="level in levels" value="{{level.va}}">
+							{{level.abbrev}}
 						</md-option>
 					</md-select>
 				</md-input-container>
 
 				<md-input-container class="md-block" flex>
-					<label>ตำแหน่ง</label>
-					<md-select ng-model="form.level_id" required>
-						<md-option ng-repeat="level in levels" value="{{level.va}}">
-							{{level.abbrev}}
+					<label>Approver</label>
+					<md-select ng-model="form.rq_approve_id" required>
+						<md-option ng-repeat="account in accounts" value="{{account.va}}">
+							{{account.abbrev}}
 						</md-option>
 					</md-select>
 				</md-input-container>
