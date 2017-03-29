@@ -490,18 +490,21 @@ $this->import('/template/top-navbar');
 											</div>
 											<?php
 											$price = 'N/A';
-											$req = isset($props["requirement_id"]) ? $props["requirement_id"] : '';
-											if( $props["sell_price"] > 0 )
+											$req = isset($props["requirement_id"]) ? $props["requirement_id"] : 1;
+											
+											if( $req == 1 )
 											{
-												$price = number_format($props["sell_price"]);
+												if( $props["sell_price"] > 0 )
+												{
+													$price = number_format($props["sell_price"]);
+												}
 											}
-											elseif( $props["rent_price"] > 0 )
-											{	
-												$price = number_format($props["rent_price"]);
-											}
-											else
+											elseif( $req == 2 )
 											{
-												$price = isset($props["sell_price"]) ? number_format($props["sell_price"]) : 'N/A';
+												if( $props["rent_price"] > 0 )
+												{	
+													$price = number_format($props["rent_price"]);
+												}	
 											}
 											?>
 											<div class="ptt-location mgt10"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/pin_icon.png")?>" alt=""><?php echo $props['district_name'];?>, <?php echo $props['province_name'];?></div>

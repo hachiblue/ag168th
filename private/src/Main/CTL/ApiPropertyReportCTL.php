@@ -225,7 +225,7 @@ class ApiPropertyReportCTL extends BaseCTL {
      */
     public function csvByBetween()
 	{
-        ini_set('memory_limit', '512M');
+        ini_set('memory_limit', '1024M');
         $db = MedooFactory::getInstance();
 
         $params = $this->reqInfo->params();
@@ -438,7 +438,7 @@ class ApiPropertyReportCTL extends BaseCTL {
      */
     public function csvVipByBetween()
 	{
-        ini_set('memory_limit', '512M');
+        ini_set('memory_limit', '1024M');
         $db = MedooFactory::getInstance();
 
         $field = [

@@ -301,16 +301,24 @@ function setMarkers(locations)
 
 function geoCallback(prop)
 {
-	var price = 0;
 	var geoCB = function(results, status) {
+
+		var price = 'n/a';
+		var req = prop.requirement_id ? prop.requirement_id : 1;
 		
-		if( null !== prop.sell_price && 0 != prop.sell_price )
+		if( req == 1 )
 		{
-			price = prop.sell_price;
+			if( prop.sell_price > 0 )
+			{
+				price = prop.sell_price;
+			}
 		}
-		else
+		else if( req == 2 )
 		{
-			price = prop.rent_price;
+			if( prop.rent_price > 0 )
+			{	
+				price = prop.rent_price;
+			}	
 		}
 		
 		if( 'undefined' != typeof prop.project )
