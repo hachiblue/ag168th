@@ -595,6 +595,10 @@ class memberCTL extends BaseCTL {
 			$comment = ' จาก website ' . $params['comment'];
 		}
 
+		if( isset($params['reference_id']) )
+		{
+			$comment .= ' ( ' . $params['reference_id'] . ' )';
+		}
 
 		if( $res['success'] === true )
 		{

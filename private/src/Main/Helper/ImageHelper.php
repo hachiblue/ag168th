@@ -9,7 +9,7 @@ class ImageHelper
   {
     $pinfo = pathinfo($path);
     $image = self::createResource($path, $pinfo['extension']);
-    $image = self::resizeResource($image);
+    //$image = self::resizeResource($image);
     $image = self::watermarkResource($image);
     self::save($image, $path, $pinfo['extension']);
   }
