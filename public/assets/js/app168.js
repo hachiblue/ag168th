@@ -247,33 +247,49 @@ function price_toshort( price )
 	return (''+price).replace('.00', '');
 }
 
+var map,
+	geocoder,
+	marker = [],
+	info = [],
+	div,
+	infoContent,
+	infoWindow,
+	overlay,
+	projection;
 
-
-var map, geocoder, marker;
-var markers = []; // Create a marker array to hold your markers
-function initialize() 
+var initialize = function () 
 {
 	var center = getMapCenter();
+    var mapCenter = new google.maps.LatLng(center[0], center[1]);
 
-	var mapOptions = {
-		zoom: 15,
-		center: new google.maps.LatLng(center[0], center[1])
-	};
+    map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: mapCenter,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
 	
-	map = new google.maps.Map(document.getElementById('map'), mapOptions);
-	
+	// init geocoder
 	geocoder = new google.maps.Geocoder();
 
-	setMarkers(params.items);
-	//autocenter();
-	// Bind event listener on button to reload markers
-	//document.getElementById('reloadMarkers').addEventListener('click', reloadMarkers);
-}
+	// set overlay
+	MyOverlay.prototype = new google.maps.OverlayView();
+	MyOverlay.prototype.onAdd = function() { }
+	MyOverlay.prototype.onRemove = function() { }
+	MyOverlay.prototype.draw = function() { }
+	function MyOverlay(map) { this.setMap(map); }
+	overlay = new MyOverlay(map);
 
-function setMarkers(locations) 
+	google.maps.event.addListener(map, 'idle', function() {
+	   projection = overlay.getProjection();
+	});
+
+	setMarkers.call(this, params.items);
+};
+
+var setMarkers = function (locations) 
 {
 	var i, prop, myLatLng;
-
+		
 	for (i = 0; i < locations.length; i++) 
 	{
 		prop = locations[i];
@@ -282,27 +298,14 @@ function setMarkers(locations)
 		geocoder.geocode({
 			'address': ('undefined' != typeof prop.project) ? prop.project.address : prop.address
 		}, 
-		geoCallback(prop) );
+		geoCallback(prop, i) );
 	}
+};
 
-	/*
-	$('.mapMarker').hover(
-		// when mouse in
-		function() {
-			var $this = $(this);
-
-			when_hover($('[data-seq='+$this.data('mseq')+']'));
-		}
-		,
-		// when mouse out
-		when_offhover
-	);*/
-}
-
-function geoCallback(prop)
+var geoCallback = function (prop, i) 
 {
-	var geoCB = function(results, status) {
-
+	var geoCB = function(results, status) 
+	{
 		var price = 'n/a';
 		var req = prop.requirement_id ? prop.requirement_id : 1;
 		
@@ -320,71 +323,135 @@ function geoCallback(prop)
 				price = prop.rent_price;
 			}	
 		}
-		
+
+		var content = '<a href="#" class=""><div class="gmap-marker2 map_project" data-marker="'+prop.id+'">'+ prop.av_unit+'</div></a>';
 		if( 'undefined' != typeof prop.project )
 		{
-			var content = '<a href="#" class=""><div class="gmap-marker" data-marker="'+prop.id+'">'+ (price_toshort(price) != 0 ? price_toshort(price) : 'n/a')+'</div></a>';
+			content = '<a href="#" class=""><div class="gmap-marker" data-marker="'+prop.id+'">'+ (price_toshort(price) != 0 ? price_toshort(price) : 'n/a')+'</div></a>';
 		}
-		else
-		{
-			var content = '<a href="#" class=""><div class="gmap-marker2 map_project" data-marker="'+prop.id+'">'+ prop.av_unit+'</div></a>';
-		}
-
+		
 		if (status == google.maps.GeocoderStatus.OK) 
 		{
-			marker = new RichMarker({
-				position: results[0].geometry.location,
+			marker[i] = new RichMarker({
 				map: map,
-				address: ('undefined' != typeof prop.project) ? prop.project.address : prop.address,
-				//animation: google.maps.Animation.DROP,
+				position: results[0].geometry.location,
+				draggable: false,
 				title: prop.name,
-				content: content,
+				flat: true,
+				anchor: RichMarkerPosition.MIDDLE,
 				zIndex: 1,
-				shadow: 'none'
+				//anchorPoint: new google.maps.Point(130, 50),
+				content: content
 			});
-
-			// Push marker to markers array
-			markers.push(marker);					
 		}
 		else 
 		{ 
-			myLatLng = new google.maps.LatLng(prop.project.location_lat, prop.project.location_lng);
-			marker = new RichMarker({
-				position: myLatLng,
+			marker[i] = new RichMarker({
 				map: map,
+				position: new google.maps.LatLng(prop.project.location_lat, prop.project.location_lng),
 				animation: google.maps.Animation.DROP,
 				title: prop.name,
+				flat: true,
 				content: content,
-				zIndex: 1,
-				shadow: 'none'
-			});
-
-			// Push marker to markers array
-			markers.push(marker);	
+				anchor: RichMarkerPosition.MIDDLE,
+				zIndex: 1
+			});	
 		}
 		
-		marker.addListener('mouseover', function() {
-          when_hover.call(this, prop.id);
-        });
+		marker[i].addListener('mouseover', function () {
+			setInfoWindow.call(this, i, false);
+		});
 
-		marker.addListener('mouseout', function() {
-          when_offhover(prop.id);
-        });
-		
-		/*
-		$('.gmap-marker').unbind().hover(
-			// when mouse in
-			when_hover
-		,
-			// when mouse out
-			when_offhover
-		);*/
+		marker[i].addListener('mouseout', function () {
+			clearInfoWindow.call(this, i);
+		});
 	};
 
-	return geoCB;
-}
+	return geoCB;	
+};
 
-function getMapCenter()
+var setInfoWindow = function (i, autopane) 
+{
+	var proj = 'undefined' != typeof projection ? projection.fromLatLngToContainerPixel(this.position) : {x:0,y:0};
+	var mx = $('#map').width();
+	var mxh = $('#map').height();
+	var placement;
+	var offset = {};
+	var pp = true;
+
+	if( +proj.x + 270 > mx )
+	{
+		//console.log('go left');
+		placement = 'left';
+		offset.left = '-25px';
+		offset.top = '4px';
+	}
+	else
+	{
+		//console.log('go right');
+		placement = 'right';
+		offset.left = '25px';
+		offset.top = '4px';
+	}
+
+	if( +proj.y - 150 < 0 )
+	{
+		//console.log('go bottom');
+		//placement = 'bottom';
+		offset.top = '170px';
+		pp = false;
+	}
+
+	if( +proj.y + 150 > mxh )
+	{
+		//console.log('go bottom');
+		//placement = 'bottom';
+		offset.top = '-170px';
+		pp = false;
+	}
+	
+	infoContent = $('#info_tmpl').html();
+
+	infoContent = infoContent.replace(/{name}/g, params.items[i].name);
+	infoContent = infoContent.replace(/{district_name}/g, params.items[i].district_name);
+	infoContent = infoContent.replace(/{province_name}/g, params.items[i].province_name);
+	infoContent = infoContent.replace(/{bedrooms}/g, params.items[i].bedrooms);
+	infoContent = infoContent.replace(/{bathrooms}/g, params.items[i].bathrooms);
+	infoContent = infoContent.replace(/{size}/g, params.items[i].size);
+	infoContent = infoContent.replace(/{picture}/g, params.items[i].picture.url);
+	
+	info[i] = new SnazzyInfoWindow($.extend({}, {
+		marker: this,
+		placement: placement,
+		content: infoContent,
+		offset: offset,
+		pointer: pp,
+		padding: '0px',
+		backgroundColor: '#fff',
+		border: false,
+		showCloseButton: false,
+		borderRadius: '5px',
+		shadow: true,
+		//fontColor: '#333',
+		//fontSize: '15px',
+		panOnOpen: autopane,
+		edgeOffset: {
+		  top: 20,
+		  right: 20,
+		  bottom: 20,
+		  left: 20
+		}
+	}));
+
+	'undefined' != typeof info[i] && info[i].open();
+};
+
+var clearInfoWindow = function (i)
+{
+	'undefined' != typeof info[i] && info[i].close();
+};
+
+var getMapCenter = function ()
 {
 	if( 'undefined' !== typeof params.items[0] )
 	{
@@ -403,136 +470,7 @@ function getMapCenter()
 	{
 		return [ 13.781556, 100.541233 ];
 	}
-}
-
-var infowindow = null;
-function when_hover(e)
-{
-	var self = this;
-	var autopan = true;
-
-	if( e.type != 'mouseenter' )
-	{
-		var $this = $('.cardContainer[data-id='+e+']');
-		self = this;
-		autopan = false;
-	}
-	else
-	{
-		var $this = $(this);
-		self = markers[$this.data('seq')];
-		autopan = true;
-	}
-
-	var mapCenter = map.getCenter();
-	var markerPosition = self.position;
-
-	var horizontal = undefined;
-	var vertical = undefined;
-
-	if( mapCenter.lat() < markerPosition.lat() )	// marker is on the right side
-	{ 
-		vertical = 'top';
-	} 
-	else 
-	{
-		vertical = 'bottom';
-	}
-
-	if(mapCenter.lng() < markerPosition.lng()) 
-	{
-		horizontal = 'right';
-	} 
-	else 
-	{
-		horizontal = 'left';
-	}
-
-	if (infowindow) 
-	{
-		infowindow.close();
-	}
-
-	if( $this.data('marker') != undefined )
-	{
-		//$this = $('.cardContainer[data-seq='+$this.data('marker')+']');
-	}
-
-	if( $this.hasClass('map_project') )
-	{
-		var content =  '<div class="gmap-infobox2" style="1px solid #bbb"><div class="col-xs-3 no_padd"><img src="'+$this.data('pic')+'" class="img-responsive"></div><div class="col-xs-9">'+$this.data('name')+'</div><div class="clearfix"></div></div>';
-	}
-	else
-	{
-		var content =  '<div class="gmap-infobox3" style="1px solid #bbb">' + $this.html()
-			.replace('pd-bottom', 'pd-bottom hidden').replace('col-md-4', '') + '</div>';
-	}
-
-	var myOptions = {
-		content: content,
-		maxWidth: 150,
-		pixelOffset: new google.maps.Size(0, 0),
-		disableAutoPan: ! autopan,
-		zIndex: null,
-		boxStyle: { 
-			width: "230px",
-			opacity: 0.95
-		},
-		closeBoxURL : '',
-		closeBoxMargin: "10px 2px 2px 2px",
-		isHidden: false,
-		infoBoxClearance: new google.maps.Size(1, 1),
-		enableEventPropagation: false
-	};
-
-	infowindow = new InfoBox(myOptions);
-	
-	var seq = $this.data('seq');
-	
-	if(horizontal == 'right') 
-	{
-		infowindow.pixelOffset_.width = -300;
-	} 
-	else 
-	{
-		infowindow.pixelOffset_.width = 0;
-	}
-
-	if(vertical == 'top') 
-	{
-		infowindow.pixelOffset_.height = 0;
-	} 
-	else 
-	{
-		infowindow.pixelOffset_.height = -200;
-	}
-
-
-	if( undefined !== markers[ +seq ] )
-	{
-		infowindow.open(map, markers[ +seq ]);
-	}
-}
-
-function when_offhover()
-{
-	if (infowindow) 
-	{
-		infowindow.close();
-	}
-}	
-
-function autocenter()
-{
-	//  Create a new viewpoint bound
-	var bounds = new google.maps.LatLngBounds();
-	//  Go through each...
-	$.each(markers, function (index, marker) {
-		bounds.extend(marker.position);
-	});
-	//  Fit these bounds to the map
-	map.fitBounds(bounds);
-}
+};
 
 function chkfav()
 {
@@ -958,13 +896,20 @@ $(document).on("ready", function () {
 			$('input[name=project_id]').length && $('input[name=project_id]').val('');
 		});
 	}
-
+	
+	
 	$('.cardContainer').hover(
 		// when mouse in
-		when_hover
+		function () {
+			var i = $(this).data('seq');
+			setInfoWindow.call(marker[i], i, true);
+		}
 		,
 		// when mouse out
-		when_offhover
+		function () {
+			var i = $(this).data('seq');
+			clearInfoWindow.call(marker[i], i);
+		}
 	);
 
 	$(".dropdown-menu").on('click', 'li a', function () {

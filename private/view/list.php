@@ -590,12 +590,39 @@ $this->import('/template/top-navbar');
 </section>
 
 
-
+<div id="info_tmpl" style="display:none;">
+	<div class="" style="min-width: 220px; max-width: 230px;">
+		<div class="property_list" data-prop="{name}">
+			<div class="pd-top" data-prop="{name}">
+				<div class="img-pd" style="background-image: url({picture});"></div>
+				<div class="info-pd">
+					<div class="ppt-name" title="{name}">
+						{name}
+						<div class="pull-right text-right mgt5 hidden-sm hidden-md hidden-lg">
+							<div class="opt-plus pull-right" data-prop="55668"></div>
+							<div class="opt-fav pull-right mrgrl10" data-prop="55668"></div>
+						</div>
+					</div>
+					<div class="ptt-location mgt10">
+						<img src="http://agent168th.com/public/assets/img/icon/pin_icon.png" alt="">{district_name} , {province_name}
+					</div>
+					<div class="ptt-fact mgt20">
+						<div class="fact-bed col-xs-2 col-md-2 col-lg-2">{bedrooms}</div>
+						<div class="fact-bath col-xs-2 col-md-2 col-lg-2">{bathrooms}</div>
+						<div class="fact-size col-xs-4 col-md-4 col-lg-4" style="padding: 0px;text-align: right;">{size} m<sup style="font-size:0.5em;">2</sup></div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_mlBrkkojSUJnMjYKf00nhno1nlO9CCI"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/richmarker.js")?>"></script>
-<script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/infobox.js")?>"></script>
+<!-- <script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/infobox.js")?>"></script> -->
+<script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/snazzy-info-window.min.js")?>"></script>
 
 <script type="text/javascript">
 <!--
