@@ -36,7 +36,7 @@ $(function() {
 
 	function insertEl(row) 
 	{
-		var $el = $('<div class="block-img"><label><input class="ch-box" type="checkbox"><img class="imgThumb" /><label></div>');
+		var $el = $('<div class="block-img"><label><a href="'+row.image_url+'" target="_blank"><input class="ch-box" type="checkbox"><img class="imgThumb" /></a><label></div>');
 		var $img = $('.imgThumb', $el);
 		$img.attr('src', row.image_url);
 		// $img.attr('width', 80);

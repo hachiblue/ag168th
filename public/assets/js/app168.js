@@ -378,36 +378,75 @@ var setInfoWindow = function (i, autopane)
 	var placement;
 	var offset = {};
 	var pp = true;
+	var bg = '#00907d';
 
-	if( +proj.x + 270 > mx )
+	if( 'undefined' == typeof params.items[0].project_desc )
 	{
-		//console.log('go left');
-		placement = 'left';
-		offset.left = '-25px';
-		offset.top = '4px';
+		if( +proj.x + 270 > mx )
+		{
+			//console.log('go left');
+			placement = 'left';
+			offset.left = '-25px';
+			offset.top = '4px';
+		}
+		else
+		{
+			//console.log('go right');
+			placement = 'right';
+			offset.left = '25px';
+			offset.top = '4px';
+		}
+
+		if( +proj.y - 150 < 0 )
+		{
+			//console.log('go bottom');
+			//placement = 'bottom';
+			offset.top = '170px';
+			pp = false;
+		}
+
+		if( +proj.y + 150 > mxh )
+		{
+			//console.log('go bottom');
+			//placement = 'bottom';
+			offset.top = '-170px';
+			pp = false;
+		}
 	}
 	else
 	{
-		//console.log('go right');
-		placement = 'right';
-		offset.left = '25px';
-		offset.top = '4px';
-	}
+		bg = '#fb634a';
 
-	if( +proj.y - 150 < 0 )
-	{
-		//console.log('go bottom');
-		//placement = 'bottom';
-		offset.top = '170px';
-		pp = false;
-	}
+		if( +proj.x + 200 > mx )
+		{
+			//console.log('go left');
+			placement = 'left';
+			offset.left = '-25px';
+			offset.top = '4px';
+		}
+		else
+		{
+			//console.log('go right');
+			placement = 'right';
+			offset.left = '25px';
+			offset.top = '4px';
+		}
 
-	if( +proj.y + 150 > mxh )
-	{
-		//console.log('go bottom');
-		//placement = 'bottom';
-		offset.top = '-170px';
-		pp = false;
+		if( +proj.y - 55 < 0 )
+		{
+			//console.log('go bottom');
+			//placement = 'bottom';
+			offset.top = '10px';
+			pp = false;
+		}
+
+		if( +proj.y + 55 > mxh )
+		{
+			//console.log('go bottom');
+			//placement = 'bottom';
+			offset.top = '-10px';
+			pp = false;
+		}
 	}
 	
 	infoContent = $('#info_tmpl').html();
@@ -418,7 +457,7 @@ var setInfoWindow = function (i, autopane)
 	infoContent = infoContent.replace(/{bedrooms}/g, params.items[i].bedrooms);
 	infoContent = infoContent.replace(/{bathrooms}/g, params.items[i].bathrooms);
 	infoContent = infoContent.replace(/{size}/g, params.items[i].size);
-	infoContent = infoContent.replace(/{picture}/g, params.items[i].picture.url);
+	if( params.items[i].picture ) infoContent = infoContent.replace(/{picture}/g, params.items[i].picture.url);
 	
 	info[i] = new SnazzyInfoWindow($.extend({}, {
 		marker: this,
@@ -427,7 +466,7 @@ var setInfoWindow = function (i, autopane)
 		offset: offset,
 		pointer: pp,
 		padding: '0px',
-		backgroundColor: '#fff',
+		backgroundColor: bg,
 		border: false,
 		showCloseButton: false,
 		borderRadius: '5px',
@@ -1428,14 +1467,31 @@ $(document).on("ready", function () {
 	if( $('.swiper-prop-container').length )
 	{
 		var swiper = new Swiper('.swiper-prop-container', {
-			pagination: '.swiper-pagination',
+			//pagination: '.swiper-pagination',
 			slidesPerView: 1,
-			paginationClickable: true,
+			//paginationClickable: true,
 			spaceBetween: 0,
 			freeMode: false,
+			autoplay: 2000,
 			nextButton: '.swiper-button-next',
 			prevButton: '.swiper-button-prev',
 		});
+
+		
+	}
+
+	if( $('.gallery-thumbs').length )
+	{
+		var galleryThumbs = new Swiper('.gallery-thumbs', {
+			spaceBetween: 10,
+			centeredSlides: true,
+			slidesPerView: 'auto',
+			touchRatio: 0.2,
+			slideToClickedSlide: true
+		});
+		
+		swiper.params.control = galleryThumbs;
+		galleryThumbs.params.control = swiper;
 	}
 
 	if( $('#pf-picture').length )

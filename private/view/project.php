@@ -161,6 +161,24 @@ $this->import('/template/top-navbar');
 						<!-- Add Arrows -->
 						<div class="swiper-button-next swiper-button-black"></div>
 						<div class="swiper-button-prev swiper-button-black"></div>
+
+						<div class="swiper-thumbs-container gallery-thumbs" style=" position: absolute; bottom: 5px;">
+							<div class="swiper-wrapper">
+								<?php							
+								foreach( $merge_image as $img )
+								{
+									?>
+									<div class="swiper-slide">
+										<!-- <img src="<?=$img['url'];?>" class="img-responsive" alt=""> -->
+										<div class="swiper-bg-image" style="background: #fff;width:100%;">
+											<img src="<?=$img['url'];?>" alt="" style="width:800px;" class="img-responsive">
+										</div>
+									</div>
+									<?php
+								}
+								?>
+							</div>
+						</div>
 					</div>
 
 					<div class="pj-bar hidden-md hidden-lg">
@@ -172,7 +190,7 @@ $this->import('/template/top-navbar');
 							<div class="col-xs-3 no_padd"><div class="bigtxt"><?=$item['year_built'];?></div><div class="subtxt">Year Built</div></div>
 							<div class="col-xs-3"><div class="bigtxt"><?=$item['number_buildings'];?></div><div class="subtxt">Towers</div></div>
 							<div class="col-xs-2 text-center pdl6"><div class="bigtxt"><?=$item['number_floors'];?></div><div class="subtxt">Floors</div></div>
-							<div class="col-xs-4 no_padd"><div class="bigtxt txt-orange"><?=$item['av_unit'];?></div><div class="subtxt">Available Units</div></div>
+							<div class="col-xs-4 no_padd"><div class="bigtxt txt-orange"><a href="/home/units?id=<?=$item['id'];?>" class="txt-orange"><?=$item['av_unit'];?></a></div><div class="subtxt">Available Units</div></div>
 						</div>
 					</div>
 				</div>
@@ -187,7 +205,7 @@ $this->import('/template/top-navbar');
 				</div>
 			</div>
 		
-			<div class="pp-detail mgt25 pdt10">
+			<div class="pp-detail mgt25" style="background-color: #fff; padding: 10px;">
 				<p>
 					<?=$item['project_desc'];?>			
 				</p>
@@ -201,7 +219,7 @@ $this->import('/template/top-navbar');
 					<div class="col-md-3 no_padd"><div class="bigtxt"><?=$item['year_built'];?></div><div class="subtxt">Year Built</div></div>
 					<div class="col-md-3"><div class="bigtxt"><?=$item['number_buildings'];?></div><div class="subtxt">Towers</div></div>
 					<div class="col-md-2 text-center pdl6"><div class="bigtxt"><?=$item['number_floors'];?></div><div class="subtxt">Floors</div></div>
-					<div class="col-md-4 no_padd"><div class="bigtxt txt-orange"><?=$item['av_unit'];?></div><div class="subtxt">Available Units</div></div>
+					<div class="col-md-4 no_padd"><div class="bigtxt txt-orange"><a href="/home/units?id=<?=$item['id'];?>" class="txt-orange"><?=$item['av_unit'];?></a></div><div class="subtxt">Available Units</div></div>
 				</div>
 				<div class="clearfix"></div>
 			</div>		

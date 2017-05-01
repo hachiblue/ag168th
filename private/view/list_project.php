@@ -303,9 +303,18 @@ $this->import('/template/top-navbar');
 
 </section>
 
+<div id="info_tmpl" style="display:none;">
+	<div class="" style="width: 200px; height: 55px; background: #fff;">
+		<div style="padding: 18px;">
+			{name}
+		</div>
+	</div>
+</div>
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_mlBrkkojSUJnMjYKf00nhno1nlO9CCI"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/richmarker.js")?>"></script>
-<script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/infobox.js")?>"></script>
+<!-- <script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/infobox.js")?>"></script> -->
+<script src="<?php echo \Main\Helper\URL::absolute("/public/assets/js/snazzy-info-window.min.js")?>"></script>
 
 <script type="text/javascript">
 <!--

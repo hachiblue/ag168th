@@ -313,7 +313,7 @@ class ApiProperty extends BaseCTL {
           "key_location_id", "zone_id", "road", "province_id", "district_id", "sub_district_id", "bts_id", "mrt_id",
           "airport_link_id", "property_status_id", "contract_expire", "web_status", "property_highlight_id",
           "feature_unit_id", "rented_expire", "inc_vat", "transfer_status_id", "owner", "web_url_search", "room_type_id", "contract_chk_key",
-          "property_pending_type", "property_pending_info", "property_pending_date", "building_no"
+          "property_pending_type", "property_pending_info", "property_pending_date", "building_no", "unit_no", "direction"
         ], $params);
 
         $insert = array_map(function($item) {
@@ -403,7 +403,7 @@ MAILCONTENT;
           "key_location_id", "zone_id", "road", "province_id", "district_id", "sub_district_id", "bts_id", "mrt_id",
           "airport_link_id", "property_status_id", "contract_expire", "web_status", "property_highlight_id",
           "feature_unit_id", "rented_expire", "inc_vat", "transfer_status_id", "owner", "web_url_search", "room_type_id", "contract_chk_key",
-          "property_pending_type", "property_pending_info", "property_pending_date", "building_no"
+          "property_pending_type", "property_pending_info", "property_pending_date", "building_no", "unit_no", "direction"
         ], $set);
 
         $set = array_map(function($item) {

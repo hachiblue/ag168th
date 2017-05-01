@@ -82,6 +82,42 @@ class HomeCTL extends BaseCTL {
 	}
 
 
+	/**
+	 * @GET
+	 * @uri /units
+	 */
+	public function units ()
+	{
+		$params = $this->reqInfo->params();
+		$db = MedooFactory::getInstance();
+		
+		$pItems = array('page' => 'units', 'act4' => 'act');
+		
+		$sql = " select p.*, IF(p.sell_price=0, p.rent_price, p.sell_price) AS price from property p where p.web_status = 1 AND p.project_id = '".$params['id']."' order by rand() ";
+		$stmt = $db->pdo->prepare($sql);
+		$stmt->execute();
+
+		$items = array('name' => 'sss', 'property' => array());
+
+		$items['property'] = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		foreach( $items['property'] as &$prop )
+		{
+			$prop['project'] = $this->getProject($prop['project_id']);
+			$this->_buildThumb($prop);
+			$this->_buildSizeUnit($prop);
+			$this->_buildRequirement($prop);
+
+			$items['name'] = $prop['project']['name'];
+		}
+
+		$pItems['topics'] = $items;
+
+		unset($items);
+
+		return new HtmlView('/template/layout', $pItems);
+	}
+
+
     public function _buildItems(&$items)
     {
 		foreach($items as &$item) 

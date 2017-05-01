@@ -2937,7 +2937,7 @@ a.side-list-group-item, button.side-list-group-item {
 }
 
 .overlayPhoto {
-   background-color: #000;
+   background-color: #666;
    opacity: 0.6;
 	filter: alpha(opacity=60); /* For IE8 and earlier */
 }
@@ -3367,6 +3367,30 @@ a.side-list-group-item, button.side-list-group-item {
 	-webkit-align-items: center;
 	align-items: center;
 }
+
+.swiper-slide {
+	background-size: cover;
+	background-position: center;
+}
+
+.gallery-top {
+	height: 80%;
+	width: 100%;
+}
+
+.gallery-thumbs {
+	height: 20%;
+	box-sizing: border-box;
+	padding: 10px 0;
+}
+.gallery-thumbs .swiper-slide {
+	width: 15%;
+	height: 100%;
+	opacity: 0.4;
+}
+.gallery-thumbs .swiper-slide-active {
+	opacity: 1;
+}
  
 .enq-table {
 	font-size: 13px;
@@ -3496,6 +3520,172 @@ a.side-list-group-item, button.side-list-group-item {
 .hl-box {
 	box-sizing: border-box;
 	border: 1px solid #fff;
+}
+
+#ribbon-container {
+  position: absolute;
+  top: 15px;
+  right: 0px;
+  overflow: visible;
+  /* so we can see the pseudo-elements we're going to add to the anchor */
+  font-size: 13px;
+  /* font-size and line-height must be equal so we can account for the height of the banner */
+  line-height: 15px;
+}
+
+#ribbon-container:before {
+  content: "";
+  height: 0;
+  width: 0;
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 0;
+  border-top: 20px solid rgba(0, 0, 0, 0.3);
+  /* These 4 border properties create the first part of our drop-shadow */
+  border-bottom: 20px solid rgba(0, 0, 0, 0.3);
+  border-right: 29px solid rgba(0, 0, 0, 0.3);
+  border-left: 29px solid transparent;
+}
+
+#ribbon-container:after {
+  /* This adds the second part of our dropshadow */
+  content: "";
+  height: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  display: block;
+  position: absolute;
+  bottom: -3px;
+  left: 58px;
+  right: 3px;
+}
+
+#ribbon-container a {
+  display: block;
+  padding: 12px;
+  position: relative;
+  overflow: visible;
+  height: 40px;
+  margin-left: 29px;
+  color: #fff;
+  text-decoration: none;
+}
+
+#ribbon-container.blue a {
+  background: #0089d0;
+}
+
+#ribbon-container.red a {
+  background: #fb634a;
+}
+
+#ribbon-container.green a {
+  background: #2c7;
+}
+
+#ribbon-container.yellow a {
+  background: #ec0;
+}
+
+#ribbon-container a:after {
+  /* this creates the "folded" part of our ribbon */
+  content: "";
+  height: 0;
+  width: 0;
+  display: block;
+  position: absolute;
+  bottom: -15px;
+  right: 0;
+  border-right: 15px solid transparent;
+}
+
+#ribbon-container.blue a:after {
+	border-top: 15px solid #004a70;
+}
+
+#ribbon-container.red a:after {
+	border-top: 15px solid #ae3709;
+}
+
+#ribbon-container.green a:after {
+	border-top: 15px solid #19a860;
+}
+
+#ribbon-container.yellow a:after {
+	border-top: 15px solid #b48f1f;
+}
+
+#ribbon-container a:before {
+  /* this creates the "forked" part of our ribbon */
+  content: "";
+  height: 0;
+  width: 0;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: -29px;
+  border-right: 29px solid transparent;
+  border-left: 29px solid transparent;
+}
+
+#ribbon-container.blue a:before {
+  border-top: 20px solid #0089d0;
+  border-bottom: 20px solid #0089d0;
+}
+
+#ribbon-container.red a:before {
+  border-top: 20px solid #fb634a;
+  border-bottom: 20px solid #fb634a;
+}
+
+#ribbon-container.green a:before {
+  border-top: 20px solid #2c7;
+  border-bottom: 20px solid #2c7;
+}
+
+#ribbon-container.yellow a:before {
+  border-top: 20px solid #ec0;
+  border-bottom: 20px solid #ec0;
+}
+
+#ribbon-container.blue a:hover {
+  background: #009ff1;
+}
+
+#ribbon-container.red a:hover {
+  background: #e05a43;
+}
+
+#ribbon-container.green a:hover {
+  background: #2c7;
+}
+
+#ribbon-container.yellow a:hover {
+  background: #ec0;
+}
+
+#ribbon-container.blue a:hover:before {
+  /* this makes sure that the "forked" part of the ribbon changes color with the anchor on :hover */
+  border-top: 20px solid #009ff1;
+  border-bottom: 20px solid #009ff1;
+}
+
+#ribbon-container.red a:hover:before {
+  /* this makes sure that the "forked" part of the ribbon changes color with the anchor on :hover */
+  border-top: 20px solid #e05a43;
+  border-bottom: 20px solid #e05a43;
+}
+
+#ribbon-container.green a:hover:before {
+  /* this makes sure that the "forked" part of the ribbon changes color with the anchor on :hover */
+  border-top: 20px solid #2c7;
+  border-bottom: 20px solid #2c7;
+}
+
+#ribbon-container.yellow a:hover:before {
+  /* this makes sure that the "forked" part of the ribbon changes color with the anchor on :hover */
+  border-top: 20px solid #ec0;
+  border-bottom: 20px solid #ec0;
 }
 
 @media (max-width: 767px) {

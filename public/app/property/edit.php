@@ -8,8 +8,8 @@
 	<div class="row" id="tmpl-owner">
 		
 		<div class="col-md-2 form-group" name="ref_id">
-		  <label>Reference ID</label>
-		  <input class="form-control" value="{{reference_id}}" ReadOnly>
+			<label>Reference ID</label>
+			<input class="form-control" value="{{reference_id}}" ReadOnly>
 		</div>
 
 		<div class="col-sm-2 col-md-2 form-group">
@@ -20,19 +20,28 @@
 
 		<div class="col-sm-2 col-md-2 form-group">
 			<label>Owner Phone</label>
-      <div class="col-sm-12 nopadd">
-      <div class="col-sm-3 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1a" pattern="[^,:.]+" maxlength="3"></div>
-      <div class="col-sm-4 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1b" pattern="[^,:.]+" maxlength="3"></div>
-      <div class="col-sm-5 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1c" pattern="[^,:.]+"></div>
-      </div>
-
-			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
+			<div class="col-sm-12 nopadd">
+			<div class="col-sm-3 padding3">
+				<input class="form-control" ng-if="editAllow" name="cphone" ng-model="form.owner_phone1a" pattern="[^,:.]+" maxlength="3">
+				<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
+			</div>
+			<div class="col-sm-4 padding3">
+				<input class="form-control" ng-if="editAllow" name="cphone" ng-model="form.owner_phone1b" pattern="[^,:.]+" maxlength="3">
+				<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
+			</div>
+			<div class="col-sm-5 padding3">
+				<input class="form-control" ng-if="editAllow" name="cphone" ng-model="form.owner_phone1c" pattern="[^,:.]+">
+				<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
+			</div>
 		</div>
+
+		<!-- <input class="form-control" ng-if="!editAllow" disabled="disabled" value=""> -->
+	</div>
 
     <div class="col-sm-1 col-md-2 form-group">
       <label>Email, Line Id</label>
-      <input class="form-control" ng-model="form.owner_email1" pattern="[^,:]+">
-      <!-- <input class="form-control" disabled="disabled" value="ปิดไว้จนกว่าจะเสร็จ"> -->
+      <input class="form-control" ng-if="editAllow" ng-model="form.owner_email1" pattern="[^,:]+">
+      <input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
     </div>
 
 		<div class="col-sm-2 col-md-2 form-group">
@@ -144,19 +153,33 @@
           <option value="">Please select</option>
       </select>
     </div>
-    <div class="col-md-4 form-group">
+
+    <div class="col-md-3 form-group">
       <label>Address no</label> ( * ใส่แค่ตำแหน่งห้องหรือเลขห้องเท่านั้น )
       <input type="text" class="form-control" ng-model="form.address_no">
     </div>
+
+    <div class="col-md-1 form-group">
+      <label>Unit no</label>
+      <input type="text" class="form-control" ng-model="form.unit_no">
+    </div>
+
     <div class="col-md-1 form-group">
       <label>Building no</label>
       <input type="text" class="form-control" ng-model="form.building_no">
     </div>
-    <div class="col-md-2 form-group">
+
+    <div class="col-md-1 form-group">
       <label>Floors</label>
       <input type="text" class="form-control" ng-model="form.floors">
     </div>
-    <div class="col-md-3 form-group">
+
+    <div class="col-md-2 form-group">
+      <label>Direction</label>
+      <input type="text" class="form-control" ng-model="form.direction">
+    </div>
+
+    <div class="col-md-2 form-group">
       <label>Room type</label>
       <select class="form-control"
       ng-model="form.room_type_id">

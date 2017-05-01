@@ -478,6 +478,32 @@ $this->import('/template/top-navbar');
 							?>
 							<div class="cardContainer" data-seq="<?=$key;?>" data-id="<?=$props["id"];?>">
 								<div class="property_list col-md-4 mgb20" data-prop="<?php echo $props["id"];?>">
+				
+									<?php
+									if( $props['feature_unit_id'] != '' )
+									{
+										switch( $props['feature_unit_id'] )
+										{
+											case '1' : $txt = 'Best Buy'; $cls = 'blue'; break;
+											case '2' : $txt = 'Hot Price'; $cls = 'red'; break;
+											case '3' : $txt = 'Discount'; $cls = 'yellow'; break;
+											case '4' : $txt = 'New Coming'; $cls = 'green'; break;
+											default : $txt = '';
+										}
+							
+										if( $txt != '' )
+										{
+											?>
+											<div class="content-box">
+											   <div id="ribbon-container" class="<?=$cls;?>">
+												  <a href="#" id="ribbon"><?=$txt;?></a>
+											   </div>
+											</div>
+											<?php
+										}
+									}
+									?>
+
 									<div class="pd-top" data-prop="<?php echo $props["id"];?>">
 										<div class="img-pd" style="background-image: url(<?php echo $props["picture"]["url"];?>);"></div>
 										<div class="info-pd">
@@ -591,7 +617,7 @@ $this->import('/template/top-navbar');
 
 
 <div id="info_tmpl" style="display:none;">
-	<div class="" style="min-width: 220px; max-width: 230px;">
+	<div class="" style="min-width: 220px; max-width: 230px;background: #fff;">
 		<div class="property_list" data-prop="{name}">
 			<div class="pd-top" data-prop="{name}">
 				<div class="img-pd" style="background-image: url({picture});"></div>
