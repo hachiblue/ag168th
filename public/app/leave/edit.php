@@ -267,7 +267,7 @@ session_start();
 			<a class="btn btn-info" href="#/">Back</a>
 			<button type="submit" class="btn btn-primary">Save</button>
 			<?php
-			if( $_SESSION['login']['level']['id'] != 4 ) { ?>
+			if( $_SESSION['login']['level']['id'] != 2 && $_SESSION['login']['level']['id'] != 4 && $_SESSION['login']['level']['id'] != 5 ) { ?>
 			<button type="button" class="btn btn-danger" ng-click="remove(form.id)">Delete</button>
 			<?php } ?>
 		</div>

@@ -10,10 +10,10 @@ use Main\Helper\ImageHelper;
 
 /**
  * @Restful
- * @uri /api/leave
+ * @uri /api/approver
  */
 
-class ApiLeaveCTL extends BaseCTL {
+class ApiApproverCTL extends BaseCTL {
 
     /**
      * @GET
@@ -63,7 +63,7 @@ class ApiLeaveCTL extends BaseCTL {
 		 *  # 7 : Admin Manager
 		 *  # 8 : Sale Manager
 		 *  # 9 : Marketing Manager
-		 
+		 */
 		switch( (int) $_SESSION['login']['level']['id'] )
 		{
 			case 2 :
@@ -86,9 +86,7 @@ class ApiLeaveCTL extends BaseCTL {
 				break;
 			default : 
 					$see_self = '';
-		}*/
-		
-		$see_self = " and ml.account_id = '".$_SESSION['login']['id']."' ";
+		}
 
 		/**
 		 * NON APPROVE
@@ -203,45 +201,7 @@ class ApiLeaveCTL extends BaseCTL {
 			$complete[$row['dDay']] = isset($complete[$row['dDay']]) ? $complete[$row['dDay']] + $row['total'] : $row['total'];
 		}
 
-
-		/**
-		 * REJECT
-		 */
-		$reject = array();
-		$sql = "select count(ml.id) as total, DAY(ml.created_at) as dDay from mng_leave ml where MONTH(ml.created_at) = '$month' and YEAR(ml.created_at) = '$year' and late_flag = 'y' AND status = 4 ";
-		$sql .=  $see_self . " group by dDay ";
-
-		$r = $db->query($sql);
-		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-
-		foreach( $rows as $row )
-		{
-			$reject[$row['dDay']] = $row['total'];
-		}
-
-		$sql = "select count(ml.id) as total, DAY(ml.rqshift_date) as dDay from mng_leave ml where MONTH(ml.rqshift_date) = '$month' and YEAR(ml.rqshift_date) = '$year' and rqshift_flag = 'y' AND status = 4 ";
-		$sql .=  $see_self . " group by dDay ";
-
-		$r = $db->query($sql);
-		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-		
-		foreach( $rows as $row )
-		{
-			$reject[$row['dDay']] = isset($reject[$row['dDay']]) ? $reject[$row['dDay']] + $row['total'] : $row['total'];
-		}
-
-		$sql = "select count(ml.id) as total, DAY(ml.rqperiod_from_date) as dDay from mng_leave ml where MONTH(ml.rqperiod_from_date) = '$month' and YEAR(ml.rqperiod_from_date) = '$year' and rqperiod_flag = 'y' AND status = 4 ";
-		$sql .=  $see_self . " group by dDay ";
-
-		$r = $db->query($sql);
-		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-		
-		foreach( $rows as $row )
-		{
-			$reject[$row['dDay']] = isset($reject[$row['dDay']]) ? $reject[$row['dDay']] + $row['total'] : $row['total'];
-		}
-
-        echo '<div class="col-md-6"><h2>'.$months[$month-1].'</h2></div><div>' . $this->draw_calendar($month, $year, $nleave, $leave, $complete, $reject) . '</div>';
+        echo '<div class="col-md-6"><h2>'.$months[$month-1].'</h2></div><div>' . $this->draw_calendar($month, $year, $nleave, $leave, $complete) . '</div>';
     }
 	
 
@@ -329,38 +289,21 @@ class ApiLeaveCTL extends BaseCTL {
 
 
 	/**
-     * @POST
-     * @uri /edit/[:id]
+     * @GET
+     * @uri /mngapprove/[:id]
      */
-    public function edit () 
-	{
+    public function mngapprove () 
+	{ 
 		$db = MedooFactory::getInstance();
         $id = $this->reqInfo->urlParam("id");
         $params = $this->reqInfo->params();
-      
-        $sql = "SELECT COLUMN_NAME AS cols FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='mng_leave'";
-		$r = $db->query($sql);
-        $rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-		
-		$columns = array();
-		foreach( $rows as $row )
-		{
-			$columns[] = $row['cols'];
-		}
-
-        $set = ArrayHelper::filterKey($columns, $params);
-
-		$set = array_map(function($item) {
-			if(is_string($item)) 
-			{
-				$item = trim($item);
-			}
-			return $item;
-		}, $set);
-		
+      		
 		$accId = $_SESSION['login']['id'];
 		$set['updated_by'] = $accId;
         $set['updated_at'] = date('Y-m-d H:i:s');
+		
+		$set['supervisor_approve_id'] = $accId;
+		$set['status'] = 2;
 
         $where = ["id"=> $id];
 
@@ -370,6 +313,104 @@ class ApiLeaveCTL extends BaseCTL {
         {
             return ResponseHelper::error("Error can't update property.");
         }
+		
+		header("Location: /admin/approver#/");exit;
+
+        return ["success"=> true];
+    }
+
+
+	/**
+     * @GET
+     * @uri /mngreject/[:id]
+     */
+    public function mngreject () 
+	{ 
+		$db = MedooFactory::getInstance();
+        $id = $this->reqInfo->urlParam("id");
+        $params = $this->reqInfo->params();
+      		
+		$accId = $_SESSION['login']['id'];
+		$set['updated_by'] = $accId;
+        $set['updated_at'] = date('Y-m-d H:i:s');
+		
+		$set['supervisor_approve_id'] = $accId;
+		$set['status'] = 4;
+
+        $where = ["id"=> $id];
+
+        $updated = $db->update('mng_leave', $set, $where);
+
+        if(!$updated)
+        {
+            return ResponseHelper::error("Error can't update property.");
+        }
+		
+		header("Location: /admin/approver#/");exit;
+
+        return ["success"=> true];
+    }
+
+
+	/**
+     * @GET
+     * @uri /hrapprove/[:id]
+     */
+    public function hrapprove () 
+	{ 
+		$db = MedooFactory::getInstance();
+        $id = $this->reqInfo->urlParam("id");
+        $params = $this->reqInfo->params();
+      		
+		$accId = $_SESSION['login']['id'];
+		$set['updated_by'] = $accId;
+        $set['updated_at'] = date('Y-m-d H:i:s');
+		
+		//$set['supervisor_approve_id'] = $accId;
+		$set['status'] = 3;
+
+        $where = ["id"=> $id];
+
+        $updated = $db->update('mng_leave', $set, $where);
+
+        if(!$updated)
+        {
+            return ResponseHelper::error("Error can't update property.");
+        }
+		
+		header("Location: /admin/approver#/");exit;
+
+        return ["success"=> true];
+    }
+
+
+	/**
+     * @GET
+     * @uri /hrreject/[:id]
+     */
+    public function hrreject () 
+	{ 
+		$db = MedooFactory::getInstance();
+        $id = $this->reqInfo->urlParam("id");
+        $params = $this->reqInfo->params();
+      		
+		$accId = $_SESSION['login']['id'];
+		$set['updated_by'] = $accId;
+        $set['updated_at'] = date('Y-m-d H:i:s');
+		
+		$set['supervisor_approve_id'] = $accId;
+		$set['status'] = 4;
+
+        $where = ["id"=> $id];
+
+        $updated = $db->update('mng_leave', $set, $where);
+
+        if(!$updated)
+        {
+            return ResponseHelper::error("Error can't update property.");
+        }
+		
+		header("Location: /admin/approver#/");exit;
 
         return ["success"=> true];
     }
@@ -420,7 +461,7 @@ class ApiLeaveCTL extends BaseCTL {
 		 *  # 7 : Admin Manager
 		 *  # 8 : Sale Manager
 		 *  # 9 : Marketing Manager
-		 
+		 */
 		switch( (int) $_SESSION['login']['level']['id'] )
 		{
 			case 2 :
@@ -441,11 +482,12 @@ class ApiLeaveCTL extends BaseCTL {
 			case 9 :
 					$see_self = " and ml.level_id IN (5, 9) ";
 				break;
+			case 6 :
+					$see_self = " and ml.status != 1 ";
+				break;
 			default : 
 					$see_self = '';
-		}*/
-
-		$see_self = " and ml.account_id = '".$_SESSION['login']['id']."' ";
+		}
 
 		$sql = "SELECT ac.name AS account_name, lv.name AS level_name, ml.* FROM mng_leave ml, account ac, level lv WHERE ml.account_id = ac.id AND ml.level_id = lv.id AND DATE_FORMAT(ml.created_at,'%Y-%m-%d') ='".$date."' AND late_flag='y' " . $see_self;
 
@@ -477,19 +519,52 @@ class ApiLeaveCTL extends BaseCTL {
 				echo '<md-tab label="'.$row['account_name'].'">
 				  <md-content class="md-padding">';
 				
-					if( strtotime($row['created_at']) > strtotime("-1 days") && $row['status'] == 1  )
+					if( strtotime($row['created_at']) > strtotime("-1 days") )
 					{
-						echo '
-					<a href="#edit/'.$row['id'].'">
-						<md-button class="btn-success md-raised pull-right">
-							EDIT
-						</md-button>
-					</a>';
+						if( $_SESSION['login']['level']['id'] == 6 && $row['status'] == 2 )
+						{
+							echo '
+								<a href="/api/approver/hrapprove/'.$row['id'].'">
+									<md-button class="btn-success md-raised pull-right">
+										APPROVE
+									</md-button>
+								</a>
+								<a href="/api/approver/hrreject/'.$row['id'].'">
+									<md-button class="btn-danger md-raised pull-right">
+										REJECT
+									</md-button>
+								</a>';
+						}
+
+						if( $_SESSION['login']['level']['id'] != 6 && $row['status'] == 1 )
+						{
+							echo '
+								<a href="/api/approver/mngapprove/'.$row['id'].'">
+									<md-button class="btn-success md-raised pull-right">
+										APPROVE
+									</md-button>
+								</a>
+								<a href="/api/approver/mngreject/'.$row['id'].'">
+									<md-button class="btn-danger md-raised pull-right">
+										REJECT
+									</md-button>
+								</a>';
+						}
 					}
 
 				if( $row['supervisor_approve_id'] == '' )
 				{	
-					echo '<div class="row text-danger" style="padding:10px;">ยังไม่ได้ approve</div>';
+					echo '<div class="row text-danger" style="padding:10px;">manager ยังไม่ได้ approve</div>';
+				}
+
+				if( $row['status'] == 2 )
+				{	
+					echo '<div class="row text-info" style="padding:10px;">รอ  hr approve</div>';
+				}
+
+				if( $row['status'] == 3 )
+				{	
+					echo '<div class="row text-success" style="padding:10px;">hr approve แล้ว</div>';
 				}
 
 				if( $row['status'] == 4 )
@@ -637,7 +712,7 @@ class ApiLeaveCTL extends BaseCTL {
 		</md-dialog>';
 	}
 
-	private function draw_calendar($month, $year, $nleave, $leave, $complete, $reject)
+	private function draw_calendar($month, $year, $nleave, $leave, $complete)
 	{
 		/* draw table */
 		$calendar = '<table class="table calendar">';
@@ -701,13 +776,6 @@ class ApiLeaveCTL extends BaseCTL {
 				{
 					$calendar .= '<p><md-button class="btn-success md-raised sm" ng-click="showAdvanced($event, '.$month.', '.$year.', '.$list_day.')">
 										HR Approve แล้ว
-									</md-button></p>';
-				}
-
-				if( isset($reject[$list_day]) && !empty($reject[$list_day]) )
-				{
-					$calendar .= '<p><md-button class="btn-danger md-raised sm" ng-click="showAdvanced($event, '.$month.', '.$year.', '.$list_day.')">
-										ไม่ Approve
 									</md-button></p>';
 				}
 				

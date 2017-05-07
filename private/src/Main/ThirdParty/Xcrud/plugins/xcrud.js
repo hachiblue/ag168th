@@ -1147,11 +1147,12 @@ jQuery(document).on("ready xcrudreinit", function() {
 			Xcrud.modal(header, content);
 			return false;
 		});
-		$(".xcrud-ajax").each(function() {
+
+		$(".xcrud-ajax").each(function() { 
 			Xcrud.init_datepicker(this);
 			Xcrud.init_datepicker_range($(this).find('.xcrud-columns-select option:selected').data('type'), this);
 			Xcrud.depend_init(this);
-			Xcrud.map_init(this);
+			//Xcrud.map_init(this);
 			Xcrud.check_fixed_buttons();
 			Xcrud.init_tooltips(this);
 			Xcrud.init_tabs(this);
@@ -1174,7 +1175,7 @@ jQuery(document).on("xcrudafterrequest", function(event, container) {
 	Xcrud.init_texteditor(container);
 	Xcrud.init_datepicker_range(jQuery(container).find('.xcrud-columns-select option:selected').data('type'), container);
 	Xcrud.depend_init(container);
-	Xcrud.map_init(container);
+	//Xcrud.map_init(container);
 	Xcrud.check_fixed_buttons();
 	Xcrud.init_tooltips(container);
 	Xcrud.init_tabs(container);

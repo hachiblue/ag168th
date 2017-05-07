@@ -113,10 +113,36 @@ class ApiCollection extends BaseCTL {
         $collection['account'] = $db->select("account", "*", $where);
 
 		/** leave collection */
+		/**
+		 *  # LIST OF ACCESS LEVEL #
+		 *  # 1 : System Admin
+		 *  # 2 : Admin
+		 *  # 3 : Manager
+		 *  # 4 : Sale
+		 *  # 5 : Marketing
+		 *  # 6 : HR
+		 *  # 7 : Admin Manager
+		 *  # 8 : Sale Manager
+		 *  # 9 : Marketing Manager
+		 */
 		$where = [
-		  "account.level_id[!]" => array(4, 5, 1, 2),
 		  "ORDER"=> 'account.name'
 		];
+
+		switch( (int) $_SESSION['login']['level']['id'] )
+		{
+			case 3 :
+			case 7 :
+			case 8 :
+			case 9 : $where['account.level_id'] = 6; break;
+
+			case 2 : $where['account.level_id'] = 7; break;
+			case 4 : $where['account.level_id'] = 8; break;
+			case 5 : $where['account.level_id'] = 9; break;
+
+			default : $where['account.level_id'] = 6;
+		}
+
         $collection['lv_account'] = $db->select("account", "*", $where);
 
 

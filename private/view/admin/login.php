@@ -78,7 +78,7 @@ $this->import("/admin/layout/header");
 
             <h2>Login</h2>
 
-            <div class="box">
+            <div class="boxxx">
                 <form data-toggle="validator" role="form" name="loginForm" id="loginForm">
                     <input type="text" placeholder="username" required name="username">
                     <input type="password" placeholder="password" required name="password">

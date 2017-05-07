@@ -154,6 +154,11 @@ function sale_beforeInsert($postdata, $xcrud)
 	$postdata->set('level_id', 4);
 }
 
+function created_at_beforeInsert($postdata, $xcrud)
+{
+	$postdata->set('created_at', date('Y-m-d H:i:s'));
+}
+
 function investment_data_beforeInsert($postdata, $xcrud)
 { 
 	$postdata->set('created_at', date('Y-m-d H:i:s'));
@@ -200,6 +205,12 @@ function hr_beforeInsert($postdata, $xcrud)
 {
 	$postdata->set('created_at', date('Y-m-d H:i:s'));
 	$postdata->set('level_id', 6);
+}
+
+function others_beforeInsert($postdata, $xcrud)
+{
+	$postdata->set('created_at', date('Y-m-d H:i:s'));
+	$postdata->set('level_id', 10);
 }
 
 function article_beforeInsert($postdata, $xcrud)

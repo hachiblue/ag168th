@@ -167,15 +167,26 @@ class AdminCTL extends BaseCTL {
 		{
 			$ex_data['project'] = $db->select("project", "*", ['ORDER'=>'name desc']);
 		}
+		
+		$params = array(
+			"view" => $view, 
+			"pqCount" => $pqCount, 
+			"exCount" => $exCount, 
+			"extends" => $ex_data,
+			"extends" => $ex_data
+		);
 
-        return new HtmlView('/admin/index', array("view" => $view, "pqCount" => $pqCount, "exCount" => $exCount, "extends" => $ex_data));
+		$params['menulist'] = $this->getAccessable($params);
+
+        return new HtmlView('/admin/index', $params);
     }
 
 	/**
      * @GET
      * @uri /gen
      */
-    public function genView () {
+    public function genView () 
+	{
         return new HtmlView('/admin/gen');
     }
 
@@ -183,7 +194,8 @@ class AdminCTL extends BaseCTL {
      * @POST
      * @uri /login
      */
-    public function postLogin () {
+    public function postLogin () 
+	{
         $db = MedooFactory::getInstance();
 
         $username = $this->reqInfo->param('username');
@@ -224,4 +236,135 @@ class AdminCTL extends BaseCTL {
           return new JsonView(["success"=> true]);
         }
     }
+
+	public function getAccessable ( $params )
+	{
+		extract($params);
+
+		/**
+		 *  # LIST OF ACCESS LEVEL #
+		 *  # 1 : System Admin
+		 *  # 2 : Admin
+		 *  # 3 : Manager
+		 *  # 4 : Sale
+		 *  # 5 : Marketing
+		 *  # 6 : HR
+		 *  # 7 : Admin Manager
+		 *  # 8 : Sale Manager
+		 *  # 9 : Marketing Manager
+		 */
+
+		$sidebar = '';
+		switch( (int) $_SESSION['login']['level_id'] )
+		{
+			case 1 : 
+					$sidebar .= $this->getTagList ('/admin/enquiries', '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries');
+					$sidebar .= $this->getTagList ('/admin/properties', '<i class="fa fa-building fa-2"></i> Properties');
+					$sidebar .= $this->getTagList ('/admin/enquiries#/rentalexpire', 'Rental Expire ('.(isset($exCount)? $exCount: 0).')');
+					$sidebar .= $this->getTagList ('/admin/member', 'Member');
+					$sidebar .= $this->getTagList ('/admin/accounts', 'Account');
+					$sidebar .= $this->getTagList ('/admin/webmanage', 'Web Manage</a>');
+					$sidebar .= $this->getTagList ('/admin/leave#', 'On Leave Manage');
+					$sidebar .= $this->getTagList ('/admin/approver#', 'Calendar Approve');
+					$sidebar .= $this->getTagList ('/admin/project', 'Project');
+					$sidebar .= $this->getTagList ('/admin/phonereq', 'Phone Request ('.(isset($pqCount)? $pqCount: 0).')');
+					$sidebar .= $this->getTagList ('/admin/reportproperty', 'Report Property');
+					$sidebar .= $this->getTagList ('/admin/reportuser', 'Report User');
+					$sidebar .= $this->getTagList ('/admin/report#/sale', 'Report Sale');
+					$sidebar .= $this->getTagList ('/admin/article', 'Article');
+					$sidebar .= $this->getTagList ('/admin/login', 'Sign Out');
+				break;
+
+			case 2 : 
+					$sidebar .= $this->getTagList ('/admin/enquiries', '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries');
+					$sidebar .= $this->getTagList ('/admin/properties', '<i class="fa fa-building fa-2"></i> Properties');
+					$sidebar .= $this->getTagList ('/admin/enquiries#/rentalexpire', 'Rental Expire ('.(isset($exCount)? $exCount: 0).')');
+					$sidebar .= $this->getTagList ('/admin/enquiries#/wishlist', 'Wish List');
+					$sidebar .= $this->getTagList ('/admin/leave#', 'On Leave Manage');
+					$sidebar .= $this->getTagList ('/admin/project', 'Project');
+					$sidebar .= $this->getTagList ('/admin/article', 'Article');
+					$sidebar .= $this->getTagList ('/admin/login', 'Sign Out');
+				break;
+			
+			case 7 : 
+					$sidebar .= $this->getTagList ('/admin/enquiries', '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries');
+					$sidebar .= $this->getTagList ('/admin/properties', '<i class="fa fa-building fa-2"></i> Properties');
+					$sidebar .= $this->getTagList ('/admin/enquiries#/rentalexpire', 'Rental Expire ('.(isset($exCount)? $exCount: 0).')');
+					$sidebar .= $this->getTagList ('/admin/enquiries#/wishlist', 'Wish List');
+					$sidebar .= $this->getTagList ('/admin/leave#', 'On Leave Manage');
+					$sidebar .= $this->getTagList ('/admin/approver#', 'Calendar Approve');
+					$sidebar .= $this->getTagList ('/admin/project', 'Project');
+					$sidebar .= $this->getTagList ('/admin/reportproperty', 'Report Property');
+					$sidebar .= $this->getTagList ('/admin/article', 'Article');
+					$sidebar .= $this->getTagList ('/admin/login', 'Sign Out');
+				break;
+
+			case 4 : 
+					$sidebar .= $this->getTagList ('/admin/enquiries', '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries');
+					$sidebar .= $this->getTagList ('/admin/properties', '<i class="fa fa-building fa-2"></i> Properties');
+					$sidebar .= $this->getTagList ('/admin/enquiries#/wishlist', 'Wish List');
+					$sidebar .= $this->getTagList ('/admin/enquiries#/rentalexpire', 'Enquiries Expire ('.(isset($exCount)? $exCount: 0).')');
+					$sidebar .= $this->getTagList ('/admin/leave#', 'On Leave Manage');
+					$sidebar .= $this->getTagList ('/admin/project', 'Project');
+					$sidebar .= $this->getTagList ('/admin/salescontract', 'Sales Contract');
+					$sidebar .= $this->getTagList ('/admin/login', 'Sign Out');
+				break;
+
+			case 8 : 
+					$sidebar .= $this->getTagList ('/admin/enquiries', '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries');
+					$sidebar .= $this->getTagList ('/admin/properties', '<i class="fa fa-building fa-2"></i> Properties');
+					$sidebar .= $this->getTagList ('/admin/enquiries#/wishlist', 'Wish List');
+					$sidebar .= $this->getTagList ('/admin/enquiries#/rentalexpire', 'Enquiries Expire ('.(isset($exCount)? $exCount: 0).')');
+					$sidebar .= $this->getTagList ('/admin/leave#', 'On Leave Manage');
+					$sidebar .= $this->getTagList ('/admin/approver#', 'Calendar Approve');
+					$sidebar .= $this->getTagList ('/admin/project', 'Project');
+					$sidebar .= $this->getTagList ('/admin/report#/sale', 'Report Sale');
+					$sidebar .= $this->getTagList ('/admin/salescontract', 'Sales Contract');
+					$sidebar .= $this->getTagList ('/admin/login', 'Sign Out');
+				break;
+
+			case 5 : 
+					$sidebar .= $this->getTagList ('/admin/enquiries', '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries');
+					$sidebar .= $this->getTagList ('/admin/properties', '<i class="fa fa-building fa-2"></i> Properties');
+					$sidebar .= $this->getTagList ('/admin/enquiries#/rentalexpire', 'Rental Expire ('.(isset($exCount)? $exCount: 0).')');
+					$sidebar .= $this->getTagList ('/admin/leave#', 'On Leave Manage');
+					$sidebar .= $this->getTagList ('/admin/project', 'Project');
+					$sidebar .= $this->getTagList ('/admin/webmanage', 'Web Manage</a>');
+					$sidebar .= $this->getTagList ('/admin/reportproperty', 'Report Property');
+					$sidebar .= $this->getTagList ('/admin/article', 'Article');
+					$sidebar .= $this->getTagList ('/admin/login', 'Sign Out');
+				break;
+
+			case 9 : 
+					$sidebar .= $this->getTagList ('/admin/enquiries', '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries');
+					$sidebar .= $this->getTagList ('/admin/properties', '<i class="fa fa-building fa-2"></i> Properties');
+					$sidebar .= $this->getTagList ('/admin/enquiries#/rentalexpire', 'Rental Expire ('.(isset($exCount)? $exCount: 0).')');
+					$sidebar .= $this->getTagList ('/admin/leave#', 'On Leave Manage');
+					$sidebar .= $this->getTagList ('/admin/approver#', 'Calendar Approve');
+					$sidebar .= $this->getTagList ('/admin/project', 'Project');
+					$sidebar .= $this->getTagList ('/admin/webmanage', 'Web Manage</a>');
+					$sidebar .= $this->getTagList ('/admin/reportproperty', 'Report Property');
+					$sidebar .= $this->getTagList ('/admin/article', 'Article');
+					$sidebar .= $this->getTagList ('/admin/login', 'Sign Out');
+				break;
+			
+			case 6 : 
+					$sidebar .= $this->getTagList ('/admin/enquiries', '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries');
+					$sidebar .= $this->getTagList ('/admin/properties', '<i class="fa fa-building fa-2"></i> Properties');
+					$sidebar .= $this->getTagList ('/admin/profile', 'Profile');
+					$sidebar .= $this->getTagList ('/admin/employee', 'Employee Timetable');
+					$sidebar .= $this->getTagList ('/admin/leave#', 'On Leave Manage');
+					$sidebar .= $this->getTagList ('/admin/approver#', 'Calendar Approve');
+					$sidebar .= $this->getTagList ('/admin/contract', 'Contract');
+					$sidebar .= $this->getTagList ('/admin/login', 'Sign Out');
+				break;
+		}
+
+		return $sidebar;
+	}
+
+	public function getTagList ($path, $text)
+	{
+		return '<li><a href="'.\Main\Helper\URL::absolute($path).'">'.$text.'</a></li>';
+	}
 }

@@ -21,124 +21,127 @@ use Main\ThirdParty\Xcrud\Xcrud;
 
 <div id="content">
     <div class="bs-component">
-        <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-            <li class="active"><a href="#accountLevel" data-toggle="tab">Account Level</a></li>
-            <li><a href="#propertyType" data-toggle="tab">Property Type</a></li>
-            <li><a href="#zone_group" data-toggle="tab">Zone Group</a></li>
-            <li><a href="#zone" data-toggle="tab">Zone</a></li>
-            <li><a href="#requirementType" data-toggle="tab">Requirement Type</a></li>
-            <li><a href="#status" data-toggle="tab">Status</a></li>
-            <li><a href="#project" data-toggle="tab">Developer</a></li>
-            <li><a href="#specificArea" data-toggle="tab">Specific Area</a></li>
-            <li><a href="#role" data-toggle="tab">Role</a></li>
-            <li><a href="#roomType" data-toggle="tab">Room Type</a></li>
-            <li><a href="#sizeType" data-toggle="tab">Size Unit</a></li>
-            <li><a href="#BtsMrtBrt" data-toggle="tab">BTS / MRT / BRT</a></li>
-            <li><a href="#specificReq" data-toggle="tab">Specific Req</a></li>
+        <ul id="tabs" class="nav nav-tabs" data-tabs="tabs" role="tablist">
+            <li class="active"><a href="#accountLevel" aria-controls="accountLevel" role="tab" data-toggle="tab">Account Level</a></li>
+            <li><a href="#propertyType" aria-controls="propertyType" role="tab" data-toggle="tab">Property Type</a></li>
+            <li><a href="#zone_group" aria-controls="zone_group" role="tab" data-toggle="tab">Zone Group</a></li>
+            <li><a href="#zone" aria-controls="zone" role="tab" data-toggle="tab">Zone</a></li>
+            <li><a href="#requirementType" aria-controls="requirementType" role="tab" data-toggle="tab">Requirement Type</a></li>
+            <li><a href="#status" aria-controls="status" role="tab" data-toggle="tab">Status</a></li>
+            <li><a href="#project" aria-controls="project" role="tab" data-toggle="tab">Developer</a></li>
+            <li><a href="#specificArea" aria-controls="specificArea" role="tab" data-toggle="tab">Specific Area</a></li>
+            <li><a href="#role" aria-controls="role" role="tab" data-toggle="tab">Role</a></li>
+            <li><a href="#roomType" aria-controls="roomType" role="tab" data-toggle="tab">Room Type</a></li>
+            <li><a href="#sizeType" aria-controls="sizeType" role="tab" data-toggle="tab">Size Unit</a></li>
+            <li><a href="#BtsMrtBrt" aria-controls="BtsMrtBrt" role="tab" data-toggle="tab">BTS / MRT / BRT</a></li>
+            <li><a href="#specificReq" aria-controls="specificReq" role="tab" data-toggle="tab">Specific Req</a></li>
         </ul>
+
         <div id="my-tab-content" class="tab-content">
+
             <div class="tab-pane active" id="accountLevel">
                 <div id="accountLevelAdd" class="crudAdd">
                     <h2><i class="mdi-action-face-unlock"></i> Account Level</h2>
                     <?php
-                    $xcrud2 = Xcrud::get_instance();
-                    $xcrud2->table('level');
-                    $xcrud2->unset_title();
-                    $xcrud2->table_name('Account Level');
-                    $xcrud2->relation('role_id', 'role', 'id', 'name');
-                    $xcrud2->fields('name, role_id');
-                    $xcrud2->label('role_id','Role');
-                    $xcrud2->hide_button('save_return,return,save_edit');
-                    $xcrud2->set_lang('save_new', 'Add');
-                    echo $xcrud2->render('create');
+                    $xcrud_level1 = Xcrud::get_instance();
+                    $xcrud_level1->table('level');
+                    $xcrud_level1->unset_title();
+                    $xcrud_level1->table_name('Account Level');
+                    $xcrud_level1->relation('id', 'role', 'id', 'name');
+                    $xcrud_level1->fields('name, id');
+                    $xcrud_level1->label('id','Role');
+                    $xcrud_level1->hide_button('save_return,return,save_edit');
+                    $xcrud_level1->set_lang('save_new', 'Add');
+                    echo $xcrud_level1->render('create');
                     ?>
                 </div>
                 <div id="accountLevelShow" class="crudShow">
                     <?php
-                    $xcrud1 = Xcrud::get_instance();
-                    $xcrud1->table('level');
-                    $xcrud1->unset_title();
-                    $xcrud1->relation('role_id', 'role', 'id', 'name');
-                    $xcrud1->label('role_id','Role');
-                    $xcrud1->columns('name, role_id');
+                    $xcrud_level2 = Xcrud::get_instance();
+                    $xcrud_level2->table('level');
+                    $xcrud_level2->unset_title();
+                    $xcrud_level2->relation('id', 'role', 'id', 'name');
+                    $xcrud_level2->label('id','Role');
+                    $xcrud_level2->columns('name, id');
 
-                    $xcrud1->hide_button('add');
-                    $xcrud1->hide_button('save_edit,save_new');
-                    $xcrud1->remove_confirm(false);
-                    echo $xcrud1->render();
+                    $xcrud_level2->hide_button('add');
+                    $xcrud_level2->hide_button('save_edit,save_new');
+                    $xcrud_level2->remove_confirm(false);
+                    echo $xcrud_level2->render();
                     ?>
                 </div>
-
             </div>
-            <div class="tab-pane fade" id="propertyType" >
+
+            <div class="tab-pane" id="propertyType" >
                 <div id="propertyTypeAdd" class="crudAdd">
                     <?php
-                    $property_type1 = Xcrud::get_instance();
-                    $property_type1->table('property_type');
-                    $property_type1->table_name('Property Type');
-                    $property_type1->fields('code,name');
-                    $property_type1->hide_button('save_return,return,save_edit');
-                    $property_type1->set_lang('save_new', 'Add');
-                    echo $property_type1->render('create');
+                    $xcrud_property_type1 = Xcrud::get_instance();
+                    $xcrud_property_type1->table('property_type');
+                    $xcrud_property_type1->table_name('Property Type');
+                    $xcrud_property_type1->fields('code,name');
+                    $xcrud_property_type1->hide_button('save_return,return,save_edit');
+                    $xcrud_property_type1->set_lang('save_new', 'Add');
+                    echo $xcrud_property_type1->render('create');
                     ?>
                 </div>
                 <div id="propertyTypeShow" class="crudShow">
                     <?php
-                    $property_type2 = Xcrud::get_instance();
-                    $property_type2->table('property_type');
-                    $property_type2->unset_title();
-                    $property_type2->column_width('code', '10%');
-                    $property_type2->hide_button('add');
-                    $property_type2->hide_button('save_edit,save_new');
-                    echo $property_type2->render();
+                    $xcrud_property_type2 = Xcrud::get_instance();
+                    $xcrud_property_type2->table('property_type');
+                    $xcrud_property_type2->unset_title();
+                    $xcrud_property_type2->column_width('code', '10%');
+                    $xcrud_property_type2->hide_button('add');
+                    $xcrud_property_type2->hide_button('save_edit,save_new');
+                    echo $xcrud_property_type2->render();
                     ?>
                 </div>
             </div>
+
             <!-- Zone Group -->
-            <div class="tab-pane fade" id="zone_group">
+            <div class="tab-pane" id="zone_group">
                 <h1>Zone</h1>
                 <div class="crudAdd">
                     <h2><i class="mdi-action-face-unlock"></i> Zone Group</h2>
                     <?php
-                    $xcrud2 = Xcrud::get_instance();
-                    $xcrud2->table('zone_group');
-                    $xcrud2->unset_title();
-                    $xcrud2->table_name('Zone Group');
+                    $xcrud_zone_group1 = Xcrud::get_instance();
+                    $xcrud_zone_group1->table('zone_group');
+                    $xcrud_zone_group1->unset_title();
+                    $xcrud_zone_group1->table_name('Zone Group');
 
-                    $xcrud2->relation('province_id', 'provinces', 'PROVINCE_ID', 'PROVINCE_NAME');
-                    $xcrud2->fields('name, province_id, Zones');
-                    $xcrud2->label('province_id','Province');
+                    $xcrud_zone_group1->relation('province_id', 'province', 'id', 'name');
+                    $xcrud_zone_group1->fields('name, id, Zones');
+                    $xcrud_zone_group1->label('id','Province');
 
-                    $xcrud2->fk_relation('Zones','id','zone_zone_group','zone_group_id','zone_id','zone','id',array('id','name'));
+                    $xcrud_zone_group1->fk_relation('Zones','id','zone_zone_group','zone_group_id','zone_id','zone','id',array('id','name'));
 
-                    $xcrud2->hide_button('save_return,return,save_edit');
-                    $xcrud2->set_lang('save_new', 'Add');
-                    echo $xcrud2->render('create');
+                    $xcrud_zone_group1->hide_button('save_return,return,save_edit');
+                    $xcrud_zone_group1->set_lang('save_new', 'Add');
+                    echo $xcrud_zone_group1->render('create');
                     ?>
                 </div>
                 <div class="crudShow">
                     <?php
-                    $xcrud1 = Xcrud::get_instance();
-                    $xcrud1->table('zone_group');
-                    $xcrud1->unset_title();
+                    $xcrud_zone_group2 = Xcrud::get_instance();
+                    $xcrud_zone_group2->table('zone_group');
+                    $xcrud_zone_group2->unset_title();
 
-                    $xcrud1->relation('province_id', 'provinces', 'PROVINCE_ID', 'PROVINCE_NAME');
-                    $xcrud1->label('province_id','Province');
-                    $xcrud1->columns('name, province_id');
+                    $xcrud_zone_group2->relation('province_id', 'province', 'id', 'name');
+                    $xcrud_zone_group2->label('id','Province');
+                    $xcrud_zone_group2->columns('name, id');
 
-                    $xcrud1->fk_relation('Zones','id','zone_zone_group','zone_group_id','zone_id','zone','id',array('id','name'));
-                    $xcrud1->fields('name, province_id, Zones');
+                    $xcrud_zone_group2->fk_relation('Zones','id','zone_zone_group','zone_group_id','zone_id','zone','id',array('id','name'));
+                    $xcrud_zone_group2->fields('name, id, Zones');
 
-                    $xcrud1->hide_button('add');
-                    $xcrud1->hide_button('save_edit,save_new');
-                    $xcrud1->remove_confirm(false);
-                    echo $xcrud1->render();
+                    $xcrud_zone_group2->hide_button('add');
+                    $xcrud_zone_group2->hide_button('save_edit,save_new');
+                    $xcrud_zone_group2->remove_confirm(false);
+                    echo $xcrud_zone_group2->render();
                     ?>
                 </div>
             </div>
 
             <!-- Zone -->
-            <div class="tab-pane fade" id="zone">
+            <div class="tab-pane" id="zone">
                 <h1>Zone</h1>
                 <div class="crudAdd">
                     <h2><i class="mdi-action-face-unlock"></i> Account Level</h2>
@@ -176,7 +179,7 @@ use Main\ThirdParty\Xcrud\Xcrud;
             </div>
 
             <!-- requirementType -->
-            <div class="tab-pane fade" id="requirementType">
+            <div class="tab-pane" id="requirementType">
                 <h2><i class="mdi-action-face-unlock"></i> Requirement Type</h2>
                 <div id="requirementTypeAdd" class="crudAdd">
                     <?php
@@ -202,7 +205,7 @@ use Main\ThirdParty\Xcrud\Xcrud;
                     ?>
                 </div>
             </div>
-            <div class="tab-pane fade" id="status">
+            <div class="tab-pane" id="status">
                 <h2><i class="mdi-action-face-unlock"></i> Status</h2>
                 <div id="statusAdd" class="crudAdd">
                     <?php
@@ -228,7 +231,7 @@ use Main\ThirdParty\Xcrud\Xcrud;
                     ?>
                 </div>
             </div>
-            <div class="tab-pane fade" id="project">
+            <div class="tab-pane" id="project">
                 <h2><i class="mdi-action-face-unlock"></i> Developer</h2>
                 <div id="projectAdd" class="crudAdd">
                     <?php
@@ -254,7 +257,7 @@ use Main\ThirdParty\Xcrud\Xcrud;
                     ?>
                 </div>
             </div>
-            <div class="tab-pane fade" id="specificArea">
+            <div class="tab-pane" id="specificArea">
                 <h2><i class="mdi-action-face-unlock"></i> Specific Area</h2>
                 <div id="specificAreaAdd" class="crudAdd">
                     <?php
@@ -280,7 +283,7 @@ use Main\ThirdParty\Xcrud\Xcrud;
                     ?>
                 </div>
             </div>
-            <div class="tab-pane fade" id="role">
+            <div class="tab-pane" id="role">
                 <h1>Role</h1>
                 <div id="specificAreaAdd" class="crudAdd">
                     <?php
@@ -306,7 +309,7 @@ use Main\ThirdParty\Xcrud\Xcrud;
                     ?>
                 </div>
             </div>
-            <div class="tab-pane fade" id="roomType">
+            <div class="tab-pane" id="roomType">
                 <h2><i class="mdi-action-face-unlock"></i> Room Type</h2>
                 <div id="roomTypeAdd" class="crudAdd">
                     <?php
@@ -332,7 +335,7 @@ use Main\ThirdParty\Xcrud\Xcrud;
                     ?>
                 </div>
             </div>
-            <div class="tab-pane fade" id="sizeType">
+            <div class="tab-pane" id="sizeType">
                 <h2><i class="mdi-action-face-unlock"></i> Size Unit</h2>
                 <div id="sizeTypeAdd" class="crudAdd">
                     <?php
@@ -363,7 +366,7 @@ use Main\ThirdParty\Xcrud\Xcrud;
 
                 <p>blue blue blue blue blue</p>
             </div>
-            <div class="tab-pane fade" id="specificReq">
+            <div class="tab-pane" id="specificReq">
                 <h2><i class="mdi-action-face-unlock"></i> Specific Requirement</h2>
                 <div id="specificReqAdd" class="crudAdd">
                     <?php
@@ -396,46 +399,64 @@ use Main\ThirdParty\Xcrud\Xcrud;
 <link href="<?php echo \Main\Helper\URL::absolute("/bower_components/select2/select2.css");?>" rel="stylesheet" />
 <script src="<?php echo \Main\Helper\URL::absolute("/bower_components/select2/select2.min.js");?>"></script>
 <script type="text/javascript">
-    function fetchSelectMultiple(){
-        $('select[multiple] > option[value=""]').remove();
-        $('select[multiple]').select2();
-    }
-    fetchSelectMultiple();
+	
+	(function( $ ) {
+		
+		function fetchSelectMultiple()
+		{
+			$('select[multiple] > option[value=""]').remove();
+			$('select[multiple]').select2();
+		}
 
-    $(document).ready(function ($) {
-        $('#tabs').tab();
-    });
-    $(document).on("xcrudafterrequest", function (event, container) {
-        console.log(event);
-        var c = jQuery(container).closest('.tab-pane');
-        var i = $('.tab-pane').index(c);
-        if (jQuery(container).closest(".crudAdd").size()) {
-           Xcrud.reload('.tab-pane:eq('+i+') div.crudShow div.xcrud');
-        }
-        fetchSelectMultiple();
-    });
-    $.fn.stickyTabs = function() {
-        context = this
+		$(document).ready(function () {
 
-        // Show the tab corresponding with the hash in the URL, or the first tab.
-        var showTabFromHash = function() {
-            var hash = window.location.hash;
-            var selector = hash ? 'a[href="' + hash + '"]' : 'li:first-child a';
-            $(selector, context).tab('show');
-        }
+			fetchSelectMultiple();
+			//$('#tabs').tab();
 
-        // Set the correct tab when the page loads
-        showTabFromHash(context)
+			$('.nav-tabs a').click(function (e) {
+				e.preventDefault();
+				$(this).tab('show');
+			});
 
-        // Set the correct tab when a user uses their back/forward button
-        window.addEventListener('hashchange', showTabFromHash, false);
+		});
 
-        // Change the URL when tabs are clicked
-        $('a', context).on('click', function(e) {
-            history.pushState(null, null, this.href);
-        });
+		$(document).on("xcrudafterrequest", function (event, container) {
+			console.log(event);
+			var c = $(container).closest('.tab-pane');
+			var i = $('.tab-pane').index(c);
+			console.log(i);
+			if ($(container).closest(".crudAdd").size()) {
+			   Xcrud.reload('.tab-pane:eq('+i+') div.crudShow div.xcrud');
+			}
+			fetchSelectMultiple();
+		});
 
-        return this;
-    };
-    $('.nav-tabs').stickyTabs();
+		$.fn.stickyTabs = function() {
+			context = this
+
+			// Show the tab corresponding with the hash in the URL, or the first tab.
+			var showTabFromHash = function() {
+				var hash = window.location.hash;
+				var selector = hash ? 'a[href="' + hash + '"]' : 'li:first-child a';
+				$(selector, context).tab('show');
+			}
+
+			// Set the correct tab when the page loads
+			showTabFromHash(context)
+
+			// Set the correct tab when a user uses their back/forward button
+			window.addEventListener('hashchange', showTabFromHash, false);
+
+			// Change the URL when tabs are clicked
+			$('a', context).on('click', function(e) {
+				history.pushState(null, null, this.href);
+			});
+
+			return this;
+		};
+
+		$('.nav-tabs').stickyTabs();
+
+	})(jQuery);
+
 </script>
