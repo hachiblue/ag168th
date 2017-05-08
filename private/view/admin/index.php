@@ -135,7 +135,7 @@ $this->import("/admin/layout/header");
 				}
 				?>
 				<li>
-					<a href=""><?php echo $_SESSION['login']['email'];?> [<?php echo $sess_login_name;?>]</a>
+					<a href="/admin/profile#/<?=$_SESSION['login']['id'];?>"><?php echo $_SESSION['login']['email'];?> [<?php echo $sess_login_name;?>]</a>
 				</li>
 
 				<!-- <li class="dropdown">
