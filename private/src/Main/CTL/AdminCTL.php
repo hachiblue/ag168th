@@ -303,10 +303,10 @@ class AdminCTL extends BaseCTL {
 					$sidebar .= $this->getTagList ('/admin/enquiries', '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries');
 					$sidebar .= $this->getTagList ('/admin/properties', '<i class="fa fa-building fa-2"></i> Properties');
 					$sidebar .= $this->getTagList ('/admin/enquiries#/wishlist', 'Wish List');
-					$sidebar .= $this->getTagList ('/admin/enquiries#/rentalexpire', 'Enquiries Expire ('.(isset($exCount)? $exCount: 0).')');
+					//$sidebar .= $this->getTagList ('/admin/enquiries#/rentalexpire', 'Enquiries Expire ('.(isset($exCount)? $exCount: 0).')');
 					$sidebar .= $this->getTagList ('/admin/leave#', 'On Leave Manage');
 					$sidebar .= $this->getTagList ('/admin/project', 'Project');
-					$sidebar .= $this->getTagList ('/admin/salescontract', 'Sales Contract');
+					//$sidebar .= $this->getTagList ('/admin/salescontract', 'Sales Contract');
 					$sidebar .= $this->getTagList ('/admin/login', 'Sign Out');
 				break;
 
@@ -314,12 +314,12 @@ class AdminCTL extends BaseCTL {
 					$sidebar .= $this->getTagList ('/admin/enquiries', '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries');
 					$sidebar .= $this->getTagList ('/admin/properties', '<i class="fa fa-building fa-2"></i> Properties');
 					$sidebar .= $this->getTagList ('/admin/enquiries#/wishlist', 'Wish List');
-					$sidebar .= $this->getTagList ('/admin/enquiries#/rentalexpire', 'Enquiries Expire ('.(isset($exCount)? $exCount: 0).')');
+					//$sidebar .= $this->getTagList ('/admin/enquiries#/rentalexpire', 'Enquiries Expire ('.(isset($exCount)? $exCount: 0).')');
 					$sidebar .= $this->getTagList ('/admin/leave#', 'On Leave Manage');
 					$sidebar .= $this->getTagList ('/admin/approver#', 'Calendar Approve');
 					$sidebar .= $this->getTagList ('/admin/project', 'Project');
 					$sidebar .= $this->getTagList ('/admin/report#/sale', 'Report Sale');
-					$sidebar .= $this->getTagList ('/admin/salescontract', 'Sales Contract');
+					//$sidebar .= $this->getTagList ('/admin/salescontract', 'Sales Contract');
 					$sidebar .= $this->getTagList ('/admin/login', 'Sign Out');
 				break;
 
@@ -352,12 +352,28 @@ class AdminCTL extends BaseCTL {
 					$sidebar .= $this->getTagList ('/admin/enquiries', '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries');
 					$sidebar .= $this->getTagList ('/admin/properties', '<i class="fa fa-building fa-2"></i> Properties');
 					$sidebar .= $this->getTagList ('/admin/profile', 'Profile');
-					$sidebar .= $this->getTagList ('/admin/employee', 'Employee Timetable');
+					//$sidebar .= $this->getTagList ('/admin/employee', 'Employee Timetable');
 					$sidebar .= $this->getTagList ('/admin/leave#', 'On Leave Manage');
 					$sidebar .= $this->getTagList ('/admin/approver#', 'Calendar Approve');
-					$sidebar .= $this->getTagList ('/admin/contract', 'Contract');
+					//$sidebar .= $this->getTagList ('/admin/contract', 'Contract');
 					$sidebar .= $this->getTagList ('/admin/login', 'Sign Out');
 				break;
+		}
+
+		// for speacial user : Nitcha_mg
+		if( isset($_SESSION['login']['id']) && $_SESSION['login']['id'] == 71 )
+		{
+			$sidebar = '';
+			$sidebar .= $this->getTagList ('/admin/enquiries', '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries');
+			$sidebar .= $this->getTagList ('/admin/properties', '<i class="fa fa-building fa-2"></i> Properties');
+			$sidebar .= $this->getTagList ('/admin/enquiries#/rentalexpire', 'Rental Expire ('.(isset($exCount)? $exCount: 0).')');
+			$sidebar .= $this->getTagList ('/admin/leave#', 'On Leave Manage');
+			$sidebar .= $this->getTagList ('/admin/approver#', 'Calendar Approve');
+			$sidebar .= $this->getTagList ('/admin/phonereq', 'Phone Request ('.(isset($pqCount)? $pqCount: 0).')');
+			$sidebar .= $this->getTagList ('/admin/report#/sale', 'Report Sale');
+			$sidebar .= $this->getTagList ('/admin/project', 'Project');
+			$sidebar .= $this->getTagList ('/admin/article', 'Article');
+			$sidebar .= $this->getTagList ('/admin/login', 'Sign Out');
 		}
 
 		return $sidebar;

@@ -2,53 +2,6 @@
 
 $this->import("/admin/layout/header");
 
-function getAccessable ( $params )
-{
-	extract($params);
-
-	/**
-	 *  # LIST OF ACCESS LEVEL #
-	 *  # 1 : System Admin
-	 *  # 2 : Admin
-	 *  # 3 : Manager
-	 *  # 4 : Sale
-	 *  # 5 : Marketing
-	 *  # 6 : HR
-	 *  # 7 : Admin Manager
-	 *  # 8 : Sale Manager
-	 *  # 9 : Marketing Manager
-	 */
-
-	$sidebar = '';
-	switch( (int) $_SESSION['login']['level_id'] )
-	{
-		case 1 : 
-				$sidebar .= getTagList ('/admin/enquiries', '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries');
-				$sidebar .= getTagList ('/admin/properties', '<i class="fa fa-building fa-2"></i> Properties');
-				$sidebar .= getTagList ('/admin/enquiries#/rentalexpire', 'Rental Expire ('.(isset($exCount)? $exCount: 0).')');
-				$sidebar .= getTagList ('/admin/member', 'Member');
-				$sidebar .= getTagList ('/admin/accounts', 'Account');
-				$sidebar .= getTagList ('/admin/webmanage', 'Web Manage</a>');
-				$sidebar .= getTagList ('/admin/leave#', 'On Leave Manage');
-				$sidebar .= getTagList ('/admin/calendar_approve', 'Calendar Approve');
-				$sidebar .= getTagList ('/admin/project', 'Project');
-				$sidebar .= getTagList ('/admin/phonereq', 'Phone Request ('.(isset($pqCount)? $pqCount: 0).')');
-				$sidebar .= getTagList ('/admin/reportproperty', 'Report Property');
-				$sidebar .= getTagList ('/admin/reportuser', 'Report User');
-				$sidebar .= getTagList ('/admin/report#/sale', 'Report Sale');
-				$sidebar .= getTagList ('/admin/article', 'Article');
-				$sidebar .= getTagList ('/admin/login', 'Sign Out');
-			break;
-	}
-
-	return $sidebar;
-}
-
-function getTagList ($path, $text)
-{
-	return '<li><a href="'.\Main\Helper\URL::absolute($path).'">'.$text.'</a></li>';
-}
-
 ?>
 
 <div class="container">
