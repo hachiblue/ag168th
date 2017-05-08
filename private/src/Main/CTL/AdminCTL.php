@@ -361,7 +361,7 @@ class AdminCTL extends BaseCTL {
 		}
 
 		// for speacial user : Nitcha_mg
-		if( isset($_SESSION['login']['id']) && $_SESSION['login']['id'] == 71 )
+		if( isset($_SESSION['login']['id']) && ($_SESSION['login']['id'] == 71 || $_SESSION['login']['id'] == 41) )
 		{
 			$sidebar = '';
 			$sidebar .= $this->getTagList ('/admin/enquiries', '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Enquiries');
