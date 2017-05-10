@@ -72,9 +72,9 @@ session_start();
 					<input ng-model="form.born_year">
 				</md-input-container>
 
-				<div class="md-block" flex="20">
+				<!-- <div class="md-block" flex="20">
 					<div class="h5 text-left text-primary" style="margin-top: 23px;margin-left: 35px;"> อายุ  <span>0</span> ปี </div>
-				</div>
+				</div> -->
 
 			</div>
 
@@ -310,7 +310,7 @@ session_start();
 				</md-input-container>
 
 				<md-input-container class="md-block" flex="20">
-						<md-radio-group ng-model="data.group1">
+						<md-radio-group ng-model="form.insur">
 							<md-radio-button value="1" class="md-primary"> มี </md-radio-button>
 							<md-radio-button value="0"> ไม่มี </md-radio-button>
 						</md-radio-group>

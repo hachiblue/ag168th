@@ -309,17 +309,34 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$routePa
 
 	});
 
+	$scope.id = $routeParams.id;
+
+    var promise1 = Q.promise(function(resolve, reject)
+    {
+        $.get("../api/profile/edit/" + $routeParams.id, function(data)
+        {
+            resolve(data);
+        }, "json");
+    });
+
+	Q.all([promise1])
+        .spread(function(result1) {
+            $scope.form = result1;
+        });
+
     $scope.submit = function ()
     {
+		$scope.form.account_id = $routeParams.id;
+		
 		$.post("../api/profile/edit/" + $routeParams.id, $scope.form, function (data)
         {
-            if (data.error)
+            if ( data.error )
             {
                 alert(data.error.message);
                 return;
             }
 
-			window.location = '';
+			window.location.reload();
 
         }, 'json');
     };
