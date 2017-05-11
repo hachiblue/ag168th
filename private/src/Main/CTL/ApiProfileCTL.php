@@ -22,198 +22,47 @@ class ApiProfileCTL extends BaseCTL {
 	{
         $db = MedooFactory::getInstance();
 
+		$field = [
+            "pfs.*",
+        ];
+
+        $join = [
+
+        ];
+
+        $limit = empty($_GET['limit'])? 15: $_GET['limit'];
+        $where = ["AND"=> []];
+
         $params = $this->reqInfo->params();
+       
+        $page = !empty($params['page'])? $params['page']: 1;
+        $orderType = !empty($params['orderType'])? $params['orderType']: "DESC";
+        $orderBy = !empty($params['orderBy'])? $params['orderBy']: "updated_at";
+        $order = "{$orderBy} {$orderType}";
 
-		/**
-		 *  # LIST OF ACCESS LEVEL #
-		 *  # 1 : System Admin
-		 *  # 2 : Admin
-		 *  # 3 : Manager
-		 *  # 4 : Sale
-		 *  # 5 : Marketing
-		 *  # 6 : HR
-		 *  # 7 : Admin Manager
-		 *  # 8 : Sale Manager
-		 *  # 9 : Marketing Manager
-		 
-		switch( (int) $_SESSION['login']['level']['id'] )
+        if(count($where["AND"]) > 0)
 		{
-			case 2 :
-					$see_self = " and ml.account_id = '".$_SESSION['login']['id']."' ";
-				break;
-			case 7 :
-					$see_self = " and ml.level_id IN (2, 7) ";
-				break;
-			case 4 :
-					$see_self = " and ml.account_id = '".$_SESSION['login']['id']."' ";
-				break;
-			case 8 :
-					$see_self = " and ml.level_id IN (4, 8) ";
-				break;
-			case 5 :
-					$see_self = " and ml.account_id = '".$_SESSION['login']['id']."' ";
-				break;
-			case 9 :
-					$see_self = " and ml.level_id IN (5, 9) ";
-				break;
-			default : 
-					$see_self = '';
-		}*/
-		
-		$see_self = " and ml.account_id = '".$_SESSION['login']['id']."' ";
-
-		/**
-		 * NON APPROVE
-		 */
-		$nleave = array();
-		$sql = "select count(ml.id) as total, DAY(ml.created_at) as dDay from mng_leave ml where MONTH(ml.created_at) = '$month' and YEAR(ml.created_at) = '$year' and late_flag = 'y' AND status = 1 ";
-		$sql .=  $see_self . " group by dDay ";
-
-		$r = $db->query($sql);
-		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-	
-		foreach( $rows as $row )
+            $where['ORDER'] = $order;
+            $list = ListDAO::gets('pfs', [
+                "field"=> $field,
+                //"join"=> $join,
+                //"where"=> $where,
+                "page"=> $page,
+                "limit"=> $limit
+            ]);
+        }
+        else 
 		{
-			$nleave[$row['dDay']] = $row['total'];
-		}
+            $list = ListDAO::gets('pfs', [
+                "field"=> $field,
+                //"join"=> $join,
+                "page"=> $page,
+                'where'=> ["ORDER"=> $order],
+                "limit"=> $limit
+            ]);
+        }
 
-		$sql = "select count(ml.id) as total, DAY(ml.rqshift_date) as dDay from mng_leave ml where MONTH(ml.rqshift_date) = '$month' and YEAR(ml.rqshift_date) = '$year' and rqshift_flag = 'y' AND status = 1 ";
-		$sql .=  $see_self . " group by dDay ";
-
-		$r = $db->query($sql);
-		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-		
-		foreach( $rows as $row )
-		{
-			$nleave[$row['dDay']] = isset($nleave[$row['dDay']]) ? $nleave[$row['dDay']] + $row['total'] : $row['total'];
-		}
-
-		$sql = "select count(ml.id) as total, DAY(ml.rqperiod_from_date) as dDay from mng_leave ml where MONTH(ml.rqperiod_from_date) = '$month' and YEAR(ml.rqperiod_from_date) = '$year' and rqperiod_flag = 'y' AND status = 1 ";
-		$sql .=  $see_self . " group by dDay ";
-
-		$r = $db->query($sql);
-		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-		
-		foreach( $rows as $row )
-		{
-			$nleave[$row['dDay']] = isset($nleave[$row['dDay']]) ? $nleave[$row['dDay']] + $row['total'] : $row['total'];
-		}
-	
-		
-		/**
-		 * IN APPROVE
-		 */
-		$leave = array();
-		$sql = "select count(ml.id) as total, DAY(ml.created_at) as dDay from mng_leave ml where MONTH(ml.created_at) = '$month' and YEAR(ml.created_at) = '$year' and late_flag = 'y' AND status = 2 ";
-		$sql .=  $see_self . " group by dDay ";
-
-		$r = $db->query($sql);
-		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-
-		foreach( $rows as $row )
-		{
-			$leave[$row['dDay']] = $row['total'];
-		}
-
-		$sql = "select count(ml.id) as total, DAY(ml.rqshift_date) as dDay from mng_leave ml where MONTH(ml.rqshift_date) = '$month' and YEAR(ml.rqshift_date) = '$year' and rqshift_flag = 'y' AND status = 2 ";
-		$sql .=  $see_self . " group by dDay ";
-
-		$r = $db->query($sql);
-		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-		
-		foreach( $rows as $row )
-		{
-			$leave[$row['dDay']] = isset($leave[$row['dDay']]) ? $leave[$row['dDay']] + $row['total'] : $row['total'];
-		}
-
-		$sql = "select count(ml.id) as total, DAY(ml.rqperiod_from_date) as dDay from mng_leave ml where MONTH(ml.rqperiod_from_date) = '$month' and YEAR(ml.rqperiod_from_date) = '$year' and rqperiod_flag = 'y' AND status = 2 ";
-		$sql .=  $see_self . " group by dDay ";
-
-		$r = $db->query($sql);
-		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-		
-		foreach( $rows as $row )
-		{
-			$leave[$row['dDay']] = isset($leave[$row['dDay']]) ? $leave[$row['dDay']] + $row['total'] : $row['total'];
-		}
-
-
-		/**
-		 * COMPLETE BY HR
-		 */
-		$complete = array();
-		$sql = "select count(ml.id) as total, DAY(ml.created_at) as dDay from mng_leave ml where MONTH(ml.created_at) = '$month' and YEAR(ml.created_at) = '$year' and late_flag = 'y' AND status = 3 ";
-		$sql .=  $see_self . " group by dDay ";
-
-		$r = $db->query($sql);
-		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-
-		foreach( $rows as $row )
-		{
-			$complete[$row['dDay']] = $row['total'];
-		}
-
-		$sql = "select count(ml.id) as total, DAY(ml.rqshift_date) as dDay from mng_leave ml where MONTH(ml.rqshift_date) = '$month' and YEAR(ml.rqshift_date) = '$year' and rqshift_flag = 'y' AND status = 3 ";
-		$sql .=  $see_self . " group by dDay ";
-
-		$r = $db->query($sql);
-		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-		
-		foreach( $rows as $row )
-		{
-			$complete[$row['dDay']] = isset($complete[$row['dDay']]) ? $complete[$row['dDay']] + $row['total'] : $row['total'];
-		}
-
-		$sql = "select count(ml.id) as total, DAY(ml.rqperiod_from_date) as dDay from mng_leave ml where MONTH(ml.rqperiod_from_date) = '$month' and YEAR(ml.rqperiod_from_date) = '$year' and rqperiod_flag = 'y' AND status = 3 ";
-		$sql .=  $see_self . " group by dDay ";
-
-		$r = $db->query($sql);
-		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-		
-		foreach( $rows as $row )
-		{
-			$complete[$row['dDay']] = isset($complete[$row['dDay']]) ? $complete[$row['dDay']] + $row['total'] : $row['total'];
-		}
-
-
-		/**
-		 * REJECT
-		 */
-		$reject = array();
-		$sql = "select count(ml.id) as total, DAY(ml.created_at) as dDay from mng_leave ml where MONTH(ml.created_at) = '$month' and YEAR(ml.created_at) = '$year' and late_flag = 'y' AND status = 4 ";
-		$sql .=  $see_self . " group by dDay ";
-
-		$r = $db->query($sql);
-		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-
-		foreach( $rows as $row )
-		{
-			$reject[$row['dDay']] = $row['total'];
-		}
-
-		$sql = "select count(ml.id) as total, DAY(ml.rqshift_date) as dDay from mng_leave ml where MONTH(ml.rqshift_date) = '$month' and YEAR(ml.rqshift_date) = '$year' and rqshift_flag = 'y' AND status = 4 ";
-		$sql .=  $see_self . " group by dDay ";
-
-		$r = $db->query($sql);
-		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-		
-		foreach( $rows as $row )
-		{
-			$reject[$row['dDay']] = isset($reject[$row['dDay']]) ? $reject[$row['dDay']] + $row['total'] : $row['total'];
-		}
-
-		$sql = "select count(ml.id) as total, DAY(ml.rqperiod_from_date) as dDay from mng_leave ml where MONTH(ml.rqperiod_from_date) = '$month' and YEAR(ml.rqperiod_from_date) = '$year' and rqperiod_flag = 'y' AND status = 4 ";
-		$sql .=  $see_self . " group by dDay ";
-
-		$r = $db->query($sql);
-		$rows = $r->fetchAll(\PDO::FETCH_ASSOC);
-		
-		foreach( $rows as $row )
-		{
-			$reject[$row['dDay']] = isset($reject[$row['dDay']]) ? $reject[$row['dDay']] + $row['total'] : $row['total'];
-		}
-
-        echo '<div class="col-md-6"><h2>'.$months[$month-1].'</h2></div><div>' . $this->draw_calendar($month, $year, $nleave, $leave, $complete, $reject) . '</div>';
+        return $list;
     }
 	
 

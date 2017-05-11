@@ -11,7 +11,7 @@ app.config(['$routeProvider', 'cfpLoadingBarProvider', '$mdDateLocaleProvider',
         $routeProvider.
         when('/',
         {
-            templateUrl: '../public/app/profile/index.php'
+            templateUrl: '../public/app/profile/list.php'
         }).
         when('/:id',
         {
@@ -364,7 +364,111 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$routePa
     window.s = $scope;
 }]);
 
+app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function ($scope, $http, $location, $route) {
+    $scope.profiles = [];
+    $scope.form = {};
+    $scope.form.page = 1;
+    $scope.form.limit = 15;
+    $scope.form.total_q_items = 0;
 
+    window.s = $scope;
+
+    function getProfiles(query)
+    {
+        var url = "../api/profile", i;
+
+        $scope.form = $.extend({}, $scope.form);
+
+        if (query)
+        {
+            url += "?" + $.param($scope.form);
+        }
+
+        $http.get(url).success(function (data)
+        {
+            $scope.profiles = data;
+
+            if (data.total > 0)
+            {
+                $scope.pagination = [];
+                var numPage = Math.ceil(data.total / $scope.form.limit);
+                for (var i = 1; i <= numPage; i++)
+                {
+                    $scope.pagination.push(data.paging.page == i);
+                }
+            }
+            else
+            {
+                $scope.pagination = null;
+            }
+
+            $scope.initSuccess = false;
+           
+
+        });
+    }
+
+	getProfiles($scope.form);
+
+    $scope.sort = function (keyname)
+    {
+        $scope.sortKey = keyname; //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+
+        $scope.form.orderBy = keyname;
+        $scope.form.orderType = !$scope.reverse ? 'ASC' : 'DESC';
+
+	getProfiles($scope.form);
+    };
+
+    $scope.setPage = function ($index)
+    {
+        if ($index < 1 || $index > $scope.pagination.length)
+            return;
+
+		$scope.form.page = $index;
+		getProfiles($scope.form);
+    };
+
+    $scope.displayDotLeft = function ()
+    {
+		if ($scope.form.page > 5) return true;
+    };
+
+    $scope.filterProps = function ()
+    {
+		getProfiles($scope.form);
+    };
+
+    $http.get("../api/collection").success(function (data)
+    {
+        $scope.collection = data;
+        $scope.collection.project = data.project.sort(function (a, b)
+        {
+            if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+            if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+            return 0;
+        });
+    });
+
+    $scope.remove = function (id)
+    {
+        if (!window.confirm("Are you sure?"))
+        {
+            return;
+        }
+
+        $http.delete("../api/property/" + id).success(function (data)
+        {
+
+            if (typeof data.error == 'undefined')
+            {
+                $route.reload();
+            }
+
+        });
+    };
+}]);
 
 function getDate(date)
 {
