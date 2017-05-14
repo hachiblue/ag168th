@@ -390,7 +390,8 @@ MAILCONTENT;
      * @POST
      * @uri /edit/[:id]
      */
-    public function edit () {
+    public function edit () 
+	{
         $id = $this->reqInfo->urlParam("id");
         $params = $this->reqInfo->params();
         // $insert = ArrayHelper::filterKey([
@@ -398,19 +399,21 @@ MAILCONTENT;
         // ], $params);
         $set = $params;
         $set = ArrayHelper::filterKey([
-          "property_type_id", "project_id", "address_no", "floors", "size", "size_unit_id", "bedrooms", "bathrooms",
-          "requirement_id", "contract_price", "sell_price", "net_sell_price", "rent_price", "net_rent_price", "owner",
-          "key_location_id", "zone_id", "road", "province_id", "district_id", "sub_district_id", "bts_id", "mrt_id",
-          "airport_link_id", "property_status_id", "contract_expire", "web_status", "property_highlight_id",
-          "feature_unit_id", "rented_expire", "inc_vat", "transfer_status_id", "owner", "web_url_search", "room_type_id", "contract_chk_key",
-          "property_pending_type", "property_pending_info", "property_pending_date", "building_no", "unit_no", "direction"
+			"property_type_id", "project_id", "address_no", "floors", "size", "size_unit_id", "bedrooms", "bathrooms",
+			"requirement_id", "contract_price", "sell_price", "net_sell_price", "rent_price", "net_rent_price", "owner",
+			"key_location_id", "zone_id", "road", "province_id", "district_id", "sub_district_id", "bts_id", "mrt_id",
+			"airport_link_id", "property_status_id", "contract_expire", "web_status", "property_highlight_id",
+			"feature_unit_id", "rented_expire", "inc_vat", "transfer_status_id", "owner", "web_url_search", "room_type_id", "contract_chk_key",
+			"property_pending_type", "property_pending_info", "property_pending_date", "building_no", "unit_no", "direction"
         ], $set);
 
-        $set = array_map(function($item) {
-          if(is_string($item)) {
-            $item = trim($item);
-          }
-          return $item;
+        $set = array_map(function($item) 
+		{
+			if(is_string($item)) 
+			{
+				$item = trim($item);
+			}
+			return $item;
         }, $set);
 
         $set['updated_at'] = date('Y-m-d H:i:s');
@@ -418,8 +421,9 @@ MAILCONTENT;
         if(isset($set['contract_expire']) && trim($set['contract_expire']) == "") $set['contract_expire'] = null;
         if(isset($set['contract_expire']) && trim($set['rented_expire']) == "") $set['rented_expire'] = null;
 
-        if(isset($set['comment'])) {
-          unset($set['comment']);
+        if(isset($set['comment'])) 
+		{
+			unset($set['comment']);
         }
 
         $where = ["id"=> $id];
@@ -428,12 +432,12 @@ MAILCONTENT;
 
         if(!(@$_SESSION['login']['level_id'] <= 2 && @$_SESSION['login']['level_id'] > 0)) 
         {
-          $set = [
-            'updated_at'=> date('Y-m-d H:i:s'),
-            'property_status_id' => $set['property_status_id'],
-            'rented_expire' => $set['rented_expire'],
-            'web_status' => $set['web_status']
-          ];
+			$set = [
+				'updated_at'=> date('Y-m-d H:i:s'),
+				'property_status_id' => $set['property_status_id'],
+				'rented_expire' => $set['rented_expire'],
+				'web_status' => $set['web_status']
+			];
         }
 
         $old = $db->get($this->table, "*", $where);
@@ -447,46 +451,55 @@ MAILCONTENT;
         $commentStr = trim($params['comment']);
         $accId = $_SESSION['login']['id'];
         $db->insert("property_comment",
-          [
-            "property_id"=> $id,
-            "comment"=> $commentStr,
-            "comment_by"=> $accId,
-            "updated_at"=> date('Y-m-d H:i:s')
-            ]);
+		[
+			"property_id"=> $id,
+			"comment"=> $commentStr,
+			"comment_by"=> $accId,
+			"updated_at"=> date('Y-m-d H:i:s')
+		]);
 
         // mail when comment
         $acc = $db->get("account", "*", ["id"=> $accId]);
         $url = URL::absolute("/admin/properties#/edit/".$id);
-        $mailContent = <<<MAILCONTENT
-        Property: <a href="{$url}">{$old["reference_id"]}</a> has comment by {$acc["name"]}. please check property.
-MAILCONTENT;
 
-        $mailHeader = "From: system@agent168th.com\r\n";
+        $mailContent = 'Property: <a href="'.$url.'">'.$old["reference_id"].'</a> has comment by '.$acc["name"].'. please check property.';
+        
+		/**
+		 * SMTP WAY
+		 */
+		//$this->mailsender ( 'system@agent168th.com', 'oom34299@gmail.com', 'Comment property: ' . $old["reference_id"], $mailContent );
+		
+		/**
+		 * OLD
+		 */
+		$mailHeader = "From: system@agent168th.com\r\n";
         $mailHeader = "To: admin@agent168th.com\r\n";
         $mailHeader .= "Content-type: text/html; charset=utf-8\r\n";
-        @mail("admin@agent168th.com", "Comment property: ".$old["reference_id"], $mailContent, $mailHeader);
+		@mail("admin@agent168th.com", "Comment property: ".$old["reference_id"], $mailContent, $mailHeader);
+		
+		$db->update("request_contact", ["commented"=> 1], [
+			"AND"=> [
+				"property_id"=> $id,
+				"account_id"=> $accId
+			]
+		]);
 
-        $db->update("request_contact", ["commented"=> 1], [
-          "AND"=> [
-            "property_id"=> $id,
-            "account_id"=> $accId
-            ]
-          ]);
-
-        return ["success"=> true, "query"=>$db->log()];
+		return ["success"=> true, "query"=>$db->log()];
     }
 
     /**
      * @DELETE
      * @uri /[i:id]
      */
-    public function delete() {
+    public function delete() 
+	{
         $id = $this->reqInfo->urlParam("id");
 
         $db = MedooFactory::getInstance();
         $id = $db->delete($this->table, ["id"=> $id]);
 
-        if(!$id){
+        if( ! $id )
+		{
             return ResponseHelper::error("Error can't remove property.");
         }
 

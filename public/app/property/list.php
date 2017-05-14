@@ -295,6 +295,7 @@
                 <th>Rent</th>
                 <th>Status</th>
                 <th>Zone</th>
+                <th>Direction</th>
                 <!-- <th ng-click="sort('owner')">
 				VIP
 				<span class="glyphicon sort-icon" ng-show="sortKey=='owner'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
@@ -325,6 +326,7 @@
                 <td><span ng-hide="!prop.rent_price">฿{{commaNumber(prop.rent_price)}}</span></td>
                 <td>{{prop.property_status_name}}</td>
                 <td>{{prop.zone_name}}</td>
+                <td>{{prop.direction}}</td>
                 <!-- <td>
                   <a class="btn btn-info" href="#/{{prop.id}}/gallery" target="_blank">images</a>
                 </td> -->

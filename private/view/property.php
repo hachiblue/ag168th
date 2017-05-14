@@ -303,7 +303,18 @@ $req_txt = strtoupper($item['requirement']['name']);
 						case '4' : $txt = 'New Coming'; $cls = 'green'; break;
 						default : $txt = '';
 					}
-		
+					
+					// new coming expired
+					if( $item['feature_unit_id'] == 4 )
+					{
+						$lastupdate = strtotime($item['updated_at']);
+						$last3week = strtotime("-3 week");
+						if( $last3week > $lastupdate )
+						{
+							$txt = '';
+						}
+					}
+
 					if( $txt != '' )
 					{
 						?>

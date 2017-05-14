@@ -56,10 +56,18 @@ class ListCTL extends BaseCTL {
 			exit;
 		}
 
-
-
 		$searchQuery = "1";
 		$excParams = [];
+
+		if(!empty($params['searchBy'])) 
+		{
+			$isAC = $db->count("property", ["reference_id"=> $params['searchBy']]);
+			if( $isAC )
+			{
+				$searchQuery .= " AND property.reference_id=:reference_id";
+				$excParams[":reference_id"] = $params['searchBy'];
+			}
+		}
 
 		if(!empty($params['project_id'])) 
 		{

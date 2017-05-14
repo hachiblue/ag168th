@@ -490,6 +490,17 @@ $this->import('/template/top-navbar');
 											case '4' : $txt = 'New Coming'; $cls = 'green'; break;
 											default : $txt = '';
 										}
+									
+										// new coming expired
+										if( $props['feature_unit_id'] == 4 )
+										{
+											$lastupdate = strtotime($props['updated_at']);
+											$last3week = strtotime("-3 week");
+											if( $last3week > $lastupdate )
+											{
+												$txt = '';
+											}
+										}
 							
 										if( $txt != '' )
 										{
