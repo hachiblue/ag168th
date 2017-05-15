@@ -308,40 +308,49 @@ class ApiProperty extends BaseCTL {
         $db = MedooFactory::getInstance();
         $params = $this->reqInfo->params();
         $insert = ArrayHelper::filterKey([
-          "property_type_id", "project_id", "address_no", "floors", "size", "size_unit_id", "bedrooms", "bathrooms",
-          "requirement_id", "contract_price", "sell_price", "net_sell_price", "rent_price", "net_rent_price", "owner",
-          "key_location_id", "zone_id", "road", "province_id", "district_id", "sub_district_id", "bts_id", "mrt_id",
-          "airport_link_id", "property_status_id", "contract_expire", "web_status", "property_highlight_id",
-          "feature_unit_id", "rented_expire", "inc_vat", "transfer_status_id", "owner", "web_url_search", "room_type_id", "contract_chk_key",
-          "property_pending_type", "property_pending_info", "property_pending_date", "building_no", "unit_no", "direction"
+			"property_type_id", "project_id", "address_no", "floors", "size", "size_unit_id", "bedrooms", "bathrooms",
+			"requirement_id", "contract_price", "sell_price", "net_sell_price", "rent_price", "net_rent_price", "owner",
+			"key_location_id", "zone_id", "road", "province_id", "district_id", "sub_district_id", "bts_id", "mrt_id",
+			"airport_link_id", "property_status_id", "contract_expire", "web_status", "property_highlight_id",
+			"feature_unit_id", "rented_expire", "inc_vat", "transfer_status_id", "owner", "web_url_search", "room_type_id", "contract_chk_key",
+			"property_pending_type", "property_pending_info", "property_pending_date", "building_no", "unit_no", "direction"
         ], $params);
 
         $insert = array_map(function($item) {
-          if(is_string($item)) {
-            $item = trim($item);
-          }
-          return $item;
+			if( is_string($item) ) 
+			{
+				$item = trim($item);
+			}
+			return $item;
         }, $insert);
 
-        if(empty($params['comment'])) {
-          return ResposenHelper::error("require comment");
+        if(empty($params['comment'])) 
+		{
+			return ResposenHelper::error("require comment");
         }
-        if(!isset($insert['property_type_id'])) {
-          return ResponseHelper::error("require property_type_id");
+
+        if(!isset($insert['property_type_id'])) 
+		{
+			return ResponseHelper::error("require property_type_id");
         }
-        if(!empty($insert['project_id']) && !empty($insert['address_no'])) {
-          if($db->count("property", "*", [
-            "AND"=> [
-              "project_id"=> $insert["project_id"],
-              "address_no"=> $insert["address_no"]
-              ]])  > 0) {
-              return ResponseHelper::error("Property ซ้ำ");
-          }
+
+        if(!empty($insert['project_id']) && !empty($insert['address_no'])) 
+		{
+			if( $db->count("property", "*", [
+				"AND"=> [
+					"project_id"=> $insert["project_id"],
+					"address_no"=> $insert["address_no"]
+				]])  > 0 ) 
+			{
+				return ResponseHelper::error("Property ซ้ำ");
+			}
         }
 
         $insert['reference_id'] = $this->_generateReferenceId($insert['property_type_id']);
-        if(!$insert['reference_id']) {
-          return ResponseHelper::error("property_type_id '{$insert['property_type_id']}' is invalid");
+
+        if(!$insert['reference_id']) 
+		{
+			return ResponseHelper::error("property_type_id '{$insert['property_type_id']}' is invalid");
         }
 
         if(isset($set['contract_expire']) && trim($set['contract_expire']) == "") $set['contract_expire'] = null;
@@ -354,16 +363,17 @@ class ApiProperty extends BaseCTL {
         $db->pdo->beginTransaction();
         $id = $db->insert($this->table, $insert);
 
-        if(!$id) {
+        if(!$id) 
+		{
             return ResponseHelper::error("Error can't add property.");
         }
 
         $accId = $_SESSION['login']['id'];
         $commentInsert = [
-          "property_id"=> $id,
-          "comment"=> $params["comment"],
-          "comment_by"=> $accId,
-          "updated_at"=> $now
+			"property_id"=> $id,
+			"comment"=> $params["comment"],
+			"comment_by"=> $accId,
+			"updated_at"=> $now
         ];
 
         $db->insert("property_comment", $commentInsert);
@@ -377,11 +387,15 @@ class ApiProperty extends BaseCTL {
         Property: <a href="{$url}">{$item["reference_id"]}</a> has added by {$acc["name"]}. please check property.
 MAILCONTENT;
 
+		/**
+		 * OLD
         $mailHeader = "From: system@agent168th.com\r\n";
         $mailHeader = "To: admin@agent168th.com\r\n";
         $mailHeader .= "Content-type: text/html; charset=utf-8\r\n";
         @mail("admin@agent168th.com", "Added property: ".$item["reference_id"], $mailContent, $mailHeader);
+		*/
 
+		$this->mailsender ( 'system@agent168th.com', 'admin@agent168th.com', 'Added property: ' . $old["reference_id"], $mailContent );
 
         return $item;
     }
@@ -430,7 +444,7 @@ MAILCONTENT;
 
         $db = MedooFactory::getInstance();
 
-        if(!(@$_SESSION['login']['level_id'] <= 2 && @$_SESSION['login']['level_id'] > 0)) 
+        if( ! (@$_SESSION['login']['level_id'] <= 2 && @$_SESSION['login']['level_id'] > 0) )  
         {
 			$set = [
 				'updated_at'=> date('Y-m-d H:i:s'),
@@ -467,16 +481,17 @@ MAILCONTENT;
 		/**
 		 * SMTP WAY
 		 */
-		//$this->mailsender ( 'system@agent168th.com', 'oom34299@gmail.com', 'Comment property: ' . $old["reference_id"], $mailContent );
+		$this->mailsender ( 'system@agent168th.com', 'admin@agent168th.com', 'Comment property: ' . $old["reference_id"], $mailContent );
 		
 		/**
 		 * OLD
-		 */
+		 
 		$mailHeader = "From: system@agent168th.com\r\n";
         $mailHeader = "To: admin@agent168th.com\r\n";
         $mailHeader .= "Content-type: text/html; charset=utf-8\r\n";
 		@mail("admin@agent168th.com", "Comment property: ".$old["reference_id"], $mailContent, $mailHeader);
-		
+		*/
+
 		$db->update("request_contact", ["commented"=> 1], [
 			"AND"=> [
 				"property_id"=> $id,
