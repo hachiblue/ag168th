@@ -45,6 +45,22 @@ class HomeCTL extends BaseCTL {
 		{
 			$this->_buildTopic($prop);
 		}
+		
+		$sql = " select p.*, IF(p.sell_price=0, p.rent_price, p.sell_price) AS price from property p where p.web_status = 1 and p.id not in ('0', '46642') order by created_at desc limit 5 ";
+		$stmt = $db->pdo->prepare($sql);
+		$stmt->execute();
+		$latest_props = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+		foreach( $latest_props as &$prop )
+		{
+			$prop['project'] = $this->getProject($prop['project_id']);
+			$this->_buildThumb($prop);
+			$this->_buildSizeUnit($prop);
+			$this->_buildRequirement($prop);
+		}
+
+		$items[] = array( 'name' => 'New Property', 'property' => $latest_props );
+
 
 		$pItems['topics'] = $items;
 
