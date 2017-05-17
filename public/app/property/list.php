@@ -318,6 +318,7 @@
                     <!-- <div><strong>Type</strong>: <span>{{prop.property_type_name}}</span></div> -->
                     <div ng-if="prop.bedrooms"><strong>Bed room</strong>: <span>{{prop.bedrooms}}</span></div>
                     <div ng-if="prop.bathrooms"><strong>Bath room</strong>: <span>{{prop.bathrooms}}</span></div>
+                    <div ng-if="prop.unit_no"><strong>Unit No.</strong>: <span>{{prop.unit_no}}</span></div>
                     <!-- <div><strong>Transfer Status</strong>: <span>{{prop.property_status_name}}</span></div> -->
                 </td>
                 <td>{{prop.requirement_name}}</td>

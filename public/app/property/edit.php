@@ -61,20 +61,8 @@
 
   <div class="row">
 
-  <fieldset>
-		<div class="col-md-3 form-group">
-		  <label>Status</label>
-		  <select class="form-control"
-		  ng-model="form.property_status_id"
-		  ng-change="formPropertyStatusIdChange()"
-		  ng-options="item.id as item.name for item in collection.property_status"
-		  required>
-			  <option value="">Please select</option>
-		  </select>
-		</div>
-  </fieldset>
-
   <fieldset ng-disabled="!editAllow">
+
     <div class="col-md-3 col-md-offset-1 form-group">
       <label>{{form.owner}}</label>
     </div>
@@ -107,24 +95,35 @@
     </div>
 
     <div style="clear:both;"></div>
+	
+	<div class="col-md-2 form-group">
+		<label>Status</label>
+		<select class="form-control"
+		ng-model="form.property_status_id"
+		ng-change="formPropertyStatusIdChange()"
+		ng-options="item.id as item.name for item in collection.property_status"
+		required>
+			<option value="">Please select</option>
+		</select>
+	</div>
 
     <div class="col-md-3 form-group">
       <label>Property Type</label>
       <select class="form-control"
-      ng-model="form.property_type_id"
-	    ng-change="formPropertyTypeChange()"
-      ng-options="item.id as item.name for item in collection.property_type"
-      required>
+		ng-model="form.property_type_id"
+		ng-change="formPropertyTypeChange()"
+		ng-options="item.id as item.name for item in collection.property_type"
+		required>
           <option value="">Please select</option>
       </select>
     </div>
     <div class="col-md-3 form-group">
       <label>Project</label>
       <select  chosen id="project_id" class="form-control"
-      ng-model="form.project_id"
+        ng-model="form.project_id"
 	    ng-change="formProjectIdChange()"
-      ng-options="item.id as item.name for item in collection.project"
-      >
+        ng-options="item.id as item.name for item in collection.project"
+        >
           <option value="">Please select</option>
       </select>
     </div>
