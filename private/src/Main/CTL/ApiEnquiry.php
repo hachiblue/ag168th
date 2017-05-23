@@ -1011,16 +1011,21 @@ class ApiEnquiry extends BaseCTL {
         $mailContent = <<<MAILCONTENT
         Enquiry: <a href="{$url}">{$old["enquiry_no"]}</a> has comment by {$acc["name"]}. please check enquiry.
 MAILCONTENT;
-
+		
+		/*
         $mailHeader = "From: system@agent168th.com\r\n";
         $mailHeader = "To: admin@agent168th.com\r\n";
         $mailHeader .= "Content-type: text/html; charset=utf-8\r\n";
         @mail("admin@agent168th.com", "Comment enquiry: ".$old["enquiry_no"], $mailContent, $mailHeader);
+		*/
 
-        if($_SESSION['login']['level_id'] == 3 && $fnIsChangeToBook()) {
-          $url = URL::absolute("/admin/enquiries#/edit/".$id);
-          $urlProp = URL::absolute("/admin/properties#/edit/".$item['book_property_id']);
-          $prop = $db->get("property", ["reference_id"], ['id'=> $item['book_property_id']]);
+		$this->mailsender ( 'system@agent168th.com', 'admin@agent168th.com', 'Comment enquiry: '.$old["enquiry_no"], $mailContent );
+
+        if($_SESSION['login']['level_id'] == 3 && $fnIsChangeToBook()) 
+		{
+			$url = URL::absolute("/admin/enquiries#/edit/".$id);
+			$urlProp = URL::absolute("/admin/properties#/edit/".$item['book_property_id']);
+			$prop = $db->get("property", ["reference_id"], ['id'=> $item['book_property_id']]);
 
           $mailContent = <<<MAILCONTENT
           Enquiry has booked.<br />
@@ -1030,21 +1035,24 @@ MAILCONTENT;
           Approve by: {$acc['name']}.<br />
 MAILCONTENT;
 
-          $mailHeader = "From: system@agent168th.com\r\n";
-          $mailHeader = "To: admin@agent168th.com\r\n";
-          $mailHeader .= "Content-type: text/html; charset=utf-8\r\n";
+			/*
+			$mailHeader = "From: system@agent168th.com\r\n";
+			$mailHeader = "To: admin@agent168th.com\r\n";
+			$mailHeader .= "Content-type: text/html; charset=utf-8\r\n";
+			@mail("admin@agent168th.com", "Booked enquiry: ".$item["enquiry_no"], $mailContent, $mailHeader);
+			*/
 
-          @mail("admin@agent168th.com", "Booked enquiry: ".$item["enquiry_no"], $mailContent, $mailHeader);
+			$this->mailsender ( 'system@agent168th.com', 'admin@agent168th.com', 'Booked enquiry: '.$item["enquiry_no"], $mailContent );
         }
 
-        $db->update("request_contact", ["commented"=> 1], [
-          "AND"=> [
-            "property_id"=> $id,
-            "account_id"=> $accId
-            ]
-          ]);
+		$db->update("request_contact", ["commented"=> 1], [
+			"AND"=> [
+				"property_id"=> $id,
+				"account_id"=> $accId
+			]
+		]);
 
-        return $item;
+		return $item;
     }
 
     /**
@@ -1228,18 +1236,20 @@ MAILCONTENT;
         LastAssignManagerHelper::set($set["assign_manager_id"]);
       }
 
-      $mailContent = <<<MAILCONTENT
-      Assign enquiry: {$item["enquiry_no"]} to you. please check enquiry.
-MAILCONTENT;
+		$mailContent = 'Assign enquiry: '.$item["enquiry_no"].' to you. please check enquiry.';
 
-      $mailHeader = "From: system@agent168th.com\r\n";
-      $mailHeader = "To: {$acc['email']}\r\n";
-      $mailHeader .= "Content-type: text/html; charset=utf-8\r\n";
-      @mail($acc["email"], "Assign enquiry: ".$item["enquiry_no"], $mailContent, $mailHeader);
+		/*
+		$mailHeader = "From: system@agent168th.com\r\n";
+		$mailHeader = "To: {$acc['email']}\r\n";
+		$mailHeader .= "Content-type: text/html; charset=utf-8\r\n";
+		@mail($acc["email"], "Assign enquiry: ".$item["enquiry_no"], $mailContent, $mailHeader);
+		*/
+		
+		$this->mailsender ( 'system@agent168th.com', $acc['email'], 'Assign enquiry: '.$item["enquiry_no"], $mailContent );
 
-      $item = $db->get($this->table, "*", ["id"=> $id]);
+		$item = $db->get($this->table, "*", ["id"=> $id]);
 
-      return $item;
+		return $item;
     }
 
     /**
@@ -1284,17 +1294,20 @@ MAILCONTENT;
         }
       }
 
-      $mailContent = <<<MAILCONTENT
-      Assign enquiry: {$item["enquiry_no"]} to you. please check enquiry.
-MAILCONTENT;
-      $mailHeader = "From: system@agent168th.com\r\n";
-      $mailHeader = "To: {$acc['email']}\r\n";
-      $mailHeader .= "Content-type: text/html; charset=utf-8\r\n";
-      @mail($acc["email"], "Assign enquiry: ".$item["enquiry_no"], $mailContent, $mailHeader);
+		$mailContent = 'Assign enquiry: '.$item["enquiry_no"].' to you. please check enquiry.';
 
-      $item = $db->get($this->table, "*", ["id"=> $id]);
+		/*
+		$mailHeader = "From: system@agent168th.com\r\n";
+		$mailHeader = "To: {$acc['email']}\r\n";
+		$mailHeader .= "Content-type: text/html; charset=utf-8\r\n";
+		@mail($acc["email"], "Assign enquiry: ".$item["enquiry_no"], $mailContent, $mailHeader);
+		*/
 
-      return $item;
+		$this->mailsender ( 'system@agent168th.com', $acc['email'], 'Assign enquiry: '.$item["enquiry_no"], $mailContent );
+
+		$item = $db->get($this->table, "*", ["id"=> $id]);
+
+		return $item;
     }
 
 
