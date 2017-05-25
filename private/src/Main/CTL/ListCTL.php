@@ -59,13 +59,18 @@ class ListCTL extends BaseCTL {
 		$searchQuery = "1";
 		$excParams = [];
 
-		if(!empty($params['searchBy'])) 
+		if( ! empty($params['searchBy']) && strlen($params['searchBy']) > 2 ) 
 		{
 			$isAC = $db->count("property", ["reference_id"=> $params['searchBy']]);
 			if( $isAC )
 			{
 				$searchQuery .= " AND property.reference_id=:reference_id";
 				$excParams[":reference_id"] = $params['searchBy'];
+			}
+			elseif ( !isset($params['project_id']) || empty($params['project_id']) )
+			{
+				$searchQuery .= " AND project.name like :proj_name";
+				$excParams[":proj_name"] = $params['searchBy'] . '%';
 			}
 		}
 

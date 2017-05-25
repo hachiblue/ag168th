@@ -66,9 +66,25 @@ class ApiProperty extends BaseCTL {
         $where = ["AND"=> []];
 
         $params = $this->reqInfo->params();
+
         if(!empty($params['property_type_id']))
 		{
             $where["AND"]['property.property_type_id'] = $params['property_type_id'];
+        }
+
+        if(!empty($params['floors']))
+		{
+            $where["AND"]['property.floors'] = $params['floors'];
+        }
+
+        if(!empty($params['direction']))
+		{
+            $where["AND"]['property.direction[~]'] = $params['direction'];
+        }
+
+        if(!empty($params['unit_no']))
+		{
+            $where["AND"]['property.unit_no[~]'] = $params['unit_no'];
         }
 
         if(!empty($params['bedrooms']) || @$params['bedrooms'] === 0 || @$params['bedrooms'] === '0')

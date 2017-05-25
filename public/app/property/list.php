@@ -139,7 +139,7 @@
 							</div>
 						</div>
 					  </div>
-					  <div class="col-md-3 form-group">
+					  <div class="col-md-3 form-group hidden">
 						  <label>Inc. 7% VAT</label>
 						  <select class="form-control" ng-model="form.inc_vat">
 							  <option value="">All</option>
@@ -147,7 +147,21 @@
 							  <option value="0">no</option>
 						  </select>
 					  </div>
+			
+						<div class="col-md-1 form-group">
+							<label>Floors</label>
+							<input type="number" class="form-control" ng-model="form.floors">
+						</div>
 
+						<div class="col-md-1 form-group">
+							<label>Direction</label>
+							<input type="text" class="form-control" ng-model="form.direction">
+						</div>
+
+						<div class="col-md-1 form-group">
+							<label>Unit No.</label>
+							<input type="text" class="form-control" ng-model="form.unit_no">
+						</div>
 				  </div>
 			
 				  <div class="row">
@@ -159,11 +173,9 @@
 							  <option value="">All</option>
 						  </select>
 					  </div>
-					  <div class="col-md-3 form-group">
+					  <div class="col-md-3 form-group hidden">
 						  <label>Province</label>
-						  <select class="form-control"
-													ng-model="form.province_id"
-													ng-options="item.id as item.name for item in thailocation.province">
+						  <select class="form-control" ng-model="form.province_id" ng-options="item.id as item.name for item in thailocation.province">
 						  <option value="">All</option>
 							</select>
 					  </div>
@@ -197,7 +209,7 @@
 							  <option value="">All</option>
 						  </select>
 					  </div>
-					  <div class="col-md-3 form-group">
+					  <div class="col-md-3 form-group hidden">
 						  <label>Property Highlight</label>
 						  <select class="form-control" ng-model="form.property_highlight_id">
 							  <option value="">All</option>
@@ -207,7 +219,7 @@
 							  <option value="4">Made Over already</option>
 						  </select>
 					  </div>
-					  <div class="col-md-3 form-group">
+					  <div class="col-md-3 form-group hidden">
 						  <label>Feature unit</label>
 						  <select class="form-control" ng-model="form.feature_unit_id">
 							  <option value="">All</option>
