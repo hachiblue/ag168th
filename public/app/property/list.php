@@ -269,11 +269,24 @@
 				  </div>
 
 				  <div class="row">
+					  <div class="col-md-3">
+						  <label>Pictures</label>
+						  <select class="form-control" ng-model="form.picture">
+							  <option value="" selected>All</option>
+							  <option value="y">Have</option>
+							  <option value="n">Don't Have</option>
+						  </select>
+					  </div>
+				  </div>
+				  <br>
+
+				  <div class="row">
 					  <div class="col-md-12">
 						  <button type="submit" class="btn btn-success" ng-click="filterProps()">Search</button>
 						  <button type="reset" class="btn btn-success">Reset</button>
 					  </div>
 				  </div>
+
 				</form>
 				<div style="clear: both;"></div>
 				<div class="pull-right">

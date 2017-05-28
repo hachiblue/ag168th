@@ -62,6 +62,27 @@ class ApiProperty extends BaseCTL {
             "[>]zone"=> ["zone_id"=> "id"]
         ];
 
+		$sql_field = array(
+			"property.*",
+			"property.owner as VIP",
+			"requirement.name as requirement_name",
+			"property_status.name as property_status_name",
+			"size_unit.name as size_unit_name",
+			"project.name as project_name",
+			"zone.name as zone_name"
+		);
+
+		$sql_join = array(
+			"LEFT JOIN requirement ON property.requirement_id = requirement.id",
+			"LEFT JOIN property_status ON property.property_status_id = property_status.id",
+			"LEFT JOIN size_unit ON property.size_unit_id = size_unit.id",
+			"LEFT JOIN project ON property.project_id = project.id",
+			"LEFT JOIN zone ON property.zone_id = zone.id"
+		);
+
+		$sql_where = array();
+		$sql_params = array();
+
         $limit = empty($_GET['limit'])? 15: $_GET['limit'];
         $where = ["AND"=> []];
 
@@ -70,32 +91,54 @@ class ApiProperty extends BaseCTL {
         if(!empty($params['property_type_id']))
 		{
             $where["AND"]['property.property_type_id'] = $params['property_type_id'];
+
+			$sql_where[] = "property.property_type_id = '{$params['property_type_id']}'";
         }
+		
+		if( !empty($params['picture']) )
+		{
+			if( $params['picture'] == 'y' )
+			{
+				$sql_join[] = " INNER JOIN (select * from property_image group by property_id) pm ON pm.property_id = property.id ";
+			}
+			elseif( $params['picture'] == 'n' )
+			{
+				$sql_where[] = " property.id NOT IN (select property_id from property_image group by property_id)";
+			}
+		}
 
         if(!empty($params['floors']))
 		{
             $where["AND"]['property.floors'] = $params['floors'];
+
+			$sql_where[] = "property.floors = '{$params['floors']}'";
         }
 
         if(!empty($params['direction']))
 		{
             $where["AND"]['property.direction[~]'] = $params['direction'];
+
+			$sql_where[] = "property.direction like '%{$params['direction']}%'";
         }
 
         if(!empty($params['unit_no']))
 		{
             $where["AND"]['property.unit_no[~]'] = $params['unit_no'];
+
+			$sql_where[] = "property.unit_no = '{$params['unit_no']}'";
         }
 
         if(!empty($params['bedrooms']) || @$params['bedrooms'] === 0 || @$params['bedrooms'] === '0')
 		{
             if($params['bedrooms'] == "4+") 
 			{
-              $where["AND"]['property.bedrooms[>=]'] = $params['bedrooms'];
+				$where["AND"]['property.bedrooms[>=]'] = $params['bedrooms'];
+				$sql_where[] = "property.bedrooms >= '{$params['bedrooms']}'";
             }
             else 
 			{
-              $where["AND"]['property.bedrooms'] = $params['bedrooms'];
+				$where["AND"]['property.bedrooms'] = $params['bedrooms'];
+				$sql_where[] = "property.bedrooms = '{$params['bedrooms']}'";
             }
         }
 
@@ -114,20 +157,24 @@ class ApiProperty extends BaseCTL {
             if( $params['requirement_id'] == 1 )
             {
                 $where["AND"]['property.requirement_id'] = [$params['requirement_id'], 3, 4];
+				$sql_where[] = "property.requirement_id IN ({$params['requirement_id']}, 3, 4)";
             }
             elseif( $params['requirement_id'] == 2 )
             {
                 $where["AND"]['property.requirement_id'] = [$params['requirement_id'], 3];
+				$sql_where[] = "property.requirement_id IN ({$params['requirement_id']}, 3)";
             }
             else
             {
                 $where["AND"]['property.requirement_id'] = $params['requirement_id'];
+				$sql_where[] = "property.requirement_id IN ({$params['requirement_id']})";
             }
         }
 
         if(!empty($params['project_id']))
 		{
             $where["AND"]['property.project_id'] = $params['project_id'];
+			$sql_where[] = "property.project_id = '{$params['project_id']}'";
         }
 
         if(!empty($params['rented_expire']))
@@ -147,63 +194,78 @@ class ApiProperty extends BaseCTL {
 
             //$where["AND"]['property_status_id[!]'] = ['1', '4', '5', '9'];
             $where["AND"]['property_status_id'] = ['3'];
+			$sql_where[] = "property.property_status_id = 3";
 
             $where["AND"]['rented_expire[<]'] = date("Y-m-d H:i:s", strtotime("+7 days"));
+			$sql_where[] = "property.rented_expire < '".date("Y-m-d H:i:s", strtotime("+7 days"))."'";
+
             $where["AND"]['requirement_id[!]'] = "1";
+			$sql_where[] = "property.requirement_id != 1";
         }
 
         if(!empty($params['property_highlight_id']))
 		{
             $where["AND"]['property.property_highlight_id'] = $params['property_highlight_id'];
+			$sql_where[] = "property.property_highlight_id = '{$params['property_highlight_id']}'";
         }
 
         if(!empty($params['feature_unit_id'])){
             $where["AND"]['property.feature_unit_id'] = $params['feature_unit_id'];
+			$sql_where[] = "property.feature_unit_id = '{$params['feature_unit_id']}'";
         }
 
         if(!empty($params['bts_id']))
 		{
             $where["AND"]['property.bts_id'] = $params['bts_id'];
+			$sql_where[] = "property.bts_id = '{$params['bts_id']}'";
         }
 
         if(!empty($params['mrt_id']))
 		{
             $where["AND"]['property.mrt_id'] = $params['mrt_id'];
+			$sql_where[] = "property.mrt_id = '{$params['mrt_id']}'";
         }
 
         if(!empty($params['airport_link_id']))
 		{
             $where["AND"]['property.airport_link_id'] = $params['airport_link_id'];
+			$sql_where[] = "property.airport_link_id = '{$params['airport_link_id']}'";
         }
 
         // new
          if( !empty($params['web_status']) && empty($params['rented_expire']) )
         {
             $where["AND"]['property.web_status'] = $params['web_status'];
+			$sql_where[] = "property.web_status = '{$params['web_status']}'";
         }
 
         if(!empty($params['reference_id']))
 		{
             $where["AND"]['property.reference_id'] = $params['reference_id'];
+			$sql_where[] = "property.reference_id = '{$params['reference_id']}'";
         }
 
         if(!empty($params['owner']))
 		{
             $where["AND"]['property.owner[~]'] = $params['owner'];
+			$sql_where[] = "property.owner like '%{$params['owner']}%'";
         }
 
         if((!empty($params['size_start']) || !empty($params['size_end'])) && !empty($params['size_unit_id']))
 		{
 			$where["AND"]['property.size_unit_id'] = $params['size_unit_id'];
+			$sql_where[] = "property.size_unit_id = '{$params['size_unit_id']}'";
 
             if(!empty($params['size_start'])) 
 			{
 				$where["AND"]['property.size[>=]'] = $params['size_start'];
+				$sql_where[] = "property.size >= '{$params['size_start']}'";
             }
 
             if(!empty($params['size_end'])) 
 			{
 				$where["AND"]['property.size[<=]'] = $params['size_end'];
+				$sql_where[] = "property.size <= '{$params['size_end']}'";
             }
         }
 
@@ -211,85 +273,137 @@ class ApiProperty extends BaseCTL {
         if(!empty($params['sell_price_start'])) 
 		{
 			$where["AND"]['property.sell_price[>=]'] = $params['sell_price_start'];
+			$sql_where[] = "property.sell_price >= '{$params['sell_price_start']}'";
         }
 
         if(!empty($params['sell_price_end'])) 
 		{
 			$where["AND"]['property.sell_price[<=]'] = $params['sell_price_end'];
+			$sql_where[] = "property.sell_price <= '{$params['sell_price_end']}'";
         }
 
         // rent price
         if(!empty($params['rent_price_start'])) 
 		{
 			$where["AND"]['property.rent_price[>=]'] = $params['rent_price_start'];
+			$sql_where[] = "property.rent_price >= '{$params['rent_price_start']}'";
         }
 
         if(!empty($params['rent_price_end'])) 
 		{
 			$where["AND"]['property.rent_price[<=]'] = $params['rent_price_end'];
+			$sql_where[] = "property.rent_price <= '{$params['rent_price_end']}'";
         }
 
         // vat
         if(!empty($params['inc_vat'])) 
 		{
 			$where["AND"]['property.inc_vat'] = $params['inc_vat'];
+			$sql_where[] = "property.inc_vat = '{$params['inc_vat']}'";
         }
 
         // address_no
         if(!empty($params['address_no'])) 
 		{
 			$where["AND"]['property.address_no[~]'] = $params['address_no'];
+			$sql_where[] = "property.address_no like '%{$params['address_no']}%'";
         }
 
         // status
         if(!empty($params['property_status_id'])) 
 		{
 			$where["AND"]['property.property_status_id'] = $params['property_status_id'];
+			$sql_where[] = "property.property_status_id = '{$params['property_status_id']}'";
 
 			// 99 is empty
 			if($params['property_status_id'] == 99) 
 			{
 				$where["AND"]['property.property_status_id'] = null;
+				$sql_where[] = "property.property_status_id = null";
 			}
         }
 
         if(!empty($params['province_id'])) 
 		{
 			$where["AND"]['property.province_id'] = $params['province_id'];
+			$sql_where[] = "property.province_id = '{$params['province_id']}'";
         }
 
         if(!empty($params['district_id'])) 
 		{
 			$where["AND"]['property.district_id'] = $params['district_id'];
+			$sql_where[] = "property.district_id = '{$params['district_id']}'";
         }
 
         if(!empty($params['room_type_id'])) 
         {
             $where["AND"]['property.room_type_id'] = $params['room_type_id'];
+			$sql_where[] = "property.room_type_id = '{$params['room_type_id']}'";
         }
 
         if(!empty($params['sub_district_id'])) 
 		{
 			$where["AND"]['property.sub_district_id'] = $params['sub_district_id'];
+			$sql_where[] = "property.sub_district_id = '{$params['sub_district_id']}'";
         }
 
         // zone
         if(!empty($params['zone_id'])) 
 		{
 			$where["AND"]['property.zone_id'] = $params['zone_id'];
+			$sql_where[] = "property.zone_id = '{$params['zone_id']}'";
         }
 
         // web url searh
         if(!empty($params['web_url_search'])) 
 		{
 			$where["AND"]['property.web_url_search[~]'] = $params['web_url_search'];
+			$sql_where[] = "property.web_url_search like '%{$params['web_url_search']}%'";
         }
 
         $page = !empty($params['page'])? $params['page']: 1;
         $orderType = !empty($params['orderType'])? $params['orderType']: "DESC";
         $orderBy = !empty($params['orderBy'])? $params['orderBy']: "updated_at";
         $order = "{$orderBy} {$orderType}";
+		
+		
+		$db = MedooFactory::getInstance();
+		//print_r($sql_params);
+		$skip = ($page-1) * $limit;
+		$sql = " SELECT " . implode(',', $sql_field) . " FROM " . $this->table . " " . implode(' ', $sql_join) . (count($sql_where) ? " WHERE " . implode(' AND ', $sql_where) : '') . " ORDER BY " . $order . " LIMIT " . $skip . ", " . $limit;
 
+		$sql_count = " SELECT count(*) as cnt FROM " . $this->table . " " . implode(' ', $sql_join) . (count($sql_where) ? " WHERE " . implode(' AND ', $sql_where) : '');
+		
+		$query = $db->query($sql);
+		$rows = $query ? $query->fetchAll() : array();
+		
+		//print_r($db->log());
+		//print_r($rows);
+		$url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+		$total = $db->query($sql_count)->fetch();
+		$total = $total['cnt'];
+		
+		$res = [
+				'length'=> count($rows),
+				'total'=> $total,
+				'data'=> $rows,
+				'paging'=> [
+				'page'=> (int)$page,
+				'limit'=> (int)$limit
+			]
+		];
+
+		if($total > $skip + (int)$limit)
+		{
+			$res['paging']['next'] = ListDAO::_buildUrl($url, ['page'=> (int)$page+1, 'limit'=> (int)$limit]);
+		}
+
+		if((int)$page > 1)
+		{
+			$res['paging']['prev'] = ListDAO::_buildUrl($url, ['page'=> (int)$page-1, 'limit'=> (int)$limit]);
+		}
+
+		/*
         if(count($where["AND"]) > 0)
 		{
             $where['ORDER'] = $order;
@@ -311,10 +425,11 @@ class ApiProperty extends BaseCTL {
                 "limit"=> $limit
             ]);
         }
+		*/
 
-        $this->_builds($list['data']);
+        $this->_builds($res['data']);
 
-        return $list;
+        return $res;
     }
 
     /**
@@ -631,11 +746,11 @@ MAILCONTENT;
             "[>]size_unit"=> ["size_unit_id"=> "id"],
             "[>]project"=> ["project_id"=> "id"]
         ];
-        $item = $db->get("property", $join, $field, ["property.id"=> $id]);
+		$item = $db->get("property", $join, $field, ["property.id"=> $id]);
       }
       else 
       {
-        $item = $db->get("property", "*", ["id"=> $id]);
+		$item = $db->get("property", "*", ["id"=> $id]);
       }
 
       $this->_build($item);
