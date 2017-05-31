@@ -61,7 +61,27 @@ class AdminCTL extends BaseCTL {
         $id = $this->reqInfo->urlParam("id");
         $db = MedooFactory::getInstance();
         $pqCount = $db->count("request_contact", "*", ["status_id"=> 1]);
-        return new HtmlView('/admin/index', array("view"=> 'project_images', "project_id"=> $id, "pqCount"=> $pqCount));
+
+        $where = array();
+        $where["AND"]['property_status_id'] = ['3'];
+        $where["AND"]['rented_expire[<]'] = date("Y-m-d H:i:s", strtotime("+7 days"));
+        $where["AND"]['requirement_id[!]'] = "1";
+
+        $exCount = $db->count("property", "*", $where);
+        //$exCount = $db->last_query();
+
+		$ex_data = array();
+		
+		$params = array(
+			"view" => 'project_images', 
+			"project_id" => $id, 
+			"pqCount" => $pqCount, 
+			"exCount" => $exCount
+		);
+
+		$params['menulist'] = $this->getAccessable($params);
+
+        return new HtmlView('/admin/index', $params);
     }
 
 	/**
@@ -172,7 +192,6 @@ class AdminCTL extends BaseCTL {
 			"view" => $view, 
 			"pqCount" => $pqCount, 
 			"exCount" => $exCount, 
-			"extends" => $ex_data,
 			"extends" => $ex_data
 		);
 
