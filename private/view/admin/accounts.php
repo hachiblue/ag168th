@@ -55,14 +55,14 @@ use Main\ThirdParty\Xcrud\Xcrud;
 			$xcrud->table('account');
 			$xcrud->unset_title();
 
-			$xcrud->where('level_id', array(8, 4));
+			$xcrud->where('level_id', array(8, 4, 3));
 			$xcrud->fields('created_at, last_login', true);
 			
 			$xcrud->order_by('created_at', 'desc');
 
 			// $xcrud->relation('level_id', 'level', 'id', 'name', 'level.id > 2');
 			$xcrud->relation('account_status_id', 'account_status', 'id', 'name');
-			$xcrud->relation('manager_id', 'account', 'id', 'name', array('level_id' => 8));
+			$xcrud->relation('manager_id', 'account', 'id', 'name', 'level_id in (8, 3)');
 			$xcrud->relation('level_id', 'level', 'id', 'name', 'id in (8, 4)');
 			//$xcrud->validation_required('manager_id');
 
