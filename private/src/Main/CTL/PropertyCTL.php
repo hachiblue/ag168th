@@ -69,12 +69,16 @@ class PropertyCTL extends BaseCTL {
 		Requirement type: {$_POST["requirement"]}<br />
 		Date Request: {$_POST["daterequest"]}<br />
 MAILCONTENT;
-	
+
+		$this->mailsender ( 'system@agent168th.com', 'admin@agent168th.com', 'Request enquiry From property page: '.$_POST["reference_id"],  $mailContent );
+
+		/*
 		$mailHeader = "From: system@agent168th.com\r\n";
 		$mailHeader = "To: admin@agent168th.com\r\n";
 		$mailHeader .= "Content-type: text/html; charset=utf-8\r\n";
 		@mail("admin@agent168th.com", "Request enquiry From property page: ".$_POST["reference_id"], $mailContent, $mailHeader);
-		
+		*/
+
 		header('location: /property/'.$id);
 
 		return ['success'=> true];

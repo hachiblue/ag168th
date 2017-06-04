@@ -612,7 +612,7 @@ MAILCONTENT;
 		/**
 		 * SMTP WAY
 		 */
-		$this->mailsender ( 'system@agent168th.com', 'admin@agent168th.com', 'Comment property: ' . $old["reference_id"], $mailContent );
+		//$this->mailsender ( 'system@agent168th.com', 'admin@agent168th.com', 'Comment property: ' . $old["reference_id"], $mailContent );
 		
 		/**
 		 * OLD
