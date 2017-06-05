@@ -222,21 +222,27 @@ class AdminCTL extends BaseCTL {
 
         $account = $db->get("account", "*", ["username"=> $username]);
 
-        if(!$account) {
-          unset($_SESSION['login']);
-          return new JsonView(["error"=> ["message"=> "Not found username"]]);
+        if(!$account) 
+		{
+			unset($_SESSION['login']);
+			return new JsonView(["error"=> ["message"=> "Not found username"]]);
         }
-        else if($account['password'] != $password) {
-          unset($_SESSION['login']);
-          return new JsonView(["error"=> ["message"=> "Wrong password"]]);
+        else if($account['password'] != $password) 
+		{
+			unset($_SESSION['login']);
+			return new JsonView(["error"=> ["message"=> "Wrong password"]]);
         }
-        else if($account['account_status_id'] != 1) {
-          unset($_SESSION['login']);
-          return new JsonView(["error"=> ["message"=> "This account is not active."]]);
+        else if($account['account_status_id'] != 1) 
+		{
+			unset($_SESSION['login']);
+			return new JsonView(["error"=> ["message"=> "This account is not active."]]);
         }
-        else {
-          $now = date('Y-m-d H:i:s');
-          $db->update("account", ['last_login'=> $now], ['id'=> $account['id']]);
+        else 
+		{
+			$now = date('Y-m-d H:i:s');
+			$db->update("account", ['last_login'=> $now], ['id'=> $account['id']]);
+
+			$db->insert("access_logs", ['account_id'=>$account['id'], 'account_name'=>$account['name'], 'accessdt'=>$now]);
 			
 			$account['nitcha'] = false;
 
@@ -246,13 +252,13 @@ class AdminCTL extends BaseCTL {
 				$account['nitcha'] = true;
 			}
 
-          $level = $db->get("level", "*", ["id"=> $account['level_id']]);
-          $account['last_login'] = $now;
-          $account['level'] = $level;
-         
+			$level = $db->get("level", "*", ["id"=> $account['level_id']]);
+			$account['last_login'] = $now;
+			$account['level'] = $level;
 
-          $_SESSION['login'] = $account;
-          return new JsonView(["success"=> true]);
+
+			$_SESSION['login'] = $account;
+			return new JsonView(["success"=> true]);
         }
     }
 
@@ -291,6 +297,7 @@ class AdminCTL extends BaseCTL {
 					$sidebar .= $this->getTagList ('/admin/reportuser', 'Report User');
 					$sidebar .= $this->getTagList ('/admin/report#/sale', 'Report Sale');
 					$sidebar .= $this->getTagList ('/admin/article', 'Article');
+					$sidebar .= $this->getTagList ('/admin/accesslogs', 'Access Log');
 					$sidebar .= $this->getTagList ('/admin/login', 'Sign Out');
 				break;
 
@@ -325,7 +332,7 @@ class AdminCTL extends BaseCTL {
 					//$sidebar .= $this->getTagList ('/admin/enquiries#/rentalexpire', 'Enquiries Expire ('.(isset($exCount)? $exCount: 0).')');
 					$sidebar .= $this->getTagList ('/admin/leave#', 'On Leave Manage');
 					$sidebar .= $this->getTagList ('/admin/project', 'Project');
-					//$sidebar .= $this->getTagList ('/admin/salescontract', 'Sales Contract');
+					$sidebar .= $this->getTagList ('/admin/salescontract', 'Sales Contract');
 					$sidebar .= $this->getTagList ('/admin/login', 'Sign Out');
 				break;
 
@@ -338,7 +345,7 @@ class AdminCTL extends BaseCTL {
 					$sidebar .= $this->getTagList ('/admin/approver#', 'Calendar Approve');
 					$sidebar .= $this->getTagList ('/admin/project', 'Project');
 					$sidebar .= $this->getTagList ('/admin/report#/sale', 'Report Sale');
-					//$sidebar .= $this->getTagList ('/admin/salescontract', 'Sales Contract');
+					$sidebar .= $this->getTagList ('/admin/salescontract', 'Sales Contract');
 					$sidebar .= $this->getTagList ('/admin/login', 'Sign Out');
 				break;
 
