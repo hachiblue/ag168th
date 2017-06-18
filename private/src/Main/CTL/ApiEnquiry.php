@@ -652,6 +652,7 @@ class ApiEnquiry extends BaseCTL {
             "sale.name(sale_name)",
             "manager.name(manager_name)",
             "project.name(project_name)",
+			"co.name(country_name)",
             "enquiry.*"
         ];
 
@@ -662,7 +663,8 @@ class ApiEnquiry extends BaseCTL {
             "[>]enquiry_type"=> ["enquiry_type_id"=> "id"],
             "[>]enquiry_status"=> ["enquiry_status_id"=> "id"],
             "[>]account(sale)"=> ["assign_sale_id"=> "id"],
-            "[>]account(manager)"=> ["assign_manager_id"=> "id"]
+            "[>]account(manager)"=> ["assign_manager_id"=> "id"],
+            "[>]countries(co)"=> ["country_id"=> "code"]
         ];
 
         $where = ["AND"=> []];
@@ -931,7 +933,8 @@ class ApiEnquiry extends BaseCTL {
     /**
      * @POST
      */
-    public function add () {
+    public function add () 
+	{
         $params = $this->reqInfo->params();
         $insert = ArrayHelper::filterKey([
           "enquiry_type_id", "customer", "requirement_id", "property_type_id", "province_id", "project_id",
@@ -996,7 +999,8 @@ class ApiEnquiry extends BaseCTL {
      * @DELETE
      * @uri /[i:id]
      */
-    public function delete() {
+    public function delete() 
+	{
         $id = $this->reqInfo->urlParam("id");
 
         $db = MedooFactory::getInstance();
@@ -1012,7 +1016,8 @@ class ApiEnquiry extends BaseCTL {
     /**
      * @POST
      */
-    public function rentalexpire() {
+    public function rentalexpire() 
+	{
       echo 'xx';exit;
     }
 
@@ -1020,7 +1025,8 @@ class ApiEnquiry extends BaseCTL {
      * @POST
      * @uri /edit/[i:id]
      */
-    public function edit() {
+    public function edit() 
+	{
         $id = $this->reqInfo->urlParam("id");
 
         $params = $this->reqInfo->params();

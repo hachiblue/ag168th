@@ -529,19 +529,24 @@ $this->import('/template/top-navbar');
 											$price = 'N/A';
 											$req = isset($props["requirement_id"]) ? $props["requirement_id"] : 1;
 											
-											if( $req == 1 )
+											if( $req == 1 && $props["sell_price"] > 0 )
 											{
-												if( $props["sell_price"] > 0 )
+												$price = number_format($props["sell_price"]);
+											}
+											elseif( $req == 2 && $props["rent_price"] > 0 )
+											{
+												$price = number_format($props["rent_price"]);	
+											} 
+											elseif( $req == 3 )
+											{
+												if( $_GET['requirement_id'] == 1 && $props["sell_price"] > 0 )
 												{
 													$price = number_format($props["sell_price"]);
 												}
-											}
-											elseif( $req == 2 )
-											{
-												if( $props["rent_price"] > 0 )
-												{	
-													$price = number_format($props["rent_price"]);
-												}	
+												elseif( $_GET['requirement_id'] == 2 && $props["rent_price"] > 0 )
+												{
+													$price = number_format($props["rent_price"]);	
+												} 
 											}
 											?>
 											<div class="ptt-location mgt10"><img src="<?php echo \Main\Helper\URL::absolute("/public/assets/img/icon/pin_icon.png")?>" alt=""><?php echo $props['district_name'];?>, <?php echo $props['province_name'];?></div>
@@ -666,6 +671,7 @@ $this->import('/template/top-navbar');
 
 var items = <?=json_encode($items);?>;
 var params = <?=json_encode($params);?>;
+var gets = <?=json_encode($_GET);?>;
 
 //-->
 </script>

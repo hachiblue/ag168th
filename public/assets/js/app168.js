@@ -309,19 +309,24 @@ var geoCallback = function (prop, i)
 		var price = 'n/a';
 		var req = prop.requirement_id ? prop.requirement_id : 1;
 		
-		if( req == 1 )
+		if( req == 1 && prop.sell_price > 0 )
 		{
-			if( prop.sell_price > 0 )
+			price = prop.sell_price;
+		}
+		else if( req == 2 && prop.rent_price > 0 )
+		{
+			price = prop.rent_price;
+		}
+		else if( req == 3 && 'undefined' != typeof gets && 'undefined' != typeof gets.requirement_id )
+		{
+			if( gets.requirement_id == 1 && prop.sell_price > 0 )
 			{
 				price = prop.sell_price;
 			}
-		}
-		else if( req == 2 )
-		{
-			if( prop.rent_price > 0 )
-			{	
+			else if( gets.requirement_id == 2 && prop.rent_price > 0 )
+			{
 				price = prop.rent_price;
-			}	
+			}
 		}
 
 		var content = '<a href="#" class=""><div class="gmap-marker2 map_project" data-marker="'+prop.id+'">'+ prop.av_unit+'</div></a>';
