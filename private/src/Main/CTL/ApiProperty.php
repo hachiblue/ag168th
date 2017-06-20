@@ -171,7 +171,7 @@ class ApiProperty extends BaseCTL {
             }
         }
 
-        if(!empty($params['project_id']))
+        if( isset($params['project_id']) && $params['project_id'] != '' )
 		{
             $where["AND"]['property.project_id'] = $params['project_id'];
 			$sql_where[] = "property.project_id = '{$params['project_id']}'";
