@@ -9,6 +9,7 @@
 namespace Main\CTL;
 use FileUpload\FileUpload;
 use Main\DAO\ListDAO;
+use Main\SMS\thsms;
 use Main\DB\Medoo\MedooFactory;
 use Main\Helper\ArrayHelper;
 use Main\Helper\ResponseHelper;
@@ -929,6 +930,70 @@ class ApiEnquiry extends BaseCTL {
         echo ob_get_clean();
         exit();
     }
+
+	/**
+	 * @POST
+	 * @uri /sms
+	 */
+	public function sms_sender ()
+	{
+		$db = MedooFactory::getInstance();
+
+		if( isset($_POST['phone_number']) && $_POST['phone_number'] != '' && isset($_POST['sale_id']) && $_POST['sale_id'] != '' )
+		{
+			$item = $db->get('account', 'txt_sms', ["id"=> $_POST['sale_id']]);
+			
+			if( ! empty($item) )
+			{
+				$sms = new thsms();
+				$sms->username   = 'agent168';
+				$sms->password   = '685709';
+
+				$a = $sms->getCredit();
+				//var_dump( $a);
+
+				$b = $sms->send( '0000', $_POST['phone_number'], $item);
+				//var_dump( $b);
+
+				if( $b )
+				{
+					echo 1;
+				}
+				else
+				{
+					echo 0;
+				}
+			}
+		}
+		else
+		{
+			echo 0;
+		}
+	}
+
+	/**
+	 * @POST
+	 * @uri /email
+	 */
+	public function email_sender ()
+	{
+		$db = MedooFactory::getInstance();
+
+		if( isset($_POST['email']) && $_POST['email'] != '' && isset($_POST['sale_id']) && $_POST['sale_id'] != '' )
+		{
+			$item = $db->get('account', 'txt_email', ["id"=> $_POST['sale_id']]);
+			
+			if( ! empty($item) )
+			{
+				$this->mailsender ( 'system@agent168th.com', $_POST['email'], 'Agent168', $item );
+				echo 1;
+			}
+		}
+		else
+		{
+			echo 0;
+		}
+	}
 
     /**
      * @POST

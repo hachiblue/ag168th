@@ -415,13 +415,29 @@ class ApiPropertyReportCTL extends BaseCTL {
             return null;
         }
 
+		foreach ($list["data"] as &$row) 
+        {
+			unset($row['net_rent_price']);
+			unset($row['property_highlight_id']);
+			unset($row['feature_unit_id']);
+			unset($row['transfer_status_id']);
+			unset($row['room_type_id']);
+			unset($row['contract_chk_key']);
+			unset($row['property_pending_type']);
+			unset($row['property_pending_info']);
+			unset($row['property_pending_date']);
+			
+			$cnt = $db->count('property_image', ['property_id' => $row['id']]);
+			$row['pictures'] = $cnt > 0 ? 1 : 0;
+		}
+
         ob_start();
         $df = fopen("php://output", 'w');
         fputcsv($df, array_keys(reset($list["data"])));
         foreach ($list["data"] as $row) 
 		{
             // foreach($row as &$col) { $col = mb_convert_encoding($col, 'WINDOWS-874', 'UTF-8'); }
-            foreach($row as &$col) { $col = iconv("UTF-8", "windows-874", $col); }
+            //foreach($row as &$col) { $col = iconv("UTF-8", "windows-874", $col); }
             fputcsv($df, $row);
         }
 
@@ -567,6 +583,23 @@ class ApiPropertyReportCTL extends BaseCTL {
         if (count($list["data"]) == 0) {
             return null;
         }
+
+		foreach ($list["data"] as &$row) 
+        {
+			unset($row['net_rent_price']);
+			unset($row['property_highlight_id']);
+			unset($row['feature_unit_id']);
+			unset($row['transfer_status_id']);
+			unset($row['room_type_id']);
+			unset($row['contract_chk_key']);
+			unset($row['property_pending_type']);
+			unset($row['property_pending_info']);
+			unset($row['property_pending_date']);
+			
+			$cnt = $db->count('property_image', ['property_id' => $row['id']]);
+			$row['pictures'] = $cnt > 0 ? 1 : 0;
+		}
+
         ob_start();
         $df = fopen("php://output", 'w');
         fputcsv($df, array_keys(reset($list["data"])));

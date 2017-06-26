@@ -697,6 +697,62 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
         window.location.hash = hash;
     };
 
+    $scope.sendsms = function()
+    {
+        if ( ! window.confirm('Are you sure?') ) return;
+		
+		if( 'undefined' == typeof $scope.assSaleForm.assign_sale_id || 
+			$scope.assSaleForm.assign_sale_id == '' )
+		{
+			alert('Please Assign Sale');
+			return false;
+		}
+
+		if( 'undefined' !== typeof $scope.form.cust_phone && 
+			$scope.form.cust_phone != '' )
+		{
+			$.post("../api/enquiry/sms", {phone_number : $scope.form.cust_phone, sale_id : $scope.assSaleForm.assign_sale_id}, function(data)
+			{
+				if( data == 1 )
+				{
+					alert('Success');
+				}
+				else
+				{
+					alert('Fail');
+				}
+			});
+		}
+    };
+
+    $scope.sendemail = function()
+    {
+        if ( ! window.confirm('Are you sure?') ) return;
+		
+		if( 'undefined' == typeof $scope.assSaleForm.assign_sale_id || 
+			$scope.assSaleForm.assign_sale_id == '' )
+		{
+			alert('Please Assign Sale');
+			return false;
+		}
+
+		if( 'undefined' !== typeof $scope.form.cust_email && 
+			$scope.form.cust_email != '' )
+		{
+			$.post("../api/enquiry/email", {email : $scope.form.cust_email, sale_id : $scope.assSaleForm.assign_sale_id}, function(data)
+			{
+				if( data == 1 )
+				{
+					alert('Success');
+				}
+				else
+				{
+					alert('Fail');
+				}
+			});
+		}
+    };
+
     $scope.autoAssMng = function()
     {
         if (!window.confirm('Are you sure?')) return;

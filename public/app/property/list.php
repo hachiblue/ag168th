@@ -320,6 +320,7 @@
                 <th>Rent</th>
                 <th>Status</th>
                 <th>Zone</th>
+                <th>Rental Expire</th>
                 <th>Direction</th>
                 <!-- <th ng-click="sort('owner')">
 				VIP
@@ -352,6 +353,7 @@
                 <td><span ng-hide="!prop.rent_price">฿{{commaNumber(prop.rent_price)}}</span></td>
                 <td>{{prop.property_status_name}}</td>
                 <td>{{prop.zone_name}}</td>
+                <td>{{prop.rented_expire}}</td>
                 <td>{{prop.direction}}</td>
                 <!-- <td>
                   <a class="btn btn-info" href="#/{{prop.id}}/gallery" target="_blank">images</a>

@@ -57,17 +57,49 @@ echo json_encode(@$_SESSION['login']['level_id'] != 3 && @$_SESSION['login']['le
     <div class="detail-type">
       <form ng-submit="assSale()" ng-if="assSaleForm">
         <div class="form-group">
-          <label>Assign Sale:</label>
-          <select
-          class="form-control"
-          ng-model="assSaleForm.assign_sale_id"
-          ng-options="item.id as item.name for item in collection3.accounts">
-          <option value="">-None-</option>
-          </select>
+			<label>Assign Sale:</label>
+			<select
+			class="form-control"
+			ng-model="assSaleForm.assign_sale_id"
+			ng-options="item.id as item.name for item in collection3.accounts">
+				<option value="">-None-</option>
+			</select>
         </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-info">Assign Sale</button>
-        </div>
+
+		<div class="clearfix"></div>
+		
+		<div class="">
+			<div class="col-md-2">
+				<div class="form-group">
+					<button type="submit" class="btn btn-info">Assign Sale</button>
+				</div>
+			</div>
+			
+			<div class="col-md-5">
+				<div class="form-group">
+					<input type="text" class="form-control" ng-model="form.cust_phone" style="width:80%;">
+					<span class="input-group-btn">
+						<button class="btn btn-primary" type="button" ng-model="form.btn_sendsms" ng-click="sendsms()">
+						Send SMS
+						</button>
+					</span>
+				</div>
+			</div>
+
+			<div class="col-md-5">
+				<div class="form-group">
+					<input type="text" class="form-control" ng-model="form.cust_email" style="width:80%;">
+					<span class="input-group-btn">
+						<button class="btn btn-primary" type="button" ng-model="form.btn_sendemail" ng-click="sendemail()">
+						Send Email
+						</button>
+					</span>
+				</div>
+			</div>
+			
+			<div class="clearfix"></div>
+		</div>
+
       </form>
     </div>
 		<?php }?>

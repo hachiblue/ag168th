@@ -258,7 +258,7 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
         if ($scope.collection && $scope.thailocation)
         {
             $scope.initSuccess = true;
-            $scope.form.feature_unit_id = 4;
+            //$scope.form.feature_unit_id = 4;
             $scope.form.chkcontact1a = 2;
             $scope.form.chkcontact2a = 2;
             $scope.form.chkcontact3a = 2;
