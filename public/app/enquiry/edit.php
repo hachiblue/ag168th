@@ -130,538 +130,539 @@ echo json_encode(@$_SESSION['login']['level_id'] != 3 && @$_SESSION['login']['le
                 </div>
             </div> -->
 						<!--row-->
-						<fieldset>
-            <div class="row detail-type">
-							<div class="form-group"><label>Enquiry No</label><strong>:</strong> {{form.enquiry_no}}</div>
-            	<div class="col-md-12 form-group">
-                  <label class="require">Enquiry Type</label><strong>:</strong>
-                  <select class="form-control" id="type" ng-model="form.enquiry_type_id" ng-disabled="!editAllow" required>
-                    <option value="1">Individual</option>
-                    <option value="2">Investment</option>
-                    <option value="3">Corporate</option>
-                  </select>
+			<fieldset>
+
+				<div class="row detail-type">
+					<div class="form-group"><label>Enquiry No</label><strong>:</strong> {{form.enquiry_no}}</div>
+					<div class="col-md-12 form-group">
+						<label class="require">Enquiry Type</label><strong>:</strong>
+						<select class="form-control" id="type" ng-model="form.enquiry_type_id" ng-disabled="!editAllow" required>
+							<option value="1">Individual</option>
+							<option value="2">Investment</option>
+							<option value="3">Corporate</option>
+						</select>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+
+							<div class="col-sm-2">
+								<label class="require">Customer</label><strong>: </strong>
 							</div>
-                <div class="col-md-6">
-            			<div class="form-group">
 
-                    <div class="col-sm-2">
-                      <label class="require">Customer</label><strong>: </strong>
-                    </div>
+							<div class="col-sm-10">
+								<div class="col-sm-4">
+									<input type="text" class="form-control cbox" id="cname" placeholder="name" ng-model="form.ncustomer" required>
+								</div>
+								<div class="col-sm-4">
+									<div class="col-sm-3">
+										<input type="text" class="form-control cbox" id="ctel1" name="cphone" ng-model="form.t1customer" maxlength="3" required>
+									</div>
+									<div class="col-sm-4">
+										<input type="text" class="form-control cbox" id="ctel2" name="cphone" ng-model="form.t2customer" maxlength="3" required>
+									</div>
+									<div class="col-sm-5">
+										<input type="text" class="form-control cbox" id="ctel3" name="cphone" ng-model="form.t3customer" maxlength="4" required>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<input type="text" class="form-control cbox" id="cemail" placeholder="email, line id" ng-model="form.ecustomer">
+								</div>
+							</div>
 
-                    <div class="col-sm-10">
-                      <div class="col-sm-4"><input type="text" class="form-control cbox" id="cname" placeholder="name" ng-model="form.ncustomer" required></div>
-                      <div class="col-sm-4">
-                        <div class="col-sm-3">
-                          <input type="text" class="form-control cbox" id="ctel1" name="cphone" ng-model="form.t1customer" maxlength="3" required>
-                        </div>
-                        <div class="col-sm-4">
-                          <input type="text" class="form-control cbox" id="ctel2" name="cphone" ng-model="form.t2customer" maxlength="3" required>
-                        </div>
-                        <div class="col-sm-5">
-                          <input type="text" class="form-control cbox" id="ctel3" name="cphone" ng-model="form.t3customer" maxlength="4" required>
-                        </div>
-                      </div>
-                      <div class="col-sm-4"><input type="text" class="form-control cbox" id="cemail" placeholder="email, line id" ng-model="form.ecustomer"></div>
-                    </div>
-
-                    <!--
-                    <label class="require">Customer</label><strong>: </strong>
-                    <input type="text" class="form-control" id="name" placeholder="name,tel,email" ng-model="form.customer" ng-disabled="!editAllow" required>
-                    <br><small style="margin-left: 88px;">คั่นรายละเอียดการติดต่อด้วยลูกน้ำ " , "</small>-->
-                  </div>
-            	</div>
-                <!-- <div class="col-md-6">
-									<div class="form-inline">
-                  		<div class="form-group">
-                            <label for="contact-sale">Contact (manager)</label><strong>: </strong>
-                            <select class="form-contro class="require"l" id="contact" ng-model="form.sale_id">
-															<option value="">Please select</option>
-														</select>
-                      </div>
-                  </div>
-									<div class="form-inline">
-                  		<div class="form-group">
-                            <label for="contact-sale">Contact (sale)</label><strong>: </strong>
-                            <select class="form-control" id="contact" ng-model="form.sale_id">
-															<option value="">Please select</option>
-														</select>
-                      </div>
-                  </div>
-            	  </div> -->
-                <div class="col-md-12 hr"></div>
-
-                <div class="col-md-6">
-                	<div class="form-group">
-                  		<i class="col-md-6 box-1"><label>Requirement Type</label><strong>:</strong></i>
-                        <i class="col-md-5 box-2">
-                        	<select class="form-control"
-													ng-model="form.requirement_id"
-													ng-options="item.id as item.name_for_enquiry for item in collection.requirement | filter: {id: '!4'}"
-                          required
-												  ng-disabled="!editAllow">
-                        	</select>
-                        </i>
-                    </div>
-                  	<div class="form-group">
-                    	<i class="col-md-6 box-1"><label>Property Type</label><strong>:</strong></i>
-                      	<i class="col-md-5 box-2">
-                        	<select class="form-control"
-													ng-model="form.property_type_id"
-													ng-options="item.id as item.name for item in collection.property_type"
-													ng-disabled="!editAllow"
-													required>
-                      		</select>
-                    	</i>
-                    </div>
-
-                  	<div class="form-group">
-                  		<i class="col-md-6 box-1"><label>Branch</label><strong>:</strong></i>
-                  		<i class="col-md-5 box-2">
-                        	<select class="form-control"
-													ng-model="form.province_id"
-													ng-options="item.id as item.name for item in thailocation.province"
-													required ng-disabled="!editAllow">
-                  			</select>
-                    	</i>
-                  	</div>
-
-                    <div class="form-group">
-                  		<i class="col-md-6 box-1"><label>Project</label><strong>:</strong></i>
-                  		<i class="col-md-5 box-2">
-                        	<select chosen class="form-control"
-													ng-model="form.project_id"
-										      ng-options="item.id as item.name for item in collection.project"
-                          ng-change="formProjectIdChange()"
-													ng-disabled="!editAllow"
-													required>
-                          <option value="">-Please Select-</option>
-                  			</select>
-                    	</i>
-					          </div>
-                    <div class="form-group">
-            	        <i class="col-md-6 box-1"><label>Buying Budget</label><strong>:</strong></i>
-           	            <i class="col-md-5 box-2">
-       	                	<span><input type="text" class="form-control" ng-model="form.buy_budget_start" ng-disabled="!editAllow"> to
-                      		<input type="text" class="form-control" ng-model="form.buy_budget_end" ng-disabled="!editAllow"></span>
-                      	</i>
-                    </div>
-                    <div class="form-group">
-            	        <i class="col-md-6 box-1"><label>Rental Budget</label><strong>:</strong></i>
-           	            <i class="col-md-5 box-2">
-       	                	<span><input type="text" class="form-control" ng-model="form.rent_budget_start" ng-disabled="!editAllow"> to
-                      		<input type="text" class="form-control" ng-model="form.rent_budget_end" ng-disabled="!editAllow"></span>
-                      	</i>
-                    </div>
-                    <div class="form-group">
-            	       <i class="col-md-6 box-1"><strong>Zone: </strong></i>
-                       <i class="col-md-5 box-2">
-          	             <select class="form-control" ng-disabled="!editAllow"
-                         ng-model="form.zone_id"
-                         ng-options="item.id as item.name group by getZoneGroupName(item.zone_group_id) for item in collection.zone"
-                         >
-                         <option value="">-Please Select-</option>
-                         </select>
-                    	</i>
+							<!--
+							<label class="require">Customer</label><strong>: </strong>
+							<input type="text" class="form-control" id="name" placeholder="name,tel,email" ng-model="form.customer" ng-disabled="!editAllow" required>
+							<br><small style="margin-left: 88px;">คั่นรายละเอียดการติดต่อด้วยลูกน้ำ " , "</small>-->
+						</div>
+					</div>
+					<!-- <div class="col-md-6">
+					<div class="form-inline">
+					<div class="form-group">
+					<label for="contact-sale">Contact (manager)</label><strong>: </strong>
+					<select class="form-contro class="require"l" id="contact" ng-model="form.sale_id">
+					<option value="">Please select</option>
+					</select>
+					</div>
+					</div>
+					<div class="form-inline">
+					<div class="form-group">
+					<label for="contact-sale">Contact (sale)</label><strong>: </strong>
+					<select class="form-control" id="contact" ng-model="form.sale_id">
+					<option value="">Please select</option>
+					</select>
+					</div>
+					</div>
+					</div> -->
+						
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Contact Phone</label><strong>:</strong>
+							<input type="text" class="form-control" id="contact_phone" ng-model="form.contact_phone" ng-disabled="!editAllow">
+						</div>
 					</div>
 
-                    <div class="form-group" style="display:none;">
-            	        <i class="col-md-6 box-1"><strong>Enquiry is the decision maker:</strong></i>
-           	            <select class="form-control" style="width: 100px;" ng-mode="form.decision_maker" ng-disabled="!editAllow">
-           	              <option value="1">Yes</option>
-           	              <option value="0">No</option>
-           	            </select>
-                    </div>
+					<div class="col-md-12 hr"></div>
 
-                    <div class="form-group" style="display:none;">
-            	       <i class="col-md-6 box-1"><strong>Period time to purchasing or leasing: </strong></i>
-                       <i class="col-md-5 box-2">
-                         <select class="form-control" ng-model="form.ptime_to_pol" ng-disabled="!editAllow" required>
-     	                    <option>Within a week</option>
-                            <option>Within a month</option>
-                            <option>Within 3 months</option>
-                         </select>
-                     	</i>
-					          </div>
-                </div><!--col-md-6-->
-                <div class="col-md-6">
-                	<div class="form-group">
-            	        <i class="col-md-3 box-1"><strong>No. of bed Roooms: </strong></i>
-           	            <i class="col-md-8 box-2">
-       	                	<input type="text" class="form-control" ng-model="form.bedroom" ng-disabled="form.is_studio && !editAllow">
-                      		<span><input type="checkbox" ng-model="form.is_studio" ng-change="vm.changeStudio()" ng-true-value="'1'" ng-false-value="0" ng-disabled="!editAllow"> Studio</span>
-                      	</i>
-                    </div>
-                  <div class="clearfix"></div>
-                	<div class="form-group">
-                 		<i class="col-md-3 box-1"><strong>Size: </strong></i>
-                    	<i class="col-md-8 box-2">
-                        	<input type="text" class="form-control" ng-model="form.size" ng-disabled="!editAllow">
-                  			<select class="form-control size" ng-model="form.size_unit_id" ng-disabled="!editAllow" required>
-                    			<option value="1">Sq. m.</option>
-                    			<option value="2">Sq. wa</option>
-                    			<option value="3">Rai</option>
-                  			</select>
-                    	</i>
-                  	</div>
-                    <div class="form-group">
-                 		<i class="col-md-3 box-1"><strong>Nearest BTS: </strong></i>
-                  		<i class="col-md-8 box-2">
-                        	<select class="form-control"
-                          ng-model="form.bts_id"
-                          ng-options="item.id as item.name for item in collection.bts"
-                          ng-disabled="!editAllow">
-                    			<option value="">Please select</option>
-                  			</select>
-                  		</i>
-                     </div>
-                     <div class="form-group">
-             	        <i class="col-md-3 box-1"><strong>Nearest MRT: </strong></i>
-                        <i class="col-md-8 box-2">
-    	                    <select class="form-control"
-                          ng-model="form.mrt_id"
-                          ng-options="item.id as item.name for item in collection.mrt"
-                          ng-disabled="!editAllow">
-                            <option value="">Please select</option>
-                            </select>
-                        </i>
-                   	</div>
-                    <div class="form-group">
-                     <i class="col-md-3 box-1"><strong>Nearest Airport-link: </strong></i>
-                       <i class="col-md-8 box-2">
-                         <select class="form-control"
-                         ng-model="form.airport_link_id"
-                         ng-options="item.id as item.name for item in collection.airport_link"
-                         ng-disabled="!editAllow">
-                           <option value="">Please select</option>
-                           </select>
-                       </i>
-                   </div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<i class="col-md-6 box-1"><label>Requirement Type</label><strong>:</strong></i>
+							<i class="col-md-5 box-2">
+								<select class="form-control" ng-model="form.requirement_id" ng-options="item.id as item.name_for_enquiry for item in collection.requirement | filter: {id: '!4'}" required ng-disabled="!editAllow">
+								</select>
+							</i>
+						</div>
+						<div class="form-group">
+							<i class="col-md-6 box-1"><label>Property Type</label><strong>:</strong></i>
+							<i class="col-md-5 box-2">
+								<select class="form-control" ng-model="form.property_type_id" ng-options="item.id as item.name for item in collection.property_type" ng-disabled="!editAllow" required>
+								</select>
+							</i>
+						</div>
 
-                 <div class="clearfix"></div>
+						<div class="form-group">
+							<i class="col-md-6 box-1"><label>Branch</label><strong>:</strong></i>
+							<i class="col-md-5 box-2">
+								<select class="form-control" ng-model="form.province_id" ng-options="item.id as item.name for item in thailocation.province" required ng-disabled="!editAllow">
+								</select>
+							</i>
+						</div>
 
-				 <div class="form-group">
-					<i class="col-md-3 box-1"><strong>Status: </strong></i>
-					<i class="col-md-8 box-2">
+						<div class="form-group">
+							<i class="col-md-6 box-1"><label>Project</label><strong>:</strong></i>
+							<i class="col-md-5 box-2">
+								<select chosen class="form-control" ng-model="form.project_id" ng-options="item.id as item.name for item in collection.project" ng-change="formProjectIdChange()" ng-disabled="!editAllow" required>
+									<option value="">-Please Select-</option>
+								</select>
+							</i>
+						</div>
+						<div class="form-group">
+							<i class="col-md-6 box-1"><label>Buying Budget</label><strong>:</strong></i>
+							<i class="col-md-5 box-2">
+								<span><input type="text" class="form-control" ng-model="form.buy_budget_start" ng-disabled="!editAllow"> to
+								<input type="text" class="form-control" ng-model="form.buy_budget_end" ng-disabled="!editAllow"></span>
+							</i>
+						</div>
+						<div class="form-group">
+							<i class="col-md-6 box-1"><label>Rental Budget</label><strong>:</strong></i>
+							<i class="col-md-5 box-2">
+								<span><input type="text" class="form-control" ng-model="form.rent_budget_start" ng-disabled="!editAllow"> to
+								<input type="text" class="form-control" ng-model="form.rent_budget_end" ng-disabled="!editAllow"></span>
+							</i>
+						</div>
+						<div class="form-group">
+						   <i class="col-md-6 box-1"><strong>Zone: </strong></i>
+						   <i class="col-md-5 box-2">
+							 <select class="form-control" ng-disabled="!editAllow"
+							 ng-model="form.zone_id"
+							 ng-options="item.id as item.name group by getZoneGroupName(item.zone_group_id) for item in collection.zone"
+							 >
+							 <option value="">-Please Select-</option>
+							 </select>
+							</i>
+						</div>
+
+						<div class="form-group" style="display:none;">
+							<i class="col-md-6 box-1"><strong>Enquiry is the decision maker:</strong></i>
+							<select class="form-control" style="width: 100px;" ng-mode="form.decision_maker" ng-disabled="!editAllow">
+							  <option value="1">Yes</option>
+							  <option value="0">No</option>
+							</select>
+						</div>
+
+						<div class="form-group" style="display:none;">
+						   <i class="col-md-6 box-1"><strong>Period time to purchasing or leasing: </strong></i>
+						   <i class="col-md-5 box-2">
+							 <select class="form-control" ng-model="form.ptime_to_pol" ng-disabled="!editAllow" required>
+								<option>Within a week</option>
+								<option>Within a month</option>
+								<option>Within 3 months</option>
+							 </select>
+							</i>
+						</div>
+					</div><!--col-md-6-->
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<i class="col-md-3 box-1"><strong>No. of bed Roooms: </strong></i>
+							<i class="col-md-8 box-2">
+								<input type="text" class="form-control" ng-model="form.bedroom" ng-disabled="form.is_studio && !editAllow">
+								<span><input type="checkbox" ng-model="form.is_studio" ng-change="vm.changeStudio()" ng-true-value="'1'" ng-false-value="0" ng-disabled="!editAllow"> Studio</span>
+							</i>
+						</div>
+						<div class="clearfix"></div>
+						<div class="form-group">
+							<i class="col-md-3 box-1"><strong>Size: </strong></i>
+							<i class="col-md-8 box-2">
+								<input type="text" class="form-control" ng-model="form.size" ng-disabled="!editAllow">
+								<select class="form-control size" ng-model="form.size_unit_id" ng-disabled="!editAllow" required>
+									<option value="1">Sq. m.</option>
+									<option value="2">Sq. wa</option>
+									<option value="3">Rai</option>
+								</select>
+							</i>
+						</div>
+
+						<div class="form-group">
+						<i class="col-md-3 box-1"><strong>Nearest BTS: </strong></i>
+						<i class="col-md-8 box-2">
 						<select class="form-control"
-							ng-model="form.enquiry_status_id"
-							ng-options="item.id as item.name for item in collection.enquiry_status"
-							ng-change="changeStatus()"
-							ng-disabled=" (form.wait_book_approve.toString() == '1' && !editAllow) || (<?php echo json_encode(@$_SESSION['login']['level_id'] == 4 );?> && (form.enquiry_status_id.toString() == '4' || form.enquiry_status_id.toString() == '8' || form.enquiry_status_id.toString() == '10') )">
-							<option value="">Please select</option>
+						ng-model="form.bts_id"
+						ng-options="item.id as item.name for item in collection.bts"
+						ng-disabled="!editAllow">
+						<option value="">Please select</option>
+						</select>
+						</i>
+						</div>
+						<div class="form-group">
+						<i class="col-md-3 box-1"><strong>Nearest MRT: </strong></i>
+						<i class="col-md-8 box-2">
+						<select class="form-control"
+						ng-model="form.mrt_id"
+						ng-options="item.id as item.name for item in collection.mrt"
+						ng-disabled="!editAllow">
+						<option value="">Please select</option>
+						</select>
+						</i>
+						</div>
+						<div class="form-group">
+						<i class="col-md-3 box-1"><strong>Nearest Airport-link: </strong></i>
+						<i class="col-md-8 box-2">
+						<select class="form-control"
+						ng-model="form.airport_link_id"
+						ng-options="item.id as item.name for item in collection.airport_link"
+						ng-disabled="!editAllow">
+						<option value="">Please select</option>
+						</select>
+						</i>
+						</div>
+
+						<div class="clearfix"></div>
+
+						<div class="form-group">
+						<i class="col-md-3 box-1"><strong>Status: </strong></i>
+						<i class="col-md-8 box-2">
+						<select class="form-control"
+						ng-model="form.enquiry_status_id"
+						ng-options="item.id as item.name for item in collection.enquiry_status"
+						ng-change="changeStatus()"
+						ng-disabled=" (form.wait_book_approve.toString() == '1' && !editAllow) || (<?php echo json_encode(@$_SESSION['login']['level_id'] == 4 );?> && (form.enquiry_status_id.toString() == '4' || form.enquiry_status_id.toString() == '8' || form.enquiry_status_id.toString() == '10') )">
+						<option value="">Please select</option>
 						</select>
 						<div class="small" ng-if="form.wait_book_approve.toString() == '1'">Waiting from booking approve...</div>
-					 </i>
-				 </div>
+						</i>
+						</div>
 
-				<div class="form-group">
-					<i class="col-md-3 box-1"><strong>Country: </strong></i>
-					<i class="col-md-8 box-2">
-						<select class="form-control" ng-disabled="!editAllow" ng-model="form.country_id">
-							<option value="" selected>-Please Select-</option>
-							<option value="AF">Afghanistan</option>
-							<option value="AX">Åland Islands</option>
-							<option value="AL">Albania</option>
-							<option value="DZ">Algeria</option>
-							<option value="AS">American Samoa</option>
-							<option value="AD">Andorra</option>
-							<option value="AO">Angola</option>
-							<option value="AI">Anguilla</option>
-							<option value="AQ">Antarctica</option>
-							<option value="AG">Antigua and Barbuda</option>
-							<option value="AR">Argentina</option>
-							<option value="AM">Armenia</option>
-							<option value="AW">Aruba</option>
-							<option value="AU">Australia</option>
-							<option value="AT">Austria</option>
-							<option value="AZ">Azerbaijan</option>
-							<option value="BS">Bahamas</option>
-							<option value="BH">Bahrain</option>
-							<option value="BD">Bangladesh</option>
-							<option value="BB">Barbados</option>
-							<option value="BY">Belarus</option>
-							<option value="BE">Belgium</option>
-							<option value="BZ">Belize</option>
-							<option value="BJ">Benin</option>
-							<option value="BM">Bermuda</option>
-							<option value="BT">Bhutan</option>
-							<option value="BO">Bolivia, Plurinational State of</option>
-							<option value="BQ">Bonaire, Sint Eustatius and Saba</option>
-							<option value="BA">Bosnia and Herzegovina</option>
-							<option value="BW">Botswana</option>
-							<option value="BV">Bouvet Island</option>
-							<option value="BR">Brazil</option>
-							<option value="IO">British Indian Ocean Territory</option>
-							<option value="BN">Brunei Darussalam</option>
-							<option value="BG">Bulgaria</option>
-							<option value="BF">Burkina Faso</option>
-							<option value="BI">Burundi</option>
-							<option value="KH">Cambodia</option>
-							<option value="CM">Cameroon</option>
-							<option value="CA">Canada</option>
-							<option value="CV">Cape Verde</option>
-							<option value="KY">Cayman Islands</option>
-							<option value="CF">Central African Republic</option>
-							<option value="TD">Chad</option>
-							<option value="CL">Chile</option>
-							<option value="CN">China</option>
-							<option value="CX">Christmas Island</option>
-							<option value="CC">Cocos (Keeling) Islands</option>
-							<option value="CO">Colombia</option>
-							<option value="KM">Comoros</option>
-							<option value="CG">Congo</option>
-							<option value="CD">Congo, the Democratic Republic of the</option>
-							<option value="CK">Cook Islands</option>
-							<option value="CR">Costa Rica</option>
-							<option value="CI">Côte d'Ivoire</option>
-							<option value="HR">Croatia</option>
-							<option value="CU">Cuba</option>
-							<option value="CW">Curaçao</option>
-							<option value="CY">Cyprus</option>
-							<option value="CZ">Czech Republic</option>
-							<option value="DK">Denmark</option>
-							<option value="DJ">Djibouti</option>
-							<option value="DM">Dominica</option>
-							<option value="DO">Dominican Republic</option>
-							<option value="EC">Ecuador</option>
-							<option value="EG">Egypt</option>
-							<option value="SV">El Salvador</option>
-							<option value="GQ">Equatorial Guinea</option>
-							<option value="ER">Eritrea</option>
-							<option value="EE">Estonia</option>
-							<option value="ET">Ethiopia</option>
-							<option value="FK">Falkland Islands (Malvinas)</option>
-							<option value="FO">Faroe Islands</option>
-							<option value="FJ">Fiji</option>
-							<option value="FI">Finland</option>
-							<option value="FR">France</option>
-							<option value="GF">French Guiana</option>
-							<option value="PF">French Polynesia</option>
-							<option value="TF">French Southern Territories</option>
-							<option value="GA">Gabon</option>
-							<option value="GM">Gambia</option>
-							<option value="GE">Georgia</option>
-							<option value="DE">Germany</option>
-							<option value="GH">Ghana</option>
-							<option value="GI">Gibraltar</option>
-							<option value="GR">Greece</option>
-							<option value="GL">Greenland</option>
-							<option value="GD">Grenada</option>
-							<option value="GP">Guadeloupe</option>
-							<option value="GU">Guam</option>
-							<option value="GT">Guatemala</option>
-							<option value="GG">Guernsey</option>
-							<option value="GN">Guinea</option>
-							<option value="GW">Guinea-Bissau</option>
-							<option value="GY">Guyana</option>
-							<option value="HT">Haiti</option>
-							<option value="HM">Heard Island and McDonald Islands</option>
-							<option value="VA">Holy See (Vatican City State)</option>
-							<option value="HN">Honduras</option>
-							<option value="HK">Hong Kong</option>
-							<option value="HU">Hungary</option>
-							<option value="IS">Iceland</option>
-							<option value="IN">India</option>
-							<option value="ID">Indonesia</option>
-							<option value="IR">Iran, Islamic Republic of</option>
-							<option value="IQ">Iraq</option>
-							<option value="IE">Ireland</option>
-							<option value="IM">Isle of Man</option>
-							<option value="IL">Israel</option>
-							<option value="IT">Italy</option>
-							<option value="JM">Jamaica</option>
-							<option value="JP">Japan</option>
-							<option value="JE">Jersey</option>
-							<option value="JO">Jordan</option>
-							<option value="KZ">Kazakhstan</option>
-							<option value="KE">Kenya</option>
-							<option value="KI">Kiribati</option>
-							<option value="KP">Korea, Democratic People's Republic of</option>
-							<option value="KR">Korea, Republic of</option>
-							<option value="KW">Kuwait</option>
-							<option value="KG">Kyrgyzstan</option>
-							<option value="LA">Lao People's Democratic Republic</option>
-							<option value="LV">Latvia</option>
-							<option value="LB">Lebanon</option>
-							<option value="LS">Lesotho</option>
-							<option value="LR">Liberia</option>
-							<option value="LY">Libya</option>
-							<option value="LI">Liechtenstein</option>
-							<option value="LT">Lithuania</option>
-							<option value="LU">Luxembourg</option>
-							<option value="MO">Macao</option>
-							<option value="MK">Macedonia, the former Yugoslav Republic of</option>
-							<option value="MG">Madagascar</option>
-							<option value="MW">Malawi</option>
-							<option value="MY">Malaysia</option>
-							<option value="MV">Maldives</option>
-							<option value="ML">Mali</option>
-							<option value="MT">Malta</option>
-							<option value="MH">Marshall Islands</option>
-							<option value="MQ">Martinique</option>
-							<option value="MR">Mauritania</option>
-							<option value="MU">Mauritius</option>
-							<option value="YT">Mayotte</option>
-							<option value="MX">Mexico</option>
-							<option value="FM">Micronesia, Federated States of</option>
-							<option value="MD">Moldova, Republic of</option>
-							<option value="MC">Monaco</option>
-							<option value="MN">Mongolia</option>
-							<option value="ME">Montenegro</option>
-							<option value="MS">Montserrat</option>
-							<option value="MA">Morocco</option>
-							<option value="MZ">Mozambique</option>
-							<option value="MM">Myanmar</option>
-							<option value="NA">Namibia</option>
-							<option value="NR">Nauru</option>
-							<option value="NP">Nepal</option>
-							<option value="NL">Netherlands</option>
-							<option value="NC">New Caledonia</option>
-							<option value="NZ">New Zealand</option>
-							<option value="NI">Nicaragua</option>
-							<option value="NE">Niger</option>
-							<option value="NG">Nigeria</option>
-							<option value="NU">Niue</option>
-							<option value="NF">Norfolk Island</option>
-							<option value="MP">Northern Mariana Islands</option>
-							<option value="NO">Norway</option>
-							<option value="OM">Oman</option>
-							<option value="PK">Pakistan</option>
-							<option value="PW">Palau</option>
-							<option value="PS">Palestinian Territory, Occupied</option>
-							<option value="PA">Panama</option>
-							<option value="PG">Papua New Guinea</option>
-							<option value="PY">Paraguay</option>
-							<option value="PE">Peru</option>
-							<option value="PH">Philippines</option>
-							<option value="PN">Pitcairn</option>
-							<option value="PL">Poland</option>
-							<option value="PT">Portugal</option>
-							<option value="PR">Puerto Rico</option>
-							<option value="QA">Qatar</option>
-							<option value="RE">Réunion</option>
-							<option value="RO">Romania</option>
-							<option value="RU">Russian Federation</option>
-							<option value="RW">Rwanda</option>
-							<option value="BL">Saint Barthélemy</option>
-							<option value="SH">Saint Helena, Ascension and Tristan da Cunha</option>
-							<option value="KN">Saint Kitts and Nevis</option>
-							<option value="LC">Saint Lucia</option>
-							<option value="MF">Saint Martin (French part)</option>
-							<option value="PM">Saint Pierre and Miquelon</option>
-							<option value="VC">Saint Vincent and the Grenadines</option>
-							<option value="WS">Samoa</option>
-							<option value="SM">San Marino</option>
-							<option value="ST">Sao Tome and Principe</option>
-							<option value="SA">Saudi Arabia</option>
-							<option value="SN">Senegal</option>
-							<option value="RS">Serbia</option>
-							<option value="SC">Seychelles</option>
-							<option value="SL">Sierra Leone</option>
-							<option value="SG">Singapore</option>
-							<option value="SX">Sint Maarten (Dutch part)</option>
-							<option value="SK">Slovakia</option>
-							<option value="SI">Slovenia</option>
-							<option value="SB">Solomon Islands</option>
-							<option value="SO">Somalia</option>
-							<option value="ZA">South Africa</option>
-							<option value="GS">South Georgia and the South Sandwich Islands</option>
-							<option value="SS">South Sudan</option>
-							<option value="ES">Spain</option>
-							<option value="LK">Sri Lanka</option>
-							<option value="SD">Sudan</option>
-							<option value="SR">Suriname</option>
-							<option value="SJ">Svalbard and Jan Mayen</option>
-							<option value="SZ">Swaziland</option>
-							<option value="SE">Sweden</option>
-							<option value="CH">Switzerland</option>
-							<option value="SY">Syrian Arab Republic</option>
-							<option value="TW">Taiwan, Province of China</option>
-							<option value="TJ">Tajikistan</option>
-							<option value="TZ">Tanzania, United Republic of</option>
-							<option value="TH">Thailand</option>
-							<option value="TL">Timor-Leste</option>
-							<option value="TG">Togo</option>
-							<option value="TK">Tokelau</option>
-							<option value="TO">Tonga</option>
-							<option value="TT">Trinidad and Tobago</option>
-							<option value="TN">Tunisia</option>
-							<option value="TR">Turkey</option>
-							<option value="TM">Turkmenistan</option>
-							<option value="TC">Turks and Caicos Islands</option>
-							<option value="TV">Tuvalu</option>
-							<option value="UG">Uganda</option>
-							<option value="UA">Ukraine</option>
-							<option value="AE">United Arab Emirates</option>
-							<option value="GB">United Kingdom</option>
-							<option value="US">United States</option>
-							<option value="UM">United States Minor Outlying Islands</option>
-							<option value="UY">Uruguay</option>
-							<option value="UZ">Uzbekistan</option>
-							<option value="VU">Vanuatu</option>
-							<option value="VE">Venezuela, Bolivarian Republic of</option>
-							<option value="VN">Viet Nam</option>
-							<option value="VG">Virgin Islands, British</option>
-							<option value="VI">Virgin Islands, U.S.</option>
-							<option value="WF">Wallis and Futuna</option>
-							<option value="EH">Western Sahara</option>
-							<option value="YE">Yemen</option>
-							<option value="ZM">Zambia</option>
-							<option value="ZW">Zimbabwe</option>	
-						</select>
-					</i>
-				</div>
+						<div class="form-group">
+							<i class="col-md-3 box-1"><strong>Country: </strong></i>
+							<i class="col-md-8 box-2">
+								<select class="form-control" ng-disabled="!editAllow" ng-model="form.country_id">
+									<option value="" selected>-Please Select-</option>
+									<option value="AF">Afghanistan</option>
+									<option value="AX">Åland Islands</option>
+									<option value="AL">Albania</option>
+									<option value="DZ">Algeria</option>
+									<option value="AS">American Samoa</option>
+									<option value="AD">Andorra</option>
+									<option value="AO">Angola</option>
+									<option value="AI">Anguilla</option>
+									<option value="AQ">Antarctica</option>
+									<option value="AG">Antigua and Barbuda</option>
+									<option value="AR">Argentina</option>
+									<option value="AM">Armenia</option>
+									<option value="AW">Aruba</option>
+									<option value="AU">Australia</option>
+									<option value="AT">Austria</option>
+									<option value="AZ">Azerbaijan</option>
+									<option value="BS">Bahamas</option>
+									<option value="BH">Bahrain</option>
+									<option value="BD">Bangladesh</option>
+									<option value="BB">Barbados</option>
+									<option value="BY">Belarus</option>
+									<option value="BE">Belgium</option>
+									<option value="BZ">Belize</option>
+									<option value="BJ">Benin</option>
+									<option value="BM">Bermuda</option>
+									<option value="BT">Bhutan</option>
+									<option value="BO">Bolivia, Plurinational State of</option>
+									<option value="BQ">Bonaire, Sint Eustatius and Saba</option>
+									<option value="BA">Bosnia and Herzegovina</option>
+									<option value="BW">Botswana</option>
+									<option value="BV">Bouvet Island</option>
+									<option value="BR">Brazil</option>
+									<option value="IO">British Indian Ocean Territory</option>
+									<option value="BN">Brunei Darussalam</option>
+									<option value="BG">Bulgaria</option>
+									<option value="BF">Burkina Faso</option>
+									<option value="BI">Burundi</option>
+									<option value="KH">Cambodia</option>
+									<option value="CM">Cameroon</option>
+									<option value="CA">Canada</option>
+									<option value="CV">Cape Verde</option>
+									<option value="KY">Cayman Islands</option>
+									<option value="CF">Central African Republic</option>
+									<option value="TD">Chad</option>
+									<option value="CL">Chile</option>
+									<option value="CN">China</option>
+									<option value="CX">Christmas Island</option>
+									<option value="CC">Cocos (Keeling) Islands</option>
+									<option value="CO">Colombia</option>
+									<option value="KM">Comoros</option>
+									<option value="CG">Congo</option>
+									<option value="CD">Congo, the Democratic Republic of the</option>
+									<option value="CK">Cook Islands</option>
+									<option value="CR">Costa Rica</option>
+									<option value="CI">Côte d'Ivoire</option>
+									<option value="HR">Croatia</option>
+									<option value="CU">Cuba</option>
+									<option value="CW">Curaçao</option>
+									<option value="CY">Cyprus</option>
+									<option value="CZ">Czech Republic</option>
+									<option value="DK">Denmark</option>
+									<option value="DJ">Djibouti</option>
+									<option value="DM">Dominica</option>
+									<option value="DO">Dominican Republic</option>
+									<option value="EC">Ecuador</option>
+									<option value="EG">Egypt</option>
+									<option value="SV">El Salvador</option>
+									<option value="GQ">Equatorial Guinea</option>
+									<option value="ER">Eritrea</option>
+									<option value="EE">Estonia</option>
+									<option value="ET">Ethiopia</option>
+									<option value="FK">Falkland Islands (Malvinas)</option>
+									<option value="FO">Faroe Islands</option>
+									<option value="FJ">Fiji</option>
+									<option value="FI">Finland</option>
+									<option value="FR">France</option>
+									<option value="GF">French Guiana</option>
+									<option value="PF">French Polynesia</option>
+									<option value="TF">French Southern Territories</option>
+									<option value="GA">Gabon</option>
+									<option value="GM">Gambia</option>
+									<option value="GE">Georgia</option>
+									<option value="DE">Germany</option>
+									<option value="GH">Ghana</option>
+									<option value="GI">Gibraltar</option>
+									<option value="GR">Greece</option>
+									<option value="GL">Greenland</option>
+									<option value="GD">Grenada</option>
+									<option value="GP">Guadeloupe</option>
+									<option value="GU">Guam</option>
+									<option value="GT">Guatemala</option>
+									<option value="GG">Guernsey</option>
+									<option value="GN">Guinea</option>
+									<option value="GW">Guinea-Bissau</option>
+									<option value="GY">Guyana</option>
+									<option value="HT">Haiti</option>
+									<option value="HM">Heard Island and McDonald Islands</option>
+									<option value="VA">Holy See (Vatican City State)</option>
+									<option value="HN">Honduras</option>
+									<option value="HK">Hong Kong</option>
+									<option value="HU">Hungary</option>
+									<option value="IS">Iceland</option>
+									<option value="IN">India</option>
+									<option value="ID">Indonesia</option>
+									<option value="IR">Iran, Islamic Republic of</option>
+									<option value="IQ">Iraq</option>
+									<option value="IE">Ireland</option>
+									<option value="IM">Isle of Man</option>
+									<option value="IL">Israel</option>
+									<option value="IT">Italy</option>
+									<option value="JM">Jamaica</option>
+									<option value="JP">Japan</option>
+									<option value="JE">Jersey</option>
+									<option value="JO">Jordan</option>
+									<option value="KZ">Kazakhstan</option>
+									<option value="KE">Kenya</option>
+									<option value="KI">Kiribati</option>
+									<option value="KP">Korea, Democratic People's Republic of</option>
+									<option value="KR">Korea, Republic of</option>
+									<option value="KW">Kuwait</option>
+									<option value="KG">Kyrgyzstan</option>
+									<option value="LA">Lao People's Democratic Republic</option>
+									<option value="LV">Latvia</option>
+									<option value="LB">Lebanon</option>
+									<option value="LS">Lesotho</option>
+									<option value="LR">Liberia</option>
+									<option value="LY">Libya</option>
+									<option value="LI">Liechtenstein</option>
+									<option value="LT">Lithuania</option>
+									<option value="LU">Luxembourg</option>
+									<option value="MO">Macao</option>
+									<option value="MK">Macedonia, the former Yugoslav Republic of</option>
+									<option value="MG">Madagascar</option>
+									<option value="MW">Malawi</option>
+									<option value="MY">Malaysia</option>
+									<option value="MV">Maldives</option>
+									<option value="ML">Mali</option>
+									<option value="MT">Malta</option>
+									<option value="MH">Marshall Islands</option>
+									<option value="MQ">Martinique</option>
+									<option value="MR">Mauritania</option>
+									<option value="MU">Mauritius</option>
+									<option value="YT">Mayotte</option>
+									<option value="MX">Mexico</option>
+									<option value="FM">Micronesia, Federated States of</option>
+									<option value="MD">Moldova, Republic of</option>
+									<option value="MC">Monaco</option>
+									<option value="MN">Mongolia</option>
+									<option value="ME">Montenegro</option>
+									<option value="MS">Montserrat</option>
+									<option value="MA">Morocco</option>
+									<option value="MZ">Mozambique</option>
+									<option value="MM">Myanmar</option>
+									<option value="NA">Namibia</option>
+									<option value="NR">Nauru</option>
+									<option value="NP">Nepal</option>
+									<option value="NL">Netherlands</option>
+									<option value="NC">New Caledonia</option>
+									<option value="NZ">New Zealand</option>
+									<option value="NI">Nicaragua</option>
+									<option value="NE">Niger</option>
+									<option value="NG">Nigeria</option>
+									<option value="NU">Niue</option>
+									<option value="NF">Norfolk Island</option>
+									<option value="MP">Northern Mariana Islands</option>
+									<option value="NO">Norway</option>
+									<option value="OM">Oman</option>
+									<option value="PK">Pakistan</option>
+									<option value="PW">Palau</option>
+									<option value="PS">Palestinian Territory, Occupied</option>
+									<option value="PA">Panama</option>
+									<option value="PG">Papua New Guinea</option>
+									<option value="PY">Paraguay</option>
+									<option value="PE">Peru</option>
+									<option value="PH">Philippines</option>
+									<option value="PN">Pitcairn</option>
+									<option value="PL">Poland</option>
+									<option value="PT">Portugal</option>
+									<option value="PR">Puerto Rico</option>
+									<option value="QA">Qatar</option>
+									<option value="RE">Réunion</option>
+									<option value="RO">Romania</option>
+									<option value="RU">Russian Federation</option>
+									<option value="RW">Rwanda</option>
+									<option value="BL">Saint Barthélemy</option>
+									<option value="SH">Saint Helena, Ascension and Tristan da Cunha</option>
+									<option value="KN">Saint Kitts and Nevis</option>
+									<option value="LC">Saint Lucia</option>
+									<option value="MF">Saint Martin (French part)</option>
+									<option value="PM">Saint Pierre and Miquelon</option>
+									<option value="VC">Saint Vincent and the Grenadines</option>
+									<option value="WS">Samoa</option>
+									<option value="SM">San Marino</option>
+									<option value="ST">Sao Tome and Principe</option>
+									<option value="SA">Saudi Arabia</option>
+									<option value="SN">Senegal</option>
+									<option value="RS">Serbia</option>
+									<option value="SC">Seychelles</option>
+									<option value="SL">Sierra Leone</option>
+									<option value="SG">Singapore</option>
+									<option value="SX">Sint Maarten (Dutch part)</option>
+									<option value="SK">Slovakia</option>
+									<option value="SI">Slovenia</option>
+									<option value="SB">Solomon Islands</option>
+									<option value="SO">Somalia</option>
+									<option value="ZA">South Africa</option>
+									<option value="GS">South Georgia and the South Sandwich Islands</option>
+									<option value="SS">South Sudan</option>
+									<option value="ES">Spain</option>
+									<option value="LK">Sri Lanka</option>
+									<option value="SD">Sudan</option>
+									<option value="SR">Suriname</option>
+									<option value="SJ">Svalbard and Jan Mayen</option>
+									<option value="SZ">Swaziland</option>
+									<option value="SE">Sweden</option>
+									<option value="CH">Switzerland</option>
+									<option value="SY">Syrian Arab Republic</option>
+									<option value="TW">Taiwan, Province of China</option>
+									<option value="TJ">Tajikistan</option>
+									<option value="TZ">Tanzania, United Republic of</option>
+									<option value="TH">Thailand</option>
+									<option value="TL">Timor-Leste</option>
+									<option value="TG">Togo</option>
+									<option value="TK">Tokelau</option>
+									<option value="TO">Tonga</option>
+									<option value="TT">Trinidad and Tobago</option>
+									<option value="TN">Tunisia</option>
+									<option value="TR">Turkey</option>
+									<option value="TM">Turkmenistan</option>
+									<option value="TC">Turks and Caicos Islands</option>
+									<option value="TV">Tuvalu</option>
+									<option value="UG">Uganda</option>
+									<option value="UA">Ukraine</option>
+									<option value="AE">United Arab Emirates</option>
+									<option value="GB">United Kingdom</option>
+									<option value="US">United States</option>
+									<option value="UM">United States Minor Outlying Islands</option>
+									<option value="UY">Uruguay</option>
+									<option value="UZ">Uzbekistan</option>
+									<option value="VU">Vanuatu</option>
+									<option value="VE">Venezuela, Bolivarian Republic of</option>
+									<option value="VN">Viet Nam</option>
+									<option value="VG">Virgin Islands, British</option>
+									<option value="VI">Virgin Islands, U.S.</option>
+									<option value="WF">Wallis and Futuna</option>
+									<option value="EH">Western Sahara</option>
+									<option value="YE">Yemen</option>
+									<option value="ZM">Zambia</option>
+									<option value="ZW">Zimbabwe</option>	
+								</select>
+							</i>
+						</div>
 
-				 <div class="form-group" ng-if="form.enquiry_status_id.toString() == '7'">
-					<i class="col-md-3 box-1">
+						<div class="form-group" ng-if="form.enquiry_status_id.toString() == '7'">
+						<i class="col-md-3 box-1">
 						<strong>Booking property: </strong>
-					</i>
+						</i>
 						<i class="col-md-8 box-2">
-							<select class="form-control"
-							ng-model="form.book_property_id"
-							ng-options="item.id as item.reference_id for item in matched"
-							ng-disabled="false">
-							<option value="">Please select</option>
-							</select>
-							<br />
-							<a ng-if="form.book_property_id" target="_blank" href="properties#/edit/{{form.book_property_id}}">view property</a>
-					 </i>
-				 </div>
+						<select class="form-control"
+						ng-model="form.book_property_id"
+						ng-options="item.id as item.reference_id for item in matched"
+						ng-disabled="false">
+						<option value="">Please select</option>
+						</select>
+						<br />
+						<a ng-if="form.book_property_id" target="_blank" href="properties#/edit/{{form.book_property_id}}">view property</a>
+						</i>
+						</div>
 
-                    <div class="form-group" style="display:none;">
-            	        <i class="col-md-3 box-1"><strong>Exact location required:</strong></i>
-           	            <i class="col-md-8 box-2">
-       	                	<textarea class="form-control" rows="2" id="comment" ng-model="form.ex_location" ng-disabled="!editAllow"></textarea>
-                      	</i>
-                    </div>
+						<div class="form-group" style="display:none;">
+							<i class="col-md-3 box-1"><strong>Exact location required:</strong></i>
+							<i class="col-md-8 box-2">
+								<textarea class="form-control" rows="2" id="comment" ng-model="form.ex_location" ng-disabled="!editAllow"></textarea>
+							</i>
+						</div>
 
-                </div><!--col-md-6-->
-                <hr class="clear-fix">
-        	</div><!--detail-type-->
+					</div><!--col-md-6-->
 
-            <div class="row detail-type" style="display:none;">
-            	<div class="col-md-12 specific">
-                	<div class="col-md-2">
-                    	<p><label>Specific requirement</label><strong>:</strong></p>
-                    </div>
-                    <div class="col-md-3">
-                    	<div><input type="checkbox" ng-model="form.sq_furnish" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Fully Furnish / ตกแต่งครบ</div>
-                        <div><input type="checkbox" ng-model="form.sq_park" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Close park / ใกล้สวนสาธารณะ</div>
-                        <div><input type="checkbox" ng-model="form.sq_airport" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Close airport / ใกล้สนามบิน</div>
-                    </div>
-                    <div class="col-md-3">
-                    	<div><input type="checkbox" ng-model="form.sq_hospital" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Close hospital / ใกล้โรงพยาบาล</div>
-                        <div><input type="checkbox" ng-model="form.sq_bts" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Close to BTS/MRT / ติดรถไฟฟ้า</div>
-                        <div><input type="checkbox" ng-model="form.sq_mainroad" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Close to main road / ติดถนนใหญ่</div>
-                    </div>
-                    <div class="col-md-3">
-                    	<div><input type="checkbox" ng-model="form.sq_school" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Close school / University / ใกล้โรงเรียน</div>
-                        <div><input type="checkbox" ng-model="form.sq_shopmall" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Close shopping mall / ใกล้ห้างสรรพสินค้า</div>
-                        <div>Others / อื่นๆ <input type="text" ng-model="form.sq_other" ng-disabled="!editAllow"> </div>
-                    </div>
-                </div>
-            </div><!--detail-type-->
+					<hr class="clear-fix">
+				</div><!--detail-type-->
 
-					</fieldset>
+				<div class="row detail-type" style="display:none;">
+					<div class="col-md-12 specific">
+						<div class="col-md-2">
+							<p><label>Specific requirement</label><strong>:</strong></p>
+						</div>
+						<div class="col-md-3">
+							<div><input type="checkbox" ng-model="form.sq_furnish" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Fully Furnish / ตกแต่งครบ</div>
+							<div><input type="checkbox" ng-model="form.sq_park" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Close park / ใกล้สวนสาธารณะ</div>
+							<div><input type="checkbox" ng-model="form.sq_airport" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Close airport / ใกล้สนามบิน</div>
+						</div>
+						<div class="col-md-3">
+							<div><input type="checkbox" ng-model="form.sq_hospital" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Close hospital / ใกล้โรงพยาบาล</div>
+							<div><input type="checkbox" ng-model="form.sq_bts" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Close to BTS/MRT / ติดรถไฟฟ้า</div>
+							<div><input type="checkbox" ng-model="form.sq_mainroad" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Close to main road / ติดถนนใหญ่</div>
+						</div>
+						<div class="col-md-3">
+							<div><input type="checkbox" ng-model="form.sq_school" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Close school / University / ใกล้โรงเรียน</div>
+							<div><input type="checkbox" ng-model="form.sq_shopmall" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editAllow"> Close shopping mall / ใกล้ห้างสรรพสินค้า</div>
+							<div>Others / อื่นๆ <input type="text" ng-model="form.sq_other" ng-disabled="!editAllow"> </div>
+						</div>
+					</div>
+				</div><!--detail-type-->
+
+			</fieldset>
+
       		<div class="row detail-type">
             	<!-- <div class="col-md-12">
             	    <label>Source</label><strong>:</strong>

@@ -1007,7 +1007,7 @@ class ApiEnquiry extends BaseCTL {
           "desicion_maker", "bedroom", "is_studio", "size", "size_unit_id", "bts_id", "mrt_id",
           "airport_link_id", "enquiry_status_id", "ex_location", "ptime_to_pol", "sq_furnish",
           "sq_hospital", "sq_school", "sq_park", "sq_bts", "sq_shopmall", "sq_airport", "sq_mainroad",
-          "sq_other", "contact_type_id", "chk1", "chk2", "chk3", "contact_method", "website", "country_id"
+          "sq_other", "contact_type_id", "chk1", "chk2", "chk3", "contact_method", "website", "country_id", "contact_phone"
         ], $params);
 
         $insert = array_map(function($item) 
@@ -1101,7 +1101,7 @@ class ApiEnquiry extends BaseCTL {
           "desicion_maker", "bedroom", "is_studio", "size", "size_unit_id", "bts_id", "mrt_id",
           "airport_link_id", "enquiry_status_id", "ex_location", "ptime_to_pol", "sq_furnish",
           "sq_hospital", "sq_school", "sq_park", "sq_bts", "sq_shopmall", "sq_airport", "sq_mainroad",
-          "sq_other", "contact_type_id", "book_property_id", "country_id"
+          "sq_other", "contact_type_id", "book_property_id", "country_id", "contact_phone"
         ], $params);
 
         $now = date('Y-m-d H:i:s');

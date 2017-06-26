@@ -642,6 +642,9 @@ app.controller('EditCTL', ['$scope', '$http', '$location', '$route', '$routePara
                 tel1 = cust[1].substring(0, 3);
                 tel2 = cust[1].substring(3, 6);
                 tel3 = cust[1].substring(6, 10);
+
+				$scope.form.cust_phone = cust[1];
+				$scope.form.cust_email = cust[2] || '';
             }
 
             var j;

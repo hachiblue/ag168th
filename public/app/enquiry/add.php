@@ -90,6 +90,14 @@
                       </div>
                   </div>
             	  </div> -->
+
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Contact Phone</label><strong>:</strong>
+						<input type="text" class="form-control" id="contact_phone" ng-model="form.contact_phone">
+					</div>
+				</div>
+
                 <div class="col-md-12 hr"></div>
 
                 <div class="col-md-6">
