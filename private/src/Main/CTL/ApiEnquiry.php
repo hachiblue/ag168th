@@ -952,7 +952,7 @@ class ApiEnquiry extends BaseCTL {
 				$a = $sms->getCredit();
 				//var_dump( $a);
 
-				$b = $sms->send( '0000', $_POST['phone_number'], $item);
+				$b = $sms->send( 'Agent168', $_POST['phone_number'], $item);
 				//var_dump( $b);
 
 				if( $b )
