@@ -145,15 +145,15 @@
     <div class="col-md-3 form-group">
       <label>requirement</label>
       <select class="form-control"
-      ng-model="form.requirement_id"
-	    ng-change="formRequirementChange()"
-      ng-options="item.id as item.name for item in collection.requirement"
-      required>
+		ng-model="form.requirement_id"
+		ng-change="formRequirementChange()"
+		ng-options="item.id as item.name for item in collection.requirement"
+		required>
           <option value="">Please select</option>
       </select>
     </div>
 
-    <div class="col-md-3 form-group">
+    <div class="col-md-3 form-group" ng-show="<?php echo json_encode(@$_SESSION['login']['level_id'] != 4);?>">
       <label>Address no</label> ( * ใส่แค่ตำแหน่งห้องหรือเลขห้องเท่านั้น )
       <input type="text" class="form-control" ng-model="form.address_no">
     </div>

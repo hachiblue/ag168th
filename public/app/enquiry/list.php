@@ -354,7 +354,9 @@
             <tr>
                 <th>Enquiry no.</th>
                 <th>Created</th>
+				<?php if(@$_SESSION['login']['level_id'] <= 3){?>
                 <th>Assign to</th>
+				<?php }?>
                 <th style="width: 10%;">Customer</th>
                 <th>Project</th>
                 <th>Requirement</th>

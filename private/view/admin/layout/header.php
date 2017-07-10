@@ -31,6 +31,8 @@ header('Cache-Control: private, max-age=3600');
 <link href="<?php echo Helper\URL::absolute("/public/css/sweet-alert.css")?>" rel="stylesheet">
 <link href="<?php echo Helper\URL::absolute("/public/css/ie9.css")?>" rel="stylesheet">
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet">
+
 <!-- font awesome -->
 <link href="<?php echo Helper\URL::absolute("/public/css/font-awesome.min.css")?>" rel="stylesheet">
 <link href="<?php echo Helper\URL::absolute("/public/css/chosen.css")?>" rel="stylesheet">
@@ -177,6 +179,52 @@ header('Cache-Control: private, max-age=3600');
 		color:red;
 	}
 
+
+	/**
+	 * ====== Zoom effect ======
+	 */
+	.mfp-zoom-in {
+
+		/* start state */
+		.mfp-with-anim {
+			opacity: 0;
+			transition: all 0.2s ease-in-out; 
+			transform: scale(0.8); 
+		}
+
+		&.mfp-bg {
+			opacity: 0;
+			transition: all 0.3s ease-out;
+		}
+
+		/* animate in */
+		&.mfp-ready {
+			.mfp-with-anim {
+				opacity: 1;
+				transform: scale(1); 
+			}
+			&.mfp-bg {
+				opacity: 0.8;
+			}
+		}
+
+		/* animate out */
+		&.mfp-removing {
+
+			.mfp-with-anim {
+			  transform: scale(0.8); 
+			  opacity: 0;
+			}
+
+			&.mfp-bg {
+			  opacity: 0;
+			}
+
+		}
+
+	}
+
+
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -187,6 +235,8 @@ header('Cache-Control: private, max-age=3600');
 <script src="<?php echo \Main\Helper\URL::absolute("/public/js/chosen.jquery.min.js")?>"></script>
 <script src="<?php echo \Main\Helper\URL::absolute("/public/js/jquery.table2excel.min.js")?>"></script>
 <script src="<?php echo Helper\URL::absolute("/public/js/q.js")?>"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
 
 <script src="<?php echo \Main\Helper\URL::absolute("/public/js/main.js")?>"></script>
 

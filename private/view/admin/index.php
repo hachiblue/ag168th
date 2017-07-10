@@ -479,7 +479,7 @@ if( $_SESSION['login']['level_id'] == 4 || $_SESSION['login']['level_id'] == 8 )
 {
 	?>
 	<!-- Modal -->
-	<div class="modal show" id="plan_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
+	<div class="modal hide" id="plan_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
 		<div class="modal-dialog modal-lg" role="document" style="width: 90%;">
 			<div class="modal-content">
 				<div class="modal-header">

@@ -773,7 +773,7 @@ echo json_encode(@$_SESSION['login']['level_id'] != 3 && @$_SESSION['login']['le
                     &nbsp;&nbsp;(<span id="cnt_comment">0</span>/400) 
                 </div>
 
-                <div class="col-md-12 form-group">
+                <div class="col-md-12 form-group hidden">
                   <label>
                     <strong>Plan.</strong>
                   </label>

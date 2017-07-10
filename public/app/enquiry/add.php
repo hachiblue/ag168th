@@ -662,7 +662,7 @@
                 </div>
 
 
-                <div class="col-md-12 form-group">
+                <div class="col-md-12 form-group hidden">
                   <label>
                     <strong>Plan.</strong>
                   </label>

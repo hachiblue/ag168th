@@ -526,7 +526,7 @@ MAILCONTENT;
         @mail("admin@agent168th.com", "Added property: ".$item["reference_id"], $mailContent, $mailHeader);
 		*/
 
-		$this->mailsender ( 'system@agent168th.com', 'admin@agent168th.com', 'Added property: ' . $old["reference_id"], $mailContent );
+		$this->mailsender ( 'system@agent168th.com', 'admin@agent168th.com', 'Added property: ' . $item["reference_id"], $mailContent );
 
         return $item;
     }

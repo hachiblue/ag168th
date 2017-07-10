@@ -15,7 +15,7 @@
             </fieldset>
         </form>
     </div>
-    <table class="table">
+    <table class="table zoom-gallery">
         <thead>
         <tr>
             <th></th>
@@ -25,7 +25,11 @@
         <tbody>
         <tr ng-repeat="image in images">
             <td><input class="form-control" type="checkbox" value="{{$index}}" ng-model="image.selected"></td>
-            <td><a href="{{image.url}}" target="_blank"><img class="img-thumb" ng-src="{{image.url}}"></a></td>
+            <td>
+				<a href="{{image.url}}" data-source="{{image.url}}" title="{{$index}}" style="width:193px;height:125px;">
+					<img src="{{image.url}}" width="193" height="125">
+				</a>
+			</td>
         </tr>
         </tbody>
     </table>
