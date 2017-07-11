@@ -136,7 +136,7 @@ session_start();
             <option value="">Please select</option>
         </select>
       </div>
-      <div class="col-md-3 form-group" ng-show="<?php echo json_encode(@$_SESSION['login']['level_id'] != 4);?>">
+      <div class="col-md-3 form-group">
         <label>Address no </label> ( * ใส่แค่ตำแหน่งห้องหรือเลขห้องเท่านั้น )
         <input type="text" class="form-control" ng-model="form.address_no">
       </div>
