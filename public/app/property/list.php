@@ -125,16 +125,16 @@
 							</div>
 						</div>
 					  </div>
-					  <div class="col-md-3 form-group">
+					  <div class="col-md-2 form-group">
 						<label class="control-label">Rental Price</label>
 						<div class="row">
-							<div class="col-md-3">
+							<div class="col-md-5">
 								<input type="text" class="form-control" ng-model="form.rent_price_start">
 							</div>
 							<div class="col-md-1">
 								To
 							</div>
-							<div class="col-md-3">
+							<div class="col-md-5">
 								<input type="text" class="form-control" ng-model="form.rent_price_end">
 							</div>
 						</div>
@@ -148,10 +148,27 @@
 						  </select>
 					  </div>
 			
-						<div class="col-md-1 form-group">
+						<!-- <div class="col-md-1 form-group">
 							<label>Floors</label>
 							<input type="number" class="form-control" ng-model="form.floors">
+						</div> -->
+
+						<div class="col-md-2 form-group">
+							<label class="control-label">Floors</label>
+							<div class="row">
+								<div class="col-md-5">
+									<input type="number" class="form-control" ng-model="form.floors_start">
+								</div>
+								<div class="col-md-1">
+									To
+								</div>
+								<div class="col-md-5">
+									<input type="number" class="form-control" ng-model="form.floors_end">
+								</div>
+							</div>
 						</div>
+
+
 
 						<div class="col-md-1 form-group">
 							<label>Direction</label>

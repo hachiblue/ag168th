@@ -106,12 +106,27 @@ class ApiProperty extends BaseCTL {
 				$sql_where[] = " property.id NOT IN (select property_id from property_image group by property_id)";
 			}
 		}
-
+		
+		/*
         if(!empty($params['floors']))
 		{
             $where["AND"]['property.floors'] = $params['floors'];
 
 			$sql_where[] = "property.floors = '{$params['floors']}'";
+        }*/
+
+        if(!empty($params['floors_start']))
+		{
+            $where["AND"]['property.floors[>=]'] = $params['floors_start'];
+
+			$sql_where[] = "property.floors >= '{$params['floors_start']}'";
+        }
+
+        if(!empty($params['floors_end']))
+		{
+            $where["AND"]['property.floors[<=]'] = $params['floors_end'];
+
+			$sql_where[] = "property.floors <= '{$params['floors_end']}'";
         }
 
         if(!empty($params['direction']))
@@ -373,7 +388,7 @@ class ApiProperty extends BaseCTL {
 		$sql = " SELECT " . implode(',', $sql_field) . " FROM " . $this->table . " " . implode(' ', $sql_join) . (count($sql_where) ? " WHERE " . implode(' AND ', $sql_where) : '') . " ORDER BY " . $order . " LIMIT " . $skip . ", " . $limit;
 
 		$sql_count = " SELECT count(*) as cnt FROM " . $this->table . " " . implode(' ', $sql_join) . (count($sql_where) ? " WHERE " . implode(' AND ', $sql_where) : '');
-		
+		//echo $sql;
 		$query = $db->query($sql);
 		$rows = $query ? $query->fetchAll() : array();
 		
