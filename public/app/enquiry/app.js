@@ -983,13 +983,13 @@ app.controller('MatchedCTL', ['$scope', '$http', '$location', '$route', '$routeP
 
     $scope.form = {};
     $scope.form.page = 1;
-    $scope.form.limit = 100;
+    $scope.form.limit = 10;
 
     function getProps(query)
     {
         var url = "../api/enquiry/" + $scope.id + "/matched?page="+$scope.form.page;
 
-        console.log($scope.form.page);
+        //console.log($scope.form.page);
 
         $http.get(url).success(function(data)
         {
@@ -997,7 +997,7 @@ app.controller('MatchedCTL', ['$scope', '$http', '$location', '$route', '$routeP
             if (data.total > 0)
             {
                 $scope.pagination = [];
-                for (var i = 1; i * $scope.form.limit <= data.total; i++)
+                for (var i = 0; i * $scope.form.limit <= data.total; i++)
                 {
                     $scope.pagination.push(data.paging.page == i);
                 }
@@ -1008,6 +1008,7 @@ app.controller('MatchedCTL', ['$scope', '$http', '$location', '$route', '$routeP
             }
         });
     }
+
     getProps($scope.form);
 
     $scope.setPage = function($index)
@@ -1082,7 +1083,11 @@ app.controller('MatchedCTL', ['$scope', '$http', '$location', '$route', '$routeP
             $route.reload();
         }, "json");
     };
+
     $scope.commaNumber = numberWithCommas;
+
+	window.s = $scope;
+
 }]);
 
 app.controller('CommentCTL', ['$scope', '$http', '$location', '$route', '$routeParams', function($scope, $http, $location, $route, $routeParams)

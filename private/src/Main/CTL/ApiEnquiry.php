@@ -109,22 +109,30 @@ class ApiEnquiry extends BaseCTL {
             }
         }
 
-        if(!empty($params['buy_budget_start']) || !empty($params['buy_budget_end'])){
-            if(!empty($params['buy_budget_start'])) {
-              $where["AND"]['enquiry.buy_budget_start[>=]'] = $params['buy_budget_start'];
-            }
-            if(!empty($params['buy_budget_end'])) {
-              $where["AND"]['enquiry.buy_budget_end[<=]'] = $params['buy_budget_end'];
-            }
+        if(!empty($params['buy_budget_start']) || !empty($params['buy_budget_end']))
+		{
+			if(!empty($params['buy_budget_start'])) 
+			{
+				$where["AND"]['enquiry.buy_budget_start[>=]'] = $params['buy_budget_start'];
+			}
+
+			if(!empty($params['buy_budget_end'])) 
+			{
+				$where["AND"]['enquiry.buy_budget_end[<=]'] = $params['buy_budget_end'];
+			}
         }
 
-        if(!empty($params['rent_budget_start']) || !empty($params['rent_budget_end'])){
-            if(!empty($params['rent_budget_start'])) {
-              $where["AND"]['enquiry.rent_budget_start[>=]'] = $params['rent_budget_start'];
-            }
-            if(!empty($params['rent_budget_end'])) {
-              $where["AND"]['enquiry.rent_budget_end[<=]'] = $params['rent_budget_end'];
-            }
+        if(!empty($params['rent_budget_start']) || !empty($params['rent_budget_end']))
+		{
+			if(!empty($params['rent_budget_start'])) 
+			{
+				$where["AND"]['enquiry.rent_budget_start[>=]'] = $params['rent_budget_start'];
+			}
+
+			if(!empty($params['rent_budget_end'])) 
+			{
+				$where["AND"]['enquiry.rent_budget_end[<=]'] = $params['rent_budget_end'];
+			}
         }
 
         if(!empty($params['decision_maker'])) {
@@ -1660,7 +1668,7 @@ MAILCONTENT;
             "[>]project"=> ["project_id"=> "id"]
         ];
 
-        $limit = empty($_GET['limit'])? 100: $_GET['limit'];
+        $limit = empty($_GET['limit'])? 10: $_GET['limit'];
         $where = ["AND"=> ["property.match_enquiry_id"=> $id]];
 
         $page = !empty($params['page'])? $params['page']: 1;
@@ -1668,7 +1676,8 @@ MAILCONTENT;
         $orderBy = !empty($params['orderBy'])? $params['orderBy']: "updated_at";
         $order = "{$orderBy} {$orderType}";
 
-        if(count($where["AND"]) > 0){
+        if(count($where["AND"]) > 0)
+		{
             $where['ORDER'] = $order;
             $list = ListDAO::gets("property", [
                 "field"=> $field,
@@ -1678,7 +1687,8 @@ MAILCONTENT;
                 "limit"=> $limit
             ]);
         }
-        else {
+        else 
+		{
             $list = ListDAO::gets("property", [
                 "field"=> $field,
                 "join"=> $join,

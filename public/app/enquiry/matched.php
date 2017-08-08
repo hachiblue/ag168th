@@ -8,7 +8,7 @@
     <?php }?>
   	<!-- <li><a href="">Touring Report</a></li> -->
 	</ul>
-    <div style="overflow-x: auto;">
+    <div style="overflow-x: auto;" class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
             <tr>

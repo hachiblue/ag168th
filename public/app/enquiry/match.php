@@ -215,7 +215,7 @@
                 </div>
             </div>
     </div>
-    <div style="overflow-x: auto;">
+    <div style="overflow-x: auto;" class="table-responsive">
         <table class="table table-striped table-hover ">
             <thead>
             <tr>
