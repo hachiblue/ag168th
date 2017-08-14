@@ -39,6 +39,10 @@ app.config(['$routeProvider', 'cfpLoadingBarProvider',
         {
             templateUrl: '../public/app/enquiry/edit.php'
         }).
+		when('/quotation/:id',
+        {
+            templateUrl: '../public/app/enquiry/quotation.php'
+        }).
         when('/match/:id',
         {
             templateUrl: '../public/app/enquiry/match.php'
@@ -53,6 +57,43 @@ app.config(['$routeProvider', 'cfpLoadingBarProvider',
         });
     }
 ]);
+
+app.controller('QuotCTL', ['$scope', '$http', '$location', '$route', function ($scope, $http, $location, $route)
+{
+    
+    $scope.quot = {};
+
+    //var quotationItem = ["46633", "46632", "46631", "46629"];
+
+    var formGetQuotation = function ()
+    {
+        var qId = '';
+        $.each(quotationItem, function(i, e) {
+            qId += e + ",";
+        });
+
+        $http.get("../api/property/quotation?q=" + qId).success(function (data)
+        {
+            $scope.quot = data;
+        });
+    };
+
+    $scope.getExcel = function() 
+    {
+        var qId = '';
+        $.each(quotationItem, function(i, e) {
+            qId += e + ",";
+        });
+        
+        window.open("../api/property/quotation2?q=" + qId);
+
+    };
+
+    formGetQuotation();
+
+    window.s = $scope;
+
+}]);
 
 app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function($scope, $http, $location, $route)
 {
@@ -973,6 +1014,8 @@ app.controller('MatchCTL', ['$scope', '$http', '$location', '$route', '$routePar
 app.controller('MatchedCTL', ['$scope', '$http', '$location', '$route', '$routeParams', function($scope, $http, $location, $route, $routeParams)
 {
     $scope.id = $routeParams.id;
+	
+	quotationItem && (quotationItem = []);
 
     $scope.changeHash = function(hash)
     {
