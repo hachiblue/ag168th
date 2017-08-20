@@ -1,42 +1,42 @@
-<?php  session_start(); ?>
+<?php session_start();?>
 <div ng-controller="EditCTL">
-<?php include(dirname(__FILE__).'/head.php');?>
+<?php include dirname(__FILE__) . '/head.php';?>
 <form ng-submit="submit()" id="form-edit-prop" ng-show="initSuccess"
-  ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] != 3 && @$_SESSION['login']['level_id'] != 4 && @$_SESSION['login']['level_id'] > 0);?>; isadmin = <?php echo json_encode( ($_SESSION['login']['level_id'] == 2 || $_SESSION['login']['level_id'] == 7) );?>;"
+  ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] != 3 && @$_SESSION['login']['level_id'] != 4 && @$_SESSION['login']['level_id'] > 0); ?>; isadmin = <?php echo json_encode((2 == $_SESSION['login']['level_id'] || 7 == $_SESSION['login']['level_id'])); ?>;"
   >
 
-	<div class="row" id="tmpl-owner">
-		
-		<div class="col-md-2 form-group" name="ref_id">
-			<label>Reference ID</label>
-			<input class="form-control" value="{{reference_id}}" ReadOnly>
-		</div>
+  <div class="row" id="tmpl-owner">
 
-		<div class="col-sm-2 col-md-2 form-group">
-			<label>Owner Name</label>
-			<input class="form-control" ng-if="editAllow" ng-model="form.owner_name1" pattern="[^,:.]+" required>
-			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
-		</div>
+    <div class="col-md-2 form-group" name="ref_id">
+      <label>Reference ID</label>
+      <input class="form-control" value="{{reference_id}}" ReadOnly>
+    </div>
 
-		<div class="col-sm-2 col-md-2 form-group">
-			<label>Owner Phone</label>
-			<div class="col-sm-12 nopadd">
-			<div class="col-sm-3 padding3">
-				<input class="form-control" ng-if="editAllow" name="cphone" ng-model="form.owner_phone1a" pattern="[^,:.]+" maxlength="3">
-				<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
-			</div>
-			<div class="col-sm-4 padding3">
-				<input class="form-control" ng-if="editAllow" name="cphone" ng-model="form.owner_phone1b" pattern="[^,:.]+" maxlength="3">
-				<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
-			</div>
-			<div class="col-sm-5 padding3">
-				<input class="form-control" ng-if="editAllow" name="cphone" ng-model="form.owner_phone1c" pattern="[^,:.]+">
-				<input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
-			</div>
-		</div>
+    <div class="col-sm-2 col-md-2 form-group">
+      <label>Owner Name</label>
+      <input class="form-control" ng-if="editAllow" ng-model="form.owner_name1" pattern="[^,:.]+" required>
+      <input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
+    </div>
 
-		<!-- <input class="form-control" ng-if="!editAllow" disabled="disabled" value=""> -->
-	</div>
+    <div class="col-sm-2 col-md-2 form-group">
+      <label>Owner Phone</label>
+      <div class="col-sm-12 nopadd">
+      <div class="col-sm-3 padding3">
+        <input class="form-control" ng-if="editAllow" name="cphone" ng-model="form.owner_phone1a" pattern="[^,:.]+" maxlength="3">
+        <input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
+      </div>
+      <div class="col-sm-4 padding3">
+        <input class="form-control" ng-if="editAllow" name="cphone" ng-model="form.owner_phone1b" pattern="[^,:.]+" maxlength="3">
+        <input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
+      </div>
+      <div class="col-sm-5 padding3">
+        <input class="form-control" ng-if="editAllow" name="cphone" ng-model="form.owner_phone1c" pattern="[^,:.]+">
+        <input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
+      </div>
+    </div>
+
+    <!-- <input class="form-control" ng-if="!editAllow" disabled="disabled" value=""> -->
+  </div>
 
     <div class="col-sm-1 col-md-2 form-group">
       <label>Email, Line Id</label>
@@ -44,20 +44,20 @@
       <input class="form-control" ng-if="!editAllow" disabled="disabled" value="">
     </div>
 
-		<div class="col-sm-2 col-md-2 form-group">
-			<label>Customer VIP</label>
-			<input class="form-control" ng-if="editAllow" ng-model="form.owner_cust1" pattern="[^,:]+">
-			<input class="form-control" ng-if="!editAllow" disabled="disabled" value="" pattern="[^,:]+">
-		</div>
+    <div class="col-sm-2 col-md-2 form-group">
+      <label>Customer VIP</label>
+      <input class="form-control" ng-if="editAllow" ng-model="form.owner_cust1" pattern="[^,:]+">
+      <input class="form-control" ng-if="!editAllow" disabled="disabled" value="" pattern="[^,:]+">
+    </div>
 
-		<div class="col-sm-2 col-md-2 form-group">
-			<label>&nbsp;</label>
-			<div style="cursor:pointer;" ng-click="addmore_owner();"><i class="fa fa-plus" aria-hidden="true"></i></div>
-		</div>
+    <div class="col-sm-2 col-md-2 form-group">
+      <label>&nbsp;</label>
+      <div style="cursor:pointer;" ng-click="addmore_owner();"><i class="fa fa-plus" aria-hidden="true"></i></div>
+    </div>
 
-	</div>
+  </div>
 
-	<div id="moreowner" ng-bind-html="moreowner"></div>
+  <div id="moreowner" ng-bind-html="moreowner"></div>
 
   <div class="row">
 
@@ -95,25 +95,25 @@
     </div>
 
     <div style="clear:both;"></div>
-	
-	<div class="col-md-2 form-group">
-		<label>Status</label>
-		<select class="form-control"
-		ng-model="form.property_status_id"
-		ng-change="formPropertyStatusIdChange()"
-		ng-options="item.id as item.name for item in collection.property_status"
-		required>
-			<option value="">Please select</option>
-		</select>
-	</div>
+
+  <div class="col-md-2 form-group">
+    <label>Status</label>
+    <select class="form-control"
+    ng-model="form.property_status_id"
+    ng-change="formPropertyStatusIdChange()"
+    ng-options="item.id as item.name for item in collection.property_status"
+    required>
+      <option value="">Please select</option>
+    </select>
+  </div>
 
     <div class="col-md-3 form-group">
       <label>Property Type</label>
       <select class="form-control"
-		ng-model="form.property_type_id"
-		ng-change="formPropertyTypeChange()"
-		ng-options="item.id as item.name for item in collection.property_type"
-		required>
+    ng-model="form.property_type_id"
+    ng-change="formPropertyTypeChange()"
+    ng-options="item.id as item.name for item in collection.property_type"
+    required>
           <option value="">Please select</option>
       </select>
     </div>
@@ -121,7 +121,7 @@
       <label>Project</label>
       <select  chosen id="project_id" class="form-control"
         ng-model="form.project_id"
-	    ng-change="formProjectIdChange()"
+      ng-change="formProjectIdChange()"
         ng-options="item.id as item.name for item in collection.project"
         >
           <option value="">Please select</option>
@@ -145,10 +145,10 @@
     <div class="col-md-3 form-group">
       <label>requirement</label>
       <select class="form-control"
-		ng-model="form.requirement_id"
-		ng-change="formRequirementChange()"
-		ng-options="item.id as item.name for item in collection.requirement"
-		required>
+    ng-model="form.requirement_id"
+    ng-change="formRequirementChange()"
+    ng-options="item.id as item.name for item in collection.requirement"
+    required>
           <option value="">Please select</option>
       </select>
     </div>
@@ -195,16 +195,16 @@
       <select class="form-control" ng-model="form.bedrooms">
         <option value="">Please select</option>
         <option value="0">0</option>
-  			<option value="1">1</option>
-  			<option value="2">2</option>
-  			<option value="3">3</option>
-  			<option value="4">4</option>
-  			<option value="5">5</option>
-  			<option value="6">6</option>
-  			<option value="7">7</option>
-  			<option value="8">8</option>
-  			<option value="9">9</option>
-  			<option value="10">10</option>	
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
       </select>
     </div>
     <div class="col-md-1 form-group">
@@ -220,63 +220,63 @@
         <option value="7">7</option>
         <option value="8">8</option>
         <option value="9">9</option>
-        <option value="10">10</option>	
+        <option value="10">10</option>
       </select>
     </div>
 
     <div style="clear: both;"></div>
-		
-		<div class="col-md-12 form-group">
 
-			<div class=" col-md-2 checkboxxx">
-				<label class="col-xs-6 nopadd">
-					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact1" ng-click="formChkContractUpChange()" style="float: left;">
+    <div class="col-md-12 form-group">
+
+      <div class=" col-md-2 checkboxxx">
+        <label class="col-xs-6 nopadd">
+          <input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact1" ng-click="formChkContractUpChange()" style="float: left;">
           <div style="margin-left: 20px;">ภาษีธุรกิจเฉพาะ</div>
-				</label>
+        </label>
         <div class="col-xs-2 nopadd fee_percent_sel">
           <select class="form-control" id="fee-sel" ng-model="form.chkcontact1a"  ng-change="formChkContractUpChange()">
             <option value="1">1.65%</option>
             <option value="2" selected>3.3%</option>
           </select>
         </div>
-			</div>
+      </div>
 
-			<div class=" col-md-2 checkboxxx">
-				<label class="col-xs-8 nopadd">
-					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact2" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ค่าอากรแสตมป์</div>
-				</label>
+      <div class=" col-md-2 checkboxxx">
+        <label class="col-xs-8 nopadd">
+          <input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact2" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">ค่าอากรแสตมป์</div>
+        </label>
         <div class="col-xs-2 nopadd fee_percent_sel">
           <select class="form-control" id="fee-sel" ng-model="form.chkcontact2a"  ng-change="formChkContractUpChange()">
             <option value="1">0.25%</option>
             <option value="2" selected>0.5%</option>
           </select>
         </div>
-			</div>
+      </div>
 
-			<div class=" col-md-2 checkboxxx">
-				<label class="col-xs-8 nopadd">
-					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact3" ng-click="formChkContractUpChange()" style="float: left;">
+      <div class=" col-md-2 checkboxxx">
+        <label class="col-xs-8 nopadd">
+          <input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact3" ng-click="formChkContractUpChange()" style="float: left;">
           <div style="margin-left: 20px;">ค่าธรรมเนียมการโอน</div>
-				</label>
+        </label>
         <div class="col-xs-2 nopadd fee_percent_sel">
           <select class="form-control" id="fee-sel" ng-model="form.chkcontact3a"  ng-change="formChkContractUpChange()">
             <option value="1">1%</option>
             <option value="2" selected>2%</option>
           </select>
         </div>
-			</div>
+      </div>
 
-			<div class="col-md-2 checkboxxx">
-				<label class="col-xs-8 nopadd">
-					<input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact4" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">Commission</div>
-				</label>
+      <div class="col-md-2 checkboxxx">
+        <label class="col-xs-8 nopadd">
+          <input type="checkbox" name="chk_contract_up" ng-model="form.chkcontact4" ng-click="formChkContractUpChange()" style="float: left;"><div style="margin-left: 20px;">Commission</div>
+        </label>
         <div class="col-xs-2 nopadd fee_percent_sel">
           <select class="form-control" id="fee-sel" ng-model="form.chkcontact4a"  ng-change="formChkContractUpChange()">
             <option value="1">1.5%</option>
             <option value="2" selected>3%</option>
           </select>
         </div>
-			</div>
+      </div>
 
       <div class="col-md-2 checkboxxx">
         <label>
@@ -284,7 +284,7 @@
         </label>
       </div>
 
-		</div>
+    </div>
 
     <div style="clear: both;"></div>
 
@@ -318,7 +318,7 @@
         <div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
       </div>
     </div>
-  
+
   </fieldset>
 
   <fieldset>
@@ -330,7 +330,7 @@
         <div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
       </div>
     </div>
-    
+
   </fieldset>
 
   <fieldset ng-disabled="!editAllow">
@@ -465,9 +465,9 @@
   </div>
   <div class="row">
     <div class="col-md-12 form-group">
-      <label>Comment/Remark</label>  
+      <label>Comment/Remark</label>
       <textarea class="form-control" id="bt_comment" ng-model="form.comment"></textarea>
-      (<span id="cnt_comment">0</span>/400) 
+      (<span id="cnt_comment">0</span>/400)
     </div>
   </div>
   <div class="row">
