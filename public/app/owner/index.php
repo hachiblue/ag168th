@@ -36,6 +36,7 @@
           <br>
           <br>
           <form ng-submit="saveOwner()" id="form-owner" name="form-owner">
+          
             <div id="owners">
               
               <div id="row_1" class="row">
@@ -84,14 +85,14 @@
 
             <div class="row">
 
-              <div class="col-md-2 pull-right">
+              <div class="col-md-2 col-md-offset-6">
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+
+              <div class="col-md-2">
                 <button class="btn btn-warning" ng-click="deleteOwners()">Delete This Owners</button>
               </div>
 
-              <div class="col-md-2 pull-right">
-                <button type="submit" class="btn btn-primary">Save</button>
-              </div>
-              
             </div>
           </form>
 

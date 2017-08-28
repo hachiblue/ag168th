@@ -134,7 +134,7 @@ class ApiProperty extends BaseCTL
         $params = $this->reqInfo->params();
         $insert = ArrayHelper::filterKey(array(
             'property_type_id', 'project_id', 'address_no', 'floors', 'size', 'size_unit_id', 'bedrooms', 'bathrooms',
-            'requirement_id', 'contract_price', 'sell_price', 'net_sell_price', 'rent_price', 'net_rent_price', 'owner',
+            'requirement_id', 'contract_price', 'sell_price', 'net_sell_price', 'rent_price', 'net_rent_price', 'owner_id',
             'key_location_id', 'zone_id', 'road', 'province_id', 'district_id', 'sub_district_id', 'bts_id', 'mrt_id',
             'airport_link_id', 'property_status_id', 'contract_expire', 'web_status', 'property_highlight_id',
             'feature_unit_id', 'rented_expire', 'inc_vat', 'transfer_status_id', 'web_url_search', 'room_type_id', 'contract_chk_key',
@@ -199,11 +199,13 @@ class ApiProperty extends BaseCTL
         $id = $db->insert($this->table, $insert);
 
         // todo: insert new owner
+        /*
         if ($id && ! empty($params['owner']))
         {
             $owner_id = $db->insert('owners', array('owner' => $params['owner']));
             $db->update($this->table, array('owner_id' => $owner_id), array('id' => $id));
         }
+        */
 
         if ( ! $id)
         {
@@ -742,7 +744,7 @@ MAILCONTENT;
         $set = $params;
         $set = ArrayHelper::filterKey(array(
             'property_type_id', 'project_id', 'address_no', 'floors', 'size', 'size_unit_id', 'bedrooms', 'bathrooms',
-            'requirement_id', 'contract_price', 'sell_price', 'net_sell_price', 'rent_price', 'net_rent_price', 'owner',
+            'requirement_id', 'contract_price', 'sell_price', 'net_sell_price', 'rent_price', 'net_rent_price', 'owner_id',
             'key_location_id', 'zone_id', 'road', 'province_id', 'district_id', 'sub_district_id', 'bts_id', 'mrt_id',
             'airport_link_id', 'property_status_id', 'contract_expire', 'web_status', 'property_highlight_id',
             'feature_unit_id', 'rented_expire', 'inc_vat', 'transfer_status_id', 'web_url_search', 'room_type_id', 'contract_chk_key',
@@ -795,6 +797,7 @@ MAILCONTENT;
         $updated = $db->update($this->table, $set, $where);
 
         // todo: insert/update owner
+        /*
         if (isset($set['owner_id']) && ! empty($set['owner_id']) && ! empty($params['owner']))
         {
             $updated = $db->update('owners', array('owner' => $params['owner']), array('id' => $params['owner_id']));
@@ -804,6 +807,7 @@ MAILCONTENT;
             $owner_id = $db->insert('owners', array('owner' => $params['owner']));
             $db->update($this->table, array('owner_id' => $owner_id), $where);
         }
+        */
 
         if ( ! $updated)
         {
@@ -871,7 +875,7 @@ MAILCONTENT;
                 'project.name(project_name)',
                 'project.number_buildings(proj_num_building)',
                 'owners.id(owners_id)',
-                'owners.name(owner)'
+                'owners.owner(owners)'
             );
             $join = array(
                 // "[>]property_type"=> ["property_type_id"=> "id"],
@@ -887,7 +891,7 @@ MAILCONTENT;
         }
         else
         {
-            $sql  = " select p.*, o.owner as owner from property p left join owners o on p.owner_id = o.id where p.id = '{$id}'";
+            $sql  = " select p.*, o.owner as owners from property p left join owners o on p.owner_id = o.id where p.id = '{$id}'";
             $r    = $db->query($sql);
             $item = $r->fetch(\PDO::FETCH_ASSOC);
         }
