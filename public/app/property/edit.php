@@ -9,7 +9,7 @@
       ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] != 3 && @$_SESSION['login']['level_id'] != 4 && @$_SESSION['login']['level_id'] > 0); ?>; isadmin = <?php echo json_encode((2 == $_SESSION['login']['level_id'] || 7 == $_SESSION['login']['level_id'])); ?>;"
       >
 
-      <fieldset ng-show="<?=json_encode(@$_SESSION['login']['level_id'] != 4);?>">
+      <fieldset>
         <div class="row">
 
           <div class="col-md-2 form-group" name="ref_id">
@@ -18,7 +18,7 @@
           </div>
 
 
-          <div class="col-md-5">
+          <div class="col-md-5" ng-show="<?=json_encode(@$_SESSION['login']['level_id'] != 4);?>">
               <label>Owner ID</label>
               <md-autocomplete
                 ng-disabled="ctrl.isDisabled"
@@ -44,9 +44,9 @@
 
           <div class="clearfix"></div>
 
-          <div class="col-md-2"></div>
+          <div class="col-md-2" ng-show="<?=json_encode(@$_SESSION['login']['level_id'] != 4);?>"></div>
 
-          <div id="owners" class="col-md-10">
+          <div id="owners" class="col-md-10" ng-show="<?=json_encode(@$_SESSION['login']['level_id'] != 4);?>">
 
             <div id="row_1" class="row">
               <div class="col-sm-2 col-md-4 form-group">
@@ -73,7 +73,7 @@
 
           </div>
 
-          <div id="tmpl-owners">
+          <div id="tmpl-owners" ng-show="<?=json_encode(@$_SESSION['login']['level_id'] != 4);?>">
 
 
             <div class="col-sm-2 col-md-4 form-group">
