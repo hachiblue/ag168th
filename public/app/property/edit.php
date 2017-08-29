@@ -9,7 +9,7 @@
       ng-init="editAllow = <?php echo json_encode(@$_SESSION['login']['level_id'] != 3 && @$_SESSION['login']['level_id'] != 4 && @$_SESSION['login']['level_id'] > 0); ?>; isadmin = <?php echo json_encode((2 == $_SESSION['login']['level_id'] || 7 == $_SESSION['login']['level_id'])); ?>;"
       >
 
-      <fieldset ng-disabled="!editAllow">
+      <fieldset ng-show="<?=json_encode(@$_SESSION['login']['level_id'] != 4);?>">
         <div class="row">
 
           <div class="col-md-2 form-group" name="ref_id">

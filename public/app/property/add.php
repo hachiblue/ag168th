@@ -6,7 +6,7 @@ session_start();
 ?>
 <form ng-submit="submit()" ng-controller="AddCTL as ctrl" id="form-edit-prop" ng-show="initSuccess" ng-init="isadmin = <?php echo json_encode((2 == $_SESSION['login']['level_id'] || 7 == $_SESSION['login']['level_id'])); ?>;">
 
-  
+  <fieldset ng-show="<?=json_encode(@$_SESSION['login']['level_id'] != 4);?>">
   <div class="row">
 
     <div class="col-md-5">
@@ -89,7 +89,7 @@ session_start();
     </div>
 
   </div>
-
+  </fieldset>
 
 
 
@@ -172,7 +172,7 @@ session_start();
           </div>
         </div>
       </div>
-
+	<div class="clearfix"></div>
       <div class="col-md-3 form-group">
         <label>Requirement</label>
         <select class="form-control"
