@@ -104,6 +104,7 @@ class AdminCTL extends BaseCTL
                 $sidebar .= $this->getTagList('/admin/enquiries#/wishlist', 'Wish List');
                 //$sidebar .= $this->getTagList ('/admin/enquiries#/rentalexpire', 'Enquiries Expire ('.(isset($exCount)? $exCount: 0).')');
                 $sidebar .= $this->getTagList('/admin/leave#', 'On Leave Manage');
+                $sidebar .= $this->getTagList('/admin/timetable#', 'Time Table');
                 $sidebar .= $this->getTagList('/admin/project', 'Project');
                 $sidebar .= $this->getTagList('/admin/salescontract', 'Sales Contract');
                 $sidebar .= $this->getTagList('/admin/login', 'Sign Out');
@@ -115,6 +116,7 @@ class AdminCTL extends BaseCTL
                 $sidebar .= $this->getTagList('/admin/enquiries#/wishlist', 'Wish List');
                 //$sidebar .= $this->getTagList ('/admin/enquiries#/rentalexpire', 'Enquiries Expire ('.(isset($exCount)? $exCount: 0).')');
                 $sidebar .= $this->getTagList('/admin/leave#', 'On Leave Manage');
+                $sidebar .= $this->getTagList('/admin/timetable#', 'Time Table');
                 $sidebar .= $this->getTagList('/admin/approver#', 'Calendar Approve');
                 $sidebar .= $this->getTagList('/admin/project', 'Project');
                 $sidebar .= $this->getTagList('/admin/report#/sale', 'Report Sale');
