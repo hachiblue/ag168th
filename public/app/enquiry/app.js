@@ -39,6 +39,10 @@ app.config(['$routeProvider', 'cfpLoadingBarProvider',
         {
             templateUrl: '../public/app/enquiry/edit.php'
         }).
+		when('/quotation/:id',
+        {
+            templateUrl: '../public/app/enquiry/quotation.php'
+        }).
         when('/match/:id',
         {
             templateUrl: '../public/app/enquiry/match.php'
@@ -53,6 +57,43 @@ app.config(['$routeProvider', 'cfpLoadingBarProvider',
         });
     }
 ]);
+
+app.controller('QuotCTL', ['$scope', '$http', '$location', '$route', function ($scope, $http, $location, $route)
+{
+    
+    $scope.quot = {};
+
+    //var quotationItem = ["46633", "46632", "46631", "46629"];
+
+    var formGetQuotation = function ()
+    {
+        var qId = '';
+        $.each(quotationItem, function(i, e) {
+            qId += e + ",";
+        });
+
+        $http.get("../api/property/quotation?q=" + qId).success(function (data)
+        {
+            $scope.quot = data;
+        });
+    };
+
+    $scope.getExcel = function() 
+    {
+        var qId = '';
+        $.each(quotationItem, function(i, e) {
+            qId += e + ",";
+        });
+        
+        window.open("../api/property/quotation2?q=" + qId);
+
+    };
+
+    formGetQuotation();
+
+    window.s = $scope;
+
+}]);
 
 app.controller('ListCTL', ['$scope', '$http', '$location', '$route', function($scope, $http, $location, $route)
 {
@@ -973,6 +1014,8 @@ app.controller('MatchCTL', ['$scope', '$http', '$location', '$route', '$routePar
 app.controller('MatchedCTL', ['$scope', '$http', '$location', '$route', '$routeParams', function($scope, $http, $location, $route, $routeParams)
 {
     $scope.id = $routeParams.id;
+	
+	quotationItem && (quotationItem = []);
 
     $scope.changeHash = function(hash)
     {
@@ -983,13 +1026,13 @@ app.controller('MatchedCTL', ['$scope', '$http', '$location', '$route', '$routeP
 
     $scope.form = {};
     $scope.form.page = 1;
-    $scope.form.limit = 100;
+    $scope.form.limit = 10;
 
     function getProps(query)
     {
         var url = "../api/enquiry/" + $scope.id + "/matched?page="+$scope.form.page;
 
-        console.log($scope.form.page);
+        //console.log($scope.form.page);
 
         $http.get(url).success(function(data)
         {
@@ -997,7 +1040,7 @@ app.controller('MatchedCTL', ['$scope', '$http', '$location', '$route', '$routeP
             if (data.total > 0)
             {
                 $scope.pagination = [];
-                for (var i = 1; i * $scope.form.limit <= data.total; i++)
+                for (var i = 0; i * $scope.form.limit <= data.total; i++)
                 {
                     $scope.pagination.push(data.paging.page == i);
                 }
@@ -1008,6 +1051,7 @@ app.controller('MatchedCTL', ['$scope', '$http', '$location', '$route', '$routeP
             }
         });
     }
+
     getProps($scope.form);
 
     $scope.setPage = function($index)
@@ -1082,7 +1126,11 @@ app.controller('MatchedCTL', ['$scope', '$http', '$location', '$route', '$routeP
             $route.reload();
         }, "json");
     };
+
     $scope.commaNumber = numberWithCommas;
+
+	window.s = $scope;
+
 }]);
 
 app.controller('CommentCTL', ['$scope', '$http', '$location', '$route', '$routeParams', function($scope, $http, $location, $route, $routeParams)

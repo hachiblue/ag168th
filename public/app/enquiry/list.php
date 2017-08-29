@@ -112,7 +112,8 @@
                                     <div class="col-md-5"><input type="text" class="form-control" ng-model="form.rent_budget_end"></div>
                                 </div>
                             </div>
-                            <div class="col-md-3 form-group">
+
+                            <div class="col-md-3 form-group hidden">
                                 <label class="control-label">Enquiry is the decision maker</label>
                                 <div>
                                       <select class="form-control"
@@ -123,7 +124,8 @@
                                       </select>
                                 </div>
                             </div>
-                            <div class="col-md-3 form-group">
+
+                            <div class="col-md-3 form-group hidden">
                                 <label class="control-label">Period time to purchasing or leasing</label>
                                 <div>
                                   <select class="form-control" ng-model="form.ptime_to_pol">
@@ -226,7 +228,7 @@
                                   </select>
                                 </div>
                             </div>
-                            <div class="col-md-3 form-group">
+                            <div class="col-md-3 form-group hidden">
                                 <label class="control-label">Exact location required</label>
                                 <div>
                                     <input type="text" class="form-control" ng-model="form.ex_location">
@@ -443,7 +445,12 @@
     </div>
 
 
-  <?php if($_SESSION['login']['level_id'] != 4){?>
+  <?php 
+  // closed by request
+  //if( $_SESSION['login']['level_id'] != 4 )
+  if( $_SESSION['login']['level_id'] =='close' )
+  {
+	  ?>
 	<!-- Modal -->
 	<div class="modal hide" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: scroll;">
 	  <div class="modal-dialog modal-lg" role="document" style="width: 90%;">
@@ -558,7 +565,9 @@
 		</div>
 	  </div>
 	</div>
-  <?php }?>
+	<?php 
+  }
+  ?>
   
 </div>
 

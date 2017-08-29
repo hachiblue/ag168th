@@ -4,62 +4,109 @@ session_start();
 //   return "";
 // }
 ?>
-<form ng-submit="submit()" ng-controller="AddCTL" id="form-edit-prop" ng-show="initSuccess" ng-init="isadmin = <?php echo json_encode(($_SESSION['login']['level_id'] == 2 || $_SESSION['login']['level_id'] == 7));?>;">
+<form ng-submit="submit()" ng-controller="AddCTL as ctrl" id="form-edit-prop" ng-show="initSuccess" ng-init="isadmin = <?php echo json_encode((2 == $_SESSION['login']['level_id'] || 7 == $_SESSION['login']['level_id'])); ?>;">
 
-	<div class="row" id="tmpl-owner">
+  
+  <div class="row">
 
-		<div class="col-sm-2 col-md-2 form-group">
-			<label>Owner Name</label>
-			<input class="form-control" ng-model="form.owner_name1" pattern="[^,]+" required>
-			<!-- <input class="form-control" disabled="disabled" value="ปิดไว้จนกว่าจะเสร็จ"> -->
-		</div>
+    <div class="col-md-5">
+        <label>Owner ID</label>
+        <md-autocomplete
+          ng-disabled="ctrl.isDisabled"
+          md-no-cache="ctrl.noCache"
+          md-selected-item="ctrl.selectedItem"
+          md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+          md-search-text="ctrl.searchText"
+          md-selected-item-change="ctrl.selectedItemChange(item)"
+          md-items="item in ctrl.querySearch(ctrl.searchText)"
+          md-item-text="item.display"
+          md-min-length="0"
+          placeholder="ค้นหา owner">
+          <md-item-template>
+            <span md-highlight-text="ctrl.searchText" md-highlight-flags="i">{{item.display}}</span>
+          </md-item-template>
+          <md-not-found>
+            No states matching "{{ctrl.searchText}}" were found.
+          </md-not-found>
+        </md-autocomplete>
 
-		<div class="col-sm-2 col-md-2 form-group">
-			<label>Owner Phone</label>
-      <div class="col-sm-12 nopadd">
-  			<div class="col-sm-3 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1a" pattern="[^,:]+" maxlength="3" required></div>
-        <div class="col-sm-4 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1b" pattern="[^,:]+" maxlength="3" required></div>
-        <div class="col-sm-5 padding3"><input class="form-control" name="cphone" ng-model="form.owner_phone1c" pattern="[^,:]+" required></div>
-      </div>
-			<!-- <input class="form-control" disabled="disabled" value="ปิดไว้จนกว่าจะเสร็จ"> -->
-		</div>
-
-    <div class="col-sm-2 col-md-2 form-group">
-      <label>Email, Line Id</label>
-      <input class="form-control" ng-model="form.owner_email1" pattern="[^,:]+">
-      <!-- <input class="form-control" disabled="disabled" value="ปิดไว้จนกว่าจะเสร็จ"> -->
     </div>
 
-		<div class="col-sm-2 col-md-2 form-group">
-			<label>Customer VIP</label>
-			<input class="form-control" ng-model="form.owner_cust1" pattern="[^,:]+">
-			<!-- <input class="form-control" disabled="disabled" value="ปิดไว้จนกว่าจะเสร็จ"> -->
-		</div>
+    <div class="clearfix"></div>
 
-		<div class="col-sm-2 col-md-2 form-group">
-			<label>&nbsp;</label>
-			<div style="cursor:pointer;" ng-click="addmore_owner();"><i class="fa fa-plus" aria-hidden="true"></i></div>
-		</div>
+    <div id="owners" class="col-md-10">
 
-	</div>
+      <div id="row_1" class="row">
+        <div class="col-sm-2 col-md-4 form-group">
+          <label>Owner Name</label>
+          <input class="form-control" ng-model="form.owner_name1" pattern="[^,:.]+" disabled>
+        </div>
 
-	<div id="moreowner" ng-bind-html="moreowner"></div>
+        <div class="col-sm-2 col-md-2 form-group">
+          <label>Owner Phone</label>
+          <input class="form-control" ng-model="form.owner_phone1" pattern="[^,:.]+" disabled>
+        </div>
+
+        <div class="col-sm-1 col-md-2 form-group">
+          <label>Email, Line Id</label>
+          <input class="form-control" ng-model="form.owner_email1" pattern="[^,:]+" disabled>
+        </div>
+
+        <div class="col-sm-2 col-md-2 form-group">
+          <label>Customer VIP</label>
+          <input class="form-control" ng-model="form.owner_cust1" pattern="[^,:]+" disabled>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="tmpl-owners">
+
+
+      <div class="col-sm-2 col-md-4 form-group">
+        <label>Owner Name</label>
+        <input class="form-control" ng-model="form.owner_name1" pattern="[^,:.]+" disabled>
+      </div>
+
+      <div class="col-sm-2 col-md-2 form-group">
+        <label>Owner Phone</label>
+        <input class="form-control" ng-model="form.owner_phone1" pattern="[^,:.]+" disabled>
+      </div>
+
+      <div class="col-sm-1 col-md-2 form-group">
+        <label>Email, Line Id</label>
+        <input class="form-control" ng-model="form.owner_email1" pattern="[^,:]+" disabled>
+      </div>
+
+      <div class="col-sm-2 col-md-2 form-group">
+        <label>Customer VIP</label>
+        <input class="form-control" ng-model="form.owner_cust1" pattern="[^,:]+" disabled>
+      </div>
+
+      <div class="clearfix"></div>
+
+    </div>
+
+  </div>
+
+
 
 
   <div class="row">
     <fieldset>
 
-		<div class="col-md-3 form-group">
-		  <label>Status</label>
-		  <select class="form-control"
-		  ng-model="form.property_status_id"
-		  ng-change="formPropertyStatusIdChange()"
-		  ng-options="item.id*1 as item.name for item in collection.property_status"
-		  required>
-			  <option value="">Please select</option>
-		  </select>
-		</div>
- 
+    <div class="col-md-3 form-group">
+      <label>Status</label>
+      <select class="form-control"
+      ng-model="form.property_status_id"
+      ng-change="formPropertyStatusIdChange()"
+      ng-options="item.id*1 as item.name for item in collection.property_status"
+      required>
+        <option value="">Please select</option>
+      </select>
+    </div>
+
     <div id="pending-box" class="col-md-3 form-group" style="display:none;">
       <label>Pending</label>
        <select class="form-control"
@@ -110,7 +157,7 @@ session_start();
       </select>
     </div>
 
-	  <div class="col-md-3 form-group">
+    <div class="col-md-3 form-group">
         <label>Size</label>
         <div class="row">
           <div class="col-md-6">
@@ -130,7 +177,7 @@ session_start();
         <label>Requirement</label>
         <select class="form-control"
         ng-model="form.requirement_id"
-		ng-change="formRequirementChange()"
+    ng-change="formRequirementChange()"
         ng-options="item.id*1 as item.name for item in getRequirementList()"
         required>
             <option value="">Please select</option>
@@ -140,11 +187,11 @@ session_start();
         <label>Address no </label> ( * ใส่แค่ตำแหน่งห้องหรือเลขห้องเท่านั้น )
         <input type="text" class="form-control" ng-model="form.address_no">
       </div>
-	  
-		<div class="col-md-1 form-group">
-			<label>Unit no</label>
-			<input type="text" class="form-control" ng-model="form.unit_no">
-		</div>
+
+    <div class="col-md-1 form-group">
+      <label>Unit no</label>
+      <input type="text" class="form-control" ng-model="form.unit_no">
+    </div>
 
       <div class="col-md-1 form-group">
         <label>Building no</label>
@@ -158,12 +205,12 @@ session_start();
         <input type="text" class="form-control" ng-model="form.floors">
       </div>
 
-	  <div class="col-md-2 form-group">
+    <div class="col-md-2 form-group">
         <label>Direction</label>
         <input type="text" class="form-control" ng-model="form.direction">
       </div>
 
-	  <div class="col-md-3 form-group">
+    <div class="col-md-3 form-group">
         <label>Room type</label>
         <select class="form-control" ng-model="form.room_type_id">
           <option value="">Please select</option>
@@ -189,7 +236,7 @@ session_start();
           <option value="7">7</option>
           <option value="8">8</option>
           <option value="9">9</option>
-          <option value="10">10</option>	
+          <option value="10">10</option>
         </select>
       </div>
       <div class="col-md-2 form-group">
@@ -205,12 +252,12 @@ session_start();
           <option value="7">7</option>
           <option value="8">8</option>
           <option value="9">9</option>
-          <option value="10">10</option>	
+          <option value="10">10</option>
         </select>
       </div>
       <div style="clear: both;"></div>
-		
-		<div class="col-md-12 form-group">
+
+    <div class="col-md-12 form-group">
 
       <div class=" col-md-2 checkboxxx">
         <label class="col-xs-6 nopadd">
@@ -271,7 +318,7 @@ session_start();
     </div>
 
 
-	  <div style="clear: both;"></div>
+    <div style="clear: both;"></div>
 
       <div class="col-md-3 form-group">
         <label>Contract price</label>
@@ -290,7 +337,7 @@ session_start();
         <label>Price/sqm.</label>
         <input type="text" class="form-control" value="{{ ((form.sell_price | num) / form.size) | money }}" disabled >
       </div>
-      
+
       <div style="clear: both;"></div>
 
       <div class="col-md-3 form-group">
@@ -375,7 +422,7 @@ session_start();
       </div>
 
       <div style="clear: both;"></div>
-      
+
       <div class="col-md-3 form-group">
         <label>bts</label>
         <select class="form-control"
@@ -446,7 +493,7 @@ session_start();
     <div class="col-md-12 form-group">
       <label>Comment/Remark</label>
       <textarea class="form-control" id="bt_comment" ng-model="form.comment"></textarea>
-      (<span id="cnt_comment">0</span>/400) 
+      (<span id="cnt_comment">0</span>/400)
     </div>
   </div>
   <div class="row">

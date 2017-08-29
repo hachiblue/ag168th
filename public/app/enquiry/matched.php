@@ -8,7 +8,7 @@
     <?php }?>
   	<!-- <li><a href="">Touring Report</a></li> -->
 	</ul>
-    <div style="overflow-x: auto;">
+    <div style="overflow-x: auto;" class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
             <tr>
@@ -28,7 +28,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="prop in props.data">
-                <td><input type="checkbox" ng-if="!prop.request_contact" ng-model="inputProps[prop.id.toString()]"></td>
+                <td><input type="checkbox" ng-if="!prop.request_contact" ng-model="inputProps[prop.id.toString()]" name="chk_q" id="chk_{{prop.id}}" onclick="setQuotationItem(this)"></td>
                 <td>{{prop.reference_id}}</td>
                 <td>
                     <div><strong>Project</strong>: <span>{{prop.project_name}}</span></div>
@@ -76,8 +76,12 @@
       </ul>
     </div>
     <div class="text-center">
-      <button class="btn btn-success"
-      ng-hide="prop.request_contact"
-      ng-click="clickRequestContact()">Request Contact</button>
+
+		<a href="#quotation/168" class="btn btn-info">Request Quotation</a>
+
+		<button class="btn btn-success"
+		ng-hide="prop.request_contact"
+		ng-click="clickRequestContact()">Request Contact</button>
+
     </div>
 </div>
