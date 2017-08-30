@@ -108,12 +108,14 @@ app.controller('IndexCTL', ['$scope', '$mdDialog', '$compile', '$http', '$locati
 	window.s = $scope;
 }]);
 
-app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function ($scope, $compile, $http, $location) {
+app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', '$routeParams', function ($scope, $compile, $http, $location, $routeParams) {
 	
 	$scope.form = {};
 
     $scope.isSaving = false;
     $scope.initSuccess = true;
+
+    var sv = this;
 	
 	$http.get("../api/collection").success(function (data)
     {
@@ -154,7 +156,6 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
 		$scope.minutes = getMinutes();	
     });
 
-	
 	$scope.submit = function ()
     {	
 		if( $scope.form.rq_approve_id === undefined || $scope.form.rq_approve_id == '' )
@@ -251,11 +252,41 @@ app.controller('AddCTL', ['$scope', '$compile', '$http', '$location', function (
                 return;
             }
 
+            if( data )
+            {
+            	var fd = new FormData( );
+		        angular.forEach( $scope.images_upload, function ( value, key )
+		        {
+		            fd.append( 'images[' + key + ']', value );
+		        } );
+
+		        //console.log(fd); return false;
+		        $scope.isUpload = true;
+		        $http.post( "../api/leave/upload/"+data, fd,
+		        {
+		            transformRequest: angular.identity,
+		            headers:
+		            {
+		                'Content-Type': undefined
+		            }
+		        } ).success( function ( data )
+		        {
+		        	$scope.isUpload = false;
+		            window.location = '';
+		        } );
+            }
+
             //window.location.reload();]
-			window.location = '';
+			
 
         }, 'json');
     };
+
+    $scope.images_upload = [ ];
+	$scope.parseImagesInput = function ( input )
+	{
+		$scope.images_upload = input.files;
+	};
 
     window.s = $scope;
 
@@ -328,6 +359,7 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$routePa
 			data.total_time_minutes = setMinutes( data.rqshift_leave_total_tm );
 
             $scope.form = data;
+			$scope.form.image = '/public/file_pics/' + data.img;
 
 			$scope.form.account_name = $scope.acc_self.name;
 			$scope.form.account_id = $scope.acc_self.id;
@@ -433,11 +465,38 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$routePa
                 return;
             }
 
-            //window.location.reload();]
-			window.location = '';
+            if( data )
+            {
+            	var fd = new FormData( );
+		        angular.forEach( $scope.images_upload, function ( value, key )
+		        {
+		            fd.append( 'images[' + key + ']', value );
+		        } );
+
+		        //console.log(fd); return false;
+		        $scope.isUpload = true;
+		        $http.post( "../api/leave/upload/"+$routeParams.id, fd,
+		        {
+		            transformRequest: angular.identity,
+		            headers:
+		            {
+		                'Content-Type': undefined
+		            }
+		        } ).success( function ( data )
+		        {
+		        	$scope.isUpload = false;
+		            window.location = '';
+		        } );
+            }
 
         }, 'json');
     };
+
+    $scope.images_upload = [ ];
+	$scope.parseImagesInput = function ( input )
+	{
+		$scope.images_upload = input.files;
+	};
 
 	$scope.remove = function (id)
     {
@@ -463,7 +522,6 @@ app.controller('EditCTL', ['$scope', '$compile', '$http', '$location', '$routePa
 
     window.s = $scope;
 }]);
-
 
 
 function getDate(date)

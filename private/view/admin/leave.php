@@ -2,6 +2,8 @@
     <div ng-view=""></div>
 </div>
 
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <link rel="stylesheet" href="<?php echo \Main\Helper\URL::absolute("/bower_components/angular-loading-bar/build/loading-bar.min.css");?>">
 
 <link rel="stylesheet" href="<?php echo \Main\Helper\URL::absolute("/bower_components/angular/angular-material.css");?>">
@@ -12,7 +14,6 @@
 		min-height: 25px;
 		line-height: 25px;
 	}
-
 </style>
 
 <script src="<?php echo \Main\Helper\URL::absolute("/bower_components/angular/angular.min.js");?>"></script>

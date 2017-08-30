@@ -61,7 +61,11 @@ class ApiTimetableCTL extends BaseCTL
         $params['sale_id']    = $accId;
         $params['sale']       = $accName;
 
-        $id = $db->insert('timetables', $params);
+        if (4 == $_SESSION['login']['level_id'])
+        {
+            $id = $db->insert('timetables', $params);
+        }
+
         // print_r($db->log());
         if ( ! $id)
         {
@@ -133,7 +137,20 @@ class ApiTimetableCTL extends BaseCTL
 
         $where = array('id' => $id);
 
-        $updated = $db->update('timetables', $set, $where);
+        if (8 == $_SESSION['login']['level_id'])
+        {
+            $s = array(
+                'manager_id' => $_SESSION['login']['id'],
+                'manager' => $_SESSION['login']['name'],
+                'updated_at' => date('Y-m-d H:i:s'),
+                'isapprove' => 1 == $set['isapprove'] ? 0 : 1
+            );
+            $updated = $db->update('timetables', $s, $where);
+        }
+        else
+        {
+            $updated = $db->update('timetables', $set, $where);
+        }
 
         if ( ! $updated)
         {
@@ -151,7 +168,6 @@ class ApiTimetableCTL extends BaseCTL
     {
         $db = MedooFactory::getInstance();
         $id = $this->reqInfo->urlParam('id');
-
 
         $sth = $db->pdo->prepare('SELECT j.name AS project, j.id as project_id FROM property p, project j WHERE p.project_id = j.id AND p.reference_id = :ref');
         $sth->bindParam(':ref', $id);

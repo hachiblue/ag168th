@@ -3,7 +3,7 @@
 session_start();
 
 ?>
-<form ng-submit="submit()" ng-controller="AddCTL" id="form-edit-prop" layout="column" ng-cloak class="md-inline-form" ng-show="initSuccess">
+<form ng-submit="submit()" ng-controller="AddCTL" id="form-edit-prop" layout="column" ng-cloak class="md-inline-form" ng-show="initSuccess" enctype="multipart/form-data">
 
 	<md-content layout-padding>
 		<div>
@@ -37,7 +37,7 @@ session_start();
 				</md-input-container>
 
 			</div>
-			
+
 			<div layout-gt-sm="row">
 
 				<div>
@@ -64,7 +64,7 @@ session_start();
 					<label>วันที่ลา</label>
 					<md-datepicker ng-model="form.rqshift_date"></md-datepicker>
 				</md-input-container>
-				
+
 				<md-input-container class="md-block">
 					<label>ตั้งแต่เวลา (น.)</label>
 					<md-select ng-model="form.f_hours">
@@ -120,7 +120,7 @@ session_start();
 				</md-input-container>
 
 			</div>
-			
+
 			<div layout-gt-sm="row">
 
 				<div>
@@ -254,14 +254,26 @@ session_start();
 								</md-input-container>
 							</td>
 						</tr>
+						<tr>
+							<td style="border: none;">
+								<div>
+									<label>เอกสารประกอบ ( เป็นรูปภาพ )</label>
+								    <input type="file" multiple onchange="angular.element(this).scope().parseImagesInput(this);" accept="image/*">
+									
+								</div>
+							</td>
+						</tr>
 					</tbody>
-				</table>	
+				</table>
+
 
 			</div>
-			
+
+
+
 		</div>
 
-			
+
 		<div layout-gt-sm="row">
 			<!-- <button class="btn btn-primary">Save</button> -->
 			<a class="btn btn-info" href="#/">Back</a>
@@ -272,5 +284,3 @@ session_start();
 	</md-content>
 
 </form>
-
-

@@ -254,6 +254,15 @@ session_start();
 								</md-input-container>
 							</td>
 						</tr>
+						<tr>
+							<td style="border: none;">
+								<div>
+									<label>เอกสารประกอบ ( เป็นรูปภาพ )</label>
+								    <input type="file" multiple onchange="angular.element(this).scope().parseImagesInput(this);" accept="image/*">
+									<img src="{{form.image}}" style="max-width: 400px;">
+								</div>
+							</td>
+						</tr>
 					</tbody>
 				</table>	
 

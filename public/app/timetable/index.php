@@ -30,7 +30,7 @@ session_start();
       <div class="panel-body">
         <md-content class="md-padding">
           <form ng-submit="$event.preventDefault()">
-          <fieldset ng-disabled="!editAllow">
+          
             <div class="table-responsivex">
 
               <div class="row">
@@ -62,38 +62,47 @@ session_start();
                         <tbody>
                           <tr ng-repeat="tt in items">
                             <td>
-                              <input ng-model="tt.ondate" class="form-control">
+                              <input ng-model="tt.ondate" class="form-control" ng-disabled="!editAllow">
                             </td>
                             <td>
-                              <input ng-model="tt.time_out" class="form-control">
+                              <input ng-model="tt.time_out" class="form-control" ng-disabled="!editAllow">
                             </td>
                             <td>
-                              <input ng-model="tt.time_in" class="form-control">
+                              <input ng-model="tt.time_in" class="form-control" ng-disabled="!editAllow">
                             </td>
                             <td>
-                              <input ng-model="tt.reference_id" class="form-control" ng-change="getProject($index);">
+                              <input ng-model="tt.reference_id" class="form-control" ng-change="getProject($index);" ng-disabled="!editAllow">
                             </td>
                             <td>
-                              <input ng-model="tt.enquiry_no" class="form-control">
+                              <input ng-model="tt.enquiry_no" class="form-control" ng-disabled="!editAllow">
                             </td>
                             <td>
-                              <input ng-model="tt.project" class="form-control">
+                              <input ng-model="tt.project" class="form-control" ng-disabled="!editAllow">
                             </td>
                             <td>
-                              <input ng-model="tt.description" class="form-control">
+                              <input ng-model="tt.description" class="form-control" ng-disabled="!editAllow">
                             </td>
                             <td>
-                              <input ng-model="tt.client" class="form-control">
+                              <input ng-model="tt.client" class="form-control" ng-disabled="!editAllow">
                             </td>
                             <td>
-                              <input ng-model="tt.sale" class="form-control">
+                              <input ng-model="tt.sale" class="form-control" ng-disabled="!editAllow">
                             </td>
                             <td>
-                              <input ng-model="tt.manager" class="form-control">
+                              <input ng-model="tt.manager" class="form-control" ng-disabled="!editAllow">
                             </td>
                             <td>
-                              <md-button ng-click="Save($index);" class="md-fab md-mini md-primary" aria-label="Save">
+                              <md-button ng-click="Save($index);" class="md-fab md-mini md-primary" aria-label="Save" ng-show="editAllow && !tt.isapprove">
                                 <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                              </md-button>
+                              <md-button ng-click="Save($index);" class="md-fab md-mini md-warn" aria-label="Save" ng-show="!editAllow && !tt.isapprove">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                              </md-button>
+                              <md-button ng-click="Save($index);" class="md-fab md-mini md-primary" aria-label="Save" ng-show="!editAllow && tt.isapprove" style="background-color: #8BC34A;">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                              </md-button>
+                              <md-button class="md-fab md-mini md-primary" aria-label="Save" ng-show="editAllow && tt.isapprove" style="background-color: #8BC34A;">
+                                <i class="fa fa-check" aria-hidden="true"></i>
                               </md-button>
                             </td>
                           </tr>
@@ -176,7 +185,7 @@ session_start();
             </div>
 
             <div class="clearfix"></div>
-          </fieldset>
+         
           </form>
         </md-content>
       </div>
