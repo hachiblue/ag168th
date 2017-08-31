@@ -11,6 +11,7 @@ namespace Main\CTL;
 use Main\Context\Context;
 use Main\DB\Medoo\MedooFactory;
 use Main\Helper\URL;
+use Main\SMS\thsms;
 use Main\ThirdParty\Xcrud\Xcrud;
 use Main\View\HtmlView;
 use Main\View\JsonView;
@@ -229,6 +230,36 @@ class AdminCTL extends BaseCTL
 
         $pqCount = $db->count('request_contact', '*', array('status_id' => 1));
 
+
+        $sql = ' SELECT 
+          rq.id,
+          p.reference_id AS prop_ref,
+          e.enquiry_no AS enq_ref,
+          a.name AS sale_name,
+          b.name AS mng_name,
+          b.phone AS mng_phone
+        FROM
+          request_contact rq,
+          property p,
+          enquiry e,
+          account a,
+          account b 
+        WHERE rq.`property_id` = p.id 
+          AND rq.`enquiry_id` = e.`id` 
+          AND rq.`account_id` = a.`id` 
+          AND a.`manager_id` = b.`id` 
+          AND rq.sms = 0 
+          AND rq.`status_id` = 1 ';
+
+        $r    = $db->query($sql);
+        $rows = $r->fetchAll(\PDO::FETCH_ASSOC);
+
+        foreach ($rows as $row)
+        {
+            $this->sms_sender($row);
+        }
+
+
         $where = array();
 
         /*
@@ -267,6 +298,49 @@ class AdminCTL extends BaseCTL
         $params['menulist'] = $this->getAccessable($params);
 
         return new HtmlView('/admin/index', $params);
+    }
+
+    public function sms_sender ($row)
+    {
+        $db = MedooFactory::getInstance();
+
+        $b = false;
+
+        if( isset($row['mng_phone']) && 
+            $row['mng_phone'] != '' && 
+            isset($row['prop_ref']) && 
+            $row['prop_ref'] != '' )
+        {
+            $sms = new thsms();
+            $sms->username   = 'agent168';
+            $sms->password   = '685709';
+
+            $a = $sms->getCredit();
+            //var_dump( $a);
+
+            $massage = 'prop: ' . $row['prop_ref'];
+            $massage .= ', enq: ' . $row['enq_ref'];
+            $massage .= ', sale: ' . $row['sale_name'];
+            //print_r($row);
+            //echo $massage;
+            //exit;
+            $b = $sms->send( 'SMS', $row['mng_phone'], $massage);
+            //var_dump( $b);
+
+            if( $b )
+            {
+                $db->update('request_contact', array('sms' => 1), array('id' => $row['id']));
+                //echo 1;
+            }
+            else
+            {
+                //echo 0;
+            }
+        }
+        else
+        {
+            //echo 0;
+        }
     }
 
     /**
