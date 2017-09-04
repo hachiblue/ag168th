@@ -256,7 +256,7 @@ class AdminCTL extends BaseCTL
 
         foreach ($rows as $row)
         {
-            $this->sms_sender($row);
+            //$this->sms_sender($row);
         }
 
 
