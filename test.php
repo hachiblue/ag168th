@@ -50,3 +50,6 @@ foreach($iterator as $key=> $value){
     flush();
     if($key > 10) break;
 }
+
+
+$test = 334;
