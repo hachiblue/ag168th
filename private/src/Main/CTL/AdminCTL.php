@@ -220,9 +220,11 @@ class AdminCTL extends BaseCTL
      */
     public function indexView()
     {
-        if (empty($_SESSION['login']))
+        if (empty($_SESSION['login'])    )
         {
+
             return new RedirectView(URL::absolute('/admin/login'));
+
         }
 
         $view = $this->reqInfo->urlParam('view');
@@ -231,7 +233,7 @@ class AdminCTL extends BaseCTL
         $pqCount = $db->count('request_contact', '*', array('status_id' => 1));
 
 
-        $sql = ' SELECT 
+        $sql =' SELECT 
           rq.id,
           p.reference_id AS prop_ref,
           e.enquiry_no AS enq_ref,
