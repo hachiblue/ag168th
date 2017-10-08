@@ -65,21 +65,18 @@ class ApiMownerCTL extends BaseCTL
 
         foreach( $fromid as $ow )
         {
-            $id = $db->update('property', array('owner_id' => $toid, 'owner' => $mrow['owner']), array('owner_id' => $ow['id']));
-            if( $id )
+            if( $toid != $ow['id'] )
             {
+                $id = $db->update('property', array('owner_id' => $toid, 'owner' => $mrow['owner']), array('owner_id' => $ow['id']));
                 $db->delete('owners', array('id' => $ow['id']));
             }
         }
 
-        if ( ! $id)
-        {
-            return ResponseHelper::error("No any property that using this owner." /*. print_r($db->log(), true)*/ );
-        }
+        /*. print_r($db->log(), true)*/
 
         $db->pdo->commit();
 
-        return $id;
+        return true;
     }
 
     /**

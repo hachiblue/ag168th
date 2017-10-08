@@ -38,8 +38,11 @@ function IndexCTL( $scope, $compile, $http, $timeout, $q, $log ) {
     $scope.form = {};
     $scope.item_id = 'new';
     $scope.owner_lists = [];
+    $scope.owner_main = [];
+    $scope.owner_sub = [];
 
-    setphonehop();
+    //setphonehop();
+
     $scope.addOwner = function () {
         var owners = $( "#owners" ),
             tmpl = $( "#tmpl-owners" ),
@@ -53,6 +56,7 @@ function IndexCTL( $scope, $compile, $http, $timeout, $q, $log ) {
         owners.append( $compile( html )( $scope ) );
         setphonehop();
     };
+
     $scope.saveOwner = function () {
         if ( !window.confirm( 'Are you sure?' ) ) return;
         var i, k, owner = '';
@@ -74,6 +78,7 @@ function IndexCTL( $scope, $compile, $http, $timeout, $q, $log ) {
             $scope.form.id == 'new' && window.location.reload();
         }, 'json' );
     };
+
     $scope.deleteOwners = function () {
         if ( !window.confirm( 'Are you sure?' ) ) return;
         if ( s.item_id != 'new' ) {
@@ -86,21 +91,19 @@ function IndexCTL( $scope, $compile, $http, $timeout, $q, $log ) {
                 window.location.reload();
             }, 'json' );
         }
-    }
+    };
 
     $scope.updateOwner = function () {
-        var i, params = { toid : $scope.item_id, fromid : [] };
-        for( i in $scope.owner_lists )
+        var i, params = { toid : $scope.main_selected, fromid : [] };
+        for( i in $scope.owner_sub )
         {
-            if( true === $scope.owner_lists[i].selected )
+            if( true === $scope.owner_sub[i].sselected )
             {
-                params.fromid.push($scope.owner_lists[i]);
+                params.fromid.push($scope.owner_sub[i]);
             }
         }
 
         if ( !window.confirm( 'Are you sure?' ) ) return;
-
-        console.log(params);
 
         $.post( "../api/mowner", params, function ( data ) {
             if ( data.error ) {
@@ -111,7 +114,25 @@ function IndexCTL( $scope, $compile, $http, $timeout, $q, $log ) {
             window.location.reload();
             
         }, 'json' );
-    }
+    };
+
+    $scope.findowners = function () {
+        var url = '../api/owner';
+        if ( $scope.owner ) {
+            url += '?q=' + $scope.owner;
+
+            $http.get( url ).success( function ( data ) {
+                $scope.owner_main = data;
+                $scope.owner_sub = data;
+            } );
+        }
+        else
+        {
+            $scope.owner_main = [];
+            $scope.owner_sub = [];
+        }
+
+    };
 
     function newState( state ) {
         alert( "Sorry! You'll need to create a Constitution for " + state + " first!" );
@@ -227,7 +248,9 @@ app.controller( 'IndexCTL', [ '$scope', '$http', '$location', '$route', function
             $scope.items = data;
         } );
     }
+    alert('sdf');
     getOwnerItems();
+
     $scope.remove = function ( id ) {
         if ( !window.confirm( "Are you sure?" ) ) {
             return;
@@ -238,6 +261,7 @@ app.controller( 'IndexCTL', [ '$scope', '$http', '$location', '$route', function
             }
         } );
     };
+
     window.s = $scope;
 } ] );
 
