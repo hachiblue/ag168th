@@ -76,12 +76,20 @@ class ApiPhoneReq extends BaseCTL
     $id = $this->reqInfo->urlParam("id");
     $db = MedooFactory::getInstance();
 
-	$now = date('Y-m-d H:i:s');
+  	$now = date('Y-m-d H:i:s');
     $db->update("request_contact", ["status_id"=> 2, "accepted_at"=> $now], ["id"=> $id]);
 
     $item = $db->get("request_contact", "*", ["id"=> $id]);
     $prop = $db->get("property", "*", ["id"=> $item["property_id"]]);
     $acc = $db->get("account", "*", ["id"=> $item["account_id"]]);
+
+    $owners = $db->get("owners", "*", ["id"=> $prop["owner_id"]]);
+    $ows = explode(':', $owners['owner']);
+    $txt_ow = '';
+    foreach( $ows as $ow )
+    {
+      $txt_ow .= '<br>' . $ow;
+    }
 
     $email = $acc["email"];
 
@@ -89,6 +97,7 @@ class ApiPhoneReq extends BaseCTL
     Owner: {$prop["owner"]}<br />
     ==============================<br />
     property no: {$prop["reference_id"]}<br />
+    owner: {$txt_ow}<br />
     ==============================
 MAILCONTENT;
 	
